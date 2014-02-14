@@ -1,0 +1,170 @@
+/**
+ *  Copyright (C) MIT Early Childhood Cognition Lab
+ */
+ 
+:-webkit-full-screen{
+  width: 100%;
+  height: 100%;
+}
+
+:-moz-full-screen{
+  width: 100%;
+  height: 100%;
+}
+
+:fullscreen{
+  width: 100%;
+  height: 100%;
+}
+
+#fsbutton{
+	position: absolute;
+	left: 30%;
+	right: 30%;
+	top: 2%;
+	background-color: #FF3333;
+	font-weight: bold;
+	padding: 0px;
+	height: 60px;
+}
+
+#fsbutton.leftFsbutton{
+	left: 5%;
+	right: 80%;
+	width: 15%;
+	top: 50%;
+	margin-top:-30px;
+	height: 100px;
+	padding: 20px;
+}
+
+ul.overview-list {
+  font-size: large;
+}
+
+/* General utility classes (standard) */
+
+
+
+.center {
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* Let default padding be since we may show the sidebar */
+
+/*body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}*/
+
+/* For form validation (standard) */
+
+.formerror {
+  color: red;
+  margin-left: 20px;
+  font-weight: bold;
+  font-size: smaller;
+}
+
+.hidden {
+  display: none;
+}
+
+/* For form and instructions formatting (standard) */
+
+form h1 {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+fieldset {
+  border-style: none;
+}
+
+button, video + button{
+  position: relative;
+  width: 30%;
+  margin-left: 35%;
+  margin-right: 35%;
+  padding-left: 10%;
+  padding-right: 10%;
+  font-weight: bold;
+  font-size: large;
+}
+
+#next, form input[type='submit'] {
+  float: right;
+  width: 30%;
+  font-weight: bold;
+  font-size: large;
+}
+
+#back {
+  float: left;
+  width: 30%;
+  font-weight: bold;
+  font-size: large;
+}
+
+/* Note: changing to absolute breaks the nice formatting of the 'home/end' cancel
+dialog.  Idea is to stop 'submit' from being at the very bottom.*/
+
+form, .instructions {
+  position: relative;
+  left: 25%;
+  width: 50%;
+  padding-bottom: 100px;  
+}
+
+.instructions h2 {
+  font-size: x-large;
+}
+
+form  label[for] {
+  font-weight: bold;
+  font-size: larger;
+}
+
+form table label[for]{
+  font-weight: normal;
+  font-size: 100%;
+}
+
+form select, form input[type='text'], form label.radio, form span.help-block{
+  margin-left: 20px;
+  display: block;
+}
+
+form textarea {
+  float: left;
+  margin-left: 20px;
+  clear: both;
+  position: relative;
+  width: 95%;
+}
+
+.modal-body {
+  overflow:auto;
+	
+}
+
+form .controls-row  input, form .controls-row select{
+  margin-left: 0px;
+  display: inline;
+}
+
+form:first-child *.controls-row  {
+  margin-left: 20px;
+  display: block;
+}
+
+form *.controls-row td input[type='checkbox'] {
+  margin-left: 20px;
+}
+
+form td input[type='checkbox'] {
+  margin-left: 20px;
+}

@@ -1,0 +1,39 @@
+.playingVideo {
+  color: black;
+  background-color: black;
+  padding: 0px;
+}
+
+#vidElement video {
+  padding: 0px;
+}
+
+/* For multiple columns in instructions (copied from phonemes) */
+
+.instructions div{
+  float:left;
+  width:100%;
+  vertical-align: middle;
+}
+
+.instructions>div {
+  position:relative;
+}
+
+.instructions div:last-child {
+  padding-bottom: 50px;
+}
+
+#left-column {
+	width:44%;
+	float:left;
+	padding: 0px;
+	padding-right: 5%;
+}
+
+#right-column {
+	width:44%;
+	float:right;
+	padding: 0px;
+	padding-left: 5%;
+}
