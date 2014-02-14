@@ -1,0 +1,64 @@
+/*                                                                                                                                                                                                                                    
+ * * Copyright (C) MIT Early Childhood Cognition Lab                                                                                                                                                                                   
+ *                                                                                                                                                                                                                                     
+ */
+
+#fsdiv video {
+  height: 100%;
+  width: 100%;
+  display:block;
+  margin-top:auto;
+  margin-bottom:auto;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#fsdiv {
+  background-color: white;
+  color: black;
+}
+
+#fsdiv.playingVideo {
+  background-color: black;
+  color: black;
+}
+
+#left-column {
+	width:30%;
+	float:left;
+	padding: 0px;
+	padding-right: 2%;
+}
+
+#middle-column {
+	width:30%;
+	float:left;
+	padding: 0px;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+
+#right-column {
+	width:30%;
+	float:right;
+	padding: 0px;
+	padding-left: 2%;
+}
+
+#parentText {
+	position: absolute;
+	left: 5%;
+	right: 5%;
+	width: 90%;
+	bottom: 5px;
+	margin: 0px;
+	background-color: #CC99FF;
+	border: medium solid black;
+	padding: 8px;
+	font-size: medium;
+	color: black;
+}
+
+#countdownparagraph {
+	float: right;
+}
