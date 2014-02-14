@@ -1,0 +1,53 @@
+<form id='formPoststudy'>
+    
+	    <h1> One last time... </h1>
+    What is the birthdate of the child who just participated in the study?  We ask twice to check for typos. 
+<span id='errorBirthdateMissing' class='formerror hidden'> * Please provide a complete and valid birthdate.</span>
+		<div class='controls controls-row'>
+	<select id='birthmonth' name='birthmonth' class='input-medium'>
+		<option>[Month]</option>
+		<option value='0'>January</option>
+		<option value='1'>February</option>
+		<option value='2'>March</option>
+		<option value='3'>April</option>
+		<option value='4'>May</option>
+		<option value='5'>June</option>
+		<option value='6'>July</option>
+		<option value='7'>August</option>
+		<option value='8'>September</option>
+		<option value='9'>October</option>
+		<option value='10'>November</option>
+		<option value='11'>December</option>
+	</select>
+	<input type='number' name='birthday' placeholder='[day]' class='input-small'>
+	<select id='birthyear' name='birthyear' class='input-small'>
+		<option>[Year]</option>
+		<option>2013</option>
+		<option>2012</option>
+		<option>2011</option>
+		<option>2010</option>
+		<option>2009</option>
+		<option>2008</option>
+		<option>2007</option>
+		<option>2006</option>
+		<option>2005</option>
+	</select>
+	</div>
+	<span class='help-block' class='input-small'>(None of the information we collect is used to identify your child. However, if you are uncomfortable providing an exact birthday, you're welcome to give another date within that week.)</span>
+	
+	<p><label for='bilingual'>Does your child regularly hear or speak a language other than English (at home/childcare)?</label>
+	<span id='errorBilingualMissing' class='formerror hidden'> * Please answer yes/no or explain.</span> 
+	<input type='text' name='bilingual' id='bilingual' placeholder=''/>
+	
+	<h1> About the study </h1>
+
+	<p><label for='hearing'>Did you always keep your eyes closed until the chime sounded?</label>
+	<span id='errorHearingMissing' class='formerror hidden'> * Please answer yes/no or explain.</span>
+	<span class='help-inline'>It's okay if not; we're interested whether we should ask you to close your eyes or to play music that masks the dialogues.</span>
+	<input type='text' name='hearing' id='hearing' placeholder=''/>
+	
+	<p><label for='comments'>Any comments or suggestions?  (e.g., were any instructions confusing?  Did the videos run smoothly?)</label>
+	<textarea rows='5' name='comments' id='comments'></textarea>
+	
+	<input type='submit' value='Submit'/>
+	</form>
