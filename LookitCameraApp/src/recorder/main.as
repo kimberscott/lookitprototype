@@ -1,0 +1,289 @@
+
+/*
+ *  Copyright (C) MIT Early Childhood Cognition Lab
+ */
+
+import mx.controls.Alert;
+import mx.core.FlexGlobals;
+
+import utils.Constants;
+import utils.FlashPHP;
+import utils.States;
+
+private const OUTPUT_WIDTH:Number = 640;
+private const OUTPUT_HEIGHT:Number = 480;
+private const FLV_FRAMERATE:int = 50;
+
+private var _state:String;
+
+private var nc:NetConnection;
+private var ns:NetStream;
+private var _h264Settings:H264VideoStreamSettings = new H264VideoStreamSettings(); 
+
+private var flag:Boolean = false;
+private var urlObject:Object = new Object;
+private var str_concat:String;
+private var date:String;
+public var receivedVars:URLVariables; 
+public static var count:Number = 0;
+//Parameters for dynamic resizing
+public var width1:Number = 230;
+public var height1:Number = 210;
+public var width2:Number;
+public var height2:Number;
+
+[Embed(source="assets/i_cam.png")]
+public const icon1:Class;
+[Bindable]
+public var cam:XML = Constants.cam;
+[Embed(source="assets/i_mic.png")]
+public const icon2:Class;
+[Bindable]
+public var mic:XML = Constants.mic;
+//This flag is used for reconnection using RTMP when RTMPS fails 
+public var reconnect_tried:Boolean = false;
+private function geticon(item:Object):Class
+{
+	
+	if (this[item.@icon]){
+		return this[item.@icon];
+	}
+	
+	return null;
+	
+}
+
+//*****************************************************************************************************************************************************
+//Initalising the widget
+//*****************************************************************************************************************************************************
+
+public function loading():void
+{
+	try
+	{
+		ExternalInterface.addCallback("load", setsize);
+	}
+	catch(e:Error){
+		Alert.show(e.toString() + e.message.show());
+	}
+}
+public function setsize(width:Number,height:Number):void
+{
+	width1 = width;
+	height1 = height;
+}
+public function init():void
+{
+	width1 = FlexGlobals.topLevelApplication.parameters.height;
+	height1 = FlexGlobals.topLevelApplication.parameters.width;
+	Security.showSettings("default"); 
+	throbber.visible=true;
+	nc_Connect();
+	try{
+		loading();
+		ExternalInterface.addCallback("takeScreenshot", callsnapshot);
+		ExternalInterface.addCallback("recordToCamera", callpublishcam);
+		ExternalInterface.addCallback("stop_record", callstop);
+		ExternalInterface.addCallback("connect", reconnect);
+		ExternalInterface.addCallback("consent", consent_page);
+		ExternalInterface.addCallback("setup", setup_page);
+	}
+	catch(e:Error){
+		Alert.show(e.toString() + e.message.show());
+	}
+}
+
+public function consent_page():void{
+	Constants.is_consent = true;
+	theCam.attachCamera(Constants.selected_cam);
+	FlexGlobals.topLevelApplication.dropdowns.visible = false;
+}
+public function setup_page():void{
+	Constants.is_consent = false;
+	theCam.attachCamera(Constants.selected_cam);
+}
+
+public function nc_Connect():void{
+        reconnect_tried = false;
+	nc = new NetConnection(); 
+	nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus); 
+	nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatusFailure); 
+	try{
+		nc.connect(Constants.FMSserver_RTMPS);
+	}
+	catch(e:Error){
+		Alert.show(e.toString() + e.message.show());
+	}
+}
+
+public function nc_reConnect():void{
+    reconnect_tried = true;
+	nc = new NetConnection(); 
+	nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus); 
+	nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatusFailure); 
+	try{
+		nc.connect(Constants.FMSserver_RTMP);
+	}
+	catch(e:Error){
+		Alert.show(e.toString() + e.message.show());
+	}
+}
+public function callpublishcam(expr_id11:String,parent_id11:String, child_id11:String,privacy11:String,caller:String):void{
+	if(caller != ""){
+		theCam.attachCamera(Constants.selected_cam);
+	}
+	date = Constants.getDate();
+	str_concat = date + "_" + expr_id11 + "_" + parent_id11 + "_" + child_id11 + "_" + privacy11 + "_" + count;
+	urlObject.filename = str_concat;
+	setState(States.RECORDING);	
+}
+
+public function callsnapshot():void{
+	Constants.snapshot.takePicture();
+}
+
+public function callstop(caller:String):void{
+	if(caller != ""){
+		theCam.attachCamera(null);
+	}
+	setState(States.STOPPING);
+}
+
+public function onNetStatusFailure(event:NetStatusEvent):void{ 
+	if(event.info.code == "NetConnection.Connect.Failed"){
+	    if(!reconnect_tried){
+	      nc_reConnect();
+		  return;
+	    }
+		throbber.visible=false;
+		reconnectBtn.visible=true;
+		reconnectBtn.enabled=true;
+		noConnection.visible = true;
+		micContainer.visible = false;
+		noConnection.text =  "Connection Lost \nPlease refresh your browser page to establish a new connection to Lookit.";
+		return;
+	}
+	
+	if(event.info.code == "NetConnection.Connect.Closed"){
+		throbber.visible=false;
+		reconnectBtn.includeInLayout = true;
+		reconnectBtn.visible=true;
+		reconnectBtn.enabled=true;
+		theCam.visible = false;
+		noConnection.includeInLayout = true;
+		noConnection.visible = true;
+		micContainer.visible = false;
+		noConnection.text =  "Connection Lost \nPlease refresh your browser page to establish a new connection to Lookit.";
+		ExternalInterface.call("disconnect");
+		return;
+	}
+	else if(event.info.code != "NetConnection.Connect.Success"){
+		reconnectBtn.visible=false;
+		reconnectBtn.enabled=false;
+		noConnection.visible = false;
+		noConnection.includeInLayout = false;
+		theCam.visible = true;
+		micContainer.visible = true;
+		ExternalInterface.call("reconnected");
+	}
+}
+
+public function onNetStatus(event:NetStatusEvent):void{ 
+	if(event.info.code == "NetConnection.Connect.Success"){ 
+		width1 = this.root.loaderInfo.parameters.width;
+		height1 = this.root.loaderInfo.parameters.height;
+		//Resizing the  app based on the flashvars
+		reconnectBtn.includeInLayout = false;
+		noConnection.includeInLayout = false;
+		noCam.includeInLayout = false;
+		theCam.width = width1;
+		theCam.height = height1;
+		theCam.x = width1;
+		theCam.y = 0;
+		noCam.width = width1;
+		noCam.height = height1;
+		nocamimage.x = width1/2;
+		nocamimage.y = height1/2 + 20;
+		noConnection.width = width1;
+		noConnection.height = height1;
+		micContainer.x = width1+1;
+		micContainer.height = theCam.height;
+		micLevelCanvas.height = theCam.height;
+		dropdowns.x = 0;
+		dropdowns.y = height1+5;
+		throbber.x = width1/2;
+		throbber.y = height1/2;
+		micLevelCanvas.y = bcntnr.y;
+		_cameraList.width = width1/2;
+		_micList.width = width1/2;
+		Constants.camobject.getCam(0);
+		Constants.micobject.getMicrophone(0);
+	} 
+}
+
+
+public function reconnect():void{
+    reconnect_tried = false;
+	reconnectBtn.visible=false;
+	reconnectBtn.enabled=false;
+	noConnection.visible = false;
+	nc = new NetConnection(); 
+	nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatusFailure); 
+	nc.connect(Constants.FMSserver_RTMPS);
+}
+
+//*****************************************************************************************************************************************************
+//Initialising Ends
+//*****************************************************************************************************************************************************
+
+//*****************************************************************************************************************************************************
+//Starting the Recording
+//*****************************************************************************************************************************************************
+
+public function publishCamera():void { 
+	if(flag){
+		stop();
+	}
+	count++;
+	ns = new NetStream(nc); 
+	ns.attachCamera(Constants.camobject._camera); 
+	ns.attachAudio(Constants.micobject._mic); 
+	_h264Settings.setQuality(0,50);
+	_h264Settings.setKeyFrameInterval(50);
+	_h264Settings.setMode(OUTPUT_WIDTH,OUTPUT_HEIGHT,FLV_FRAMERATE);
+	_h264Settings.setProfileLevel(H264Profile.BASELINE, H264Level.LEVEL_1_2);
+	ns.videoStreamSettings = _h264Settings; 
+	ns.publish("flv:"+str_concat, "record");
+	flag = true;
+}
+
+//*****************************************************************************************************************************************************
+//Ending the Recording
+//*****************************************************************************************************************************************************
+
+public function stop():void {
+	ns.close();
+	flag = false;
+	var flashPHP:FlashPHP = new FlashPHP(Constants.conversionserver, urlObject);
+	flashPHP.addEventListener("ready", processPHPVars);
+}
+
+private function processPHPVars(event:Event):void{
+	//Alert.show("Thanks for Uploading");
+}
+
+
+private function setState(state:String):void
+{
+	_state = state;
+	switch (_state)
+	{		
+		case States.RECORDING:
+			publishCamera();
+			break;
+		
+		case States.STOPPING:
+			stop();
+			break;
+	}
+}
