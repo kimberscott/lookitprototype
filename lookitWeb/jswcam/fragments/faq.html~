@@ -1,0 +1,165 @@
+<div class="about_frag instructions">
+
+    <h1>Frequently asked questions</h1>
+
+	<div class='blurb'>
+	
+	<table>
+	<tr>
+	<td>
+	<ul class='qlist'>
+	<li><a href="#whatisastudy">What is a "study" about cognitive development?</a></li>
+	<li><a href="#howdoesitwork">How can we participate online?</a></li>
+	<li><a href="#confidentiality">How is our information kept confidential?</a></li>
+	<li><a href='#whosees'>Who will see our video? </a>
+	<li><a href="#whatinfo">What information does the lab use from our video?</a></li>
+	<li><a href="#why">Why are you running studies online?</a></li>
+	<li><a href="#whenresults">When will we see the results of the study?</a></li>
+	<li><a href="#anothertry">My child wasn't paying attention, or we were interrupted.  Can we try the study again? </a></li>
+	<li><a href="#arerange">My child is outside the age range.  Can he/she still participate in this study? </a></li>
+	<li><a href='#devdisorder'>My child has been diagnosed with a developmental disorder or has special needs.  Can he/she still participate? </a></li>
+	<li><a href='#multiple'>I have multiple children in the age range for a study.  Can they participate together? </a></li>
+	<li><a href='#videos'>Aren't videos bad for young children?</a></li>
+	<li><a href='#payment'>Will we be paid for our participation?</a></li>
+	<li><a href='#childsresults'>Can I get my child's results?</a></li>
+	</ul> </td>
+	<td>
+	<img id='faqpic' src='/img/remypuzzled.jpg'></td></tr>
+	</table>
+	</div>
+	
+	
+	<ul style='clear:both; list-style-type:none'>
+	
+	<hr>
+
+	<li id="whatisastudy"><p><h3>What is a "study" in cognitive development? </h3>
+	
+	<p>Cognitive development is the science of what kids understand and how they learn.  Researchers in cognitive development are interested in questions like...
+<ul> <li>	what knowledge and abilities infants are born with, and what they have to learn from experience
+<li> how abilities like mathematical reasoning are organized and how they develop over time
+<li> what strategies children use to learn from the wide variety of data they observe</li></ul>
+	
+	<p>A study is meant to answer a very specific question about how children learn or what they know.  For instance, our "Talking Faces" study asks, "Can infants and toddlers match a moving face to the sound of its speech?"  If they look at one type of face most of the time, then we can conclude that they're able to distinguish between the face that matches the sound and the one that doesn't. </li>
+	
+	<hr><li id="howdoesitwork"><h3>How can we participate online?</h3>
+
+	<p>If you have any children between 3 months and 7 years old and would like to participate, create an account to see what we have going on for your child's age range.  You'll need a working webcam attached to your computer to participate.
+	
+	<p>When you select a study, you'll be asked to read a consent form and record yourself stating that you and your child agree to participate.  Then we'll guide you through what will happen during the study, including screenshots from any videos that will be shown.  Depending on your child's age, your child may answer questions directly or we may be looking for indirect signs of what she thinks is going on--like how long she looks at a surprising outcome.
+	
+	<p>Some portions of the study will be automatically recorded using your webcam and sent securely to our MIT lab.  Trained researchers will watch the video and record your child's responses--for instance, which way he pointed, or how long she looked at each image.  We'll put these together with responses from lots of other children to learn more about how kids think! 
+	
+	</li>
+	
+	<hr><li id="confidentiality"> <h3>How is our information kept confidential?</h3>
+	
+	<p>We do not publish or use identifying information about individual children or families.  We do not collect names, and we use birthdates only to figure out how old children are at the time of the study.  Your video is transmitted over a secure https connection to our lab and kept on a password-protected server.  See <a href='#whosees'>Who will see our video? </a>
+	
+	</li>
+		<hr><li id='whosees'><h3> Who will see our video? </h3>
+
+		<p>Trained MIT researchers who have been approved to work on the "Lookit" project will watch the video segments you send to mark down information specific to the study--for instance, what your child said, or how long he/she looked to the left versus the right of the screen.  
+		
+		<p> Whether anyone else may view the video depends on the privacy settings you select when you register.  If you select "scientific use," we may show a short portion of your video at a lab meeting or scientific conference to show people what happened in the study.  If you select "publicity use," we may put a clip online or in a press release to show a broader audience what the lab is working on.  You have the option to be contacted to approve any video that is shown outside the lab.  You can change your privacy settings at any time and will be reminded of your current settings before beginning any study.
+		
+	<hr><li id="whatinfo"><h3>What information does the lab use from our video?</h3>
+	
+	<p>For children under about two years old, we usually design our studies to let their eyes do the talking!  We're interested in where on the screen your child looks and/or how long your child looks at the screen rather than looking away.  
+	
+		Our calibration videos help us get an idea of what it looks like when your child is looking to the right or the left, so we can code the rest of the video.  Here is an example of several children watching our calibration video--it's easy to see that they look to one side and then the other.  (Their parents all gave special permission for them to be featured on our website.)
+	
+		<video controls>
+  <source src="video/ag.mp4"  type="video/mp4">
+  <source src="video/ag.webm" type="video/webm">
+  <source src="video/ag.ogv"  type="video/ogg">
+</video>
+	
+	Your child's decisions about where to look can give us lots of information about what he or she understands.  Here are some of the techniques our lab uses to learn more about how children learn.
+	
+	<ul>
+	<hr><li> <h3> Habituation: </h3></li>
+	
+		<p>In a habituation study, we first show infants many examples of one type of object or event, and they lose interest over time.  Infants typically look for a long time at the first pictures, but then they start to look away more quickly.  Once their looking times are much less than they were initially, we show either a picture from a new category or a new picture from the familiar category.  If infants now look longer to the novel example, we can tell that they understood--and got bored of--the category we showed initially.
+		
+		<p>Habituation requires waiting for each individual infant to acheive some threshold of "boredness"--for instance, looking half as long at a picture as he or she did initially.  Sometimes this is impractical, and we use familiarization instead.  In a familiarization study, we show all babies the same number of examples, and then see how interested they are in the familiar versus a new category.  Younger infants and those who have seen few examples tend to show a familiarity preference--they look longer at images similar to what they have seen before.  Older infants and those who have seen many examples tend to show a novelty preference--they look longer at images that are different from the ones they saw before.  You probably notice the same phenomenon when you hear a new song on the radio: initially you don't recognize it; after it's played several times you may like it and sing along; after it's played hundreds of times you would choose to listen to anything else.
+	
+	<li> <h3> Violation of expectation: </h3>
+		<p>Infants and children already have rich expectations about how events work.  Children (and adults for that matter) tend to look longer at things they find surprising, so in some cases, we can take their looking times as a measure of how surprised they are.
+	
+	</li>
+	<li> <h3> Preferential looking: </h3>  
+		 <p>Even when they seem to be passive observers, children are making lots of decisions about where to look and what to pay attention to.  In this technique, we present children with a choice between two side-by-side images or videos, and see if children spend more time looking at one of them.  If they do show a preference, this also means that they can distinguish between the types of images or videos!
+		 
+	</li>
+	
+	<li> <h3> Predictive looking: </h3></li>
+	
+	<p>Children can often make sophisticated predictions about what they expect to see or hear next.  One way we can see those predictions in young children is to look at their eye movements.  For example, if a child sees a ball roll behind a barrier, he may look to the other edge of the barrier, expecting the ball to emerge there.  We may also set up artificial predictive relationships--for instance, the syllable "da" means a toy will appear at the left of the screen, and "ba" means a toy will appear at the right.  Then we can see whether children learn these relationships, and how they generalize, by watching where they look when they hear a syllable.
+	
+	</ul>
+
+	<p>Older children may simply be able to answer spoken questions about what they think is happening.  For instance, in the "Cause and Effect" study, children hear a story and are asked which of two possible events caused Bunny's tummyache.  In the "Learning from Others" study, two women call an object two different made-up names, and children are asked which is the correct name for the object.
+	
+	<p>Another way we can learn about how older children (and adults) think is to measure their reaction times.  For instance, we might ask you to help your child learn to press one key when a circle appears and another key when a square appears, and then look at factors that influence how quickly they press a key.	
+	
+	</li>
+	
+	<hr><li id="why"><h3>Why are you running studies online?</h3>
+	
+	<p>Traditionally, developmental studies happen in a quiet room in a university lab.  Researchers call or email local parents to see if they'd like to take part and schedule an appointment for them to come visit the lab.  Why complement these in-lab studies with online ones?  We're hoping to...
+	<ul>
+	<li> Make it easier for you to take part in research, especially for families without a stay-at-home parent</li>
+	<li> Work with more kids when needed--right now a limiting factor in designing studies is the time it takes to recruit participants </li>
+	<li> Draw conclusions from a more representative population of families--not just those who live near a university and are able to visit the lab during the day</li>
+	<li> Make it easier for families to continue participating in longitudinal studies, which may involve multiple testing sessions separated by months or years </li>
+	<li> Observe more natural behavior because children are at home rather than in an unfamiliar place </li>
+	<li> Create a system for learning about special populations--for instance, children with specific developmental disorders </li>
+	<li> Make the procedures we use in doing research more transparent, and make it easier to replicate our findings </li>
+	<li> Communicate with families about the research we're doing and what we can learn from it </li>	
+	</ul>
+	
+	</li>
+
+	<hr><li id="whenresults"><p><h3>When will we see the results of the study? </h3>
+
+		<p>The process of publishing a scientific study can take one to two years, and a paper usually puts together the results of several different studies.  You can check our <a href="http://eccl.mit.edu/">lab website</a> for updates on papers, or set your communication preferences to be notified when we have results from studies you participated in.</li>
+		
+		<hr><li id="anothertry"><p><h3>My child wasn't paying attention, or we were interrupted.  Can we try the study again? </h3>
+
+		<p>Certainly--thanks for your dedication!  You may see a warning that you have already participated in the study when you go to try it again.  You don't need to note separately that you tried the study before; we'll have a record of your previous participation.  Repeat participants may be analyzed in a special project about how much individual children's responses vary over time.</li>
+
+	<hr><li id="arerange"><p><h3>My child is outside the age range.  Can he/she still participate in this study? </h3>
+
+		<p>Sure!  We may not be able to use his or her data in our research directly, but if you're curious you're welcome to try the study anyway.  If your child is just below the minimum age for a study, however, we encourage you to wait so that the results are more informative.</li>
+
+	<hr><li id='devdisorder'><p><h3>My child has been diagnosed with a developmental disorder or has special needs.  Can he/she still participate? </h3>
+
+		<p>Of course!  We're interested in how all children learn and grow.  If you'd like, you can make a note of any developmental disorders in the comments section at the end of the study.  Any health information provided will be kept confidential.  We are excited that in the future, online studies may help more families participate in research to better understand their own children's diagnoses; if you're interested in being part of a core group of families to initiate such an effort, please write to Kim at kimscott@mit.edu.
+
+		<p>One note: most of our studies include both images and sound, and may be hard to understand if your child is blind or deaf.  If you can, please feel free to help out by describing images or signing.  </li>
+
+		<hr><li id='multiple'><p><h3>I have multiple children in the age range for a study.  Can they participate together? </h3>
+		
+		If possible, we ask that each child participate separately, because we are interested in his or her individual perception and judgments.  When children participate together they generally influence each other, which is a fascinating subject in its own right but usually not the focus of our research.
+		
+	<hr><li id='videos'><p><h3>Aren't videos bad for young children?	 </h3>
+
+		<p>Our studies are not intended to educate children, but to learn from them.  We fully agree with the American Academy of Pediatrics that children learn best from people, not screens!  However, their recommendation that children under two avoid "screen time" is because it doesn't help them learn--not because it's harmful.  You can read their advice <a href="http://www.aap.org/en-us/advocacy-and-policy/aap-health-initiatives/Pages/Media-and-Children.aspx?nfstatus=401&nftoken=00000000-0000-0000-0000-000000000000&nfstatusdescription=ERROR%3a+No+local+token">here</a>.
+
+		 <p>We hope that the short videos incorporated in our studies will foster family conversation and engagement with science that offsets the few minutes spent watching a video instead of playing.  And we do "walk the walk"--our own young children provide lots of feedback on our studies before we make them available to you!</li>
+
+	<hr><li id='payment'><p><h3>Will we be paid for our participation? </h3>
+
+		<p>No, there are no direct benefits from participating in our studies.  We hope they are interesting for both you and your child!</li>
+		
+	<hr><li id='childsresults'><p><h3> Can I get my child's results? </h3>
+
+		<p>Unfortunately, no, as we only interpret children's abilities and developmental trends as a group.  Usually, your child's individual responses (for instance, looking 23 seconds at picture 1 and only 12 seconds at picture 2) are not a reliable indicator of his or her personal beliefs and abilities, so we do not want to misrepresent our work by providing individual results.  However, under "My account" you can track the studies your child has participated in.  If you're interested in your child's individual development, please see our "Resources" section (coming soon!) for fun at-home activities you can try with your child.</li>
+		<hr>
+
+
+		
+		
+		</ul>
+</div>

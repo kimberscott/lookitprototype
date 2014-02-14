@@ -1,0 +1,280 @@
+/**
+ *  Copyright (C) MIT Early Childhood Cognition Lab
+ */
+/*Fragment Styles*/
+
+.about_frag video {
+	margin:auto;
+	float:right;
+	width:50%;
+	margin-left:25%;
+}
+
+.about_frag .title h2{
+	width:100%;
+	background-color:#900;
+	color:#c66;
+	margin:0px;
+}
+
+.about_frag div.text{
+	float:right;
+	clear:none;
+	display:inline;
+	width:100%;
+	margin:0px;
+	padding:0px;
+}
+
+#logoimg {
+	width:40%;
+	float:left;
+	clear:none;
+	border: 20px solid #900;
+	border-radius:60px;
+	border-right:0px;
+}
+
+.about_frag h2 {
+	margin-left:5%;
+}
+
+.about_frag div>p {
+	margin-left:10%;
+}
+
+
+
+
+.consent_frag h1, .about_frag h1, .contact_frag h1, .experiments h1, .scientists h1, .account h1{
+  font-size: x-large;
+  color: #900;
+  margin-bottom: 4px;
+  line-height: 1;
+  letter-spacing: -1px;
+  text-align:center;
+}
+.consent_frag h2, .about_frag h2, .contact_frag h2, .experiments h2{
+  color: #600;
+  font-size: large;
+  font-weight: bold;
+}
+.consent_frag h3, .about_frag  h3, .contact_frag h3, .account h3{
+color: #900;
+  font-size: large;
+  font-weight: normal;
+}
+
+.sidebar_frag {
+    overflow-y: auto;
+}
+
+/* CONSENT FORM */
+
+.consent_form {
+  border-style: outset;
+  border-width: 3px;
+  border-color: #CCCCFF;
+  color: #333366;
+  background-color: #CCCCFF;
+  padding: 10px;
+}
+
+.consent_box {
+  border-style: outset;
+  border-width: 3px;
+  border-color: #99FF99;
+  color: #003300;
+  background-color: #99FF99;
+  padding: 10px;
+}
+
+
+
+#recording-indicator {
+  
+  background-color: #999999;
+  height: 24px;
+  width: 24px;
+  border-radius: 12px;
+  line-height: 24px;
+  float: right;
+  margin: 10px;
+}
+
+.about_frag, .scientists, .contact_frag {
+  width: 68%;
+  left: 16%;
+  position: relative;
+}
+
+.contact_frag .contact-info {
+  margin-left: 25px;
+}
+
+/* */
+
+body {
+     padding-top: 60px;
+     padding-bottom: 40px;
+}
+
+
+.skip-fixed-sidebar {
+    margin-right: 260px;
+}
+
+.sidebar-nav-fixed {
+    background-color: #0000ff;	
+    position: fixed;
+    right: 10px;
+    top: 50px;
+    width: 200px;
+    height: 100%;
+}
+
+
+
+/* MEET THE SCIENTISTS PAGE */
+
+#picdiv {
+	max-width: 600px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.thumb {
+    position: relative;
+	float:left;
+    overflow: hidden;
+	margin:1%;
+}
+
+.whole{
+	width:98%;
+}
+.half{
+	width: 48%;
+	border-width: 10px;
+	border-color:red;
+}
+.third{
+	width: 31%;
+}
+
+.thumb img {
+	position:relative;
+	width:100%;
+    padding: 0;
+	border: 10px;
+	border-radius: 10px;
+}
+.thumb > div {
+    background-color: rgba(0,0,0,0.85);
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    color: #c66;
+	font-weight:bold;
+	border: 10px;
+	border-radius: 10px;
+}
+.thumb:hover > div {
+    display: block;
+    opacity: 1.0;
+}
+.thumb > div div {
+    padding: 10px 20px;
+}
+.thumb h2 {
+	font-size: large;
+	font-weight: bold;
+    margin-bottom: 10px;
+}
+.thumb p {
+    margin-bottom: 10px;
+}
+
+.left_container {
+width: 60%;
+float:left;
+}
+.right_container {
+width:40%;
+float:right;
+}
+
+.blurb  {
+	background-color: #c66;
+	border-radius: 10px;
+	border: thick solid #900;
+	margin:5px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	color: #300;
+	overflow:auto;
+	padding:10px;
+}
+
+#aboutblurb{
+	padding:0px;
+}
+
+.blurb a {
+	color: #600;
+}
+
+.blurb ul.qlist {
+	float:left;
+	font-weight: bold;
+}
+
+#faqpic {
+	border-radius:10px;
+	float:right;
+}
+
+.expr_block {
+	border-style: outset;
+	  border-width: 6px;
+	  border-radius: 12px;
+	  border-color: #900;
+	  color: #600;
+	  background-color: #c77;
+	  padding: 10px;
+	  padding-top: 0px;
+	  margin: 0px;
+	  margin-bottom: 10px;
+}
+
+.expr_block h2, .expr_block a {
+	color: #600;
+	font-size: x-large;
+	font-weight: bold;
+}
+
+.expr_block img {
+	border-radius: 10px;
+	max-width: 250px;
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+	position:relative;
+	clear: both;
+}
+
+/* Age range */
+.expr_block img+p {
+	font-weight: bold;
+	text-align: center;
+}
+
+.experiments .btn {
+background-color:red;
+color:red;
+}
+
+

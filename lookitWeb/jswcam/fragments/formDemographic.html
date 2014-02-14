@@ -1,0 +1,116 @@
+<div class='contact_frag'>
+<form id='formDemographic'>
+	<h1> Demographic survey </h1> 
+	<p> One reason we are developing Internet-based experiments is to represent
+	a more diverse group of families in our research.  The following questions are all <emph>optional</emph>
+	and will help us better understand what audience we reach with online experiments. </p>
+	
+	<fieldset>
+	<p><label for='language'>What language(s) does your family speak at home?</label>
+	<input type='text' name='language' id='language'/>
+	
+		<p><label for='siblings'>How many children do you have?</label>
+	<input type='text' name='siblings' id='siblings'/>
+	
+	<p><label for='siblingages'>What are their birthdates? (mm/yyyy)</label>
+	<input type='text' name='siblingages' id='siblingages'/>
+	
+	<p><label for='guardians'>How many parents/guardians do your children live with?</label>
+	<input type='text' name='guardians' id='guardians'/>
+	<span class='help-block'>If the answer varies due to shared custody arrangements or travel, 
+	please enter the number of parents/guardians your children are <emph>usually</emph> living with or 
+	explain above.
+	</span>
+	
+	<p><label for='race'>What race(s) does your family identify as?</label>
+	<input type='text' name='race' id='race'/>
+
+
+
+	</fieldset>
+	
+	<fieldset>
+	<p><label for='age'>Your age</label>
+	<select id='age' name='age'>
+		<option>Select...</option>
+		<option>Under 18</option>
+		<option>18-21</option>
+		<option>22-24</option>
+		<option>25-30</option>
+		<option>30-34</option>
+		<option>35-40</option>
+		<option>40-44</option>
+		<option>45-50</option>
+		<option>Over 50</option>
+	</select>
+	
+	<p><label for='gender'>Your gender</label>
+	<select id='gender' name='gender'>
+		<option>Select...</option>
+		<option>Female</option>
+		<option>Male</option>
+		<option>Other</option>
+		<option>Prefer not to answer</option>
+	</select>
+	
+	<p><label for='education-you'>What is the highest level of education you have completed?</label>	
+	<select id='education-you' name='education-you'>
+		<option>Select...</option>
+		<option>Some (or attending) high school</option>
+		<option>High school</option>
+		<option>Some (or attending) college</option>
+		<option>Two-year college degree</option>
+		<option>Four-year college degree</option>
+		<option>Some (or attending) graduate school</option>
+		<option>Graduate degree</option>
+	</select>
+	<p><label for='education-spouse'>What is the highest level of education your spouse or partner has completed, if applicable?</label>
+	<select id='education-spouse' name='education-spouse'>
+		<option>Select...</option>
+		<option>Not applicable</option>
+		<option>Some (or attending) high school</option>
+		<option>High school</option>
+		<option>Some (or attending) college</option>
+		<option>Two-year college degree</option>
+		<option>Four-year college degree</option>
+		<option>Some (or attending) graduate school</option>
+		<option>Graduate degree</option>
+	</select>
+	
+	<p><label for='family-income'>What is your annual family income before taxes?</label>
+	<select id='family-income' name='family-income'>
+		<option>Select...</option>
+		<option>Under $30000</option>
+		<option>$30000-$50000</option>
+		<option>$50000-$75000</option>
+		<option>$75000-$100000</option>
+		<option>Over $100000</option>
+	</select>
+	
+	<p><label for='interest'>If you had been contacted on the phone by a local university about participating in studies like this, would you have been interested?</label>
+	<select id='interest' name='interest'>
+		<option>Select...</option>
+		<option>Yes</option>
+		<option>No</option>
+		<option>Possibly</option>
+	</select>
+
+	<p><label for='ability'>Would you have been able to schedule an appointment during the workweek to bring one of your children ~5 miles for this study?</label>
+	<select id='ability' name='ability'>
+		<option>Select...</option>
+		<option>Yes</option>
+		<option>No</option>
+		<option>Possibly</option>
+	</select>
+	
+	<p><label for='comments'>Any additional comments</label>
+	<textarea cols='80' rows='3' id='comments' name = 'comments'></textarea>
+   
+   <br>
+   
+    
+    </fieldset>
+	<input type='button' value='Cancel' onclick="page.show('account');"/>
+	<input type='button' value='Submit' onclick="demographic(''); page.show('account');"/>
+    </form>
+	</div>
