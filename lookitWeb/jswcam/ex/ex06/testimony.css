@@ -1,0 +1,131 @@
+/*                                                                                                                                                                                                                                    
+ * * Copyright (C) MIT Early Childhood Cognition Lab                                                                                                                                                                                   
+ *                                                                                                                                                                                                                                     
+ */
+
+.playingVideo {
+  color: black;
+  background-color: black;
+  padding: 0px;
+}
+
+#vidElement video {
+  padding: 0px;
+}
+
+/* Formatting the story buttons */
+
+#nextPage {
+	position: absolute;
+	top:50%;
+	left: 95%;
+	margin-top:-32px;
+	margin-left:-60px;
+	
+	background-image: url('img/arrow.png');
+	background-color: white;
+	background-repeat: no-repeat;
+	background-position: left top;
+	padding-top: 50px;
+	padding-left: 0px;
+	padding-right: 0px;
+	height: 90px;
+	width: 120px;
+}
+
+#replay {
+	position: absolute;
+	top:50%;
+	left:5%;
+	margin-top:-32px;
+	margin-left:-32px;
+	
+	background-image: url('img/replay.png');
+	background-color: white;
+	background-repeat: no-repeat;
+	background-position: center top;
+	padding-top: 50px;
+	padding-left: 0px;
+	padding-right: 0px;
+	height: 90px;
+	width: 90px;
+}
+
+#parentText {
+	position: absolute;
+	left: 5%;
+	width: 25%;
+	top: 50%;
+	margin: 0px;
+	margin-left:-32px;
+	margin-top: 64px; /* put under the replay button */
+	background-color: #CC99FF;
+	border: thick solid black;
+	padding: 5px;
+	font-size: large;
+	color: black;
+}
+
+
+/* Displaying some specific elements centr%ally in FS mode */
+
+.fullScreenContainer {
+  position: absolute;
+  left: 25%;
+  width: 50%;
+  height:100%;
+}
+
+#objectPic{
+  top: 50%;
+  height: 250px;
+  margin-top: 30px;
+  border: thick solid blue;
+  text-align:center;
+}
+
+#characterPic {
+  bottom: 45%;
+  height: 45%;
+  margin-top: 5%;
+  text-align:center;
+}
+
+
+/* For multiple columns in instructions (copied from phonemes) */
+
+.instructions div{
+  float:left;
+  width:100%;
+  vertical-align: middle;
+}
+
+.instructions>div {
+  position:relative;
+}
+
+.instructions div:last-child {
+  padding-bottom: 50px;
+}
+
+#left-column {
+	width:44%;
+	float:left;
+	padding: 0px;
+	padding-right: 5%;
+}
+
+#right-column {
+	width:44%;
+	float:right;
+	padding: 0px;
+	padding-left: 5%;
+}
+
+div.vr {
+	border-left: 1px solid #000;
+	height: 750px;
+	width: 2px;
+	float: left;
+	margin-top:60px;
+}
