@@ -1,0 +1,29 @@
+/**
+ *  Copyright (C) MIT Early Childhood Cognition Lab
+ */
+ 
+.playingVideo {
+  color: black;
+  background-color: black;
+  padding: 0px;
+}
+
+#thevideo {
+  margin-top: 100px;
+}
+
+
+
+#left-column {
+	width:44%;
+	float:left;
+	padding: 0px;
+	padding-right: 5%;
+}
+
+#right-column {
+	width:44%;
+	float:right;
+	padding: 0px;
+	padding-left: 5%;
+}

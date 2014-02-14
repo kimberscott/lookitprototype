@@ -1,0 +1,15 @@
+{
+	"name" : "Talking Faces",
+	"id"   : "speech_match",
+	"date" : "2/3/13",
+	"desc" : "<p>Age range: 4 to 24 months.</p><p>Children use both hearing and vision to learn about and understand speech.  In this experiment, your child will hear several passages from Dr. Seuss classics, accompanied by side-by-side movies of a woman reading two different stories.  We are interested in where children look during the movies.</p>",
+	"img"  : "ex/ex03/faces.png",
+	"path" : "ex/ex03/",
+	"scripts": [
+	    "experimentFunctions.js",
+		"fullscreen.js",
+	    "main_speechmatch.js"
+	],
+	"css": ["experiment.css",
+			"speechmatch.css"]
+}

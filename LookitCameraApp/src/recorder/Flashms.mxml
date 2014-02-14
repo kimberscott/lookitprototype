@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="200" minHeight="200" creationComplete="init();" xmlns:utils="utils.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->	
+	</fx:Declarations>
+	
+	<s:BorderContainer id="bcntnr" width="710" height="450" borderVisible="false" backgroundColor="#ffffff">
+	
+	<s:VGroup 
+		horizontalCenter="0" 
+		verticalCenter="0">
+		<s:Group id="videoArea">
+			<!--<s:BorderContainer width="750" height="500" borderVisible="false" backgroundColor="#ffffff">-->
+				<s:BusyIndicator 
+					id="throbber" 
+					visible="true" 
+					rotationInterval="100" x="350" bottom="250" symbolColor="0xFFFFFF" depth="11"/>
+			<mx:VideoDisplay
+				id="theCam" 
+				width="700" 
+				height="400" 
+				visible="false" 
+				borderVisible="false"
+				x="710"
+				y="10"
+				bottom="88" 
+				depth="10"/>
+				<s:TextArea
+					id="noConnection" 
+					visible="false" 
+					width="700" 
+					height="400"
+					enabled="false"  
+					editable="false"
+					borderVisible="false"
+					textAlign="center" 
+					verticalAlign="middle" 
+					y="10" depth="11"/>
+				<s:Button 
+					label="Reconnect" 
+					id="reconnectBtn" 
+					click = "reconnect();"  
+					enabled = "false"
+					visible="false"
+					chromeColor="#33abe9"
+					color="#ffffff" depth="11" x="315" bottom="240"/>
+				<s:TextArea
+					id="noCam"
+					visible="false" 
+					width="700" 
+					height="400" 
+					textAlign="center" 
+					editable="false"
+					borderVisible="false"
+					verticalAlign="middle" 
+					x="10"
+					y="0"/>	
+				<mx:Image id="nocamimage" source="@Embed('assets/i_nocam_2.png')" x="350" y="180" verticalAlign="middle" visible="false"/>
+				<s:BorderContainer backgroundColor="gray" 
+					borderVisible="false"
+					y="0" 
+					width="11" 
+					height="400" 
+					id="micContainer" 
+					visible="false">
+					<mx:Canvas 
+						y="0" 
+						x="1" 
+						height="400" 
+						width="10" 
+						id="micLevelCanvas"/>
+				</s:BorderContainer>  	
+			
+			<s:HGroup id="dropdowns"
+				y="410" x="10" visible="false">
+				<utils:IconComboBox
+					id="_cameraList" 
+					width="355" height="30" dataProvider="{cam..item}" labelField="@label" maxWidth="100"  iconFunction="geticon">
+				</utils:IconComboBox>
+
+				<utils:IconComboBox
+					id="_micList"
+					width="355" height="30" dataProvider="{mic..item}" labelField="@label" maxWidth="100" iconFunction="geticon">
+					</utils:IconComboBox>
+			</s:HGroup>
+		</s:Group>
+	</s:VGroup>	
+	</s:BorderContainer>	
+	<fx:Script 
+		source="main.as"/>
+</s:Application>

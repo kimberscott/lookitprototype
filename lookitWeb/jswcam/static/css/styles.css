@@ -1,0 +1,220 @@
+/**
+ *  Copyright (C) MIT Early Childhood Cognition Lab
+ */
+
+/*Fragment Styles*/
+
+
+#page-container div.row-fluid {
+	width: 100%;
+}
+
+.about_frag video {
+	margin:auto;
+	float:right;
+	width:50%;
+	margin-left:25%;
+}
+
+.about_frag .title{
+	width:100%;
+	background-color:black;
+	color:white;
+	width:100%;
+}
+
+.about_frag div.text{
+	float:right;
+	clear:none;
+	display:inline;
+	width:60%;
+	margin:0px;
+	padding:0px;
+}
+
+#logoimg {
+	margin:-8px;
+	margin-top:10px;
+	width:40%;
+	border: 5px solid black;
+	border-style:outset;
+	float:left;
+	clear:none;
+	display:inline;
+}
+
+.about_frag h2 {
+	margin-left:5%;
+}
+
+.about_frag div>p {
+	margin-left:10%;
+}
+
+
+
+.consent_frag h1, .about_frag h1, .contact_frag h1, .experiments h1, .scientists h1, .account h1{
+  font-size: x-large;
+  color: #900;
+  margin-bottom: 4px;
+  line-height: 1;
+  letter-spacing: -1px;
+  text-align:center;
+}
+.consent_frag h2, .about_frag h2, .contact_frag h2, .experiments h2{
+color: #900;
+  font-size: large;
+  font-weight: bold;
+}
+.consent_frag h3, .about_frag  h3, .contact_frag h3, .account h3{
+color: #900;
+  font-size: large;
+  font-weight: normal;
+}
+
+
+/* CONSENT FORM */
+
+.consent_form {
+  border-style: outset;
+  border-width: 3px;
+  border-color: #CCCCFF;
+  color: #333366;
+  background-color: #CCCCFF;
+  padding: 10px;
+}
+
+.consent_box {
+  border-style: outset;
+  border-width: 3px;
+  border-color: #99FF99;
+  color: #003300;
+  background-color: #99FF99;
+  padding: 10px;
+}
+
+.expr_block {
+  border-style: outset;
+  border-width: 3px;
+  border-color: #99FF99;
+  color: #003300;
+  background-color: #99FF99;
+  padding: 10px;
+  padding-top: 0px;
+}
+
+#recording-indicator {
+  
+  background-color: #999999;
+  height: 24px;
+  width: 24px;
+  border-radius: 12px;
+  line-height: 24px;
+  float: right;
+  margin: 10px;
+}
+
+.about_frag, .scientists, .contact_frag {
+  width: 80%;
+  left: 10%;
+  position: absolute;
+}
+
+.contact_frag .contact-info {
+  margin-left: 25px;
+}
+
+/* */
+
+body {
+     padding-top: 60px;
+     padding-bottom: 40px;
+}
+
+
+.skip-fixed-sidebar {
+    margin-right: 260px;
+}
+
+
+
+
+/* MEET THE SCIENTISTS PAGE */
+
+#picdiv {
+	max-width: 600px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.thumb {
+    position: relative;
+	float:left;
+    overflow: hidden;
+	margin:1%;
+}
+
+.whole{
+	width:98%;
+}
+
+.thumb img {
+	position:relative;
+	width:100%;
+    padding: 0;
+	border: 10px;
+	border-radius: 10px;
+}
+.thumb > div {
+    background-color: rgba(0,0,0,0.85);
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    color: #c66;
+	font-weight:bold;
+	border: 10px;
+	border-radius: 10px;
+}
+.thumb:hover > div {
+    display: block;
+    opacity: 1.0;
+}
+.thumb > div div {
+    padding: 10px 20px;
+}
+.thumb h2 {
+	font-size: large;
+	font-weight: bold;
+    margin-bottom: 10px;
+}
+.thumb p {
+    margin-bottom: 10px;
+}
+
+.blurb  {
+	background-color: #c66;
+	border-radius: 10px;
+	border: thick solid #900;
+	margin: 20px;
+	padding: 10px;
+	color: #600;
+	overflow:auto;
+}
+
+.blurb a {
+	color: #600;
+}
+
+.blurb ul.qlist {
+	float:left;
+	font-weight: bold;
+}
+
+#faqpic {
+	border-radius:10px;
+	float:right;
+}
+

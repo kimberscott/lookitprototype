@@ -1,0 +1,127 @@
+<div class="instructions scientists">
+
+<h1>Meet the scientists!</h1>
+
+<div class='blurb'>
+
+<div id='picdiv'>
+
+    <div class="thumb whole">
+        <img src="/img/kimandremy.png" title="Kim Scott" alt="Kim Scott" />
+        <div>
+            <div>
+               <h2> Kim Scott </h2>
+			   <p> 	is a graduate student in the <a href=http://eccl.mit.edu/index.html>Early Childhood Cognition Lab</a> at MIT and Mama to three- ("AND A HALF!") -year-old Remy.  She developed Lookit in part because, as a single working parent, she wouldn't have been able to participate in research with her own son.</p>  
+	<p><b>Research interests:</b> Origins of conscious experience, in particular how we put together information from both sides of the brain and how we learn about the structure of time
+	<p><b>Hobbies:</b> Salsa dancing and bicycling
+            </div>
+        </div>
+    </div>
+
+	<div class="thumb half" style='clear:left'>
+        <img src="/img/schulz.gif" title="Laura Schulz" alt="Laura Schulz"/>
+        <div>
+            <div>
+               <h2> Professor Laura Schulz </h2>
+			   <p>heads the <a href=http://eccl.mit.edu/index.html>Early Childhood Cognition Lab</a> at MIT.  See her 
+		<a href=http://web.mit.edu/newsoffice/2013/laura-schulz-profile-0214.html> profile in the MIT News</a>.
+            </div>
+        </div>
+    </div>
+
+	
+	<div class="thumb half">
+        <img src="/img/rachel.jpg" title="Rachel Magid" alt="Rachel Magid"/>
+        <div>
+            <div>
+               <h2> Rachel Magid </h2>
+			   <p>is the Early Childhood Cognition Lab's wonderful lab manager, who keeps everything running smoothly.
+            </div>
+        </div>
+    </div>
+	
+		<div class="thumb half">
+        <img src="/img/mekline.jpg" title="Melissa Kline" alt="Melissa Kline" style='clear:left'/>
+        <div>
+            <div>
+               <h2> Melissa Kline </h2>
+			   <p> is a graduate student studying intersections between cognitive development and language acquisition.
+            </div>
+        </div>
+    </div>
+	
+	<div class="thumb half">
+        <img src="/img/Julian.png" title="Julian Jara-Ettinger" alt="Julian Jara-Ettinger"/>
+        <div>
+            <div>
+               <h2> Julian Jara-Ettinger </h2>
+			   <p> is a graduate student in ECCL studying Theory of Mind (ToM), our capacity to attribute unobservable mental states (like desires and intentions) to agents.
+            </div>
+        </div>
+    </div>
+	
+	<div class="thumb third " style='clear:left'>
+        <img src="/img/vivienne.jpg" title="Vivienne Wang" alt="Vivienne Wang"/>
+        <div>
+            <div>
+               <h2> Vivienne Wang </h2>
+			   <p>is a Wellesley undergraduate who helped to develop the online version of the "Visual Integration" study.
+            </div>
+        </div>
+    </div>
+	
+	<div class="thumb third ">
+        <img src="/img/june.png" title="Vivienne Wang" alt="Vivienne Wang"/>
+        <div>
+            <div>
+               <h2> June Geng </h2>
+			   <p>is an MIT undergraduate who helped put together the "Cause and Effect" study.
+            </div>
+        </div>
+    </div>
+	
+	<div class="thumb third ">
+        <img src="/img/emily.jpg" title="Emily Lydic" alt="Emily Lydic"/>
+        <div>
+            <div>
+               <h2> Emily Lydic </h2>
+			   <p>is an MIT undergraduate who directed the "Learning from others" study.
+            </div>
+        </div>
+    </div>
+	
+	<div class="thumb third " style='clear:left'>
+        <img src="/img/larisa.png" title="Larisa Pachuta" alt="Larisa Pachuta"/>
+        <div>
+            <div>
+               <h2> Larisa Pachuta </h2>
+			   <p>is an MIT undergraduate who planned and recorded stimuli for "Learning new verbs."
+            </div>
+        </div>
+    </div>
+			
+			
+	<div class="thumb third ">
+        <img src="/img/erika.jpg" title="Erika Trent" alt="Erika Trent"/>
+        <div>
+            <div>
+               <h2> Erika Trent </h2>
+			   <p>is an MIT undergraduate who put together the "Learning syllables" study.
+            </div>
+        </div>
+    </div>
+	
+	<div class="thumb third ">
+        <img src="/img/tina.png" title="Tina Zheng" alt="Tina Zheng"/>
+        <div>
+            <div>
+               <h2> Tina Zheng </h2>
+			   <p>is an MIT undergraduate who planned and recorded stimuli for "Learning new verbs."
+            </div>
+        </div>
+    </div>
+
+	</div>
+<hr>
+</div>
+</div>

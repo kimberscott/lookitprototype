@@ -1,0 +1,136 @@
+<form id='formDemographic'>
+	<h1> Demographic survey </h1> 
+	<p> One reason we are developing Internet-based experiments is to represent
+	a more diverse group of families in our research.  The following questions are all <emph>optional</emph>
+	and will help us better understand what audience we reach with online experiments. </p>
+	
+	<p> In these questions, 'your child' refers to the child who just participated in the 
+	study. </p>
+
+	<fieldset>
+	<p><label for='language'>What language(s) does your family speak at home?</label>
+	<input type='text' name='language' id='language'/>
+	
+	<p><label for='guardians'>How many parents/guardians does your child live with?</label>
+	<input type='text' name='guardians' id='guardians'/>
+	<span class='help-block'>If the answer varies due to shared custody arrangements or travel, 
+	please enter the number of parents/guardians your child is <emph>usually</emph> living with or 
+	explain above.
+	</span>
+	
+	<p><label for='race'>What race(s) is your child?</label>
+	<input type='text' name='race' id='race'/>
+
+	<p><label for='childcare'>Who cares for your child while you and/or your partner work? (Check all that apply.) </label>	
+	
+	<table cellpadding='5%'>
+	
+	<tr>
+	<td> <input type='checkbox' name='childcare' value='parent' id='parent'> </td>
+	<td> <label class='checkbox' for='parent'>You, your partner, or another parent/guardian    </label> </td>
+	<tr>
+	
+	<tr >
+	<td> <input type='checkbox' name='childcare' value='daycare' id='daycare'>  </td>
+	<td> <label class='checkbox' for='daycare'>Daycare, family childcare center, or nursery school    </label> </td>
+	<td> <label for='daycarehours'> Hours/week:    </label> </td>
+	<td> <input type='text' class='input-mini' name='daycarehours' id='daycarehours' placeholder='0'/> </td>
+	<tr>
+	
+	<tr>
+	<td> <input type='checkbox' name='childcare' value='nanny' id='nanny'>  </td>
+	<td> <label class='checkbox' for='nanny'>Nanny, other family (e.g. grandparents), babysitter, or tutor    </label> </td>
+	<td> <label for='nannyhours'> Hours/week:    </label> </td>
+	<td> <input type='text' class='input-mini' name='nannyhours' id='nannyhours' placeholder='0'/> </td>
+	<tr>
+	
+	<tr>
+	<td> <input type='checkbox' name='childcare' value='school' id='school'>  </td>
+	<td> <label class='checkbox' for='school'>Elementary school (including after-school programs)    </label> </td>
+	<td> <label for='schoolhours'> Hours/week:    </label> </td>
+	<td> <input type='text' class='input-mini' name='schoolhours' id='schoolhours' placeholder='0'/> </td>
+	<tr>
+	
+	</table>
+
+	<p><label for='siblings'>How many siblings does your child live with?</label>
+	<input type='text' name='siblings' id='siblings'/>
+	
+	<p><label for='siblingages'>If applicable, what are their ages?</label>
+	<input type='text' name='siblingages' id='siblingages'/>
+
+	</fieldset>
+	
+	<fieldset>
+	<p><label for='age'>Your age</label>
+	<select id='age' name='age'>
+		<option>Select...</option>
+		<option>Under 18</option>
+		<option>18-21</option>
+		<option>22-24</option>
+		<option>25-30</option>
+		<option>30-34</option>
+		<option>35-49</option>
+		<option>40-44</option>
+		<option>45-50</option>
+		<option>Over 50</option>
+	</select>
+	
+	<p><label for='gender'>Your gender</label>
+	<select id='gender' name='gender'>
+		<option>Select...</option>
+		<option>Female</option>
+		<option>Male</option>
+		<option>Other</option>
+		<option>Prefer not to answer</option>
+	</select>
+	
+	<p><label for='education-you'>What is the highest level of education you have completed?</label>	
+	<select id='education-you' name='education-you'>
+		<option>Select...</option>
+		<option>Some (or attending) high school</option>
+		<option>High school</option>
+		<option>Some (or attending) college</option>
+		<option>Two-year college degree</option>
+		<option>Four-year college degree</option>
+		<option>Some (or attending) graduate school</option>
+		<option>Graduate degree</option>
+	</select>
+	<p><label for='education-spouse'>What is the highest level of education your spouse or partner has completed, if applicable?</label>
+	<select id='education-spouse' name='education-spouse'>
+		<option>Select...</option>
+		<option>Not applicable</option>
+		<option>Some (or attending) high school</option>
+		<option>High school</option>
+		<option>Some (or attending) college</option>
+		<option>Two-year college degree</option>
+		<option>Four-year college degree</option>
+		<option>Some (or attending) graduate school</option>
+		<option>Graduate degree</option>
+	</select>
+	
+	<p><label for='interest'>If you had been contacted on the phone by a local university about participating in a study like this, would you have been interested?</label>
+	<select id='interest' name='interest'>
+		<option>Select...</option>
+		<option>Yes</option>
+		<option>No</option>
+		<option>Possibly</option>
+	</select>
+
+	<p><label for='ability'>Would you have been able to schedule an appointment during the workweek to bring your child ~5 miles for this study?</label>
+	<select id='ability' name='ability'>
+		<option>Select...</option>
+		<option>Yes</option>
+		<option>No</option>
+		<option>Possibly</option>
+	</select>
+	
+	<p><label for='comments'>Any additional comments</label>
+	<textarea rows='3' id='comments'></textarea>
+   
+   <br>
+   
+    
+    </fieldset>
+	<input type='submit' value='Submit'/>
+    </form>

@@ -1,0 +1,15 @@
+{
+	"name" : "Learning new verbs",
+	"id"   : "novelverbs",
+	"date" : "2/3/13",
+	"desc" : "<p><b>Age range: 2-year-olds (24-36 months).</b></p> <p>In this experiment, your child will watch several clips of conversations that introduce a new verb, followed by side-by-side movies of experimenters pantomiming two different verbs. We are interested in how children use information from the conversations to figure out which action matches the new verb.</p>",
+	"img"  : "ex/ex04/novelverbs.png",
+	"path" : "ex/ex04/",
+	"scripts": [
+	    "experimentFunctions.js",
+		"fullscreen.js",
+	    "main_novelverbs.js"
+	],
+	"css": ["experiment.css",
+			"novelverbs.css"]
+}

@@ -1,0 +1,15 @@
+{
+	"name" : "Cause and effect",
+	"id"   : "causaldomains",
+	"date" : "2/3/13",
+	"desc" : "<p><b>Age range:  3-, 4-, and 5-year-olds.</b></p> <p> When something has several possible explanations, how do children determine what the most likely one is? We'll read some stories to your child and ask him or her a few questions about them.</p>",
+	"img"  : "ex/ex07/causaldomains.png",
+	"path" : "ex/ex07/",
+	"scripts": [
+	    "experimentFunctions.js",
+		"fullscreen.js",
+	    "main_causal.js"
+	],
+	"css": ["experiment.css",
+			"causal.css"]
+}
