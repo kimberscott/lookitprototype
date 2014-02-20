@@ -244,12 +244,16 @@ $('#maindiv').removeClass('whitebackground');
 			});
 			break;
 			
+		case "positioning":
+			show_cam("position","webcamdiv");	
+			
 		case "pretest":
 		case "instructions":
 		case "instructions2":
 
 			$(function() {
 				$('#' + segmentName + ' #next').click(function(evt) {
+					hide_cam("webcamdiv");
 					evt.preventDefault();
 					advanceSegment();
 					return false;
