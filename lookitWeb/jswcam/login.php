@@ -33,7 +33,7 @@ if($_POST['email']){
   
   // Send
   if(mail($email, $subject, $message, $headers)){
-    echo "<html><p>Check your email - we sent you an email with a link to reset your password. If you do not receive this email within a minute or so, please check your spam folder. </p></html>";
+    echo "<html><p>We sent you an email with a link to reset your password. If you do not receive this email within a minute or so, please check your spam folder. </p></html>";
   }
 }
 
@@ -49,4 +49,4 @@ if(!empty($_POST['sure'])){
 }
 
 ?>
-<html><p>Check your email - we sent you an email with a link to reset your password. If you do not receive this email within a minute or so, please check your spam folder. </p></html>
+<html><p>We sent you an email with a link to reset your password. If you do not receive this email within a minute or so, please check your spam folder. </p></html>

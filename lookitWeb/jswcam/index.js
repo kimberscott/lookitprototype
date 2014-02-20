@@ -439,7 +439,7 @@ jswcam.setExperiment(packaging['id']);
 		            login_page = req.responseText;
 		            login_page += '<div id = "force_login"><b>Please login or <a href="#" onclick="register();">register</a> to participate in this study.</b></div>';
 		            login_page = login_page.replace('"register"','"register"\ style="display:none"');
-			    login_page = login_page.replace("If you're new to Lookit, please", "");
+					login_page = login_page.replace("If your family is new to Lookit, please", "");
 		            login(login_page,info,this);
 				}
 				else

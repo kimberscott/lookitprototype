@@ -367,7 +367,7 @@ function login(html,expr,obje){
                         $(".modal-backdrop").remove();
                         $("#reg1,#log1").css("display", "none");
                         $("#reg,#log").css("display", "block");
-                        bootbox.alert("Error in database connection, Please Try again.");
+                        bootbox.alert("Error in database connection--please try again.");
                     }
                     return false;
                 }
@@ -527,7 +527,7 @@ function select_child(expr,obje){
             {
                 var responce = eval("(" + resp + ')');
                 //Create the child selection dropdown
-                var new_page = "<form id = 'child_select'><label>Please Select a child:</label><select id='child_list' name = 'participant'>";
+                var new_page = "<form id = 'child_select'><label>Please select a child:</label><select id='child_list' name = 'participant'>";
                 if(responce.child_name instanceof Array){
                     for(var i = 0; i < responce.child.length; i++){
                         new_page += "<option name = 'participants ' id = participant"+i+" value = "+responce.child[i]+" >" + responce.child_name[i] +"</option>";
@@ -594,15 +594,15 @@ function check_age(string,expr,obje){
 
             switch(resp){
                 case '11':
-                    var error_html = $('#child_list :selected').text()+" has already participated in this trial.  Do you want to participate again anyways?";
+                    var error_html = $('#child_list :selected').text()+" has already participated in this study.  Do you want to participate again anyway?";
                     get_permission(error_html,expr,obje);
                     break;
                 case '00':
-                    var error_html = $('#child_list :selected').text()+" does not meet the target age range of this trial.  Do you want to participate anyways?";
+                    var error_html = $('#child_list :selected').text()+" does not meet the target age range for this study.  Do you want to participate anyway?";
                     get_permission(error_html,expr,obje);
                     break;
                 case '01':
-                    var error_html = $('#child_list :selected').text()+" has already participated in this trial.  Do you want to participate again anyways?";
+                    var error_html = $('#child_list :selected').text()+" has already participated in this study.  Do you want to participate again anyway?";
                     get_permission(error_html,expr,obje);
                     break;
                 default:
