@@ -2,7 +2,7 @@
 	"name" : "Learning from others",
 	"id"   : "testimony",
 	"date" : "2/3/13",
-	"desc" : "<p><b>Age range: 3-, 4-, and 5-year-olds.</b></p><p>Duration: 10 minutes.</p><p>How do children filter through many sources of information to learn robustly from other people?  In this study two women will name familiar objects with varying accuracy.  We're interested in how your child chooses which one to trust when the same women name new objects as well. </p>",
+	"desc" : "<p><b>Age range: 3-, 4-, and 5-year-olds.</b></p><p>How do children filter through many sources of information to learn robustly from other people?  In this study two women will name familiar objects with varying accuracy.  We're interested in how your child chooses which one to trust when the same women name new objects as well. </p>",
 	"img"  : "ex/ex06/testimony.png",
 	"path" : "ex/ex06/",
 	"scripts": [
