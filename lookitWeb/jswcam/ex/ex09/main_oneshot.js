@@ -138,7 +138,7 @@ function startExperiment(condition, box) {
 	
 	// Sequence of sections of the experiment, corresponding to html sections.
 	htmlSequence = [['instructions'],
-			['positioning'],
+					['positioning'],
 					['positioning2'],
 					['famMovies', vidElement],
 					['formPoststudy']];
@@ -168,6 +168,7 @@ $('#maindiv').removeClass('whitebackground');
 	switch(segmentName) {
 		case "formPoststudy":
 		case "positioning2":
+		case "positioning":
 		case "instructions":
 			$('#maindiv').append('<div id="'+segmentName+'"></div>');
 			break;
