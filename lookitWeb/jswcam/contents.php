@@ -2,7 +2,6 @@
 
 //requires ZipArchive Extension
 /**
- *
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
 
