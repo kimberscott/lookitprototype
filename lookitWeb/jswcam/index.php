@@ -182,7 +182,7 @@ if(!isset($_SESSION['user']['id'])){
 	        </object>         
 	      </div>
 	      <div id = "message" style="">
-	        <p>Hi! Your video and microphone should be automatically detected and visible above. If your microphone levels are too low, try adjusting them in your Flash settings by right-clicking on the video, selecting Settings, and updating the volume in the microphone tab. </p>
+	        <p>Your video and microphone should be automatically detected and visible above. If your microphone levels are too low, try adjusting them in your Flash settings by right-clicking on the video, selecting Settings, and updating the volume in the microphone tab. </p>
 	      </div>
 	    </div>
   	</body>
