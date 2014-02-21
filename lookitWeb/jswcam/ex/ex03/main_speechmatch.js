@@ -435,16 +435,6 @@ function validateForm(segmentName, formData) {
 					}
 				}
 			}
-			if (formData.distance.length==0 ||
-				formData.distance == 'e.g. 18 inches') {
-				valid = false;
-				$('#errorDistanceMissing').removeClass('hidden');
-			} else {$('#errorDistanceMissing').addClass('hidden');}
-			if (formData.monitor.length==0 ||
-				formData.monitor == 'e.g. 12 inches') {
-				valid = false;
-				$('#errorMonitorMissing').removeClass('hidden');
-			} else {$('#errorMonitorMissing').addClass('hidden');}
 			return valid;
 			break;
 		case 'formDemographic':
