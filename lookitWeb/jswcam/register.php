@@ -446,7 +446,7 @@ function validation_2(){
 							<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "girl"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "girl") ){print " checked=\"checked\"";}?>> Girl</td>
 						</tr>	
 						<tr>		
-							<td>Gestational age of birth </td>		
+							<td>Gestational age at birth </td>		
 							<td><input type = "text" class="weeks" name="weeks" type="text" id = " weeks0" placeholder='0' onclick="this.select();" value = "<?php set_value('weeks',0,0) ?>"/>   Weeks</td>
 							<td><input type = "text" class="days" name="days" type="text" id = "days0" placeholder='0' onclick="this.select();" value = "<?php set_value('days',0	,0) ?>"/>   Days</td>
 
