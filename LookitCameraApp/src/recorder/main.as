@@ -74,8 +74,8 @@ public function setsize(width:Number,height:Number):void
 }
 public function init():void
 {
-	width1 = FlexGlobals.topLevelApplication.parameters.height;
-	height1 = FlexGlobals.topLevelApplication.parameters.width;
+	width1 = FlexGlobals.topLevelApplication.parameters.width;
+	height1 = FlexGlobals.topLevelApplication.parameters.height;
 	Security.showSettings("default"); 
 	throbber.visible=true;
 	nc_Connect();
@@ -104,7 +104,7 @@ public function setup_page():void{
 }
 
 public function nc_Connect():void{
-        reconnect_tried = false;
+    reconnect_tried = false;
 	nc = new NetConnection(); 
 	nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus); 
 	nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatusFailure); 
@@ -149,41 +149,56 @@ public function callstop(caller:String):void{
 	setState(States.STOPPING);
 }
 
-public function onNetStatusFailure(event:NetStatusEvent):void{ 
+public function onNetStatusFailure(event:NetStatusEvent):void{
 	if(event.info.code == "NetConnection.Connect.Failed"){
 	    if(!reconnect_tried){
 	      nc_reConnect();
 		  return;
 	    }
 		throbber.visible=false;
-		reconnectBtn.visible=true;
-		reconnectBtn.enabled=true;
+		reconnectBtn.x = width1/2;
+		reconnectBtn.y = height1/2 + 20;
+		theCam.visible = false;
+		theCam.includeInLayout = false;
+		noConnection.includeInLayout = true;
 		noConnection.visible = true;
-		micContainer.visible = false;
-		noConnection.text =  "Connection Lost \nPlease refresh your browser page to establish a new connection to Lookit.";
-		return;
-	}
-	
-	if(event.info.code == "NetConnection.Connect.Closed"){
-		throbber.visible=false;
 		reconnectBtn.includeInLayout = true;
 		reconnectBtn.visible=true;
 		reconnectBtn.enabled=true;
+		micContainer.visible = false;
+		noConnection.text =  "Connection Lost \nPlease click on Reconnect to establish a new connection to Lookit.";
+		return;
+	}
+	
+	if(event.info.code == "NetConnection.Connect.Closed" || event.info.code == "NetConnection.Connect.NetworkChange"){
+		throbber.visible=false;
+		reconnectBtn.x = width1/2;
+		reconnectBtn.y = height1/2 + 20;
 		theCam.visible = false;
+		theCam.includeInLayout = false;
 		noConnection.includeInLayout = true;
 		noConnection.visible = true;
+		reconnectBtn.includeInLayout = true;
+		reconnectBtn.visible=true;
+		reconnectBtn.enabled=true;
 		micContainer.visible = false;
-		noConnection.text =  "Connection Lost \nPlease refresh your browser page to establish a new connection to Lookit.";
+		noConnection.text =  "Connection Lost \nPlease click on Reconnect to establish a new connection to Lookit.";
 		ExternalInterface.call("disconnect");
 		return;
 	}
 	else if(event.info.code != "NetConnection.Connect.Success"){
+		width1 = this.root.loaderInfo.parameters.width;
+		height1 = this.root.loaderInfo.parameters.height;
 		reconnectBtn.visible=false;
 		reconnectBtn.enabled=false;
 		noConnection.visible = false;
 		noConnection.includeInLayout = false;
-		theCam.visible = true;
+		reconnectBtn.includeInLayout = false;
 		micContainer.visible = true;
+		theCam.includeInLayout = true;
+		theCam.visible = true;
+		Constants.camobject.getCam(0);
+		Constants.micobject.getMicrophone(0);
 		ExternalInterface.call("reconnected");
 	}
 }
@@ -196,6 +211,7 @@ public function onNetStatus(event:NetStatusEvent):void{
 		reconnectBtn.includeInLayout = false;
 		noConnection.includeInLayout = false;
 		noCam.includeInLayout = false;
+		theCam.includeInLayout = true;
 		theCam.width = width1;
 		theCam.height = height1;
 		theCam.x = width1;
@@ -227,9 +243,12 @@ public function reconnect():void{
 	reconnectBtn.visible=false;
 	reconnectBtn.enabled=false;
 	noConnection.visible = false;
-	nc = new NetConnection(); 
+	reconnectBtn.includeInLayout = false;
+	noConnection.includeInLayout = false;
+	/*nc = new NetConnection(); 
 	nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatusFailure); 
-	nc.connect(Constants.FMSserver_RTMPS);
+	nc.connect(Constants.FMSserver_RTMP);*/
+	nc_Connect();
 }
 
 //*****************************************************************************************************************************************************

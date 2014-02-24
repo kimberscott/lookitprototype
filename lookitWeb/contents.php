@@ -1,5 +1,7 @@
 <?php
-
+/**
+ *  Copyright (C) MIT Early Childhood Cognition Lab
+ */
 //requires ZipArchive Extension
 
 $dir = dirname(__FILE__);
