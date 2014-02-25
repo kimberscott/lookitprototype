@@ -16,8 +16,9 @@ if($_POST['withdraw']) {
     );
 	$str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":"true",\"server\":\"dev\"}';
     $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert.php"';
-	 print_r($command);
-	shell_exec($command);
+    print_r($command);
+	$_SESSION['user']['filename'] = array();
+    shell_exec($command);
 
 }
 
@@ -34,6 +35,7 @@ else if($_POST['continue']){
      $str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":"false",\"server\":\"dev\"}';
     $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert.php"';
 	print_r($command);
+    $_SESSION['user']['filename'] = array();
 	shell_exec($command);
 
 }

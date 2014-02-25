@@ -1,11 +1,13 @@
 <?php
-
 /**
+ * Copyright (C) MIT Early Childhood Cognition Lab
+ *
  * Parse JSON String into PHP Assoc array,
  * Fetch or create a mongo database for a given
  * experimental id, and record the provided data
  * as a record in the trials collection with primary
  * id based upon the trial subject (user_id).
+ *
  */
  
 function check_conditions($experiment_id) {
