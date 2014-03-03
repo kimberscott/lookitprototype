@@ -5,6 +5,7 @@
  */
 
 require_once('php/util.php'); 
+require_once('config.php'); 
 if(!isset($_SESSION['user']['id'])){ 
     session_start();
 	 $_SESSION['user']['id'] = uuid();
@@ -76,9 +77,8 @@ if(!isset($_SESSION['user']['id'])){
 
     <script type="text/javascript">
     <?php 
-    //printf("var userId = '%s';", uuid());
     printf("var userId = '%s';",$_SESSION['user']['id']);
-  	$experiments = load_experiments();
+  	$experiments = load_experiments($CONFIG['experiment_order']);
   	printf("var experiments = %s;", json_encode($experiments));
   	load_fragments(get_default_fragments());
     ?>
