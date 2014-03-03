@@ -267,6 +267,7 @@ function generateHtml(segmentName){
 		
 	// Enter/exit fullscreen outside of callback function to deal with browser constraints
 	if (segmentName=='formPoststudy') {
+		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 		leaveFullscreen();
 	}
 	else if (segmentName=='vidElement') {
