@@ -50,9 +50,14 @@ function load_fragments($fragments) {
 }
 
 function load_experiments($directory="ex") {
-  $files = scandir(getcwd() . '/' . $directory);
-  $files = array_filter($files, function($item) { return !is_dir($item); });
-  
+
+  if($directory == "ex"){
+    $files = scandir(getcwd() . '/' . $directory);
+    $files = array_filter($files, function($item) { return !is_dir($item); });
+  }
+  else{
+    $files = $directory;
+  }
   $packages = array();
   foreach($files as $dir) {
     $path = sprintf("%s/%s/%s/%s", getcwd(), "ex", $dir, "package.json");
