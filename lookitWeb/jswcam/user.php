@@ -301,12 +301,21 @@ function check_age($table, $json, $string){
   $_SESSION['user']['participant'] = $data['participant'];
   $_SESSION['user']['participant_privacy'] = $data['participant_privacy']; 
  
-  // Get the index of the participating child from the session.
-  foreach ($_SESSION['user']['child'] as $key => $value) {
-    if($value == $data['participant']){
-      break;
+  if(is_array($_SESSION['user']['child'])){ // If more than one childs
+
+    // Get the index of the participating child from the session.
+    foreach ($_SESSION['user']['child'] as $key => $value) {
+      if($value == $data['participant']){
+        break;
+      }
+      $index++;
     }
-    $index++;
+
+    // Retrieve the date of birth of the child from session.
+    $participant_dob = $_SESSION['user']['dob'][$index];
+  }
+  else{
+    $participant_dob = $_SESSION['user']['dob'];
   }
 
   // Retrieve the date of birth of the child from session.
