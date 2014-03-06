@@ -447,7 +447,7 @@ function validation_2(){
 							<td>Child's Birthdate </td>		
 							<td>
 								 <div class="input-append date" data-date-viewmode="years">
-									<input value="<?php set_value('dob','',0) ?>" id="dp0" name="dob" class="span2" size="16" type="text" readonly>
+									<input value="<?php set_value('dob','',0) ?>" id="dp0" name="dob" class="span2" size="16" type="text">
 									<span class="add-on"><i class="icon-calendar"></i></span>
 								</div> 
 							</td>	
@@ -530,7 +530,7 @@ function validation_2(){
 
 		<td>
 			<div class="input-append date" data-date-viewmode="years">
-				<input value="" id="dp" name="dob" class="span2" size="16" type="text" readonly>
+				<input value="" id="dp" name="dob" class="span2" size="16" type="text">
 				<span class="add-on"><i class="icon-calendar"></i></span>
 			</div> 
 		</td>	
