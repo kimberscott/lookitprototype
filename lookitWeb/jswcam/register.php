@@ -75,7 +75,7 @@ $(document).ready(function() {
 		changeMonth: true,
 		changeYear: true
 		});
-	});
+	})();
 	
 	i = 1;
 	j = 1;
@@ -183,7 +183,7 @@ function clone(chck_str){
 		changeMonth: true,
 		changeYear: true
 		});
-	});
+	})();
 }	
 
 // Serialize the data and return its object
