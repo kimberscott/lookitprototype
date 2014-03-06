@@ -17,9 +17,10 @@ if(!isset($_SESSION['user']['id'])){
   <head>
     <title> Lookit: Online experiments from the Early Childhood Cognition Lab </title>
     <link rel="shortcut icon" type="image/x-icon" href="img/remy4.ico">    
-	
+
     <link rel="stylesheet/less" type="text/css" href="fragments/styles.less"></link>
     <link rel="stylesheet/less" type="text/css" href="bootstrap/less/bootstrap.less"></link>
+	<link rel="stylesheet/css" type="text/css" href="static/css/styles.css"></link>
    
     <script src="static/js/less-1.3.0.min.js" type="text/javascript"></script>
     <script src="static/js/jquery-1.8.1.min.js"></script> 
