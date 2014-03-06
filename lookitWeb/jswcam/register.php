@@ -26,7 +26,9 @@ function set_value($name,$default,$k){
 }
 
 ?>   
+<link rel="stylesheet/css"  type="text/css" href ="static/js/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"></link>	
 <script src="static/js/jquery-1.8.1.min.js"></script>
+<script src="static/js/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
 
 <style type="text/css">
 	input[type="radio"] {

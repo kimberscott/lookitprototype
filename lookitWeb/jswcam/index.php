@@ -21,7 +21,7 @@ if(!isset($_SESSION['user']['id'])){
     <link rel="stylesheet/less" type="text/css" href="fragments/styles.less"></link>
     <link rel="stylesheet/less" type="text/css" href="bootstrap/less/bootstrap.less"></link>
     <link rel="stylesheet/css" type="text/css" href="static/css/styles.css"></link>
-	<link rel="stylesheet/css"  type="text/css" href ="static/js/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"></link>	
+	
     <script src="static/js/less-1.3.0.min.js" type="text/javascript"></script>
 	
     <script src="static/js/jquery-1.8.1.min.js"></script> 
@@ -33,7 +33,7 @@ if(!isset($_SESSION['user']['id'])){
     <script src="./login/myfunc.js" type="text/javascript"></script>
     <script src="./login/validate.js" type="text/javascript"></script> 
     <script src="./login/json.js" type="text/javascript"></script> 
-	<script src="static/js/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
+	
     
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
