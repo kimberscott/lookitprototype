@@ -70,9 +70,8 @@ $(document).ready(function() {
 	
 	
 	$( ".datepicker" ).datepicker({
-		changeMonth: true,
-		changeYear: true
-	});
+		format: 'mm/dd/yyyy'
+	}); 
 	
 	i = 1;
 	j = 1;
@@ -175,10 +174,9 @@ function clone(chck_str){
 		j++;
 	}
 	
-	$(".datepicker" ).datepicker({
-		changeMonth: true,
-		changeYear: true
-	});
+	$( ".datepicker" ).datepicker({
+		format: 'mm/dd/yyyy'
+	}); 
 }	
 
 // Serialize the data and return its object
@@ -447,8 +445,12 @@ function validation_2(){
 						</tr>
 						<tr>		
 							<td>Child's Birthdate </td>		
-							<td><input  type="text" placeholder='MM/DD/YYYY' value="<?php set_value('dob','',0) ?>" id="dp0" class="datepicker" name="dob"/></td>
-							<td><label class = "mdy"> MM/DD/YYYY</label></td>	
+							<td>
+								 <div class="input-append date" data-date-viewmode="years">
+									<input value="<?php set_value('dob','',0) ?>" id="dp0" name="dob" class="span2" size="16" type="text" readonly>
+									<span class="add-on"><i class="icon-calendar"></i></span>
+								</div> 
+							</td>	
 						</tr>
 						<tr>		
 							<td>Gender</td> 		
@@ -525,8 +527,14 @@ function validation_2(){
 	</tr>
 	<tr>		
 		<td>Child's Birthdate </td>		
-		<td><input  type="text" placeholder='MM/DD/YYYY' value="" id="dp" class="datepicker" name="dob"/></td>
-		<td><label class = "mdy"> MM/DD/YYYY</label></td>	
+
+		<td>
+			<div class="input-append date" data-date-viewmode="years">
+				<input value="" id="dp" name="dob" class="span2" size="16" type="text" readonly>
+				<span class="add-on"><i class="icon-calendar"></i></span>
+			</div> 
+		</td>	
+		
 	</tr>
 	<tr>		
 		<td>Gender</td> 		
