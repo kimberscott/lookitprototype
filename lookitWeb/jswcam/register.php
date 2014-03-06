@@ -69,7 +69,7 @@ $(document).ready(function() {
 	}
 	
 	
-	$( ".datepicker" ).datepicker({
+	$( ".date" ).datepicker({
 		format: 'mm/dd/yyyy', 
 		viewMode: 2
 	}); 
@@ -175,7 +175,7 @@ function clone(chck_str){
 		j++;
 	}
 	
-	$( ".datepicker" ).datepicker({
+	$( ".date" ).datepicker({
 		format: 'mm/dd/yyyy', 
 		viewMode: 2
 	}); 
@@ -448,8 +448,8 @@ function validation_2(){
 						<tr>		
 							<td>Child's Birthdate </td>		
 							<td>
-								 <div class="input-append date" data-date-viewmode="years" class='datepicker'>
-									<input value="<?php set_value('dob','',0) ?>" id="dp0" name="dob" class="span2" size="16" type="text">
+								 <div class="input-append date" data-date-viewmode="years">
+									<input value="<?php set_value('dob','',0) ?>" id="dp0" name="dob" class="span2" size="16" type="text" class='datepicker'>
 									<span class="add-on"><i class="icon-calendar"></i></span>
 								</div> 
 							</td>	
@@ -531,8 +531,8 @@ function validation_2(){
 		<td>Child's Birthdate </td>		
 
 		<td>
-			<div class="input-append date" data-date-viewmode="years" class='datepicker'>
-				<input value="" id="dp" name="dob" class="span2" size="16" type="text">
+			<div class="input-append date" data-date-viewmode="years">
+				<input value="" id="dp" name="dob" class="span2" size="16" type="text" class='datepicker'>
 				<span class="add-on"><i class="icon-calendar"></i></span>
 			</div> 
 		</td>	
