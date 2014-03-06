@@ -29,26 +29,46 @@ function set_value($name,$default,$k){
 <script src="static/js/jquery-1.8.1.min.js"></script>
 
 <style type="text/css">
+<<<<<<< HEAD
 	input[type="radio"] {
 		margin-top: 3px;
 		vertical-align: top;
 		margin-right: 3px;
 	}
 	input[type="checkbox"] {
-    margin-top: 2px;
+		margin-top: 3px;
 		vertical-align: top;
 		margin-right: 3px;
 	}
 	.cancel:hover{
 		cursor: pointer;
 	}
-.radio, .checkbox {
-    padding-left: 0px;
-}
+
 	div#test input#gender_ {width: 13px;}
 	div#test input {width: 100px;}
 	label.mdy{margin-left: -60px;}
+=======
+input[type="radio"] {
+    margin-top: 3px;
+    vertical-align: top;
+    margin-right: 3px;
+}
+input[type="checkbox"] {
+    margin-top: 2px;
+    vertical-align: top;
+    margin-right: 3px;
+}
+.cancel:hover{
+	cursor: pointer;
+}
+.radio, .checkbox {
+    padding-left: 0px;
+}
+div#test input#gender_ {width: 13px;}
+div#test input {width: 100px;}
+label.mdy{margin-left: -60px;}
 
+>>>>>>> 9775df8c0923bf84161d7af48391e03e558405d7
 </style>
 
 <script>

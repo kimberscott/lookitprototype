@@ -15,11 +15,6 @@ function put_data($experiment_id, $json, $string) {
   $m = new Mongo($string);
   $db = $m->users;
 
-//Clear and Save data to session  
-  $_SESSION['user'] = "";
-  $_SESSION['user'] = $data;
-
-
   $data['pid'] = $data['name'].$data['email'];
   $clear['email'] = $data['email'];
 
@@ -40,30 +35,18 @@ function put_data($experiment_id, $json, $string) {
       $child_details['parent_id'] = $v;
       continue;
     }
-    //Change DOB to number of days. 
-    elseif($k == 'dob'){
-      $count = count($v);
-      $dates = array();
-      $date = DATE("m/d/y");
-      if($count > 1){
-        for($i = 0; $i < $count; $i++){
-            $datediff = ceil(abs(strtotime($date) - strtotime($v[$i]))/86400);
-            $dates[$i] = $datediff;
-        }
-      }
-      else{
-        $datediff = ceil(abs(strtotime($date) - strtotime($v))/86400);
-            $dates[0] = $datediff;
-      }
-      $child_details['dates'] = $dates;
-      continue;
-    }
   }
   //Clear and store the childs data in the childs collection
   $new_clear['parent_id'] =  $child_details['parent_id'];
   $new_collection = $db->childs;
   $new_collection->remove($new_clear);
   $new_collection->insert($child_details);
+
+  //Clear and Save data to session  
+  $_SESSION['user'] = "";
+  $data['password'] = "";
+  $data['confirm_password'] = "";
+  $_SESSION['user'] = $data;
 
   echo $data['name'];
 
@@ -95,6 +78,29 @@ function put_data($experiment_id, $json, $string) {
 
 }
 
+// Function to fetch the experiment age requirement to the session array
+Function get_experiment_age_range($string){
+
+  $package = array();
+
+  $m = new Mongo($string);
+  $db = $m->users;
+  $collection = $db->experiment_age;
+  $cursor = $collection->find();
+  
+  // Set the data in the session array.
+  foreach($cursor as $obj){
+    foreach($obj as $k=>$v){
+
+      if($k != '_id'){ // Not considering the _id field
+        $arr[$k] = $v;
+      }
+    }  
+    $package[$arr['experiment_id']] = $arr;     
+  }
+  $_SESSION['user']['age_range'] = $package;
+}
+
 // Function to check the logging users authentication and authorizing him to participate in the studies 
 function login($table, $json, $string){
   $data = json_decode($json, true);
@@ -110,24 +116,10 @@ function login($table, $json, $string){
   $cursor = $collection->find(array('email' => $data['email'],'password' => $data['password']));
   
   foreach ($cursor as $obj) {
+    $obj['password'] = "";
+    $obj['confirm_password'] = "";
       // Set user data in the session variable
       $_SESSION['user'] = $obj;
-      
-      // Database connection for fetching the min and max age for each experiment
-      $new_collection = $db->experiment_age;
-      $new_cursor = $new_collection->find();
-      
-      // Set the data in the session array.
-      foreach($new_cursor as $new_obj){
-        foreach($new_obj as $k=>$v){
-  
-          if($k != '_id'){ // Not considering the _id field
-            $arr[$k] = $v;
-          }
-        }  
-        $package[$arr['experiment_id']] = $arr;     
-      }
-      $_SESSION['user']['age_range'] = $package;
       echo json_encode($obj);
       break;
     }
@@ -135,7 +127,7 @@ function login($table, $json, $string){
 
 // Function to check if the queried data exists in the database or not
 function check($table,$json,$string){
-	
+  
   $data = json_decode($json, true);
 
   // Database connection to the details collection
@@ -171,7 +163,7 @@ function check($table,$json,$string){
 
 //Function to check the number of user accounts in the database.
 function checknumber($string,$table){
-	
+  
   $LIMIT =1000;
 
   // Create Database connection.
@@ -183,8 +175,8 @@ function checknumber($string,$table){
 
   // If number of accounts is less than the specified limit
   if($count_all_accounts > $LIMIT) {
-	echo 'true';
-	return;
+  echo 'true';
+  return;
   }
 
 }
@@ -204,25 +196,12 @@ function reset_pass($table,$json, $string){
 
   $cursor = $collection->find($find);
   foreach ($cursor as $obj) {
+
+    $obj['password'] = "";
+    $obj['confirm_password'] = "";
+    
     // Set user data in the session variable
     $_SESSION['user'] = $obj;
-
-    // Database connection for fetching the min and max age for each experiment
-    $new_collection = $db->experiment_age;
-    $new_cursor = $new_collection->find();
-    
-    // Set the data in the session array.
-    foreach($new_cursor as $new_obj){
-      foreach($new_obj as $k=>$v){
-
-        if($k != '_id'){ // Not considering the _id field
-          $arr[$k] = $v;
-        }
-      }  
-      $package[$arr['experiment_id']] = $arr;     
-    }
-
-    $_SESSION['user']['age_range'] = $package;
     echo json_encode($obj);
     break;
   }
@@ -316,25 +295,34 @@ function check_age($table, $json, $string){
   $age_flag = 0;
   $participated_flag = 0;
   $index = 0; 
-
+  get_experiment_age_range($string); // Fetching the experiment data from the db.
   // Setting participant's data in session.
   $_SESSION['user']['experiment_id'] = $data['expriment_id'];
   $_SESSION['user']['participant'] = $data['participant'];
   $_SESSION['user']['participant_privacy'] = $data['participant_privacy']; 
+ 
+  if(is_array($_SESSION['user']['child'])){ // If more than one childs
 
-  // Get the index of the participating child from the session.
-  foreach ($_SESSION['user']['child'] as $key => $value) {
-    if($value == $data['participant']){
-      break;
+    // Get the index of the participating child from the session.
+    foreach ($_SESSION['user']['child'] as $key => $value) {
+      if($value == $data['participant']){
+        break;
+      }
+      $index++;
     }
-    $index++;
+
+    // Retrieve the date of birth of the child from session.
+    $participant_dob = $_SESSION['user']['dob'][$index];
+  }
+  else{
+    $participant_dob = $_SESSION['user']['dob'];
   }
 
   // Retrieve the date of birth of the child from session.
   $participant_dob = $_SESSION['user']['dob'][$index];
   $current_date = DATE("m/d/y");
-  $age_in_days = ceil(abs(strtotime($participant_dob) - strtotime($current_date))/86400);
-  
+  $age_in_days = ceil(abs(strtotime($current_date) - strtotime($participant_dob))/86400);
+
   // Fetch the age range of the participating experiment from the session.
   $experiment_age_range = $_SESSION['user']['age_range'][$data['expriment_id']];
 
