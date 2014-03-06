@@ -29,6 +29,7 @@ function set_value($name,$default,$k){
 
 
 <script src="static/js/jquery-1.8.1.min.js"></script>
+<script src="static/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="static/datepicker/js/bootstrap-datepicker.js"></script>
 
 <style type="text/css">
