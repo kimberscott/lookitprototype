@@ -235,7 +235,6 @@ function set_value($name,$default,$k){
   height: 16px;
 }
 </style>
-<link rel="stylesheet/css" type="text/css" href="static/datepicker/css/datepicker.css"></link>
 
 <script>
 var temp;
@@ -252,7 +251,7 @@ $(document).ready(function() {
 	}
 	
 	
-	$( ".date" ).datepicker({
+	$(".date" ).datepicker({
 		format: 'mm/dd/yyyy', 
 		viewMode: 2
 	}); 
@@ -631,10 +630,8 @@ function validation_2(){
 						<tr>		
 							<td>Child's Birthdate </td>		
 							<td>
-								 <div class="input-append date" data-date-viewmode="years" data-date='01/01/2014' data-date-format='mm/dd/yyyy'>
-									<input value="<?php set_value('dob','',0) ?>" id="dp0" name="dob" class="span2" size="16" type="text" class='datepicker'>
-									<span class="add-on"><i class="icon-calendar"></i></span>
-								</div> 
+							<input class="input-append date datepicker span2" data-date-viewmode="years" data-date='01/01/2014' data-date-format='mm/dd/yyyy' value="<?php set_value('dob','',0) ?>" id="dp0" name="dob" size="16" type="text">
+							</div> 
 							</td>	
 						</tr>
 						<tr>		
@@ -714,10 +711,7 @@ function validation_2(){
 		<td>Child's Birthdate </td>		
 
 		<td>
-			<div class="input-append date" data-date-viewmode="years" data-date='01/01/2014' data-date-format='mm/dd/yyyy'>
-				<input value="01/01/2014" id="dp" name="dob" class="span2" size="16" type="text" class='datepicker'>
-				<span class="add-on"><i class="icon-calendar"></i></span>
-			</div> 
+			<input class="input-append date datepicker span2" data-date-viewmode="years" data-date='01/01/2014' data-date-format='mm/dd/yyyy' value="01/01/2014" id="dp" name="dob" size="16" type="text">
 		</td>	
 		
 	</tr>
