@@ -660,7 +660,9 @@ var jswcam = (function() {
 	if(is_recording == '1'){
 		this.stopRecording("stopping");
 	}
-	 swfobject.getObjectById("flashplayer").recordToCamera(session['expriment_id'],session['email'],session['participant'],session['participant_privacy'],caller);
+	get_params('params'); // Resetting the session variable to access the filename
+	console.log(session);
+	swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id'],session['participant'],session['participant_privacy'],caller);
 	 is_recording = '1';
 	 console.log("Recording Started");
     };
