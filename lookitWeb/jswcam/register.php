@@ -65,7 +65,7 @@ $(document).ready(function() {
 		$("#email").attr("readonly","readonly");
 	}
 	
-	 $(function() {
+	$(function() {
 		$( ".datepicker" ).datepicker({
 			changeMonth: true,
 			changeYear: true
@@ -459,33 +459,33 @@ function validation_2(){
 						<tr>		
 							<td>Gestational age at birth </td>	
 
-		<td>
-		<select name="weeks" id=" weeks0" class="weeks" value = "<?php set_value('weeks',0,0) ?>">
-			<option value="na">Not sure or prefer not to answer</option>
-			<option value="43">Over 42</option>
-			<option value="42">42</option>
-			<option value="41">41</option>
-			<option value="40" selected>40 (around due date)</option>
-			<option value="39">39</option>
-			<option value="38">38</option>
-			<option value="37">37</option>
-			<option value="36">36</option>
-			<option value="35">35</option>
-			<option value="34">34</option>
-			<option value="33">33</option>
-			<option value="32">32</option>
-			<option value="31">31</option>
-			<option value="30">30</option>
-			<option value="29">29</option>
-			<option value="28">28</option>
-			<option value="27">27</option>
-			<option value="26">26</option>
-			<option value="25">25</option>
-			<option value="24">24</option>
-			<option value="23">Under 24</option>
-		</select>
-		<label for="weeks">Weeks</label>
-		</td>							
+							<td>
+								<select name="weeks" id=" weeks0" class="weeks" value = "<?php set_value('weeks',0,0) ?>">
+									<option value="na">Not sure or prefer not to answer</option>
+									<option value="43">Over 42</option>
+									<option value="42">42</option>
+									<option value="41">41</option>
+									<option value="40" selected>40 (around due date)</option>
+									<option value="39">39</option>
+									<option value="38">38</option>
+									<option value="37">37</option>
+									<option value="36">36</option>
+									<option value="35">35</option>
+									<option value="34">34</option>
+									<option value="33">33</option>
+									<option value="32">32</option>
+									<option value="31">31</option>
+									<option value="30">30</option>
+									<option value="29">29</option>
+									<option value="28">28</option>
+									<option value="27">27</option>
+									<option value="26">26</option>
+									<option value="25">25</option>
+									<option value="24">24</option>
+									<option value="23">Under 24</option>
+								</select>
+								<label for="weeks">Weeks</label>
+							</td>							
 						</tr>
 						<tr>
 							<td colspan="3" ><div class ="cancel count" style="display:none;"></div></td>
