@@ -71,11 +71,11 @@ $(document).ready(function() {
 	
 	
 	 $(function() {
-		$( "#datepicker" ).datepicker({
+		$( ".datepicker" ).datepicker({
 		changeMonth: true,
 		changeYear: true
 		});
-	})();
+	});
 	
 	i = 1;
 	j = 1;
@@ -179,11 +179,11 @@ function clone(chck_str){
 	}
 	
 	 $(function() {
-		$( "#datepicker" ).datepicker({
+		$( ".datepicker" ).datepicker({
 		changeMonth: true,
 		changeYear: true
 		});
-	})();
+	});
 }	
 
 // Serialize the data and return its object
