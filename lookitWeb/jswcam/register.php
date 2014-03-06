@@ -68,7 +68,7 @@ $(document).ready(function() {
 	}
 	
 	
-	$( ".datepicker" ).Datepicker({
+	$( ".datepicker" ).datepicker({
 		changeMonth: true,
 		changeYear: true
 	});
@@ -174,7 +174,7 @@ function clone(chck_str){
 		j++;
 	}
 	
-	$(".datepicker").Datepicker({
+	$(".datepicker").datepicker({
 			changeMonth: true,
 			changeYear: true
 		});
