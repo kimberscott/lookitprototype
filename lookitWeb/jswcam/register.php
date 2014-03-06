@@ -29,24 +29,25 @@ function set_value($name,$default,$k){
 <script src="static/js/jquery-1.8.1.min.js"></script>
 
 <style type="text/css">
-input[type="radio"] {
-    margin-top: 3px;
-    vertical-align: top;
-    margin-right: 3px;
-}
-input[type="checkbox"] {
-    margin-top: 3px;
-    vertical-align: top;
-    margin-right: 3px;
-}
-.cancel:hover{
-	cursor: pointer;
-}
+	input[type="radio"] {
+		margin-top: 3px;
+		vertical-align: top;
+		margin-right: 3px;
+	}
+	input[type="checkbox"] {
+		margin-top: 3px;
+		vertical-align: top;
+		margin-right: 3px;
+	}
+	.cancel:hover{
+		cursor: pointer;
+	}
 
-div#test input#gender_ {width: 13px;}
-div#test input {width: 100px;}
-label.mdy{margin-left: -60px;}
+	div#test input#gender_ {width: 13px;}
+	div#test input {width: 100px;}
+	label.mdy{margin-left: -60px;}
 </style>
+
 <script>
 var temp;
 $(document).ready(function() {
@@ -60,6 +61,14 @@ $(document).ready(function() {
 	if($("#email").val() != ""){
 		$("#email").attr("readonly","readonly");
 	}
+	
+	 $(function() {
+		$( ".datepicker" ).datepicker({
+			changeMonth: true,
+			changeYear: true
+		});
+	});
+	
 	i = 1;
 	j = 1;
 	range = 4;
@@ -157,6 +166,13 @@ function clone(chck_str){
 		i++;
 		j++;
 	}
+	
+	$(function() {
+		$( ".datepicker" ).datepicker({
+			changeMonth: true,
+			changeYear: true
+		});
+	});
 }	
 
 // Serialize the data and return its object
@@ -441,15 +457,43 @@ function validation_2(){
 						</tr>
 						<tr>		
 							<td>Gender</td> 		
-							<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "boy"){print " checked=\"checked\"";} elseif(count($_SESSION['user']['gender']) >1 && $_SESSION['user']['gender'][0] == "boy" ){print " checked=\"checked\"";}?>> Boy</td>
+							<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "boy"){print " checked=\"checked\"";} elseif(count($_SESSION['user']['gender']) >1 && $_SESSION['user']['gender'][0] == "boy" ){print " checked=\"checked\"";}?>> Male</td>
 							<td style="display:none"><input type="hidden" class="gender" id="gender0" name="gender" value="<?php set_value('gender','',0) ?>"/></td>	
-							<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "girl"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "girl") ){print " checked=\"checked\"";}?>> Girl</td>
+							<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "girl"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "girl") ){print " checked=\"checked\"";}?>> Female</td>
+							
+							<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "other"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "other") ){print " checked=\"checked\"";}?>> Other/prefer not to answer</td>
+							
 						</tr>	
 						<tr>		
-							<td>Gestational age at birth </td>		
-							<td><input type = "text" class="weeks" name="weeks" type="text" id = " weeks0" placeholder='0' onclick="this.select();" value = "<?php set_value('weeks',0,0) ?>"/>   Weeks</td>
-							<td><input type = "text" class="days" name="days" type="text" id = "days0" placeholder='0' onclick="this.select();" value = "<?php set_value('days',0	,0) ?>"/>   Days</td>
+							<td>Gestational age at birth </td>	
 
+		<td>
+		<select name="weeks" id=" weeks0" class="weeks" value = "<?php set_value('weeks',0,0) ?>">
+			<option value="na">Not sure or prefer not to answer</option>
+			<option value="43">Over 42</option>
+			<option value="42">42</option>
+			<option value="41">41</option>
+			<option value="40" selected>40 (around due date)</option>
+			<option value="39">39</option>
+			<option value="38">38</option>
+			<option value="37">37</option>
+			<option value="36">36</option>
+			<option value="35">35</option>
+			<option value="34">34</option>
+			<option value="33">33</option>
+			<option value="32">32</option>
+			<option value="31">31</option>
+			<option value="30">30</option>
+			<option value="29">29</option>
+			<option value="28">28</option>
+			<option value="27">27</option>
+			<option value="26">26</option>
+			<option value="25">25</option>
+			<option value="24">24</option>
+			<option value="23">Under 24</option>
+		</select>
+		<label for="weeks">Weeks</label>
+		</td>							
 						</tr>
 						<tr>
 							<td colspan="3" ><div class ="cancel count" style="display:none;"></div></td>
@@ -498,15 +542,40 @@ function validation_2(){
 	</tr>
 	<tr>		
 		<td>Gender</td> 		
-		<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" > Boy</td>
+		<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" > Male</td>
 		<td style="display:none"><input type="hidden" class="gender" id="gender" name="gender" value=""/></td>	
-		<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" > Girl</td>
+		<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" > Female</td>
+		<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" > Other/prefer not to answer</td>
 	</tr>	
 	<tr>		
-		<td>Gestational age of birth </td>		
-		<td><input type = "text" class="weeks" name="weeks" type="text" id = " weeks" onclick="this.select();" placeholder='0' value = ""/>   Weeks</td>
-		<td><input type = "text" class="days" name="days" type="text" id = "days" onclick="this.select();" placeholder='0' value = ""/>   Days</td>
-
+		<td>Gestational age of birth (approximate) </td>		
+		<td>
+		<select name="weeks" id=" weeks" class="weeks" value="">
+			<option value="na">Not sure or prefer not to answer</option>
+			<option value="43">Over 42</option>
+			<option value="42">42</option>
+			<option value="41">41</option>
+			<option value="40" selected>40 (around due date)</option>
+			<option value="39">39</option>
+			<option value="38">38</option>
+			<option value="37">37</option>
+			<option value="36">36</option>
+			<option value="35">35</option>
+			<option value="34">34</option>
+			<option value="33">33</option>
+			<option value="32">32</option>
+			<option value="31">31</option>
+			<option value="30">30</option>
+			<option value="29">29</option>
+			<option value="28">28</option>
+			<option value="27">27</option>
+			<option value="26">26</option>
+			<option value="25">25</option>
+			<option value="24">24</option>
+			<option value="23">Under 24</option>
+		</select>
+		<label for="weeks">Weeks</label>
+		</td>
 	</tr>
 	<tr>
 		<td colspan="3"><img src="./img/cancel.png" class = "cancel count" id = "cancel" onclick="remove1(this);" value="Cancel" align="right" style="margin-top: -235px;margin-right: -11px; display:none;              "/></td>
