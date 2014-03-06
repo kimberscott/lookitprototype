@@ -43,12 +43,6 @@ if(!isset($_SESSION['user']['id'])){
 
 </script>
 
-    <?php	
-    if(isset($_POST['session'])){
-      error_log("in here". $_POST['session']);
-      error_log($_SESSION['user']['name']);
-    } 
-
     if(isset($_GET['name'])){ 
       $_SESSION['user']['name'] = $_GET['name'];
     ?>
@@ -61,7 +55,9 @@ if(!isset($_SESSION['user']['id'])){
     <?php 
 	} 
 
- 	if (isset($_SESSION['user']['name'])) { ?>
+ 	if (isset($_SESSION['user']['name'])) { 
+ 		$_SESSION['user']['filename'] = "";
+ 		?>
 	<script>
 		$('document').ready(function(){
 			$('#reg,#log').css('display', 'none');
