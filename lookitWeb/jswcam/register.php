@@ -38,21 +38,22 @@ function set_value($name,$default,$k){
 		margin-right: 3px;
 	}
 	input[type="checkbox"] {
-    margin-top: 2px;
+		margin-top: 2px;
 		vertical-align: top;
 		margin-right: 3px;
 	}
 	.cancel:hover{
 		cursor: pointer;
 	}
-.radio, .checkbox {
-    padding-left: 0px;
-}
+	.radio, .checkbox {
+		padding-left: 0px;
+	}
 	div#test input#gender_ {width: 13px;}
 	div#test input {width: 100px;}
-	label.mdy{margin-left: -60px;}
+	label.mdy {margin-left: -60px;}
 
 </style>
+<link rel="stylesheet/css" type="text/css" href="static/js/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"></link>
 
 <script>
 var temp;
@@ -69,9 +70,11 @@ $(document).ready(function() {
 	}
 	
 	
-	$( ".datepicker" ).datepicker({
+	 $(function() {
+		$( "#datepicker" ).datepicker({
 		changeMonth: true,
 		changeYear: true
+		});
 	});
 	
 	i = 1;
@@ -175,10 +178,12 @@ function clone(chck_str){
 		j++;
 	}
 	
-	$(".datepicker").datepicker({
-			changeMonth: true,
-			changeYear: true
+	 $(function() {
+		$( "#datepicker" ).datepicker({
+		changeMonth: true,
+		changeYear: true
 		});
+	});
 }	
 
 // Serialize the data and return its object
