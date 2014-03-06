@@ -21,6 +21,7 @@ if(!isset($_SESSION['user']['id'])){
     <link rel="stylesheet/less" type="text/css" href="fragments/styles.less"></link>
     <link rel="stylesheet/less" type="text/css" href="bootstrap/less/bootstrap.less"></link>
     <link rel="stylesheet/css" type="text/css" href="static/css/styles.css"></link>
+	<link rel="stylesheet/css" type="text/css" href="static/datepicker/css/datepicker.css"></link>
 	
 	
     <script src="static/js/less-1.3.0.min.js" type="text/javascript"></script>
