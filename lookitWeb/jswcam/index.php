@@ -42,7 +42,7 @@ if(!isset($_SESSION['user']['id'])){
   ga('send', 'pageview');
 
 </script>
-
+<?php
     if(isset($_GET['name'])){ 
       $_SESSION['user']['name'] = $_GET['name'];
     ?>

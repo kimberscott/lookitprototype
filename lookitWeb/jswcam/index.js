@@ -116,7 +116,8 @@ var page = (function() {
                     //session['filename'] = "";
                     console.log(session);
                     $.post("./camera/convert.php", {
-                        continue: "true"
+                        'continue': "true",
+                        'privacy' : "INCOMPLETE"
                     });
                     console.log(session);
 					done = 0;
