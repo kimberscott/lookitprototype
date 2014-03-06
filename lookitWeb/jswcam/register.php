@@ -65,11 +65,10 @@ $(document).ready(function() {
 		$("#email").attr("readonly","readonly");
 	}
 	
-	$(function() {
-		$( ".datepicker" ).datepicker({
-			changeMonth: true,
-			changeYear: true
-		});
+	
+	$( ".datepicker" ).Datepicker({
+		changeMonth: true,
+		changeYear: true
 	});
 	
 	i = 1;
@@ -156,11 +155,14 @@ function clone(chck_str){
 						$("#gender"+i).val("boy");
 						$("#gender_boy"+i).attr("checked","checked");
 
-
 					<?php } elseif(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "girl"){ ?>
 						$("#gender"+i).val("girl");
-
 						$("#gender_girl"+i).attr("checked","checked");
+						
+					<?php } elseif(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "other"){ ?>
+						$("#gender"+i).val("other");
+						$("#gender_other"+i).attr("checked","checked");
+						
 				<?php }	$k++;?>
 				}
 			}				
@@ -170,12 +172,10 @@ function clone(chck_str){
 		j++;
 	}
 	
-	$(function() {
-		$( ".datepicker" ).datepicker({
+	$(".datepicker").Datepicker({
 			changeMonth: true,
 			changeYear: true
 		});
-	});
 }	
 
 // Serialize the data and return its object
