@@ -73,10 +73,24 @@ $(document).ready(function() {
 	}
 	
 	
-	$(".date" ).datepicker({
+	$(".date_picker" ).datepicker({
 		format: 'mm/dd/yyyy', 
 		viewMode: 2
-	}); 
+	});
+	$('.date_picker').addClass('hasDatepicker');
+
+
+  $("body").on("click", ".date_picker", function(){
+
+      if (!$(this).hasClass("hasDatepicker"))
+      {
+          $(this).datepicker({
+            format: 'dd-mm-yyyy'
+          });
+          $(this).datepicker("show");
+          $(this).addClass('hasDatepicker');
+      }
+  });	
 	
 	i = 1;
 	j = 1;
@@ -179,10 +193,24 @@ function clone(chck_str){
 		j++;
 	}
 	
-	$( ".date" ).datepicker({
+	$( ".date_picker" ).datepicker({
 		format: 'mm/dd/yyyy', 
 		viewMode: 2
 	}); 
+		$('.date_picker').addClass('hasDatepicker');
+
+
+  $("body").on("click", ".date_picker", function(){
+
+      if (!$(this).hasClass("hasDatepicker"))
+      {
+          $(this).datepicker({
+            format: 'dd-mm-yyyy'
+          });
+          $(this).datepicker("show");
+          $(this).addClass('hasDatepicker');
+      }
+  });	
 }	
 
 // Serialize the data and return its object
@@ -452,7 +480,7 @@ function validation_2(){
 						<tr>		
 							<td>Child's Birthdate </td>		
 							<td>
-							<input class="input-append date datepicker span2" data-date-viewmode="years" data-date='01/01/2014' data-date-format='mm/dd/yyyy' value="<?php set_value('dob','',0) ?>" id="dp0" name="dob" size="16" type="text">
+							<input class="input-append date_picker datepicker span2" data-date-viewmode="years" data-date='01/01/2014' data-date-format='mm/dd/yyyy' value="<?php set_value('dob','',0) ?>" id="dp0" name="dob" size="16" type="text">
 							</div> 
 							</td>	
 						</tr>
@@ -533,7 +561,7 @@ function validation_2(){
 		<td>Child's Birthdate </td>		
 
 		<td>
-			<input class="input-append date datepicker span2" data-date-viewmode="years" data-date='01/01/2014' data-date-format='mm/dd/yyyy' value="01/01/2014" id="dp" name="dob" size="16" type="text">
+			<input class="input-append date_picker datepicker span2" data-date-viewmode="years" data-date='01/01/2014' data-date-format='mm/dd/yyyy' value="01/01/2014" id="dp" name="dob" size="16" type="text">
 		</td>	
 		
 	</tr>
