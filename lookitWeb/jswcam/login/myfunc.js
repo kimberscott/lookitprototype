@@ -132,7 +132,6 @@ function get_list(){
             'json_data' : experiments  
         },
         success: function(resp) {
- 
             if(resp)
             {
                 responce = eval("(" + resp + ')');
@@ -246,7 +245,6 @@ function register(is_new){
 						if(validation_2() == 1){
 							
 							var myname = call('','./user.php');
-							
 							$("#reg1,#log1").css("display", "block");
 							$("#reg,#log,.login_form").css("display", "none");
 							$("#reg1").html("<a href='#'' > Hi "+myname+" </a>");
@@ -351,7 +349,6 @@ function login(html,expr,obje){
                 if($("#email").val() && $("#password").val()){
                     var x = call('login','./user.php');
                     var count = x.indexOf('error'); // Check for Database error
-                
                     if(count == -1){
                         var responce = eval("(" + x + ')');
                         session = responce;
@@ -515,42 +512,20 @@ function show_demographic(){
 
 // Fuction to populate the child and privacy selection pop-up for the experiment being participated
 function select_child(expr,obje){
-     $.ajax({
-        'type': 'POST',
-        'url': './user.php',
-        async: false,
-        'data': {
-            'table'     : 'users',
-            'function'  : 'child'
-        },
-        success: function(resp) {
-            if(resp)
-            {
-                var responce = eval("(" + resp + ')');
-                //Create the child selection dropdown
-                var new_page = "<form id = 'child_select'><label>Please select a child:</label><select id='child_list' name = 'participant'>";
-                if(responce.child_name instanceof Array){
-                    for(var i = 0; i < responce.child.length; i++){
-                        new_page += "<option name = 'participants ' id = participant"+i+" value = "+responce.child[i]+" >" + responce.child_name[i] +"</option>";
-                    }
-                }
-                else{
-                    new_page += "<option name = 'participants ' id = participant"+i+" value = "+responce.child+" disabled = 'disabled' selected> &nbsp;&nbsp;" + responce.child_name +" </option>";
-                }
-                new_page += "</select><input type = 'hidden' name='expriment_id' value="+expr.id+" /> </br></br>";
-                new_page += page.html("privacy");
-                new_page += "</form>";
-                show_childs(new_page,expr,obje);
-                
-            }
-            else{
-                $("#error").css("display","block");
-            }
-        },
-        failure: function(resp) {
-		  alert("failed");
+    //Create the child selection dropdown
+    var new_page = "<form id = 'child_select'><label>Please select a child:</label><select id='child_list' name = 'participant'>";
+    if(session.child_name instanceof Array){
+        for(var i = 0; i < session.child.length; i++){
+            new_page += "<option name = 'participants ' id = participant"+i+" value = "+session.child[i]+" >" + session.child_name[i] +"</option>";
         }
-    });
+    }
+    else{
+        new_page += "<option name = 'participants ' id = participant"+i+" value = "+session.child+" disabled = 'disabled' selected> " + session.child_name +" </option>";
+    }
+    new_page += "</select><input type = 'hidden' name='expriment_id' value="+expr.id+" /> </br></br>";
+    new_page += "</form>";
+    new_page += "<p>You will have a chance to select a privacy level for your recordings at the conclusion of the study.  Unless you expressly permit use of your recordings, no video data except for the consent video will be viewed by anyone.</p>";
+    show_childs(new_page,expr,obje);
 }
 
 // Function to create the child and privacy selection pop-up
@@ -570,8 +545,8 @@ function show_childs(html,expr,obje){
             var json_string = JSON.stringify($('form').serializeObject());
             var new_var = JSON.parse(json_string);
             session['participant'] = new_var['participant'];
-            session['participant_privacy'] = new_var['participant_privacy'];
             session['expriment_id'] = new_var['expriment_id'];
+            session['participant_privacy'] = 'INCOMPLETE';
             check_age(json_string,expr,obje);
         }
     }
@@ -592,7 +567,6 @@ function check_age(string,expr,obje){
             'json_data' : string
         },
         success: function(resp) {
-
             switch(resp){
                 case '11':
                     var error_html = $('#child_list :selected').text()+" has already participated in this study.  Do you want to participate again anyway?";
@@ -794,4 +768,88 @@ _connected = 0;
 function connected_mic_cam(){
     _connected = 1;
     $('.btn-continue').css("display","inline-block");
+}
+
+// Function to display the popup to allow user to withdraw the recordings at the end of experiment
+function done_or_withdraw(experiment,DEBRIEFHTML){
+    bootbox.dialog(DEBRIEFHTML, [{
+        'label': 'Done',
+        "class": 'btn-primary reset-close',
+        'callback': function() {
+            $.ajax({
+                'type': 'POST',
+                'url': './user.php',
+                'async' : false,
+                'data': {
+                    'table'        : 'users',
+                    'json_data'    : experiment,
+                    'function'     : 'set_account'
+                },
+                success: function(resp) {
+                    $(".bootbox").remove();
+                    $(".modal-backdrop").remove();
+                    set_post_data('done');
+                }
+            });
+        }
+    }, 
+    {
+        'label': 'Cancel and withdraw',
+        "class": 'btn-danger reset-close',
+        "callback": function() {
+            $(".bootbox").remove();
+            $(".modal-backdrop").remove();
+            set_post_data('cancel');
+        }
+    }]);
+}
+
+function set_post_data(caller){
+    var post_data;
+    if(caller == 'done'){
+        var privacy_page = page.html("privacy");
+        bootbox.dialog(privacy_page,[{
+            'label': 'Submit',
+            "class": 'btn-primary reset-close',
+            'callback': function() {
+                post_data = {
+                    'continue' : 'true',
+                    'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
+                };
+                return_to_accounts(post_data);
+                return true;
+            }
+        }]);
+    }
+    else{
+        post_data =  {'withdraw' : 'true'};
+        return_to_accounts(post_data);
+    }
+}
+
+// Post the data to S3 server and return back to the accounts page
+function return_to_accounts(post_data){
+    $.ajax({
+        'type': 'POST',
+        'url': './camera/convert.php',
+        'data': post_data,
+        'success': function(resp) {
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+            page.toggleMenu(true);
+            var data =get_params("get_demogra");
+            if(data != ""){
+                    page.show("account");
+            }
+            else{
+                show_demographic();
+            }
+        },
+        'failure': function(resp) {
+            window.onbeforeunload = [];
+            console.log(resp);
+            page.toggleMenu(true);
+            page.show('account');
+        }
+    });
 }

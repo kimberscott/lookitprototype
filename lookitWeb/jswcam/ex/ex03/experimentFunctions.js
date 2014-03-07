@@ -67,91 +67,11 @@ function advanceSegment(){
 		console.log(htmlSequence[currentElement][0]);
 		generateHtml(htmlSequence[currentElement][0]);
 		return false;
-	} else{ // End of experiment -- submit data
+	} 
+	else{ // End of experiment -- submit data
 		addEvent(  {'type': 'promptUpload'});
 		console.log(experiment);
-			
-			var box = bootbox.dialog(DEBRIEFHTML, [{
-		        'label': 'Done',
-		        "class": 'btn-primary reset-close',
-		        'callback': function() {
-		                $.ajax({
-		                    'type': 'POST',
-	                            'url': './user.php',
-		                    async: false,
-	                            'data': {
-					'table'        : 'users',
-                                        'json_data'    : experiment,
-                                        'function'     : 'set_account'
-		                    },
-		                    success: function(resp) {
-					 $.ajax({
-                                                'type': 'POST',
-                                                'url': './camera/convert.php',
-                                                'data': {
-							'continue' : 'true'
-                                                },
-                                                'success': function(resp) {
-							$('body').removeClass('modal-open');
-	        	                                $('.modal-backdrop').remove();
-        	        	                        page.toggleMenu(true);
-							var data =get_params("get_demogra");
-		                                        if(data != ""){
-                	                        	        page.show("account");
-                        	        	        }
-                                	            	else{
-                                                		show_demographic();
-                                            		}
-
-                                                },
-                                                'failure': function(resp) {
-                                                        window.onbeforeunload = [];
-                                                    console.log(resp);
-                                        page.toggleMenu(true);
-                                                        page.show('account');
-                                                }
-                                        });
-				    }
-				});
-		                return true; 
-				}
-    			    }, 
-			{
-		        'label': 'Cancel and withdraw',
-		        "class": 'btn-danger reset-close',
-		        'callback': function() {
-				$('body').removeClass('modal-open');
-           			$('.modal-backdrop').remove();
- 		                page.toggleMenu(true);
-		                $.ajax({
-		                    'type': 'POST',
-		                    'url': './camera/convert.php',
-		                    async: false,
-		                    'data': {
-		                        'withdraw' : 'true'  
-		                    },
-		                    success: function(resp) {
-					 $('body').removeClass('modal-open');
-        	                        $('.modal-backdrop').remove();
-	                                page.toggleMenu(true);
-		                        if(resp)
-		                        {
-		                            var data =get_params("get_demogra");
-		                            if(data != ""){
-		                                page.show("account");
-		                            }
-		                            else{
-		                                show_demographic();
-		                            }
-		                        }
-		                    },
-		                    failure: function(resp) {
-		                    }
-		                });
-		                return true;
-		            }
-		    }]);
-	
+		done_or_withdraw(experiment,DEBRIEFHTML); // Function to check if user wants to withdraw from the experiment or not
 		addEvent(  {'type': 'endUpload'});
 		return false;
 	}
@@ -194,6 +114,7 @@ function getKeyCode(e){
 					console.log(experiment);
 					if (!sandbox){
 						//jswcam.verifyAndUpload(experiment, jswcam.getExemptIdList());
+						done_or_withdraw(experiment,DEBRIEFHTML); // Function to check if user wants to withdraw from the experiment or not
 						addEvent(  {'type': 'endUpload'});
 					} else {
 						alert('ending study');
