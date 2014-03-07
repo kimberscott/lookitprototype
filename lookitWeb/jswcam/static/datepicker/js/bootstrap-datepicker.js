@@ -128,11 +128,8 @@
 		
 		set: function() {
 			var formated = DPGlobal.formatDate(this.date, this.format);
-			alert(formated);
 			if (!this.isInput) {
-				//if (this.component){
-					this.element.find('input').prop('value', formated);
-				//}
+				this.element.find('input').prop('value', formated);
 				this.element.data('date', formated);
 			} else {
 				this.element.prop('value', formated);
@@ -314,7 +311,6 @@
 								date: this.date,
 								viewMode: DPGlobal.modes[this.viewMode].clsName
 							});
-							//this.hide();
 						}
 						break;
 				}
