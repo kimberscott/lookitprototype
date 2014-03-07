@@ -298,6 +298,8 @@ function register(is_new){
 					if(next()){
 						$('.btn-send').css("display", 'inline-block');
 						$('.btn-continue').css("display", 'none');
+                        $('.modal-body').jScrollPane();
+                        $('.jspContainer').width($('.jspContainer').width() - 31);
 					}
 					continu = 1;
 					return false;
@@ -520,7 +522,7 @@ function select_child(expr,obje){
         }
     }
     else{
-        new_page += "<option name = 'participants ' id = participant"+i+" value = "+session.child+" disabled = 'disabled' selected> " + session.child_name +" </option>";
+        new_page += "<option name = 'participants' id = 'participant' value = "+session.child+" disabled = 'disabled' selected> " + session.child_name +" </option>";
     }
     new_page += "</select><input type = 'hidden' name='expriment_id' value="+expr.id+" /> </br></br>";
     new_page += "</form>";
