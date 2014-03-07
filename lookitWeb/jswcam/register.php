@@ -153,7 +153,7 @@ function clone(chck_str){
 		Clonedtable.find("*[id]").andSelf().each(function() {
 			$(this).find('input[type=radio]').removeAttr('checked');
 			$(this).removeClass('hasDatepicker');
-			if($(this).hasClass('datepicker')) {
+			if($(this).hasClass('datepickerinput')) {
 				date_id = this.id;
 			}
 			if($(this).attr('name') == 'days'){
@@ -406,7 +406,7 @@ function validation_2(){
 	}
 	if($("input[name = dob]")){// Validations for date of birth
 		var i = 1;
-		$(".datepicker").each(function(){
+		$(".datepickerinput").each(function(){
 			if($(this).attr("id") != 'dp'){
 		        if($(this).val() == "" || $(this).val() == "MM/DD/YYYY"){
 		            s[i] += '<label id="dob_error" class="error">Please enter the date of birth of Child '+ i +'.<br></label>';
@@ -492,7 +492,7 @@ function validation_2(){
 							<td>
 							
 							<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="01/01/2014">
-							<input id='dp' class="span2" type="text" readonly="" value="01/01/2014" size="16">
+							<input id='dp' class="span2 datepickerinput" type="text" readonly="" value="01/01/2014" size="16">
 							<span class="add-on">
 							<i class="icon-calendar"></i>
 							</span>
@@ -580,7 +580,7 @@ function validation_2(){
 		<td>
 			
 		<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="01/01/2014">
-		<input id='dp' class="span2" type="text" readonly="" value="01/01/2014" size="16">
+		<input id='dp' class="span2 datepickerinput" type="text" readonly="" value="01/01/2014" size="16">
 		<span class="add-on">
 		<i class="icon-calendar"></i>
 		</span>
