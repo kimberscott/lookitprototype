@@ -649,10 +649,10 @@ function validation_2(){
 							<td>
 							
 							<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="01/01/2014">
-							<input id='dp' class="span2 datepickerinput" type="text" value="01/01/2014" size="16">
-							<span class="add-on">
-							<i class="icon-calendar"></i>
-							</span>
+								<input id='dp' class="span2 datepickerinput" type="text" value="01/01/2014" size="16">
+								<span class="add-on">
+									<i class="icon-calendar"></i>
+								</span>
 							</div>
 							
 							</div> 
@@ -660,11 +660,10 @@ function validation_2(){
 						</tr>
 						<tr>		
 							<td>Gender</td> 		
-							<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "boy"){print " checked=\"checked\"";} elseif(count($_SESSION['user']['gender']) >1 && $_SESSION['user']['gender'][0] == "boy" ){print " checked=\"checked\"";}?>> Male</td>
-							<td style="display:none"><input type="hidden" class="gender" id="gender0" name="gender" value="<?php set_value('gender','',0) ?>"/></td>	
-							<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "girl"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "girl") ){print " checked=\"checked\"";}?>> Female</td>
-							
-							<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "other"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "other") ){print " checked=\"checked\"";}?>> Other/prefer not to answer</td>
+							<input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "boy"){print " checked=\"checked\"";} elseif(count($_SESSION['user']['gender']) >1 && $_SESSION['user']['gender'][0] == "boy" ){print " checked=\"checked\"";}?>> <label for='gender_boy'>Male</label>
+							<input type="hidden" class="gender" id="gender0" name="gender" value="<?php set_value('gender','',0) ?>"/>
+							<input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "girl"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "girl") ){print " checked=\"checked\"";}?>> <label for='gender_girl'>Female</label>
+							<input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "other"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "other") ){print " checked=\"checked\"";}?>> <label for='gender_other'>Other or prefer not to answer</label>
 							
 						</tr>	
 						<tr>		
@@ -672,11 +671,11 @@ function validation_2(){
 
 							<td>
 								<select name="weeks" id=" weeks0" class="weeks" value = "<?php set_value('weeks',0,0) ?>">
-									<option value="na">Not sure or prefer not to answer</option>
+									<option value="na" selected>Not sure or prefer not to answer</option>
 									<option value="43">Over 42</option>
 									<option value="42">42</option>
 									<option value="41">41</option>
-									<option value="40" selected>40 (around due date)</option>
+									<option value="40">40 (around due date)</option>
 									<option value="39">39</option>
 									<option value="38">38</option>
 									<option value="37">37</option>
@@ -751,17 +750,17 @@ function validation_2(){
 		<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" > Male</td>
 		<td style="display:none"><input type="hidden" class="gender" id="gender" name="gender" value=""/></td>	
 		<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" > Female</td>
-		<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" > Other/prefer not to answer</td>
+		<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" > Other or prefer not to answer</td>
 	</tr>	
 	<tr>		
 		<td>Gestational age of birth (approximate) </td>		
 		<td>
 		<select name="weeks" id=" weeks" class="weeks" value="">
-			<option value="na">Not sure or prefer not to answer</option>
+			<option value="na" selected>Not sure or prefer not to answer</option>
 			<option value="43">Over 42</option>
 			<option value="42">42</option>
 			<option value="41">41</option>
-			<option value="40" selected>40 (around due date)</option>
+			<option value="40">40 (around due date)</option>
 			<option value="39">39</option>
 			<option value="38">38</option>
 			<option value="37">37</option>
