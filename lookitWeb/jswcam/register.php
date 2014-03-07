@@ -28,14 +28,14 @@ function set_value($name,$default,$k){
 ?>   
 
 <link rel="stylesheet/less" type="text/css" href="bootstrap/less/bootstrap.less"></link>
-<link rel="stylesheet/css" type="text/css" href="static/datepicker/css/datepicker.css"></link>
-
 <script src="static/js/less-1.3.0.min.js" type="text/javascript"></script>
 
 <script src="static/js/jquery-1.8.1.min.js"></script> 
 <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="static/datepicker/js/bootstrap-datepicker.js"></script>
 <link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+<link type="text/css" href="static/datepicker/css/datepicker.css" rel="stylesheet"></link>
+
 <style type="text/css">
 input[type="radio"] {
     margin-top: 3px;
@@ -60,6 +60,9 @@ label.mdy{margin-left: -60px;}
 .jspDrag {background: none repeat scroll 0 0 #666666; border-radius: 5px;}
  #test table{border-collapse: separate; margin-right: 20px;}
 </style>
+
+
+
 <!-- the mousewheel plugin - optional to provide mousewheel support -->
 <script type="text/javascript" src="static/js/jquery.mousewheel.js"></script>
 
