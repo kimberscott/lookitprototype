@@ -75,11 +75,7 @@ label.mdy{margin-left: -60px;}
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  z-index: 999;
-  /*.dow {
-    border-top: 1px solid #ddd !important;
-  }*/
-
+  z-index: 9999;
 }
 .datepicker:before {
   content: '';
