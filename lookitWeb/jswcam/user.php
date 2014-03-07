@@ -16,12 +16,26 @@ function put_data($experiment_id, $json, $string) {
   $db = $m->users;
 
   $data['pid'] = $data['name'].$data['email'];
-  $clear['email'] = $data['email'];
-
-//Remove the existing entry and add new entry in details collection.
+  $data['user_id'] = 1;
+  $find['email'] = $data['email'];
+    
   $collection = $db->details;
-  $collection->remove($clear);
-  $collection->insert($data);
+  // Get the highest id that exists in the database, increase it by 1 and set it as the user_id
+  $val =$collection->find()->sort( array('user_id' => -1 ) )->limit(1);
+  foreach($val as $vali){
+    if($vali['user_id']){
+      $data['user_id'] = $vali['user_id'] + 1;
+    }
+  }
+
+  $count = $collection->count($find); // Check if there is any entry for the user 
+  if($count){ // If entry exists update the data
+    $data['user_id'] = $_SESSION['user']['user_id'];
+    $collection->update($find,$data);
+  }
+  else{ // If not exists, insert the data into database.
+    $collection->insert($data);
+  }
 
   $child_details = array();
 
@@ -30,7 +44,7 @@ function put_data($experiment_id, $json, $string) {
     if($k == 'child' || $k == 'child_name' || $k == 'gender' || $k == 'days' || $k == 'weeks'){
       $child_details[$k] = $v;
       continue;
-    }
+    } 
     elseif($k == 'email'){
       $child_details['parent_id'] = $v;
       continue;
@@ -199,7 +213,7 @@ function reset_pass($table,$json, $string){
 
     $obj['password'] = "";
     $obj['confirm_password'] = "";
-    
+
     // Set user data in the session variable
     $_SESSION['user'] = $obj;
     echo json_encode($obj);
@@ -296,11 +310,12 @@ function check_age($table, $json, $string){
   $participated_flag = 0;
   $index = 0; 
   get_experiment_age_range($string); // Fetching the experiment data from the db.
+
   // Setting participant's data in session.
   $_SESSION['user']['experiment_id'] = $data['expriment_id'];
   $_SESSION['user']['participant'] = $data['participant'];
-  $_SESSION['user']['participant_privacy'] = $data['participant_privacy']; 
- 
+  $_SESSION['user']['participant_privacy'] = "INCOMPLETE"; 
+  
   if(is_array($_SESSION['user']['child'])){ // If more than one childs
 
     // Get the index of the participating child from the session.
@@ -317,9 +332,6 @@ function check_age($table, $json, $string){
   else{
     $participant_dob = $_SESSION['user']['dob'];
   }
-
-  // Retrieve the date of birth of the child from session.
-  $participant_dob = $_SESSION['user']['dob'][$index];
   $current_date = DATE("m/d/y");
   $age_in_days = ceil(abs(strtotime($current_date) - strtotime($participant_dob))/86400);
 
