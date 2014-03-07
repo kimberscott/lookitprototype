@@ -674,7 +674,7 @@ function validation_2(){
 							<td>
 							
 							<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="01/01/2014">
-							<input id='dp' class="span2 datepickerinput" type="text" readonly="" value="01/01/2014" size="16">
+							<input id='dp' class="span2 datepickerinput" type="text" value="01/01/2014" size="16">
 							<span class="add-on">
 							<i class="icon-calendar"></i>
 							</span>
@@ -762,7 +762,7 @@ function validation_2(){
 		<td>
 			
 		<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="01/01/2014">
-		<input id='dp' class="span2 datepickerinput" type="text" readonly="" value="01/01/2014" size="16">
+		<input id='dp' class="span2 datepickerinput" type="text"  value="01/01/2014" size="16">
 		<span class="add-on">
 		<i class="icon-calendar"></i>
 		</span>
