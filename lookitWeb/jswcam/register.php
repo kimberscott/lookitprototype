@@ -268,20 +268,7 @@ $(document).ready(function() {
 		format: 'mm/dd/yyyy', 
 		viewMode: 2
 	});
-	$('.date_picker').addClass('hasDatepicker');
-
-
-  $("body").on("click", ".date_picker", function(){
-
-      if (!$(this).hasClass("hasDatepicker"))
-      {
-          $(this).datepicker({
-            format: 'dd-mm-yyyy'
-          });
-          $(this).datepicker("show");
-          $(this).addClass('hasDatepicker');
-      }
-  });	
+	$('.date_picker').addClass('hasDatepicker');	
 	
 	i = 1;
 	j = 1;
@@ -390,19 +377,7 @@ function clone(chck_str){
 		viewMode: 2
 	}); 
 	$('.date_picker').addClass('hasDatepicker');
-
-
-  $("body").on("click", ".date_picker", function(){
-
-      if (!$(this).hasClass("hasDatepicker"))
-      {
-          $(this).datepicker({
-            format: 'dd-mm-yyyy'
-          });
-          $(this).datepicker("show");
-          $(this).addClass('hasDatepicker');
-      }
-  });	
+	
 }	
 
 // Serialize the data and return its object
