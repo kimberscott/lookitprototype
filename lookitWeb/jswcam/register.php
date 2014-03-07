@@ -41,6 +41,7 @@ input[type="radio"] {
     margin-top: 3px;
     vertical-align: top;
     margin-right: 3px;
+	margin-left: 0px;
 }
 input[type="checkbox"] {
     margin-top: 3px;
@@ -270,6 +271,8 @@ $(document).ready(function() {
 	});
 	$('.date_picker').addClass('hasDatepicker');	
 	
+	$('input[type="radio"]').css('margin-left', '0px')
+	
 	i = 1;
 	j = 1;
 	range = 4;
@@ -353,10 +356,12 @@ function clone(chck_str){
 					<?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "boy"){?>
 						$("#gender"+i).val("boy");
 						$("#gender_boy"+i).attr("checked","checked");
+						
 
 					<?php } elseif(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "girl"){ ?>
 						$("#gender"+i).val("girl");
 						$("#gender_girl"+i).attr("checked","checked");
+						
 						
 					<?php } elseif(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "other"){ ?>
 						$("#gender"+i).val("other");
@@ -367,6 +372,13 @@ function clone(chck_str){
 			}				
 			$('#'+date_id).next().next().remove();
 		});
+		$("#label_boy").attr({'id':"label_boy"+i});
+		$("#label_girl").attr({'id':"label_girl"+i});
+		$("#label_other").attr({'id':"label_other"+i});
+		$("#label_boy"+i).attr({'for':"gender_boy"+i});
+		$("#label_girl"+i).attr({'for':"gender_girl"+i});
+		$("#label_other"+i).attr({'for':"gender_other"+i});
+		
 		i++;
 		j++;
    		$('.modal-body').jScrollPane();
@@ -378,6 +390,10 @@ function clone(chck_str){
 	}); 
 	$('.date_picker').addClass('hasDatepicker');
 	
+	$('input[type="radio"]').css('margin-left', '0px');
+	
+
+
 }	
 
 // Serialize the data and return its object
@@ -555,7 +571,7 @@ function validation_2(){
 		$(".chile_name").each(function(){
 			s[i] = "";
 			if(($(this).attr("id") != 'child_name') && ($(this).val() == "")){
-				s[i] += '<label id="child_name_error" class="error">Please enter the name of Child '+ i +'.<br></label>';
+				s[i] += '<label id="child_name_error" class="error">Please enter a nickname for Child '+ i +'.<br></label>';
 				valii = 0;
 			}
 			i++;
@@ -585,7 +601,7 @@ function validation_2(){
 		var i = 1;
 	    $(".gender").each(function(){
 	        if(($(this).attr("id") != 'gender') && ($(this).val() == "")){
-	            s[i] += "<label id='gender_error' class='error'>Plese select the gender of Child "+ i +".<br></label>";
+	            s[i] += "<label id='gender_error' class='error'>Please select the gender of Child "+ i +".<br></label>";
 	            valii = 0;
 	        }
 	        i++;
@@ -660,23 +676,25 @@ function validation_2(){
 						</tr>
 						<tr>		
 							<td>Gender</td> 	
-<td>						<td style="display:none"><input type="hidden" class="gender" id="gender0" name="gender" value="<?php set_value('gender','',0) ?>"/></td>
+							
 							<td>
 								<table>
 									<tr>
 										<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "boy"){print " checked=\"checked\"";} elseif(count($_SESSION['user']['gender']) >1 && $_SESSION['user']['gender'][0] == "boy" ){print " checked=\"checked\"";}?>></td>
-										<td><label for='gender_boy'>Male</label></td>
+										<td><label for='gender_boy' id='label_boy0'>Male</label></td>
 									</tr>
 									<tr>
 										<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "girl"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "girl") ){print " checked=\"checked\"";}?>> </td>
-										<td><label for='gender_girl'>Female</label></td>
+										<td><label for='gender_girl' id='label_girl0'>Female</label></td>
 									</tr>
 									<tr>
 										<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "other"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "other") ){print " checked=\"checked\"";}?>> </td>
-										<td><label for='gender_other'>Other or N/A</label></td>
+										<td><label for='gender_other' id='label_other0'>Other or prefer not to answer</label></td>
 									</tr>
 								</table>
 							</td>
+							
+							<td style="display:none"><input type="hidden" class="gender" id="gender0" name="gender" value="<?php set_value('gender','',0) ?>"/></td>
 
 						</tr>	
 						<tr>		
@@ -758,11 +776,26 @@ function validation_2(){
 		
 	</tr>
 	<tr>		
-		<td>Gender</td> 		
-		<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" > Male</td>
-		<td style="display:none"><input type="hidden" class="gender" id="gender" name="gender" value=""/></td>	
-		<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" >Female</td>
-		<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" >Other or N/A</td>
+		<td>Gender</td> 	
+
+			<td>
+				<table>
+					<tr>
+						<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" ></td>
+						<td><label id='label_boy' for=''>Male</label></td>
+					</tr>
+					<tr>
+						<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" > </td>
+						<td><label id='label_girl' for=''>Female</label></td>
+					</tr>
+					<tr>
+						<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" > </td>
+						<td><label id='label_other' for=''>Other or prefer not to answer</label></td>
+					</tr>
+				</table>
+			</td>
+			<td style="display:none"><input type="hidden" class="gender" id="gender" name="gender" value=""/></td>
+		
 	</tr>	
 	<tr>		
 		<td>Gestational age at birth</td>		
