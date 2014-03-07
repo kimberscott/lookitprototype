@@ -659,11 +659,12 @@ function validation_2(){
 							</td>	
 						</tr>
 						<tr>		
-							<td>Gender</td> 		
-							<input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "boy"){print " checked=\"checked\"";} elseif(count($_SESSION['user']['gender']) >1 && $_SESSION['user']['gender'][0] == "boy" ){print " checked=\"checked\"";}?>> <label for='gender_boy'>Male</label>
-							<input type="hidden" class="gender" id="gender0" name="gender" value="<?php set_value('gender','',0) ?>"/>
-							<input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "girl"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "girl") ){print " checked=\"checked\"";}?>> <label for='gender_girl'>Female</label>
-							<input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "other"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "other") ){print " checked=\"checked\"";}?>> <label for='gender_other'>Other or prefer not to answer</label>
+							<td>Gender</td> 	
+<td>							
+							<input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "boy"){print " checked=\"checked\"";} elseif(count($_SESSION['user']['gender']) >1 && $_SESSION['user']['gender'][0] == "boy" ){print " checked=\"checked\"";}?>> <label for='gender_boy'>Male</label></td>
+							<td><input type="hidden" class="gender" id="gender0" name="gender" value="<?php set_value('gender','',0) ?>"/></td>
+							<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "girl"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "girl") ){print " checked=\"checked\"";}?>> <label for='gender_girl'>Female</label></td>
+							<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "other"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "other") ){print " checked=\"checked\"";}?>> <label for='gender_other'>Other or prefer not to answer</label></td>
 							
 						</tr>	
 						<tr>		
@@ -672,29 +673,28 @@ function validation_2(){
 							<td>
 								<select name="weeks" id=" weeks0" class="weeks" value = "<?php set_value('weeks',0,0) ?>">
 									<option value="na" selected>Not sure or prefer not to answer</option>
-									<option value="43">Over 42</option>
-									<option value="42">42</option>
-									<option value="41">41</option>
-									<option value="40">40 (around due date)</option>
-									<option value="39">39</option>
-									<option value="38">38</option>
-									<option value="37">37</option>
-									<option value="36">36</option>
-									<option value="35">35</option>
-									<option value="34">34</option>
-									<option value="33">33</option>
-									<option value="32">32</option>
-									<option value="31">31</option>
-									<option value="30">30</option>
-									<option value="29">29</option>
-									<option value="28">28</option>
-									<option value="27">27</option>
-									<option value="26">26</option>
-									<option value="25">25</option>
-									<option value="24">24</option>
-									<option value="23">Under 24</option>
+									<option value="43">Over 42 weeks</option>
+									<option value="42">42 weeks</option>
+									<option value="41">41 weeks</option>
+									<option value="40">40 weeks(around due date)</option>
+									<option value="39">39 weeks</option>
+									<option value="38">38 weeks</option>
+									<option value="37">37 weeks</option>
+									<option value="36">36 weeks</option>
+									<option value="35">35 weeks</option>
+									<option value="34">34 weeks</option>
+									<option value="33">33 weeks</option>
+									<option value="32">32 weeks</option>
+									<option value="31">31 weeks</option>
+									<option value="30">30 weeks</option>
+									<option value="29">29 weeks</option>
+									<option value="28">28 weeks</option>
+									<option value="27">27 weeks</option>
+									<option value="26">26 weeks</option>
+									<option value="25">25 weeks</option>
+									<option value="24">24 weeks</option>
+									<option value="23">Under 24 weeks</option>
 								</select>
-								<label for="weeks">Weeks</label>
 							</td>							
 						</tr>
 						<tr>
@@ -753,33 +753,32 @@ function validation_2(){
 		<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" > Other or prefer not to answer</td>
 	</tr>	
 	<tr>		
-		<td>Gestational age of birth (approximate) </td>		
+		<td>Gestational age at birth</td>		
 		<td>
-		<select name="weeks" id=" weeks" class="weeks" value="">
-			<option value="na" selected>Not sure or prefer not to answer</option>
-			<option value="43">Over 42</option>
-			<option value="42">42</option>
-			<option value="41">41</option>
-			<option value="40">40 (around due date)</option>
-			<option value="39">39</option>
-			<option value="38">38</option>
-			<option value="37">37</option>
-			<option value="36">36</option>
-			<option value="35">35</option>
-			<option value="34">34</option>
-			<option value="33">33</option>
-			<option value="32">32</option>
-			<option value="31">31</option>
-			<option value="30">30</option>
-			<option value="29">29</option>
-			<option value="28">28</option>
-			<option value="27">27</option>
-			<option value="26">26</option>
-			<option value="25">25</option>
-			<option value="24">24</option>
-			<option value="23">Under 24</option>
-		</select>
-		<label for="weeks">Weeks</label>
+			<select name="weeks" id=" weeks" class="weeks" value = "<?php set_value('weeks',0,0) ?>">
+				<option value="na" selected>Not sure or prefer not to answer</option>
+				<option value="43">Over 42 weeks</option>
+				<option value="42">42 weeks</option>
+				<option value="41">41 weeks</option>
+				<option value="40">40 weeks(around due date)</option>
+				<option value="39">39 weeks</option>
+				<option value="38">38 weeks</option>
+				<option value="37">37 weeks</option>
+				<option value="36">36 weeks</option>
+				<option value="35">35 weeks</option>
+				<option value="34">34 weeks</option>
+				<option value="33">33 weeks</option>
+				<option value="32">32 weeks</option>
+				<option value="31">31 weeks</option>
+				<option value="30">30 weeks</option>
+				<option value="29">29 weeks</option>
+				<option value="28">28 weeks</option>
+				<option value="27">27 weeks</option>
+				<option value="26">26 weeks</option>
+				<option value="25">25 weeks</option>
+				<option value="24">24 weeks</option>
+				<option value="23">Under 24 weeks</option>
+			</select>
 		</td>
 	</tr>
 	<tr>
