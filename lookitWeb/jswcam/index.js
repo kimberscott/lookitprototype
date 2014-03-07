@@ -110,6 +110,15 @@ var page = (function() {
 			"class": "btn-success btn-send",
 			'callback': function() {
 				if(done == 1){
+					get_params('params'); // Resetting the session variable to access the filename
+					console.log(session);
+					var filename = session['filename'][0];
+                    //session['filename'] = "";
+                    console.log(session);
+                    $.post("./camera/convert.php", {
+                        continue: "true"
+                    });
+                    console.log(session);
 					done = 0;
 					recording = 0;
 					hide_cam();
