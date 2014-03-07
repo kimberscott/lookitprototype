@@ -116,7 +116,8 @@ var page = (function() {
                     //session['filename'] = "";
                     console.log(session);
                     $.post("./camera/convert.php", {
-                        continue: "true"
+                        'continue': "true",
+                        'privacy' : "INCOMPLETE"
                     });
                     console.log(session);
 					done = 0;
@@ -660,7 +661,9 @@ var jswcam = (function() {
 	if(is_recording == '1'){
 		this.stopRecording("stopping");
 	}
-	 swfobject.getObjectById("flashplayer").recordToCamera(session['expriment_id'],session['email'],session['participant'],session['participant_privacy'],caller);
+	get_params('params'); // Resetting the session variable to access the filename
+	console.log(session);
+	swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id'],session['participant'],session['participant_privacy'],caller);
 	 is_recording = '1';
 	 console.log("Recording Started");
     };
