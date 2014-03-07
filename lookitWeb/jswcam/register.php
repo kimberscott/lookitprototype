@@ -27,7 +27,7 @@ function set_value($name,$default,$k){
 
 ?>   
 <script src="static/js/jquery-1.8.1.min.js"></script>
-
+<link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
 <style type="text/css">
 input[type="radio"] {
     margin-top: 3px;
@@ -35,21 +35,30 @@ input[type="radio"] {
     margin-right: 3px;
 }
 input[type="checkbox"] {
-    margin-top: 2px;
+    margin-top: 3px;
     vertical-align: top;
     margin-right: 3px;
 }
 .cancel:hover{
 	cursor: pointer;
 }
-.radio, .checkbox {
-    padding-left: 0px;
-}
+
 div#test input#gender_ {width: 13px;}
 div#test input {width: 100px;}
 label.mdy{margin-left: -60px;}
+.modal-body{overflow:hidden;width:100% !important;}
 
+.jspVerticalBar{ width:7px;}
+.jspDrag {background: none repeat scroll 0 0 #666666; border-radius: 5px;}
+ #test table{border-collapse: separate; margin-right: 20px;}
 </style>
+<!-- the mousewheel plugin - optional to provide mousewheel support -->
+<script type="text/javascript" src="static/js/jquery.mousewheel.js"></script>
+
+<!-- the jScrollPane script -->
+<script type="text/javascript" src="static/js/jquery.jscrollpane.min.js"></script>
+
+<script src="./login/json.js" type="text/javascript"></script>
 <script>
 var temp;
 $(document).ready(function() {
@@ -159,6 +168,7 @@ function clone(chck_str){
 		});
 		i++;
 		j++;
+   		$('.modal-body').jScrollPane();
 	}
 }	
 
@@ -497,3 +507,4 @@ function validation_2(){
 		<td colspan="3"><img src="./img/cancel.png" class = "cancel count" id = "cancel" onclick="remove1(this);" value="Cancel" align="right" style="margin-top: -235px;margin-right: -11px; display:none;              "/></td>
 	</tr>
 </TABLE>
+
