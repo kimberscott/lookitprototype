@@ -119,7 +119,7 @@
 			if (!this.isInput) {
 				$(document).off('mousedown', this.hide);
 			}
-			//this.set();
+			this.set();
 			this.element.trigger({
 				type: 'hide',
 				date: this.date
@@ -128,6 +128,7 @@
 		
 		set: function() {
 			var formated = DPGlobal.formatDate(this.date, this.format);
+			alert(formated);
 			if (!this.isInput) {
 				if (this.component){
 					this.element.find('input').prop('value', formated);
@@ -313,6 +314,7 @@
 								date: this.date,
 								viewMode: DPGlobal.modes[this.viewMode].clsName
 							});
+							this.hide();
 						}
 						break;
 				}
