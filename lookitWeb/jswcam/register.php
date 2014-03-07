@@ -207,7 +207,7 @@ function clone(chck_str){
 		format: 'mm/dd/yyyy', 
 		viewMode: 2
 	}); 
-		$('.date_picker').addClass('hasDatepicker');
+	$('.date_picker').addClass('hasDatepicker');
 
 
   $("body").on("click", ".date_picker", function(){
@@ -490,7 +490,14 @@ function validation_2(){
 						<tr>		
 							<td>Child's Birthdate </td>		
 							<td>
-							<input class="input-append date_picker datepicker span2" data-date-viewmode="years" data-date='01/01/2014' data-date-format='mm/dd/yyyy' value="<?php set_value('dob','',0) ?>" id="dp0" name="dob" size="16" type="text">
+							
+							<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="01/01/2014">
+							<input id='dp' class="span2" type="text" readonly="" value="01/01/2014" size="16">
+							<span class="add-on">
+							<i class="icon-calendar"></i>
+							</span>
+							</div>
+							
 							</div> 
 							</td>	
 						</tr>
@@ -571,7 +578,14 @@ function validation_2(){
 		<td>Child's Birthdate </td>		
 
 		<td>
-			<input class="input-append date_picker datepicker span2" data-date-viewmode="years" data-date='01/01/2014' data-date-format='mm/dd/yyyy' value="01/01/2014" id="dp" name="dob" size="16" type="text">
+			
+		<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="01/01/2014">
+		<input id='dp' class="span2" type="text" readonly="" value="01/01/2014" size="16">
+		<span class="add-on">
+		<i class="icon-calendar"></i>
+		</span>
+		</div>
+			
 		</td>	
 		
 	</tr>
