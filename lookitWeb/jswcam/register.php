@@ -34,9 +34,16 @@ function set_value($name,$default,$k){
 <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="static/datepicker/js/bootstrap-datepicker.js"></script>
 <link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
-<link type="text/css" href="static/datepicker/css/datepicker.css" rel="stylesheet"></link>
 
 <style type="text/css">
+.error {
+	color: red;
+}
+
+input.hasError, td.hasError, div.hasError {
+	border: medium solid red;
+}
+
 input[type="radio"] {
     margin-top: 3px;
     vertical-align: top;
@@ -265,11 +272,11 @@ $(document).ready(function() {
 	}
 	
 	
-	$(".date_picker" ).datepicker({
+	$("#child0 .date_picker" ).datepicker({
 		format: 'mm/dd/yyyy', 
 		viewMode: 2
 	});
-	$('.date_picker').addClass('hasDatepicker');	
+	$('#child0 .date_picker').addClass('hasDatepicker');	
 	
 	$('input[type="radio"]').css('margin-left', '0px')
 	
@@ -301,7 +308,7 @@ function clone(chck_str){
 		Clonedtable.attr("id","child"+j);
 		Clonedtable.attr("name","child"+j);
 		var date_id;
-		Clonedtable.find("*[id]").andSelf().each(function() {
+		Clonedtable.find("*[id]").each(function() {
 			$(this).attr("id", $(this).attr("id") + j);
 			var name = $(this).attr("name");
 			if(name == "gender_" )
@@ -379,16 +386,17 @@ function clone(chck_str){
 		$("#label_girl"+i).attr({'for':"gender_girl"+i});
 		$("#label_other"+i).attr({'for':"gender_other"+i});
 		
+		$("#child"+i+" .date_picker" ).datepicker({
+			format: 'mm/dd/yyyy', 
+			viewMode: 2
+		}); 
+		$('#child'+i+' .date_picker').addClass('hasDatepicker');
+		
 		i++;
 		j++;
    		$('.modal-body').jScrollPane();
 	}
 	
-	$( ".date_picker" ).datepicker({
-		format: 'mm/dd/yyyy', 
-		viewMode: 2
-	}); 
-	$('.date_picker').addClass('hasDatepicker');
 	
 	$('input[type="radio"]').css('margin-left', '0px');
 	
@@ -420,7 +428,11 @@ function set(radio){
 	var td = $(radio).attr("name");
 	td = td.substr(-1);
 	if(td == '_'){td = ''};
-	$("#gender_"+val_+td).closest("td").parent().children().next().next().children().eq(0).val(val_);
+	//Ah-hah.  This is why gender is no longer being set.  It was dependent on exactly where the 
+	//hidden gender element was in the DOM...
+	//$("#gender_"+val_+td).closest("td").parent().children().next().next().children().eq(0).val(val_);
+	//$('#gender'+td).val(val_);
+	$(radio).closest("table").next().val(val_);
 }
 
 var result;
@@ -566,12 +578,15 @@ function validation_2(){
 	var valii = 1;
 	var s = []; 
 	$("#error").html("");
+	$('*').removeClass('hasError');
 	if($("input[name = child_name]")){// validation for Child's name
 		var i = 1;
 		$(".chile_name").each(function(){
+			
 			s[i] = "";
 			if(($(this).attr("id") != 'child_name') && ($(this).val() == "")){
-				s[i] += '<label id="child_name_error" class="error">Please enter a nickname for Child '+ i +'.<br></label>';
+				//s[i] += '<label id="child_name_error" class="error">Please enter a nickname for Child '+ i +'.<br></label>';
+				$(this).addClass('hasError');
 				valii = 0;
 			}
 			i++;
@@ -581,16 +596,21 @@ function validation_2(){
 		var i = 1;
 		$(".datepickerinput").each(function(){
 			if($(this).attr("id") != 'dp'){
+				$(this).attr('value', $(this).prop('value'))
 		        if($(this).val() == "" || $(this).val() == "MM/DD/YYYY"){
-		            s[i] += '<label id="dob_error" class="error">Please enter the date of birth of Child '+ i +'.<br></label>';
+		            //s[i] += '<label id="dob_error" class="error">Please enter the date of birth of Child '+ i +'.<br></label>';
+					$(this).parent().addClass('hasError');
 	    	        valii = 0;
+					alert('dob');
 	        	}
 		        else if(isValidDate($(this).val()) == "format"){
 		            s[i] += '<label id="dob_error" class="error">Please enter the date of birth of Child '+ i +' in correct format.<br></label>';
+					$(this).parent().addClass('hasError');
 	    	        valii = 0;
 	        	}
 	        	else if(isValidDate($(this).val()) == "date"){
 		            s[i] += '<label id="dob_error" class="error">Please enter a valid date of birth of Child '+ i +' .<br></label>';
+					$(this).parent().addClass('hasError');
 	    	        valii = 0;
 	        	}
 	        }
@@ -601,7 +621,8 @@ function validation_2(){
 		var i = 1;
 	    $(".gender").each(function(){
 	        if(($(this).attr("id") != 'gender') && ($(this).val() == "")){
-	            s[i] += "<label id='gender_error' class='error'>Please select the gender of Child "+ i +".<br></label>";
+	            //s[i] += "<label id='gender_error' class='error'>Please select the gender of Child "+ i +".<br></label>";
+				$(this).prev().addClass('hasError');
 	            valii = 0;
 	        }
 	        i++;
@@ -664,8 +685,8 @@ function validation_2(){
 							<td>Child's Birthdate </td>		
 							<td>
 							
-							<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="01/01/2014">
-								<input id='dp' class="span2 datepickerinput" type="text" value="01/01/2014" size="16">
+							<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="">
+								<input id='dp0' class="span2 datepickerinput" type="text" value="" size="16">
 								<span class="add-on">
 									<i class="icon-calendar"></i>
 								</span>
@@ -692,9 +713,10 @@ function validation_2(){
 										<td><label for='gender_other' id='label_other0'>Other or prefer not to answer</label></td>
 									</tr>
 								</table>
+								<input style="display:none" type="hidden" class="gender" id="gender0" name="gender" value="<?php set_value('gender','',0) ?>"/>
 							</td>
 							
-							<td style="display:none"><input type="hidden" class="gender" id="gender0" name="gender" value="<?php set_value('gender','',0) ?>"/></td>
+							
 
 						</tr>	
 						<tr>		
@@ -765,14 +787,14 @@ function validation_2(){
 
 		<td>
 			
-		<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="01/01/2014">
-		<input id='dp' class="span2 datepickerinput" type="text"  value="01/01/2014" size="16">
-		<span class="add-on">
-		<i class="icon-calendar"></i>
-		</span>
+		<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="">
+			<input id='dp' class="span2 datepickerinput" type="text"  value="" size="16">
+			<span class="add-on">
+			<i class="icon-calendar"></i>
+			</span>
 		</div>
 			
-		</td>	
+		</td>
 		
 	</tr>
 	<tr>		
@@ -793,8 +815,9 @@ function validation_2(){
 						<td><label id='label_other' for=''>Other or prefer not to answer</label></td>
 					</tr>
 				</table>
+				<input style="display:none" type="hidden" class="gender" id="gender" name="gender" value=""/>
 			</td>
-			<td style="display:none"><input type="hidden" class="gender" id="gender" name="gender" value=""/></td>
+			
 		
 	</tr>	
 	<tr>		
