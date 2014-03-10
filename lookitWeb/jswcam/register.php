@@ -30,12 +30,26 @@ function set_value($name,$default,$k){
 <link rel="stylesheet/css" type="text/css" href="static/js/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"></link>
 <script src="static/js/jquery-1.8.1.min.js"></script>
 <script src="static/js/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
+<link rel="stylesheet/less" type="text/css" href="bootstrap/less/bootstrap.less"></link>
+<script src="static/js/less-1.3.0.min.js" type="text/javascript"></script>
+<script src="static/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="static/datepicker/js/bootstrap-datepicker.js"></script>
 <link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+
 <style type="text/css">
+.error {
+	color: red;
+}
+
+input.hasError, td.hasError, div.hasError {
+	border: medium solid red;
+}
+
 input[type="radio"] {
     margin-top: 3px;
     vertical-align: top;
     margin-right: 3px;
+	margin-left: 0px;
 }
 input[type="checkbox"] {
     margin-top: 3px;
@@ -53,7 +67,192 @@ label.mdy{margin-left: -60px;}
 .jspVerticalBar{ width:7px;}
 .jspDrag {background: none repeat scroll 0 0 #666666; border-radius: 5px;}
  #test table{border-collapse: separate; margin-right: 20px;}
+ /*!
+ * Datepicker for Bootstrap
+ *
+ * Copyright 2012 Stefan Petre
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ */
+.datepicker {
+  top: 0;
+  left: 0;
+  padding: 4px;
+  margin-top: 1px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  z-index: 9999;
+}
+.datepicker:before {
+  content: '';
+  display: inline-block;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #ccc;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: -7px;
+  left: 6px;
+}
+.datepicker:after {
+  content: '';
+  display: inline-block;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #ffffff;
+  position: absolute;
+  top: -6px;
+  left: 7px;
+}
+.datepicker > div {
+  display: none;
+}
+.datepicker table {
+  width: 100%;
+  margin: 0;
+}
+.datepicker td,
+.datepicker th {
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.datepicker td.day:hover {
+  background: #eeeeee;
+  cursor: pointer;
+}
+.datepicker td.day.disabled {
+  color: #eeeeee;
+}
+.datepicker td.old,
+.datepicker td.new {
+  color: #999999;
+}
+.datepicker td.active,
+.datepicker td.active:hover {
+  color: #ffffff;
+  background-color: #006dcc;
+  background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+  background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+  border-color: #0044cc #0044cc #002a80;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #0044cc;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.datepicker td.active:hover,
+.datepicker td.active:hover:hover,
+.datepicker td.active:focus,
+.datepicker td.active:hover:focus,
+.datepicker td.active:active,
+.datepicker td.active:hover:active,
+.datepicker td.active.active,
+.datepicker td.active:hover.active,
+.datepicker td.active.disabled,
+.datepicker td.active:hover.disabled,
+.datepicker td.active[disabled],
+.datepicker td.active:hover[disabled] {
+  color: #ffffff;
+  background-color: #0044cc;
+  *background-color: #003bb3;
+}
+.datepicker td.active:active,
+.datepicker td.active:hover:active,
+.datepicker td.active.active,
+.datepicker td.active:hover.active {
+  background-color: #003399 \9;
+}
+.datepicker td span {
+  display: block;
+  width: 47px;
+  height: 54px;
+  line-height: 54px;
+  float: left;
+  margin: 2px;
+  cursor: pointer;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.datepicker td span:hover {
+  background: #eeeeee;
+}
+.datepicker td span.active {
+  color: #ffffff;
+  background-color: #006dcc;
+  background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+  background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+  border-color: #0044cc #0044cc #002a80;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #0044cc;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.datepicker td span.active:hover,
+.datepicker td span.active:focus,
+.datepicker td span.active:active,
+.datepicker td span.active.active,
+.datepicker td span.active.disabled,
+.datepicker td span.active[disabled] {
+  color: #ffffff;
+  background-color: #0044cc;
+  *background-color: #003bb3;
+}
+.datepicker td span.active:active,
+.datepicker td span.active.active {
+  background-color: #003399 \9;
+}
+.datepicker td span.old {
+  color: #999999;
+}
+.datepicker th.switch {
+  width: 145px;
+}
+.datepicker th.next,
+.datepicker th.prev {
+  font-size: 21px;
+}
+.datepicker thead tr:first-child th {
+  cursor: pointer;
+}
+.datepicker thead tr:first-child th:hover {
+  background: #eeeeee;
+}
+.input-append.date .add-on i,
+.input-prepend.date .add-on i {
+  display: block;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
 </style>
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> upstream/Dev
 <!-- the mousewheel plugin - optional to provide mousewheel support -->
 <script type="text/javascript" src="static/js/jquery.mousewheel.js"></script>
 
@@ -76,10 +275,13 @@ $(document).ready(function() {
 	}
 	
 	
-	$( ".datepicker" ).datepicker({
-		changeMonth: true,
-		changeYear: true
+	$("#child0 .date_picker" ).datepicker({
+		format: 'mm/dd/yyyy', 
+		viewMode: 2
 	});
+	$('#child0 .date_picker').addClass('hasDatepicker');	
+	
+	$('input[type="radio"]').css('margin-left', '0px')
 	
 	i = 1;
 	j = 1;
@@ -109,7 +311,7 @@ function clone(chck_str){
 		Clonedtable.attr("id","child"+j);
 		Clonedtable.attr("name","child"+j);
 		var date_id;
-		Clonedtable.find("*[id]").andSelf().each(function() {
+		Clonedtable.find("*[id]").each(function() {
 			$(this).attr("id", $(this).attr("id") + j);
 			var name = $(this).attr("name");
 			if(name == "gender_" )
@@ -133,7 +335,7 @@ function clone(chck_str){
 		Clonedtable.find("*[id]").andSelf().each(function() {
 			$(this).find('input[type=radio]').removeAttr('checked');
 			$(this).removeClass('hasDatepicker');
-			if($(this).hasClass('datepicker')) {
+			if($(this).hasClass('datepickerinput')) {
 				date_id = this.id;
 			}
 			if($(this).attr('name') == 'days'){
@@ -164,10 +366,12 @@ function clone(chck_str){
 					<?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "boy"){?>
 						$("#gender"+i).val("boy");
 						$("#gender_boy"+i).attr("checked","checked");
+						
 
 					<?php } elseif(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "girl"){ ?>
 						$("#gender"+i).val("girl");
 						$("#gender_girl"+i).attr("checked","checked");
+						
 						
 					<?php } elseif(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "other"){ ?>
 						$("#gender"+i).val("other");
@@ -178,15 +382,29 @@ function clone(chck_str){
 			}				
 			$('#'+date_id).next().next().remove();
 		});
+		$("#label_boy").attr({'id':"label_boy"+i});
+		$("#label_girl").attr({'id':"label_girl"+i});
+		$("#label_other").attr({'id':"label_other"+i});
+		$("#label_boy"+i).attr({'for':"gender_boy"+i});
+		$("#label_girl"+i).attr({'for':"gender_girl"+i});
+		$("#label_other"+i).attr({'for':"gender_other"+i});
+		
+		$("#child"+i+" .date_picker" ).datepicker({
+			format: 'mm/dd/yyyy', 
+			viewMode: 2
+		}); 
+		$('#child'+i+' .date_picker').addClass('hasDatepicker');
+		
 		i++;
 		j++;
    		$('.modal-body').jScrollPane();
 	}
 	
-	$(".datepicker").datepicker({
-			changeMonth: true,
-			changeYear: true
-		});
+	
+	$('input[type="radio"]').css('margin-left', '0px');
+	
+
+
 }	
 
 // Serialize the data and return its object
@@ -213,7 +431,11 @@ function set(radio){
 	var td = $(radio).attr("name");
 	td = td.substr(-1);
 	if(td == '_'){td = ''};
-	$("#gender_"+val_+td).closest("td").parent().children().next().next().children().eq(0).val(val_);
+	//Ah-hah.  This is why gender is no longer being set.  It was dependent on exactly where the 
+	//hidden gender element was in the DOM...
+	//$("#gender_"+val_+td).closest("td").parent().children().next().next().children().eq(0).val(val_);
+	//$('#gender'+td).val(val_);
+	$(radio).closest("table").next().val(val_);
 }
 
 var result;
@@ -359,12 +581,15 @@ function validation_2(){
 	var valii = 1;
 	var s = []; 
 	$("#error").html("");
+	$('*').removeClass('hasError');
 	if($("input[name = child_name]")){// validation for Child's name
 		var i = 1;
 		$(".chile_name").each(function(){
+			
 			s[i] = "";
 			if(($(this).attr("id") != 'child_name') && ($(this).val() == "")){
-				s[i] += '<label id="child_name_error" class="error">Please enter the name of Child '+ i +'.<br></label>';
+				//s[i] += '<label id="child_name_error" class="error">Please enter a nickname for Child '+ i +'.<br></label>';
+				$(this).addClass('hasError');
 				valii = 0;
 			}
 			i++;
@@ -372,18 +597,23 @@ function validation_2(){
 	}
 	if($("input[name = dob]")){// Validations for date of birth
 		var i = 1;
-		$(".datepicker").each(function(){
+		$(".datepickerinput").each(function(){
 			if($(this).attr("id") != 'dp'){
+				$(this).attr('value', $(this).prop('value'))
 		        if($(this).val() == "" || $(this).val() == "MM/DD/YYYY"){
-		            s[i] += '<label id="dob_error" class="error">Please enter the date of birth of Child '+ i +'.<br></label>';
+		            //s[i] += '<label id="dob_error" class="error">Please enter the date of birth of Child '+ i +'.<br></label>';
+					$(this).parent().addClass('hasError');
 	    	        valii = 0;
+					alert('dob');
 	        	}
 		        else if(isValidDate($(this).val()) == "format"){
 		            s[i] += '<label id="dob_error" class="error">Please enter the date of birth of Child '+ i +' in correct format.<br></label>';
+					$(this).parent().addClass('hasError');
 	    	        valii = 0;
 	        	}
 	        	else if(isValidDate($(this).val()) == "date"){
 		            s[i] += '<label id="dob_error" class="error">Please enter a valid date of birth of Child '+ i +' .<br></label>';
+					$(this).parent().addClass('hasError');
 	    	        valii = 0;
 	        	}
 	        }
@@ -394,7 +624,8 @@ function validation_2(){
 		var i = 1;
 	    $(".gender").each(function(){
 	        if(($(this).attr("id") != 'gender') && ($(this).val() == "")){
-	            s[i] += "<label id='gender_error' class='error'>Plese select the gender of Child "+ i +".<br></label>";
+	            //s[i] += "<label id='gender_error' class='error'>Please select the gender of Child "+ i +".<br></label>";
+				$(this).prev().addClass('hasError');
 	            valii = 0;
 	        }
 	        i++;
@@ -455,47 +686,70 @@ function validation_2(){
 						</tr>
 						<tr>		
 							<td>Child's Birthdate </td>		
-							<td><input  type="text" placeholder='MM/DD/YYYY' value="<?php set_value('dob','',0) ?>" id="dp0" class="datepicker" name="dob"/></td>
-							<td><label class = "mdy"> MM/DD/YYYY</label></td>	
+							<td>
+							
+							<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="">
+								<input id='dp0' class="span2 datepickerinput" type="text" value="" size="16">
+								<span class="add-on">
+									<i class="icon-calendar"></i>
+								</span>
+							</div>
+							
+							</div> 
+							</td>	
 						</tr>
 						<tr>		
-							<td>Gender</td> 		
-							<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "boy"){print " checked=\"checked\"";} elseif(count($_SESSION['user']['gender']) >1 && $_SESSION['user']['gender'][0] == "boy" ){print " checked=\"checked\"";}?>> Male</td>
-							<td style="display:none"><input type="hidden" class="gender" id="gender0" name="gender" value="<?php set_value('gender','',0) ?>"/></td>	
-							<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "girl"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "girl") ){print " checked=\"checked\"";}?>> Female</td>
+							<td>Gender</td> 	
 							
-							<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "other"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "other") ){print " checked=\"checked\"";}?>> Other/prefer not to answer</td>
+							<td>
+								<table>
+									<tr>
+										<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "boy"){print " checked=\"checked\"";} elseif(count($_SESSION['user']['gender']) >1 && $_SESSION['user']['gender'][0] == "boy" ){print " checked=\"checked\"";}?>></td>
+										<td><label for='gender_boy' id='label_boy0'>Male</label></td>
+									</tr>
+									<tr>
+										<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "girl"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "girl") ){print " checked=\"checked\"";}?>> </td>
+										<td><label for='gender_girl' id='label_girl0'>Female</label></td>
+									</tr>
+									<tr>
+										<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" <?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'] == "other"){print " checked=\"checked\"";} elseif((count($_SESSION['user']['gender']) >1) && ($_SESSION['user']['gender'][0] == "other") ){print " checked=\"checked\"";}?>> </td>
+										<td><label for='gender_other' id='label_other0'>Other or prefer not to answer</label></td>
+									</tr>
+								</table>
+								<input style="display:none" type="hidden" class="gender" id="gender0" name="gender" value="<?php set_value('gender','',0) ?>"/>
+							</td>
 							
+							
+
 						</tr>	
 						<tr>		
 							<td>Gestational age at birth </td>	
 
 							<td>
 								<select name="weeks" id=" weeks0" class="weeks" value = "<?php set_value('weeks',0,0) ?>">
-									<option value="na">Not sure or prefer not to answer</option>
-									<option value="43">Over 42</option>
-									<option value="42">42</option>
-									<option value="41">41</option>
-									<option value="40" selected>40 (around due date)</option>
-									<option value="39">39</option>
-									<option value="38">38</option>
-									<option value="37">37</option>
-									<option value="36">36</option>
-									<option value="35">35</option>
-									<option value="34">34</option>
-									<option value="33">33</option>
-									<option value="32">32</option>
-									<option value="31">31</option>
-									<option value="30">30</option>
-									<option value="29">29</option>
-									<option value="28">28</option>
-									<option value="27">27</option>
-									<option value="26">26</option>
-									<option value="25">25</option>
-									<option value="24">24</option>
-									<option value="23">Under 24</option>
+									<option value="na" selected>Not sure or prefer not to answer</option>
+									<option value="43">Over 42 weeks</option>
+									<option value="42">42 weeks</option>
+									<option value="41">41 weeks</option>
+									<option value="40">40 weeks(around due date)</option>
+									<option value="39">39 weeks</option>
+									<option value="38">38 weeks</option>
+									<option value="37">37 weeks</option>
+									<option value="36">36 weeks</option>
+									<option value="35">35 weeks</option>
+									<option value="34">34 weeks</option>
+									<option value="33">33 weeks</option>
+									<option value="32">32 weeks</option>
+									<option value="31">31 weeks</option>
+									<option value="30">30 weeks</option>
+									<option value="29">29 weeks</option>
+									<option value="28">28 weeks</option>
+									<option value="27">27 weeks</option>
+									<option value="26">26 weeks</option>
+									<option value="25">25 weeks</option>
+									<option value="24">24 weeks</option>
+									<option value="23">Under 24 weeks</option>
 								</select>
-								<label for="weeks">Weeks</label>
 							</td>							
 						</tr>
 						<tr>
@@ -533,44 +787,69 @@ function validation_2(){
 	</tr>
 	<tr>		
 		<td>Child's Birthdate </td>		
-		<td><input  type="text" placeholder='MM/DD/YYYY' value="" id="dp" class="datepicker" name="dob"/></td>
-		<td><label class = "mdy"> MM/DD/YYYY</label></td>	
+
+		<td>
+			
+		<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="">
+			<input id='dp' class="span2 datepickerinput" type="text"  value="" size="16">
+			<span class="add-on">
+			<i class="icon-calendar"></i>
+			</span>
+		</div>
+			
+		</td>
+		
 	</tr>
 	<tr>		
-		<td>Gender</td> 		
-		<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" > Male</td>
-		<td style="display:none"><input type="hidden" class="gender" id="gender" name="gender" value=""/></td>	
-		<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" > Female</td>
-		<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" > Other/prefer not to answer</td>
+		<td>Gender</td> 	
+
+			<td>
+				<table>
+					<tr>
+						<td><input id="gender_boy" type="radio" name="gender_" value="boy" onclick="set(this);" style="width: 13px;" ></td>
+						<td><label id='label_boy' for=''>Male</label></td>
+					</tr>
+					<tr>
+						<td><input id="gender_girl" type="radio" name="gender_" value="girl" onclick="set(this);" style="width: 13px; margin-left:-70px;" > </td>
+						<td><label id='label_girl' for=''>Female</label></td>
+					</tr>
+					<tr>
+						<td><input id="gender_other" type="radio" name="gender_" value="other" onclick="set(this);" style="width: 13px; margin-left:-70px;" > </td>
+						<td><label id='label_other' for=''>Other or prefer not to answer</label></td>
+					</tr>
+				</table>
+				<input style="display:none" type="hidden" class="gender" id="gender" name="gender" value=""/>
+			</td>
+			
+		
 	</tr>	
 	<tr>		
-		<td>Gestational age of birth (approximate) </td>		
+		<td>Gestational age at birth</td>		
 		<td>
-		<select name="weeks" id=" weeks" class="weeks" value="">
-			<option value="na">Not sure or prefer not to answer</option>
-			<option value="43">Over 42</option>
-			<option value="42">42</option>
-			<option value="41">41</option>
-			<option value="40" selected>40 (around due date)</option>
-			<option value="39">39</option>
-			<option value="38">38</option>
-			<option value="37">37</option>
-			<option value="36">36</option>
-			<option value="35">35</option>
-			<option value="34">34</option>
-			<option value="33">33</option>
-			<option value="32">32</option>
-			<option value="31">31</option>
-			<option value="30">30</option>
-			<option value="29">29</option>
-			<option value="28">28</option>
-			<option value="27">27</option>
-			<option value="26">26</option>
-			<option value="25">25</option>
-			<option value="24">24</option>
-			<option value="23">Under 24</option>
-		</select>
-		<label for="weeks">Weeks</label>
+			<select name="weeks" id=" weeks" class="weeks" value = "<?php set_value('weeks',0,0) ?>">
+				<option value="na" selected>Not sure or prefer not to answer</option>
+				<option value="43">Over 42 weeks</option>
+				<option value="42">42 weeks</option>
+				<option value="41">41 weeks</option>
+				<option value="40">40 weeks(around due date)</option>
+				<option value="39">39 weeks</option>
+				<option value="38">38 weeks</option>
+				<option value="37">37 weeks</option>
+				<option value="36">36 weeks</option>
+				<option value="35">35 weeks</option>
+				<option value="34">34 weeks</option>
+				<option value="33">33 weeks</option>
+				<option value="32">32 weeks</option>
+				<option value="31">31 weeks</option>
+				<option value="30">30 weeks</option>
+				<option value="29">29 weeks</option>
+				<option value="28">28 weeks</option>
+				<option value="27">27 weeks</option>
+				<option value="26">26 weeks</option>
+				<option value="25">25 weeks</option>
+				<option value="24">24 weeks</option>
+				<option value="23">Under 24 weeks</option>
+			</select>
 		</td>
 	</tr>
 	<tr>
