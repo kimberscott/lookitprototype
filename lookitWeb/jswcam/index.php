@@ -45,7 +45,6 @@ if(!isset($_SESSION['user']['id'])){
   ga('send', 'pageview');
 
 </script>
-
     <?php	
     if(isset($_POST['session'])){
       error_log("in here". $_POST['session']);
