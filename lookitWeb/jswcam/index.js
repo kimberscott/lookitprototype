@@ -110,6 +110,16 @@ var page = (function() {
 			"class": "btn-success btn-send",
 			'callback': function() {
 				if(done == 1){
+					get_params('params'); // Resetting the session variable to access the filename
+					console.log(session);
+					var filename = session['filename'][0];
+                    //session['filename'] = "";
+                    console.log(session);
+                    $.post("./camera/convert.php", {
+                        'continue': "true",
+                        'privacy' : "INCOMPLETE"
+                    });
+                    console.log(session);
 					done = 0;
 					recording = 0;
 					hide_cam();
@@ -439,7 +449,7 @@ jswcam.setExperiment(packaging['id']);
 		            login_page = req.responseText;
 		            login_page += '<div id = "force_login"><b>Please login or <a href="#" onclick="register();">register</a> to participate in this study.</b></div>';
 		            login_page = login_page.replace('"register"','"register"\ style="display:none"');
-			    login_page = login_page.replace("If you're new to Lookit, please", "");
+					login_page = login_page.replace("If your family is new to Lookit, please", "");
 		            login(login_page,info,this);
 				}
 				else
@@ -651,7 +661,9 @@ var jswcam = (function() {
 	if(is_recording == '1'){
 		this.stopRecording("stopping");
 	}
-	 swfobject.getObjectById("flashplayer").recordToCamera(session['expriment_id'],session['email'],session['participant'],session['participant_privacy'],caller);
+	get_params('params'); // Resetting the session variable to access the filename
+	console.log(session);
+	swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id'],session['participant'],session['participant_privacy'],caller);
 	 is_recording = '1';
 	 console.log("Recording Started");
     };

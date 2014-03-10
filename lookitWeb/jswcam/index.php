@@ -5,6 +5,7 @@
  */
 
 require_once('php/util.php'); 
+require_once('config.php'); 
 if(!isset($_SESSION['user']['id'])){ 
     session_start();
 	 $_SESSION['user']['id'] = uuid();
@@ -41,13 +42,7 @@ if(!isset($_SESSION['user']['id'])){
   ga('send', 'pageview');
 
 </script>
-
-    <?php	
-    if(isset($_POST['session'])){
-      error_log("in here". $_POST['session']);
-      error_log($_SESSION['user']['name']);
-    } 
-
+<?php
     if(isset($_GET['name'])){ 
       $_SESSION['user']['name'] = $_GET['name'];
     ?>
@@ -60,7 +55,9 @@ if(!isset($_SESSION['user']['id'])){
     <?php 
 	} 
 
- 	if (isset($_SESSION['user']['name'])) { ?>
+ 	if (isset($_SESSION['user']['name'])) { 
+ 		$_SESSION['user']['filename'] = "";
+ 		?>
 	<script>
 		$('document').ready(function(){
 			$('#reg,#log').css('display', 'none');
@@ -76,9 +73,8 @@ if(!isset($_SESSION['user']['id'])){
 
     <script type="text/javascript">
     <?php 
-    //printf("var userId = '%s';", uuid());
     printf("var userId = '%s';",$_SESSION['user']['id']);
-  	$experiments = load_experiments();
+  	$experiments = load_experiments($CONFIG['experiment_order']);
   	printf("var experiments = %s;", json_encode($experiments));
   	load_fragments(get_default_fragments());
     ?>
@@ -182,7 +178,7 @@ if(!isset($_SESSION['user']['id'])){
 	        </object>         
 	      </div>
 	      <div id = "message" style="">
-	        <p>Hi! Your video and microphone should be automatically detected and visible above. If your microphone levels are too low, try adjusting them in your Flash settings by right-clicking on the video, selecting Settings, and updating the volume in the microphone tab. </p>
+	        <p>Your video and microphone should be automatically detected and visible above. If your microphone levels are too low, try adjusting them in your Flash settings by right-clicking on the video, selecting Settings, and updating the volume in the microphone tab. </p>
 	      </div>
 	    </div>
   	</body>

@@ -138,7 +138,7 @@ function startExperiment(condition, box) {
 	
 	// Sequence of sections of the experiment, corresponding to html sections.
 	htmlSequence = [['instructions'],
-			['positioning'],
+					['positioning'],
 					['positioning2'],
 					['famMovies', vidElement],
 					['formPoststudy']];
@@ -168,6 +168,7 @@ $('#maindiv').removeClass('whitebackground');
 	switch(segmentName) {
 		case "formPoststudy":
 		case "positioning2":
+		case "positioning":
 		case "instructions":
 			$('#maindiv').append('<div id="'+segmentName+'"></div>');
 			break;
@@ -192,6 +193,7 @@ $('#maindiv').removeClass('whitebackground');
 
 			$('#fsdiv').detach();
 			$('#fsbutton').detach();
+			$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 			$(function() {
 				$('#'+segmentName).submit(function(evt) {
 					evt.preventDefault();
@@ -243,12 +245,16 @@ $('#maindiv').removeClass('whitebackground');
 			});
 			break;
 			
+		case "positioning":
+			show_cam("position","webcamdiv");	
+			
 		case "pretest":
 		case "instructions":
 		case "instructions2":
 
 			$(function() {
 				$('#' + segmentName + ' #next').click(function(evt) {
+					hide_cam("webcamdiv");
 					evt.preventDefault();
 					advanceSegment();
 					return false;

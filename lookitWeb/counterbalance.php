@@ -7,6 +7,7 @@
  * experimental id, and record the provided data
  * as a record in the trials collection with primary
  * id based upon the trial subject (user_id).
+ *
  */
  
 function check_conditions($experiment_id) {

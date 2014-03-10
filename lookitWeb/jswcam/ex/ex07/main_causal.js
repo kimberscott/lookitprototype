@@ -416,7 +416,7 @@ function generateHtml(segmentName){
 		console.log('#baseline');
 		goFullscreen($('#baseline')[0]);
 	} else if (segmentName=='formPoststudy') {
-		$("#widget_holder").css("display","none");
+		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 		leaveFullscreen();
 	}
 	
@@ -440,8 +440,6 @@ function generateHtml(segmentName){
 				break;			
 		}
 	}
-	
-
 }
 
 

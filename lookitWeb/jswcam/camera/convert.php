@@ -10,14 +10,9 @@ session_start();
  */
 if($_POST['withdraw']) {
     $sess_obj = $_SESSION['user']['filename'];
-    $datatopost = array (
-	'filename' => json_encode($sess_obj),
-	'withdraw' => 'true'
-    );
-	$str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":"true",\"server\":\"dev\"}';
+	$str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":\"true\",\"server\":\"dev\"}';
     $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert.php"';
-	 print_r($command);
-	shell_exec($command);
+    shell_exec($command);
 
 }
 
@@ -27,13 +22,9 @@ if($_POST['withdraw']) {
  */
 else if($_POST['continue']){
     $sess_obj = $_SESSION['user']['filename'];
-    $datatopost = array (
-        "filename" => json_encode($_SESSION['user']['filename']),
-        "withdraw" => "false",
-    );
-     $str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":"false",\"server\":\"dev\"}';
+    $privacy = $_POST['privacy'];
+    $str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":\"false\",\"server\":\"dev\",\"privacy\":\"'.$privacy.'\"}';
     $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert.php"';
-	print_r($command);
 	shell_exec($command);
 
 }

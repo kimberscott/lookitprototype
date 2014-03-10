@@ -18,16 +18,16 @@
 					id="throbber" 
 					visible="true" 
 					rotationInterval="100" x="350" bottom="250" symbolColor="0xFFFFFF" depth="11"/>
-			<mx:VideoDisplay
-				id="theCam" 
-				width="700" 
-				height="400" 
-				visible="false" 
-				borderVisible="false"
-				x="710"
-				y="10"
-				bottom="88" 
-				depth="10"/>
+				<mx:VideoDisplay
+					id="theCam" 
+					width="700" 
+					height="400" 
+					visible="false" 
+					borderVisible="false"
+					x="710"
+					y="10"
+					bottom="88" 
+					depth="10"/>
 				<s:TextArea
 					id="noConnection" 
 					visible="false" 

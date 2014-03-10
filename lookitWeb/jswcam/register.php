@@ -27,7 +27,7 @@ function set_value($name,$default,$k){
 
 ?>   
 <script src="static/js/jquery-1.8.1.min.js"></script>
-
+<link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
 <style type="text/css">
 input[type="radio"] {
     margin-top: 3px;
@@ -46,7 +46,19 @@ input[type="checkbox"] {
 div#test input#gender_ {width: 13px;}
 div#test input {width: 100px;}
 label.mdy{margin-left: -60px;}
+.modal-body{overflow:hidden;width:100% !important;}
+
+.jspVerticalBar{ width:7px;}
+.jspDrag {background: none repeat scroll 0 0 #666666; border-radius: 5px;}
+ #test table{border-collapse: separate; margin-right: 20px;}
 </style>
+<!-- the mousewheel plugin - optional to provide mousewheel support -->
+<script type="text/javascript" src="static/js/jquery.mousewheel.js"></script>
+
+<!-- the jScrollPane script -->
+<script type="text/javascript" src="static/js/jquery.jscrollpane.min.js"></script>
+
+<script src="./login/json.js" type="text/javascript"></script>
 <script>
 var temp;
 $(document).ready(function() {
@@ -156,6 +168,7 @@ function clone(chck_str){
 		});
 		i++;
 		j++;
+   		$('.modal-body').jScrollPane();
 	}
 }	
 
@@ -378,17 +391,6 @@ function validation_2(){
 		$("#error").append(s[x]);
 	}
 	
-	if($('input[type=radio]')){// Validations for privacy settings
-		var i = 0;
-		$("input[type=radio]").each(function(){
-			if($(this).attr("name") == "privacy" && $('input[name=privacy]:checked').size() != 1 && i == 0){
-				$("#error").append("<label id='privacy_error' class='error'>Please select a DEFAULT privacy level for the participation videos.<br></label>");
-				valii = 0;
-				i++;
-			}
-		});
-
-	}
 	return valii;
 }
 
@@ -459,15 +461,8 @@ function validation_2(){
 				</div>
 				<input type="button" class="btn-success" id = "add" onclick="clone('');" value = "Add another child's information" style="font-size: large;font-weight: bold;"/>
 				<table>
-				<p><tr>
-					<td colspan="2">2.Choose a DEFAULT privacy for the participation videos</td>
-				</tr></p>
-				<p><tr>	<td><input class="required" type="radio" name="privacy" value="private" <?php if(isset($_SESSION['user']['privacy']) && $_SESSION['user']['privacy'] == "private"){print " checked=\"checked\"";} ?>></td><td>In-lab use only (only researchers from MIT's Early Childhood Cognition Lab may view your video)</td></tr></p>
-				<tr><p>	<td><input type="radio" name="privacy" value="scientific" <?php if(isset($_SESSION['user']['privacy']) && $_SESSION['user']['privacy'] == "scientific"){print " checked=\"checked\"";} ?>></td><td>Scientific use only (e.g., a short clip may be shown at a scientific conference to demonstrate typical responses)</td></p></tr>
-				<tr><p>	<td><input type="radio" name="privacy" value="free" <?php if(isset($_SESSION['user']['privacy']) && $_SESSION['user']['privacy'] == "free"){print " checked=\"checked\"";} ?>></td><td>Publicity and educational use (video may be used for publicity or educational purposes online or in the press in addition to for research purposes)</td></p></tr>
-
 				<tr><td></br></td></tr>
-				<tr><td colspan="2">3. Select communication preferences: I would like to be contacted when...</td></tr>
+				<tr><td colspan="2">2. Select communication preferences: I would like to be contacted when...</td></tr>
 
 				<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="researchers" <?php if(isset($_SESSION['user']['preference']) && in_array("researchers",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>Researchers have questions about my responses.</td></tr>
 				<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="updates" <?php if(isset($_SESSION['user']['preference']) && in_array("updates",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>New studies are available for my child(ren).</td></tr>
@@ -512,3 +507,4 @@ function validation_2(){
 		<td colspan="3"><img src="./img/cancel.png" class = "cancel count" id = "cancel" onclick="remove1(this);" value="Cancel" align="right" style="margin-top: -235px;margin-right: -11px; display:none;              "/></td>
 	</tr>
 </TABLE>
+

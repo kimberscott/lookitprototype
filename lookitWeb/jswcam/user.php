@@ -15,18 +15,27 @@ function put_data($experiment_id, $json, $string) {
   $m = new Mongo($string);
   $db = $m->users;
 
-//Clear and Save data to session  
-  $_SESSION['user'] = "";
-  $_SESSION['user'] = $data;
-
-
   $data['pid'] = $data['name'].$data['email'];
-  $clear['email'] = $data['email'];
-
-//Remove the existing entry and add new entry in details collection.
+  $data['user_id'] = 1;
+  $find['email'] = $data['email'];
+    
   $collection = $db->details;
-  $collection->remove($clear);
-  $collection->insert($data);
+  // Get the highest id that exists in the database, increase it by 1 and set it as the user_id
+  $val =$collection->find()->sort( array('user_id' => -1 ) )->limit(1);
+  foreach($val as $vali){
+    if($vali['user_id']){
+      $data['user_id'] = $vali['user_id'] + 1;
+    }
+  }
+
+  $count = $collection->count($find); // Check if there is any entry for the user 
+  if($count){ // If entry exists update the data
+    $data['user_id'] = $_SESSION['user']['user_id'];
+    $collection->update($find,$data);
+  }
+  else{ // If not exists, insert the data into database.
+    $collection->insert($data);
+  }
 
   $child_details = array();
 
@@ -35,27 +44,9 @@ function put_data($experiment_id, $json, $string) {
     if($k == 'child' || $k == 'child_name' || $k == 'gender' || $k == 'days' || $k == 'weeks'){
       $child_details[$k] = $v;
       continue;
-    }
+    } 
     elseif($k == 'email'){
       $child_details['parent_id'] = $v;
-      continue;
-    }
-    //Change DOB to number of days. 
-    elseif($k == 'dob'){
-      $count = count($v);
-      $dates = array();
-      $date = DATE("m/d/y");
-      if($count > 1){
-        for($i = 0; $i < $count; $i++){
-            $datediff = ceil(abs(strtotime($date) - strtotime($v[$i]))/86400);
-            $dates[$i] = $datediff;
-        }
-      }
-      else{
-        $datediff = ceil(abs(strtotime($date) - strtotime($v))/86400);
-            $dates[0] = $datediff;
-      }
-      $child_details['dates'] = $dates;
       continue;
     }
   }
@@ -64,6 +55,12 @@ function put_data($experiment_id, $json, $string) {
   $new_collection = $db->childs;
   $new_collection->remove($new_clear);
   $new_collection->insert($child_details);
+
+  //Clear and Save data to session  
+  $_SESSION['user'] = "";
+  $data['password'] = "";
+  $data['confirm_password'] = "";
+  $_SESSION['user'] = $data;
 
   echo $data['name'];
 
@@ -95,34 +92,48 @@ function put_data($experiment_id, $json, $string) {
 
 }
 
+// Function to fetch the experiment age requirement to the session array
+Function get_experiment_age_range($string){
+
+  $package = array();
+
+  $m = new Mongo($string);
+  $db = $m->users;
+  $collection = $db->experiment_age;
+  $cursor = $collection->find();
+  
+  // Set the data in the session array.
+  foreach($cursor as $obj){
+    foreach($obj as $k=>$v){
+
+      if($k != '_id'){ // Not considering the _id field
+        $arr[$k] = $v;
+      }
+    }  
+    $package[$arr['experiment_id']] = $arr;     
+  }
+  $_SESSION['user']['age_range'] = $package;
+}
+
 // Function to check the logging users authentication and authorizing him to participate in the studies 
 function login($table, $json, $string){
   $data = json_decode($json, true);
 
+  // Create database connection
   $m = new Mongo($string);
   $db = $m->{$table};
-
   $collection = $db->details;
+
   $package = array();
+
+  //Search if the email and password match in the database
   $cursor = $collection->find(array('email' => $data['email'],'password' => $data['password']));
   
   foreach ($cursor as $obj) {
+    $obj['password'] = "";
+    $obj['confirm_password'] = "";
+      // Set user data in the session variable
       $_SESSION['user'] = $obj;
-  
-      $new_collection = $db->experiment_age;
-      $new_cursor = $new_collection->find();
-  
-      foreach($new_cursor as $new_obj){
-        foreach($new_obj as $k=>$v){
-  
-          if($k != '_id'){
-            $arr[$k] = $v;
-          }
-        }  
-        $package[] = $arr;     
-      }
-  
-      array_push($_SESSION['user'], $package);
       echo json_encode($obj);
       break;
     }
@@ -130,14 +141,18 @@ function login($table, $json, $string){
 
 // Function to check if the queried data exists in the database or not
 function check($table,$json,$string){
-	
+  
   $data = json_decode($json, true);
 
+  // Database connection to the details collection
   $m = new Mongo($string);
   $db = $m->{$table};
   $collection = $db->details;
 
+  // Check if the data array has a flag key.
   if(array_key_exists('flag',$data)){
+
+    // Unset the flag and check if the requested data exists in the account collection
     $collection = $db->account;
     unset($data['flag']);
     $cursor = $collection->find($data);
@@ -147,8 +162,10 @@ function check($table,$json,$string){
     }
   }
 
+  // Count the number of entries for the given data
   $count = $collection->count($data);
 
+  //if data does exists i.e. count > 0
   if($count)
   {
     $cursor = $collection->find($data);
@@ -158,21 +175,22 @@ function check($table,$json,$string){
   }
 }
 
-//Function to check the number of user accounts in the database
+//Function to check the number of user accounts in the database.
 function checknumber($string,$table){
-	
+  
   $LIMIT =1000;
 
+  // Create Database connection.
   $m = new Mongo($string);
-
   $db = $m->{$table};
-
   $collection = $db->details;
-
+  // Count the total number of accounts in the database.
   $count_all_accounts = $collection->count();
+
+  // If number of accounts is less than the specified limit
   if($count_all_accounts > $LIMIT) {
-	echo 'true';
-	return;
+  echo 'true';
+  return;
   }
 
 }
@@ -180,29 +198,26 @@ function checknumber($string,$table){
 // Function to reset the users password in the database
 function reset_pass($table,$json, $string){
   $data = json_decode($json, true);
+  $find['email'] = $data['email'];
+
+  //Creating a database connection string
   $m = new Mongo($string);
   $db = $m->{$table};
-
   $collection = $db->details;
-  $find['email'] = $data['email'];
+  
+  // Updating the password and confirmpassword field for the given email.
   $collection->update(array('email' => $data['email']),array('$set' => array('password' => $data['password'],'confirm_password' => $data['confirm_password'])));
 
   $cursor = $collection->find($find);
   foreach ($cursor as $obj) {
 
+    $obj['password'] = "";
+    $obj['confirm_password'] = "";
+
+    // Set user data in the session variable
     $_SESSION['user'] = $obj;
-      $new_collection = $db->experiment_age;
-      $new_cursor = $new_collection->find();
-      foreach($new_cursor as $new_obj){
-        foreach($new_obj as $k=>$v){
-          if($k != '_id'){
-            $arr[$k] = $v;
-          }
-        }  
-        $package[] = $arr;     
-      }
-      array_push($_SESSION['user'], $package);
-      echo json_encode($obj);
+    echo json_encode($obj);
+    break;
   }
 }
 
@@ -211,6 +226,7 @@ function accounts($table,$email,$data,$string){
 
   $find['email'] = $_SESSION['user']['email'];
   
+  // Create a database connection and fetch the account details of the particular user
   $m = new Mongo($string);
   $db = $m->{$table};
   $collection = $db->account;
@@ -218,68 +234,48 @@ function accounts($table,$email,$data,$string){
 
   $packages = array();
 
+  // For each entry of the user
   foreach ($cursor as $obj) {
-
     foreach($obj as $key => $value) {
 
+      // Check if the key from the retrieved data is experiment_id 
       if($key == 'experiment_id'){
-
         foreach ($data as $test) {
+          if($value == $test['id']){ // If value equals the id the paticipating experiment
 
-          if($value == $test['id']){
+            $index = 0;
+            if(is_array($_SESSION['user']['child'])){ // If more than one childs
 
-            $collection3 = $db->details;
-
-            $find = array('child' => $obj['child_id'],'email' => $_SESSION['user']['email']);
-
-            $cursor3 = $collection3->find($find);
-
-            foreach ($cursor3 as $obj_new) {
-
-              if(is_array($obj_new['child_name'])){
-
-                $count = 0;
-
-                foreach($obj_new['child'] as $child){
-
-                  if($child == $obj['child_id']){
-
-                    $res = $count;
-                    break;
-
-                  }
-
-                  $count++;
-
+              // Fetch the index of the child from the session data
+              foreach ($_SESSION['user']['child'] as $key => $value) {
+                if($value == $obj['child_id']){
+                  break;
                 }
-
-                $temp = $test['desc'];
-                $rep = "</p><p>Participant: ".$obj_new['child_name'][$res]."</br>".$obj['date']."</p>";
-                $test['desc'] = preg_replace("/<\/p>\s+<p>(.*?)<\/p>/", $rep, $temp);
+                $index++;
               }
+              
+              // Retrieve the name of the child from session.
+              $child_name = $_SESSION['user']['child_name'][$index];
 
-              else{
-
-                $temp = $test['desc'];
-                $rep = "</p><p>Participant: ".$obj_new['child_name']."</br>".$obj['date']."</p>";
-                $test['desc'] = preg_replace("/<\/p>\s+<p>(.*?)<\/p>/", $rep, $temp);
-
-              }
-
-              $packages[] = $test;
-
+              // Replace the description of the experiment with the name of participant and the participation date
+              $temp = $test['desc'];
+              $rep = "</p><p>Participant: ".$child_name."</br>".$obj['date']."</p>";
+              $test['desc'] = preg_replace("/<\/p>\s+<p>(.*?)<\/p>/", $rep, $temp);
             }
 
+            else{// if single child, no need to loop just replace the description from the details in session.
+              $child_name = $_SESSION['user']['child_name'];
+
+              $temp = $test['desc'];
+              $rep = "</p><p>Participant: ".$child_name."</br>".$obj['date']."</p>";
+              $test['desc'] = preg_replace("/<\/p>\s+<p>(.*?)<\/p>/", $rep, $temp);
+            }
+            $packages[] = $test;
           }
-
         }
-
       }
-
     } 
-
   }
-
   echo json_encode($packages);
 }
 
@@ -304,55 +300,66 @@ function child_data($table,$string,$str=''){
   
 }
 
-// Function to check the ge of the participating child with the minimum and maximum
+// Function to check the age of the participating child with the minimum and maximum
 // age requirement of the experiment.
 function check_age($table, $json, $string){
+  
   $data = json_decode($json, true);
-  $my_data = child_data($table,$string,'check');
+  
+  $age_flag = 0;
+  $participated_flag = 0;
+  $index = 0; 
+  get_experiment_age_range($string); // Fetching the experiment data from the db.
 
-  $i = 0; 
-  foreach ($my_data as $key => $value) {
-    if($key == "child"){
-      foreach ($value as $v) {
+  // Setting participant's data in session.
+  $_SESSION['user']['experiment_id'] = $data['expriment_id'];
+  $_SESSION['user']['participant'] = $data['participant'];
+  $_SESSION['user']['participant_privacy'] = "INCOMPLETE"; 
+  
+  if(is_array($_SESSION['user']['child'])){ // If more than one childs
 
-        if($v == $data['participant']){
-          break;
-        }
-        $i++;
+    // Get the index of the participating child from the session.
+    foreach ($_SESSION['user']['child'] as $key => $value) {
+      if($value == $data['participant']){
+        break;
       }
+      $index++;
     }
+
+    // Retrieve the date of birth of the child from session.
+    $participant_dob = $_SESSION['user']['dob'][$index];
   }
-  $age = $my_data['dates'][$i];
-  $find['experiment_id'] = $data['expriment_id'];
+  else{
+    $participant_dob = $_SESSION['user']['dob'];
+  }
+  $current_date = DATE("m/d/y");
+  $age_in_days = ceil(abs(strtotime($current_date) - strtotime($participant_dob))/86400);
+
+  // Fetch the age range of the participating experiment from the session.
+  $experiment_age_range = $_SESSION['user']['age_range'][$data['expriment_id']];
+
+  // Check if the child falls in the accepted age range.
+  if($age_in_days >= $experiment_age_range['min_age'] &&  $age_in_days <= $experiment_age_range['max_age']){
+    $age_flag = 1;
+  }
+
+
   $new_find['email'] = $_SESSION['user']['email'];
   $new_find['child_id'] =  $data['participant'];
+
   if($data['expriment_id']){
     $new_find['experiment_id'] = $data['expriment_id'];
   }
+  
+  // Creating connection string to check if the child has already participated in the experiment
   $m = new Mongo($string);
-  $age_flag = 0;
-  $participated_flag = 0;
   $db = $m->{$table};
-  $_SESSION['user']['experiment_id'] = $data['expriment_id'];
-  $_SESSION['user']['participant'] = $data['participant'];
-  $_SESSION['user']['participant_privacy'] = $data['participant_privacy']; 
-  $collection = $db->experiment_age;
   $new_collection = $db->account;
-  $cursor = $collection->find($find);
   $new_cursor = $new_collection->find($new_find);
 
-  foreach ($cursor as $obj){
-
-    if($age >= $obj['min_age'] &&  $age <= $obj['max_age']){
-
-      $age_flag = 1;
-
-    }
-  }
   foreach ($new_cursor as $obj){
 
-    if($obj){
-
+    if($obj){ // Checking if the child has already participated.
       $participated_flag = 1;
     }
   }
