@@ -205,10 +205,8 @@ var move;
 // Function to populate the second page of the registration pop-up if first is completely filled.
 function next(){
 	var re = 0;
-
 	if(validation()){
 		re =1;
-
 		var json_string = JSON.stringify($('#email').serializeObject());
 		$.ajax({
 			'type': 'POST',
@@ -335,6 +333,7 @@ function remove1(closed){
    		z = z+1;
 	});
 	i -= 1;
+	$('.modal-body').jScrollPane();
 }
 
 // Validations for child details page of the registration pop-up
