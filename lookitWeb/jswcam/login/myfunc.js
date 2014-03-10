@@ -117,6 +117,7 @@ $(document).ready(function(){
     get_params('params');
     $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
+    
 });
 var responce;
 
@@ -278,7 +279,12 @@ function register(is_new){
 
 						}
 						else{
+                            var element = $('.modal-body').jScrollPane({});
+                            var api = element.data('jsp');
+                            api.destroy();
 							$('.modal-body').scrollTop(0);
+                            $('.modal-body').jScrollPane();
+                            $('.jspContainer').width($('.jspContainer').width() - 31);
 							$("#error2").html($("#error").html());
 							$("#error2").find("label").css({"font-weight": "700"});
 							return false;
@@ -774,6 +780,7 @@ function connected_mic_cam(){
 
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
 function done_or_withdraw(experiment,DEBRIEFHTML){
+    $("#widget_holder").css("display","none");
     bootbox.dialog(DEBRIEFHTML, [{
         'label': 'Done',
         "class": 'btn-primary reset-close',
@@ -814,12 +821,18 @@ function set_post_data(caller){
             'label': 'Submit',
             "class": 'btn-primary reset-close',
             'callback': function() {
-                post_data = {
-                    'continue' : 'true',
-                    'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
-                };
-                return_to_accounts(post_data);
-                return true;
+                if($('input[name=gender]:checked').length > 0){
+                    post_data = {
+                        'continue' : 'true',
+                        'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
+                    };
+                    return_to_accounts(post_data);
+                    return true;
+                }
+                else{
+                    $("#error").html("<b style='color: #FF0000'>Please select a privacy level for the experiment.</b>");
+                    return false;
+                }
             }
         }]);
     }
