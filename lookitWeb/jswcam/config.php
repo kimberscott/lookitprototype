@@ -7,6 +7,6 @@
 $CONFIG = array();
 
 // Setting up the experiment order parameter, to display the experiment in a user defiend sequence
-$CONFIG['experiment_order'] = array("ex03","ex07","ex06","ex09");
+$CONFIG['experiment_order'] = array("ex03","ex07","ex06","ex09","ex04");
 
 ?>
