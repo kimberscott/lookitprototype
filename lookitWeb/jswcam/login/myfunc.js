@@ -821,7 +821,7 @@ function set_post_data(caller){
             'label': 'Submit',
             "class": 'btn-primary reset-close',
             'callback': function() {
-                if($('input[name=gender]:checked').length > 0){
+                if($('input[name=participant_privacy]:checked').length > 0){
                     post_data = {
                         'continue' : 'true',
                         'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
