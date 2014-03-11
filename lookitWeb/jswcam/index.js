@@ -77,7 +77,8 @@ var page = (function() {
 		var html = this.html(expt.id);
 		var recording = 0;
 		var done = 0;
-		var lastId = '';
+		var startTime;
+		var difference;
 		// Limit the length of recording using window.setTimeout.
 		var timeoutID = 0;
 		var check_cam = "<div id = 'top_bar'><p><h1 style='text-align:center'>Test Your Webcam and Microphone </h1></p></div><div id='cam_setup'></div>";
@@ -88,36 +89,25 @@ var page = (function() {
 			'callback': function() {
 				if (recording == 1){
 					jswcam.stopRecording();
+					window.clearTimeout(timeoutID);
+					$('#recording-indicator').css({'background-color': '#666666'});
 					recording = 0;
 				}
 				$("#widget_holder").css("display","none");
 				hide_cam();
 				return true;
-				//$('body').append($('#widget_holder'));
-				//$("#flashplayer").appendTo($('body'));
-				// If 'cancel' during recording, make sure to stop recording
-				//window.clearTimeout(timeoutID);
-				//lastId = document.jswcam.stopRecording();
-				//$('#recording-indicator').css({'background-color': '#666666'});
-				//if(!($.isEmptyObject(lastId))) {
-				//	jswcam.exemptId(lastId);
-				//}
-				//console.log("TODO: I don't Agree / tear down applet");
 			}
 		},
 		{
-			'label': 'Send',
+			'label': 'Send video (0 seconds)',
 			"class": "btn-success btn-send",
 			'callback': function() {
 				if(done == 1){
 					get_params('params'); // Resetting the session variable to access the filename
-					console.log(session);
 					var filename = session['filename'][0];
-                    //session['filename'] = "";
-                    console.log(session);
                     $.post("./camera/convert.php", {
-                        'continue': "true",
-                        'privacy' : "INCOMPLETE"
+                        'continue': 'true',
+                        'privacy' : 'INCOMPLETE'
                     });
                     console.log(session);
 					done = 0;
@@ -133,7 +123,11 @@ var page = (function() {
 			'label': 'Done',
 			'class': 'btn-primary btn-stop',
 			'callback': function() {
-				if(recording == 1){
+				if(recording == 2){
+					window.clearTimeout(timeoutID);
+					var endTime = (new Date()).getTime();
+					difference = (endTime - startTime)/1000;
+					startTime = null;
 					recording = 0;
 					done = 1;
 					$('.btn-record').attr('disabled', 'disabled');
@@ -141,6 +135,7 @@ var page = (function() {
 					$('#recording-indicator').css({'background-color': '#666666'});
 					$('.btn-send').attr('disabled', false);
 					jswcam.stopRecording();
+					$('.btn-send').html('Send video (' + parseInt(difference) + ' seconds)')
 					return false;
 				}
 				return false;
@@ -151,12 +146,21 @@ var page = (function() {
 			'class': 'btn-primary btn-record',
 			'callback': function() {
 				if(recording == 0 && done == 0){
-				recording = 1;
-				done = 0;
-				$('.btn-send').attr('disabled', 'disabled');
-				$('.btn-record').attr('disabled', 'disabled');
-				$('.btn-stop').attr('disabled', false);
-				jswcam.startRecording("");
+					recording = 1;
+					done = 0;
+					$('.btn-send').attr('disabled', 'disabled');
+					$('.btn-record').attr('disabled', 'disabled');
+					//$('.btn-stop').attr('disabled', false);
+					$('#recording-indicator').css({'background-color': '#FF0000'});
+					// This timeout function is copied from 'done' and should just be named
+					timeoutID = window.setTimeout(function() {
+						window.clearTimeout(timeoutID);
+						recording = 2;
+						$('.btn-stop').attr('disabled', false);
+						return false;
+					}, 5000); // 5 second min recording
+					jswcam.startRecording('');
+					startTime = (new Date()).getTime();
 				}
 				return false;
 			}
@@ -165,15 +169,15 @@ var page = (function() {
 			'label': 'Continue',
 			'class': 'btn-primary btn-continue',
 			'callback': function() {
-				swfobject.getObjectById("flashplayer").consent();
-				$("#top_bar").html(html);
-				$("#top_bar").append(page.html('consent_verbal'));
-				$("#message").css({'visibility':'hidden'});
-        		$("#widget").css("height","400px");
-        		$('.btn-send').css("display","inline-block");
-				$('.btn-stop').css("display","inline-block");
-				$('.btn-record').css("display","inline-block");
-				$('.btn-continue').css("display","none");
+				swfobject.getObjectById('flashplayer').consent();
+				$('#top_bar').html(html);
+				$('#top_bar').append(page.html('consent_verbal'));
+				$('#message').css({'visibility':'hidden'});
+				$('#widget').css('height','400px');
+				$('.btn-send').css('display','inline-block');
+				$('.btn-stop').css('display','inline-block');
+				$('.btn-record').css('display','inline-block');
+				$('.btn-continue').css('display','none');
 				return false;
 			}
 		}
@@ -367,9 +371,9 @@ var page = (function() {
     Library.prototype.loadExperiment = function(packaging, divSel) {
 	 try {
 		console.log(packaging);		
-jswcam.setExperiment(packaging['id']);
+//jswcam.setExperiment(packaging['id']);
 		if(typeof userId == 'undefined') userId = 'test_user';
-		document.jswcam.setUser(userId);		
+		//document.jswcam.setUser(userId);		
 	 } catch(e) {
 		console.log(e);
 	 }
@@ -627,7 +631,7 @@ jswcam.setExperiment(packaging['id']);
 		    bootbox.hideAll();
 		    this.getUploadingDialog(false);
 		    this.show('home');
-		    jswcam.toggleWebCamView(true);
+		    //jswcam.toggleWebCamView(true);
 		}
 	    }.createDelegate(this), 1000);
 	}
@@ -662,7 +666,6 @@ var jswcam = (function() {
 		this.stopRecording("stopping");
 	}
 	get_params('params'); // Resetting the session variable to access the filename
-	console.log(session);
 	swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id'],session['participant'],session['participant_privacy'],caller);
 	 is_recording = '1';
 	 console.log("Recording Started");
