@@ -247,12 +247,7 @@ label.mdy{margin-left: -60px;}
   height: 16px;
 }
 </style>
-<<<<<<< HEAD
-=======
 
-
-
->>>>>>> upstream/Dev
 <!-- the mousewheel plugin - optional to provide mousewheel support -->
 <script type="text/javascript" src="static/js/jquery.mousewheel.js"></script>
 
@@ -268,7 +263,7 @@ $(document).ready(function() {
         //alert("Right Click is not allowed");
     });
 
-	var count = <?php echo count($_SESSION['user']['dob']) ?>;
+	var count = <?php echo count($_SESSION['user']['child_name']) ?>;
 	temp = count;	
 	if($("#email").val() != ""){
 		$("#email").attr("readonly","readonly");
