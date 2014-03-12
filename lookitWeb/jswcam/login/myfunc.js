@@ -693,9 +693,11 @@ function show_cam(caller,div_c){
     if(div_c == 'webcamdiv'){
         div_c = "widget_holder";
         $("#"+div_c).wrap("<div id='widget_holder1'></div>");
-        $("#widget_holder1").css({"width":"25%"});
+        $("#widget_holder1").css({"width":"50%"});
     }
-    $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+    else{
+        $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+    }
     // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
     var swfVersionStr = "11.1.0";
     // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
