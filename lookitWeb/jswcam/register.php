@@ -247,7 +247,6 @@ label.mdy{margin-left: -60px;}
   height: 16px;
 }
 </style>
-
 <!-- the mousewheel plugin - optional to provide mousewheel support -->
 <script type="text/javascript" src="static/js/jquery.mousewheel.js"></script>
 
