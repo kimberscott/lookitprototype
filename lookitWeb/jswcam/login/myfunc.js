@@ -690,26 +690,46 @@ function get_params(fun){
 
 // Function to display the camera widget on the screen
 function show_cam(caller,div_c){
-    $('#'+div_c).append($('#widget_holder'));
-    $("#message").css({'visibility':'visible'});
-    $(".bootbox").css({"width":"790px"});
-    $(".bootbox").css({"height":"650px"});
-    $("#widget_holder").css({'visibility':'visible'});
-    $("#widget_holder").css("height","450px");
-    $("#widget").css("height","450px");
-    $(".modal-body").css("max-height","550px");
-    $(".modal-body").css("height","550px");
+    if(div_c == 'webcamdiv'){
+        div_c = "widget_holder";
+        $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+        $("#widget_holder1").css({"width":"25%"});
+    }
+    $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+    // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
+    var swfVersionStr = "11.1.0";
+    // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
+    var xiSwfUrlStr = "playerProductInstall.swf";
+    var flashvars = {
+                        'width'  :  450, // Set the width and height of the widget here
+                        'height' :  300
+                    };
+    var params = {};
+    params.quality = "high";
+    params.bgcolor = "#ffffff";
+    params.allowscriptaccess = "always";
+    params.allowfullscreen = "true";
+    var attributes = {};
+    attributes.id = "flashplayer";
+    attributes.name = "flashplayer";
+    attributes.align = "middle";
+    swfobject.embedSWF("./camera/Flashms.swf", div_c, "100%", "100%", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);
+    $("#setup_message").append($("#message"));
+    $("#message").css({'display':'block'});
+    $(".bootbox").css({"width":"790px","height":"650px"});
+    $("#widget_holder1").css({"height":"400px"});
+    $('#webcamdiv').height($('#widget_holder1').height());
+    $('#widget_holder1').offset($('#webcamdiv').offset());
+    $(".modal-body").css({"max-height":"550px","height":"550px"});
     $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
 }
 
 // Function to remove the camera widget from the screen
 function hide_cam(div_c){
-    var cloning = $("#widget_holder").clone();
-    $('body').append($('#widget_holder'));
-    $("#widget_holder").css({'visibility':'hidden'});
+    $("#widget_holder1").css({'visibility':'hidden'});
     $("#message").css({'visibility':'hidden'});
-    $("#widget_holder").css("height","0px");
+    $("#widget_holder1").css("height","0px");
     $("#widget").css("height","0px");
 }
 
