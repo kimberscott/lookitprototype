@@ -12,6 +12,9 @@ if($_POST['withdraw']) {
     $sess_obj = $_SESSION['user']['filename'];
 	$str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":\"true\",\"server\":\"dev\"}';
     $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert.php"';
+    if(count($_SESSION['user']['filename']) > 1){
+        $_SESSION['user']['filename'] = "";
+    }
     shell_exec($command);
 
 }
@@ -25,7 +28,10 @@ else if($_POST['continue']){
     $privacy = $_POST['privacy'];
     $str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":\"false\",\"server\":\"dev\",\"privacy\":\"'.$privacy.'\"}';
     $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert.php"';
-	shell_exec($command);
+	if(count($_SESSION['user']['filename']) > 1){
+        $_SESSION['user']['filename'] = "";
+    }
+    shell_exec($command);
 
 }
 

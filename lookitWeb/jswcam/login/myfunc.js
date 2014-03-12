@@ -729,6 +729,7 @@ function show_cam(caller,div_c){
 
 // Function to remove the camera widget from the screen
 function hide_cam(div_c){
+    $("body").append($("#message"));
     $("#widget_holder1").css({'visibility':'hidden'});
     $("#message").css({'visibility':'hidden'});
     $("#widget_holder1").css("height","0px");
@@ -802,7 +803,8 @@ function connected_mic_cam(){
 
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
 function done_or_withdraw(experiment,DEBRIEFHTML){
-    $("#widget_holder").css("display","none");
+    $("#flashplayer").remove();
+    $("#widget_holder1").attr('id','widget_holder');
     bootbox.dialog(DEBRIEFHTML, [{
         'label': 'Done',
         "class": 'btn-primary reset-close',
