@@ -262,7 +262,7 @@ $(document).ready(function() {
         //alert("Right Click is not allowed");
     });
 
-	var count = <?php echo count($_SESSION['user']['dob']) ?>;
+	var count = <?php echo count($_SESSION['user']['child_name']) ?>;
 	temp = count;	
 	if($("#email").val() != ""){
 		$("#email").attr("readonly","readonly");
