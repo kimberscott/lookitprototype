@@ -281,7 +281,7 @@ $(document).ready(function() {
 	j = 1;
 	range = 4;
 	<?php 
-		$count = count($_SESSION['user']['dob']);
+		$count = count($_SESSION['user']['child_name']);
 		$k=0;
 		for($i = 1; $i < $count; $i++){ ?>
 			clone("preset");
