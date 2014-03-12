@@ -39,7 +39,7 @@ if(!$.isFunction(String.prototype.hashCode)) {
 
  })();
 
-
+var recording_count = '0';
 var page = (function() {
 	
     function Library() {
@@ -158,6 +158,7 @@ var page = (function() {
 						$('.btn-stop').attr('disabled', false);
 						return false;
 					}, 5000); // 5 second min recording
+					recording_count = '0';
 					jswcam.startRecording('');
 					startTime = (new Date()).getTime();
 				}
@@ -636,7 +637,6 @@ var page = (function() {
     return _lib;
 })();
 var is_recording = '0';
-var recording_count = '0';
 var jswcam = (function() {
 
     function Library() {}

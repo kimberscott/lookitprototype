@@ -60,7 +60,7 @@ if(!isset($_SESSION['user']['id'])){
 	} 
 
  	if (isset($_SESSION['user']['name'])) { 
- 		$_SESSION['user']['filename'] = {};
+ 		$_SESSION['user']['filename'] = "";
  	?>
 	<script>
 		$('document').ready(function(){

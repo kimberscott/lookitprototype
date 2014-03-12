@@ -693,9 +693,11 @@ function show_cam(caller,div_c){
     if(div_c == 'webcamdiv'){
         div_c = "widget_holder";
         $("#"+div_c).wrap("<div id='widget_holder1'></div>");
-        $("#widget_holder1").css({"width":"25%"});
+        $("#widget_holder1").css({"width":"50%"});
     }
-    $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+    else{
+        $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+    }
     // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
     var swfVersionStr = "11.1.0";
     // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
@@ -727,6 +729,7 @@ function show_cam(caller,div_c){
 
 // Function to remove the camera widget from the screen
 function hide_cam(div_c){
+    $("body").append($("#message"));
     $("#widget_holder1").css({'visibility':'hidden'});
     $("#message").css({'visibility':'hidden'});
     $("#widget_holder1").css("height","0px");
@@ -800,7 +803,8 @@ function connected_mic_cam(){
 
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
 function done_or_withdraw(experiment,DEBRIEFHTML){
-    $("#widget_holder").css("display","none");
+    $("#flashplayer").remove();
+    $("#widget_holder1").attr('id','widget_holder');
     bootbox.dialog(DEBRIEFHTML, [{
         'label': 'Done',
         "class": 'btn-primary reset-close',
