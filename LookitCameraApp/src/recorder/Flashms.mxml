@@ -46,7 +46,7 @@
 					enabled = "false"
 					visible="false"
 					chromeColor="#33abe9"
-					color="#ffffff" depth="11" x="315" bottom="240"/>
+					color="#ffffff" depth="11" x="315" />
 				<s:TextArea
 					id="noCam"
 					visible="false" 

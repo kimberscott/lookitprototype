@@ -81,7 +81,7 @@ var page = (function() {
 		var difference;
 		// Limit the length of recording using window.setTimeout.
 		var timeoutID = 0;
-		var check_cam = "<div id = 'top_bar'><p><h1 style='text-align:center'>Test Your Webcam and Microphone </h1></p></div><div id='cam_setup'></div>";
+		var check_cam = "<div id = 'top_bar'><p><h1 style='text-align:center'>Test Your Webcam and Microphone </h1></p></div><div id='cam_setup'></div><div id = 'setup_message'></div>";
 		bootbox.dialog(check_cam, [
 		{
 			'label': 'Cancel',
@@ -150,7 +150,6 @@ var page = (function() {
 					done = 0;
 					$('.btn-send').attr('disabled', 'disabled');
 					$('.btn-record').attr('disabled', 'disabled');
-					//$('.btn-stop').attr('disabled', false);
 					$('#recording-indicator').css({'background-color': '#FF0000'});
 					// This timeout function is copied from 'done' and should just be named
 					timeoutID = window.setTimeout(function() {
@@ -173,7 +172,6 @@ var page = (function() {
 				$('#top_bar').html(html);
 				$('#top_bar').append(page.html('consent_verbal'));
 				$('#message').css({'visibility':'hidden'});
-				$('#widget').css('height','400px');
 				$('.btn-send').css('display','inline-block');
 				$('.btn-stop').css('display','inline-block');
 				$('.btn-record').css('display','inline-block');
@@ -186,13 +184,10 @@ var page = (function() {
 		$('.btn-continue').css("display","none");
 		$('.btn-send').attr('disabled', 'disabled');
 		$('.btn-stop').attr('disabled', 'disabled');
-		$("#message").css({'visibility':'visible'});
 		$('.btn-send').css("display","none");
 		$('.btn-stop').css("display","none");
 		$('.btn-record').css("display","none");
-		$('#consent_div').html(check_cam);
 		show_cam("consent","cam_setup");
-		$("#widget_holder").css("display","block");
 		 setTimeout(function(){
     		swfobject.getObjectById("flashplayer").setup();
   		}, 2000 );
@@ -641,7 +636,7 @@ var page = (function() {
     return _lib;
 })();
 var is_recording = '0';
-
+var recording_count = '0';
 var jswcam = (function() {
 
     function Library() {}
@@ -662,13 +657,14 @@ var jswcam = (function() {
     };
     /**/
     Library.prototype.startRecording = function(caller) {
-	if(is_recording == '1'){
-		this.stopRecording("stopping");
-	}
-	get_params('params'); // Resetting the session variable to access the filename
-	swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id'],session['participant'],session['participant_privacy'],caller);
-	 is_recording = '1';
-	 console.log("Recording Started");
+		if(is_recording == '1'){
+			this.stopRecording("stopping");
+		}
+		get_params('params'); // Resetting the session variable to access the filename
+		swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id'],session['participant'],session['participant_privacy'],caller,recording_count);
+		recording_count++;
+		is_recording = '1';
+		console.log("Recording Started");
     };
 
     /*
