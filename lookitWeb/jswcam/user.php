@@ -260,7 +260,7 @@ function accounts($table,$email,$data,$string){
               // Replace the description of the experiment with the name of participant and the participation date
               $temp = $test['desc'];
               $rep = "</p><p>Participant: ".$child_name."</br>".$obj['date']."</p>";
-              $test['desc'] = preg_replace("/<\/p>\s+<p>(.*?)<\/p>/", $rep, $temp);
+              $test['desc'] = preg_replace("/<\/p>\s*<p>(.*?)<\/p>/", $rep, $temp);
             }
 
             else{// if single child, no need to loop just replace the description from the details in session.
@@ -268,7 +268,7 @@ function accounts($table,$email,$data,$string){
 
               $temp = $test['desc'];
               $rep = "</p><p>Participant: ".$child_name."</br>".$obj['date']."</p>";
-              $test['desc'] = preg_replace("/<\/p>\s+<p>(.*?)<\/p>/", $rep, $temp);
+              $test['desc'] = preg_replace("/<\/p>\s*<p>(.*?)<\/p>/", $rep, $temp);
             }
             $packages[] = $test;
           }
