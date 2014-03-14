@@ -42,7 +42,7 @@ else if($_POST['continue']){
 
 else if($_POST['filename']){
 	$filename = $_POST['filename'];
-	$i = substr($filename,-1);
-	$_SESSION['user']['filename'][$i] = $filename;
+    preg_match('/_(\d+)$/', $filename,$matches);
+	$_SESSION['user']['filename'][substr($matches[0],1)] = $filename;
 }
 ?>
