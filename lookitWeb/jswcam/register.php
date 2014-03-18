@@ -27,10 +27,11 @@ function set_value($name,$default,$k){
 
 ?>   
 
+<link rel="stylesheet/css" type="text/css" href="static/js/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"></link>
+<script src="static/js/jquery-1.8.1.min.js"></script>
+<script src="static/js/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
 <link rel="stylesheet/less" type="text/css" href="bootstrap/less/bootstrap.less"></link>
 <script src="static/js/less-1.3.0.min.js" type="text/javascript"></script>
-
-<script src="static/js/jquery-1.8.1.min.js"></script> 
 <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="static/datepicker/js/bootstrap-datepicker.js"></script>
 <link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
@@ -63,7 +64,6 @@ div#test input#gender_ {width: 13px;}
 div#test input {width: 100px;}
 label.mdy{margin-left: -60px;}
 .modal-body{overflow:hidden;width:100% !important;}
-
 .jspVerticalBar{ width:7px;}
 .jspDrag {background: none repeat scroll 0 0 #666666; border-radius: 5px;}
  #test table{border-collapse: separate; margin-right: 20px;}
@@ -247,9 +247,6 @@ label.mdy{margin-left: -60px;}
   height: 16px;
 }
 </style>
-
-
-
 <!-- the mousewheel plugin - optional to provide mousewheel support -->
 <script type="text/javascript" src="static/js/jquery.mousewheel.js"></script>
 
@@ -265,7 +262,7 @@ $(document).ready(function() {
         //alert("Right Click is not allowed");
     });
 
-	var count = <?php echo count($_SESSION['user']['dob']) ?>;
+	var count = <?php echo count($_SESSION['user']['child_name']) ?>;
 	temp = count;	
 	if($("#email").val() != ""){
 		$("#email").attr("readonly","readonly");
@@ -284,7 +281,7 @@ $(document).ready(function() {
 	j = 1;
 	range = 4;
 	<?php 
-		$count = count($_SESSION['user']['dob']);
+		$count = count($_SESSION['user']['child_name']);
 		$k=0;
 		for($i = 1; $i < $count; $i++){ ?>
 			clone("preset");
@@ -441,10 +438,8 @@ var move;
 // Function to populate the second page of the registration pop-up if first is completely filled.
 function next(){
 	var re = 0;
-
 	if(validation()){
 		re =1;
-
 		var json_string = JSON.stringify($('#email').serializeObject());
 		$.ajax({
 			'type': 'POST',
@@ -571,6 +566,7 @@ function remove1(closed){
    		z = z+1;
 	});
 	i -= 1;
+	$('.modal-body').jScrollPane();
 }
 
 // Validations for child details page of the registration pop-up
