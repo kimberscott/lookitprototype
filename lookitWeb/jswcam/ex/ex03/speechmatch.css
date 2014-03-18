@@ -1,3 +1,10 @@
+.clickimage, #thevideo {
+    height: 80%;
+	top: 10%;
+    max-height: 500px;
+    margin: auto;
+}
+
 .playingVideo {
   color: black;
   background-color: black;

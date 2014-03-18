@@ -29,18 +29,10 @@ var DEBRIEFHTML = "<p> Thanks so much for participating!  To confirm your partic
 	(see for example <a href='http://www.sciencedirect.com/science/article/pii/S0163638384800508' target='_blank'> \
 	Kuhl & Melztoff 1984 </a> or <a href='http://onlinelibrary.wiley.com/doi/10.1111/1467-7687.00271/full' target='_blank'> \
 	Patterson & Werker 2003 </a>).	</p> \
-	<p> The 'Talking Faces' study uses a method called preferential looking.  Researchers \
-	will record how long your child was looking towards the left face, the right face, and away from \
-	the screen during each movie.  We are expecting that infants and toddlers will have a preference \
-	for the faces that match the story audio.  However, parents may have a preference \
-	for these 'matching faces' or inadvertently direct their children to attend to the matching faces.  \
-	That's why parents are given various instructions--to close their eyes, to attend to the non-matching face, \
-	and so on.  This gives us a measure of how much of an effect parents' deliberate attention has on infants' \
-	looking behavior.  </p> \
-	<p> Individual children may look left or right for all sorts of reasons during the study--for instance, other interesting \
-	things going on at home, or a preference for the movements of one face versus the other.  However, over many \
-	children, these effects average out.  We show each child a random sequence of two left and two right matching \
-	faces to ensure that we do not just learn about infants' interest in left versus right! </p> ";
+	<p> Individual children may look to or away from the screen for all sorts of reasons during the study--for instance, other interesting \
+	things going on at home, or a preference for familiar stories!  However, over many \
+	children, these effects average out.  We show each child a random sequence of two matching and two non-matching\
+	faces. </p> ";
 
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
@@ -65,7 +57,7 @@ function main(mainDivSel, expt) {
 		
 	if(sandbox) {
 		// Manually set the condition number
-		condition = prompt('Please enter a condition number (0-5)', '0');
+		condition = prompt('Please enter a condition number (0-3)', '0');
 		startExperiment(condition, box);
 	} else {
 		// Get the appropriate condition from the server by checking which ones we 
@@ -85,7 +77,13 @@ function generateHtml(segmentName){
 
 	addEvent(  {'type': 'htmlSegmentDisplayed'});
 	$("body").removeClass('playingVideo');
-	$('#maindiv').append('<div id="'+segmentName+'"></div>');
+	
+	if (segmentName=='vidElement') {
+		var vidElement = buildVideoElement('start', 'vidElement');
+		$('#maindiv').append(vidElement);
+	} else {
+		$('#maindiv').append('<div id="'+segmentName+'"></div>');
+	}
 	$('#'+segmentName).load(experiment.path+'html/'+segmentName+'.html', 
 	function() {
 	
@@ -152,7 +150,7 @@ function generateHtml(segmentName){
 			break;
 			
 		case "positioning":
-			show_cam("","webcamdiv");
+			if (!sandbox) {	show_cam("","webcamdiv");}
 		
 		case "instructions":
 		case "instructions2":
@@ -161,7 +159,7 @@ function generateHtml(segmentName){
 			$(function() {
 				$('#' + segmentName + ' #next').click(function(evt) {
 					evt.preventDefault();
-					hide_cam("webcamdiv");
+					if (!sandbox) {	hide_cam("webcamdiv"); }
 					advanceSegment();
 					return false;
 				});
@@ -180,7 +178,7 @@ function generateHtml(segmentName){
 			function endHandler(event){
 				addEvent(  {'type': 'endMovie',
 							'src': vidSequence[lastVid][0]});
-				if (!sandbox) {
+				if (!sandbox && lastVid>0) {
 					if (lastVid==(vidSequence.length-1)) {
 						jswcam.stopRecording("remove");
 					} else {
@@ -194,7 +192,13 @@ function generateHtml(segmentName){
 					// At end of the movie (but only then!), click to continue.
 					// This handler removes itself (don't do it here)
 					video.style.cursor = 'auto'; // show the cursor again
-					video.addEventListener("click", clickHandler, false); 
+					// If there's a 4th element, show this image over top until click
+					if (vidSequence[lastVid].length>3) {
+						$('#thevideo').hide();
+						$('#vidElement').prepend('<img class="center clickimage" style="z-index:9999" src="' + experiment.path + 'img/' + vidSequence[lastVid][3] + '.png" >');
+						
+					}
+					$('#vidElement')[0].addEventListener("click", clickHandler, false); 
 				} else {
 					addEvent(  {'type': 'startDelay'});
 					setTimeout(function(){
@@ -215,7 +219,9 @@ function generateHtml(segmentName){
 				event.preventDefault();
 				addEvent(  {'type': 'click',
 							'fn': 'advancevideo'});
-				video.removeEventListener("click", clickHandler, false);
+				vidSeg.removeEventListener("click", clickHandler, false);
+				$('.clickimage').remove();
+				$('#thevideo').show();
 				if (lastVid == (vidSequence.length - 1)){
 					$('#vidElement').detach(); // I don't understand why this doesn't just work from advanceSegment, but it doesn't.
 					advanceSegment(); // done playing all videos, move on
@@ -226,11 +232,11 @@ function generateHtml(segmentName){
 			
 			function loadedHandler(){
 				console.log('loaded handler');
-				
-				// Moved here from below removing event listeners--doesn't work there.(???)
-				video.play();
-				video.currentTime = 0;
 
+				// Moved here from below removing event listeners--doesn't work there.(???)
+				video.currentTime = 0;
+				video.play();
+				
 				video.removeEventListener('canplaythrough', loadedHandler, false);
 				video.removeEventListener('emptied', loadedHandler, false);
 				if (!sandbox) {
@@ -270,7 +276,7 @@ function generateHtml(segmentName){
 				}
 			}
 			
-			var vidElement = buildVideoElement('start', 'vidElement');
+			
 			$('#maindiv').append(vidElement);
 			
 			var videotype = 'none';
@@ -283,14 +289,18 @@ function generateHtml(segmentName){
 			} 
 			console.log(videotype);
 		
-			addFsButton('#maindiv', '#thevideo');
-			goFullscreen($('#thevideo')[0]);
+			addFsButton('#maindiv', '#vidElement');
+			goFullscreen($('#vidElement')[0]);
 			var lastVid = -1;
 			var delay = 0;
 			var video = $('video')[0];
+			var vidSeg = $('#vidElement')[0];
 			video.type = 'video/'+videotype;
 			$("body").addClass('playingVideo');
-			advanceVideoSource();
+			
+			// To start with the end-image of the first element.  
+			// To start with a movie, use advanceVideoSource();
+			lastVid = 0; endHandler();
 
 	} 
 	else if (segmentName=='formPoststudy') {
@@ -303,42 +313,39 @@ function generateHtml(segmentName){
 function startExperiment(condition, box) {
 	experiment.condition = condition;
 
-	// Counterbalancing condition sets
-	// condition is a single number 0<=condition<64
-	// condition = (iSideCondition * 16) + versionCondition
-	// movies are named [storyLeft]_[storyRight]_s[WhichSoundIsOn]
-	
-	// the ith character of the side condition says which face is talking during
-	//  the ith test movie (e.g. B_E_sB is right/R)
-	var sideConditions = ['LLRR', 'LRLR', 'LRRL', 'RLLR', 'RLRL', 'RRLL'];
-	var sides = sideConditions[condition];
-	var movieReference = [	['B_E_sB', 'B_E_sE'], 
-						    ['A_C_sA', 'A_C_sC'],
-						    ['L_N_sL', 'L_N_sN'],
-						    ['J_M_sJ', 'J_M_sM']];
+	var startMatching = condition >= 2;
+	var storySet = condition % 2;
+	var movieReference = [	[['B_sB', 'B_sE'], ['E_sE', 'E_sB']], 
+						    [['A_sA', 'A_sC'], ['C_sC', 'C_sA']], 
+						    [['L_sL', 'L_sN'], ['N_sN', 'N_sL']], 
+						    [['J_sJ', 'J_sM'], ['M_sM', 'M_sJ']]	];
 
 	// Using condition arrays, make a list of the movies to play for this subject
 	var movieList = new Array(4);
-	for (var iTest=0; iTest<4; iTest++){
-		var thisSide = (sides.charAt(iTest) === 'R');
-		movieList[iTest] = movieReference[iTest][1.0*thisSide];
+	if (startMatching) {
+		if (storySet) {
+			movieList = ['E_sE', 'C_sA', 'N_sN', 'M_sJ'];
+		} else {
+			movieList = ['B_sB', 'A_sC', 'L_sL', 'J_sM'];
+		}
+	} else {
+		if (storySet) {
+			movieList = ['E_sB', 'C_sC', 'N_sL', 'M_sM'];
+		} else {
+			movieList = ['B_sE', 'A_sA', 'L_sN', 'J_sJ'];
+		}
 	}
 	
 	console.log(movieList);
 	experiment.movieList = movieList;
-	experiment.sides = sides;
 	
 	// List of videos to play in the single video element for this experiment
 	
-	vidSequence = [['start', '', 'click'],
-					['attentiongrabber', '', 'click'], 
-					[movieList[0], '', 'click'], 
-					['attentiongrabber','', 'click'], 
-					[movieList[1], '', 'click'], 
-					['attentiongrabber','', 'click'], 
-					[movieList[2], '', 'click'], 
-					['attentiongrabber','', 'click'], 
-					[movieList[3], '', 'click']];
+	vidSequence = [ ['', '', 'click', 'story1'],
+					[movieList[0], '', 'click', 'story2'], 
+					[movieList[1], '', 'click', 'story3'], 
+					[movieList[2], '', 'click', 'story4'],
+					[movieList[3], '', 'click', 'AllDone']];
 
 	// Sequence of sections of the experiment, corresponding to html sections.
 	htmlSequence = [['instructions'],
@@ -348,26 +355,20 @@ function startExperiment(condition, box) {
 					['vidElement'],
 					['formPoststudy']];
 		
-	// Once all the videos are loaded...
-	// (currently not used because we're putting all videos in a single container
-	// and loading them one by one, rather than putting in separate html5 video 
-	// containers and attaching/detaching.  the latter would be better but makes it harder
-	// to do fullscreen without asking repeatedly.)
-
-		// Then remove the dialog box blacking out the screen.
-		// Force it to close because ajax call has occurred in between, as per
-		// http://stackoverflow.com/questions/11519660/
-		box.modal('hide');
-		$('body').removeClass('modal-open');
-		$('.modal-backdrop').remove();
-		
-		addEvent(  {'type': 'endLoading'});
-		
-		// Allow the user to end the experiment by pressing 'Home' or 'End' keys.
-		document.addEventListener('keydown', getKeyCode, false);
-		
-		// Start the experiment
-		advanceSegment();
+	// Then remove the dialog box blacking out the screen.
+	// Force it to close because ajax call has occurred in between, as per
+	// http://stackoverflow.com/questions/11519660/
+	box.modal('hide');
+	$('body').removeClass('modal-open');
+	$('.modal-backdrop').remove();
+	
+	addEvent(  {'type': 'endLoading'});
+	
+	// Allow the user to end the experiment by pressing 'Home' or 'End' keys.
+	document.addEventListener('keydown', getKeyCode, false);
+	
+	// Start the experiment
+	advanceSegment();
 
 }
 
@@ -378,8 +379,7 @@ function buildVideoElement(videoName, videoID) {
     var video = $('<video id="thevideo" class="center"/>', {
 	'height': 400,
 	'width': 800,
-	'preload': 'auto',
-	'poster' : experiment.path + "/videos/blackposter.jpg"
+	'preload': 'auto'
     });
 
     //Fall Through Failure Message
