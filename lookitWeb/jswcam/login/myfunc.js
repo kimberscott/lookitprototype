@@ -250,6 +250,33 @@ function register(is_new){
 							$("#reg,#log,.login_form").css("display", "none");
 							$("#reg1").html("<a href='#'' > Hi "+myname+" </a>");
 							
+							// Also send a welcome email at this point:
+						  $to = $data['email'];
+
+						  // subject
+						  $subject = 'Welcome to Lookit!';
+
+						  // message
+						  $message = '<html><body>';
+						  $message .= "<p>We're delighted to have you join us in learning more about how your child learns and experiences the world.  Welcome to the online branch of MIT's Early Childhood Cognition Lab, <a href='https://lookit.mit.edu'>Lookit</a>! </p>";
+						  $message .= '<p> Our online studies are just getting started, so check back as we add new material and feel free to contact us with any questions or feedback by emailing lookit@mit.edu.  We currently have studies available for children ages 4 months through 5 years old.</p>';
+						  $message .= '<p> Note: this will be the only email we send you unless you opt in to receive updates about new studies, published results, or questions about your responses.  Your email address is kept strictly confidential. </p>';
+						  $message .= "</body></html>";
+
+						  // To send HTML mail, the Content-type header must be set
+						  $headers  = 'MIME-Version: 1.0' . "\r\n";
+						  $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+						  // Additional headers
+						  $headers .= 'From: Lookit <lookit@mit.edu>' . "\r\n";
+						  $headers .= 'mailed-by: blicketadmin@lookit.mit.edu' . "\r\n";
+						  $headers .= 'signed-by: blicketadmin@lookit.mit.edu' . "\r\n";
+						  $headers .= 'Reply-To: lookit@mit.edu' . "\r\n" ;
+
+						  // Mail it
+						  $sent_mail = mail($to, $subject, $message, $headers);
+							
+							
 							if(!cancel_clicked){
 								
 								$('body').bind('showhome', function(evt) {
@@ -262,7 +289,7 @@ function register(is_new){
 								
 									}
 									else{
-										$("#message").html("<b>You have not participated in any studies.</b>");
+										$("#message").html("<b>You have not participated in any studies yet.</b>");
 									}
 								});
 							}
@@ -617,7 +644,7 @@ function get_permission(err_html,expr,obje){
         'label': 'Yes',
         'class': 'btn-primary btn-stop',
         'callback': function() {
-            var check_cam = "<p><h1 style='text-align:center'>Test Your Webcam and Microphone </h1></p><div id='cam_setup'></div>";
+            var check_cam = "<p><h1 style='text-align:center'>Test your webcam and microphone </h1></p><div id='cam_setup'></div>";
             $(".bootbox").remove();
             $(".modal-backdrop").remove();
             obje.loadExperiment(expr, '.content_pane');
