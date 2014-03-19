@@ -234,8 +234,9 @@ function generateHtml(segmentName){
 				console.log('loaded handler');
 
 				// Moved here from below removing event listeners--doesn't work there.(???)
-				video.currentTime = 0;
+				
 				video.play();
+				video.currentTime = 0;
 				
 				video.removeEventListener('canplaythrough', loadedHandler, false);
 				video.removeEventListener('emptied', loadedHandler, false);
@@ -315,10 +316,6 @@ function startExperiment(condition, box) {
 
 	var startMatching = condition >= 2;
 	var storySet = condition % 2;
-	var movieReference = [	[['B_sB', 'B_sE'], ['E_sE', 'E_sB']], 
-						    [['A_sA', 'A_sC'], ['C_sC', 'C_sA']], 
-						    [['L_sL', 'L_sN'], ['N_sN', 'N_sL']], 
-						    [['J_sJ', 'J_sM'], ['M_sM', 'M_sJ']]	];
 
 	// Using condition arrays, make a list of the movies to play for this subject
 	var movieList = new Array(4);
@@ -374,8 +371,7 @@ function startExperiment(condition, box) {
 
 function buildVideoElement(videoName, videoID) {
 
-    //Video Tag, no controls specified, autoloading for use
-    //with jswcam.waitForAssets function
+    //Video Tag, no controls specified
     var video = $('<video id="thevideo" class="center"/>', {
 	'height': 400,
 	'width': 800,
@@ -394,7 +390,6 @@ function buildVideoElement(videoName, videoID) {
 		evt.preventDefault();
 	});
 	
-	// stick video and button into one div
 	var videoDiv = $('<div/>', {
 	'id': videoID});
 	videoDiv.append(video);
