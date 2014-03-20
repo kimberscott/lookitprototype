@@ -3,12 +3,12 @@
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
 
-	include("./dbconfig.php");
+	include("../config.php");
 
 	if($_POST){
 		$str = json_encode($_POST);
 
-		$m = new Mongo($dbstring);
+		$m = new Mongo($CONFIG['dbstring']);
   		$db = $m->users;
   		$collection = $db->experiment_age;
   		$collection->insert($_POST);

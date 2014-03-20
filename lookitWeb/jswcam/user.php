@@ -5,7 +5,7 @@
  */
 
 session_start();
-include("./login/dbconfig.php");
+include("./config.php");
 
 // Add data to the database for a new registered user
 function put_data($experiment_id, $json, $string) {
@@ -439,40 +439,40 @@ $email = getvalue('email','');
 
 switch($function){
   case 'login' :
-    login($table, $data, $dbstring);
+    login($table, $data, $CONFIG['dbstring']);
     break;
   case "check" :
-    $x = check($table,$data,$dbstring);
+    $x = check($table,$data,$CONFIG['dbstring']);
     break;
   case 'reset_pass' :
-    reset_pass($table,$data,$dbstring);
+    reset_pass($table,$data,$CONFIG['dbstring']);
     break;
   case 'account' :
-    accounts($table,$email,$data,$dbstring);
+    accounts($table,$email,$data,$CONFIG['dbstring']);
     break;
   case 'child' :
-    $my_datas = child_data($table,$dbstring);
+    $my_datas = child_data($table,$CONFIG['dbstring']);
     break;
   case 'experiment_age' :
-    check_age($table, $data, $dbstring);
+    check_age($table, $data, $CONFIG['dbstring']);
     break;
   case 'params' :
     get_params();
     break;
   case 'demogra':
-    demographic($table, $data, $dbstring);
+    demographic($table, $data, $CONFIG['dbstring']);
     break;
   case 'set_account':
-    account_add($table, $data, $dbstring);
+    account_add($table, $data, $CONFIG['dbstring']);
     break;
   case 'get_demogra':
-    get_demographic($dbstring);
+    get_demographic($CONFIG['dbstring']);
     break;
   case 'checknumber':
-    $x = checknumber($dbstring, $table);
+    $x = checknumber($CONFIG['dbstring'], $table);
     break;
   default :
-    put_data($experiment_id, $data,$dbstring);
+    put_data($experiment_id, $data, $CONFIG['dbstring']);
     break;
 }
 ?>

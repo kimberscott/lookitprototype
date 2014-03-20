@@ -2,6 +2,8 @@
 /**
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
+
+require_once('config.php'); 
 session_start();
 
 /** 
@@ -10,7 +12,7 @@ session_start();
  */
 if($_POST['withdraw']) {
     $sess_obj = $_SESSION['user']['filename'];
-	$str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":\"true\",\"server\":\"dev\"}';
+	$str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":\"true\",\"server\":\"'.substr($CONFIG["server"],1).'\"}';
     $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert.php"';
     if(count($_SESSION['user']['filename']) > 1){
         $_SESSION['user']['filename'] = "";
@@ -26,7 +28,7 @@ if($_POST['withdraw']) {
 else if($_POST['continue']){
     $sess_obj = $_SESSION['user']['filename'];
     $privacy = $_POST['privacy'];
-    $str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":\"false\",\"server\":\"dev\",\"privacy\":\"'.$privacy.'\"}';
+    $str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":\"false\",\"server\":\"'.substr($CONFIG["server"],1).'\",\"privacy\":\"'.$privacy.'\"}';
     $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert.php"';
 	if(count($_SESSION['user']['filename']) > 1){
         $_SESSION['user']['filename'] = "";

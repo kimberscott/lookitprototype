@@ -547,6 +547,7 @@ function generateHtml(segmentName){
 	if (segmentName=="formPostStudy") {
 		$('#fsdiv').detach();
 		$('#fsbutton').detach();
+		$("#flashplayer").remove();
 		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 	};
 
