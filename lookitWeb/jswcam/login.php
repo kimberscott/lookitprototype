@@ -4,6 +4,7 @@
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
  
+require_once('config.php'); 
 session_start();
 
 // Check if email needs to be sent for reset password.
@@ -23,7 +24,7 @@ if($_POST['email']){
   //Message
   $message = "Hi,\n\n";
   $message .= " To reset your password, please click on this link:\n\n";
-  $message .= WEBSITE_URL."/dev/index.php?email=" . urlencode($email) . "&key=".urlencode($activation) . "\n\n";
+  $message .= WEBSITE_URL.$CONFIG['server']."/index.php?email=" . urlencode($email) . "&key=".urlencode($activation) . "\n\n";
   $message .= "Thanks,\n Support Team";
   // In case any of our lines are larger than 70 characters, we should use wordwrap()
   $message = wordwrap($message, 70, "\n");

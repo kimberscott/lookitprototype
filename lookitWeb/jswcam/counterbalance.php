@@ -9,7 +9,9 @@
  *
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
-function check_conditions($experiment_id) {
+
+include("./config.php");
+function check_conditions($experiment_id,$string) {
 
 	// Look up the experiment ID to see how many conditions there are.
 	// When adding a new experiment with basic counterbalancing, add a single
@@ -27,7 +29,7 @@ function check_conditions($experiment_id) {
 		"testimony" => 32,
 	);
 	
-  $m = new Mongo('mongodb://localhost:27018');
+  $m = new Mongo($string);
   //$db = $m->{$experiment_id};
   //$collection = $db->trials;
   $db = $m->users;
@@ -45,6 +47,6 @@ function check_conditions($experiment_id) {
 }
 
 $experiment_id =  $_GET["experiment_id"];
-echo json_encode(check_conditions($experiment_id));
+echo json_encode(check_conditions($experiment_id,$CONFIG['dbstring']));
 
 ?>
