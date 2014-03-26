@@ -50,4 +50,3 @@ if(!empty($_POST['sure'])){
 }
 
 ?>
-<html><p>We sent you an email with a link to reset your password. If you do not receive this email within a minute or so, please check your spam folder. </p></html>
