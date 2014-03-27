@@ -125,19 +125,19 @@ function startExperiment(condition, box) {
 	
 	// Get debriefing dialog ready:
 	// Used by index.js when generating upload dialog (replace this.html('uploading'))
-	var debriefTransitiveList = ['a transitive', 'an intransitive'];
+	var debriefTransitiveList = [	'a transitive verb (one that takes a direct object)', 
+									'an intransitive verb (one that doesn\'t take a direct object)'];
 	var debriefVerbType = debriefTransitiveList[transitive];
 	var debriefOtherVerbType = debriefTransitiveList[1-transitive];
-	var debriefQuestionList = ["control question: What's happening?  Children in another condition hear 'Find " + thisVerb + "ing' instead.", 
-	"prompt: 'Find " + thisVerb + "ing.  Children in another condition hear 'What's happening?' instead."];
+	var debriefQuestionList = ["CONTROL question: What's happening?  Children in another condition hear 'Find " + thisVerb + "ing' instead.", 
+	"prompt: 'FIND " + thisVerb + "ing.  Children in another condition hear 'What's happening?' instead."];
 
 	DEBRIEFHTML += "	<p> Some more information about this study... </p> \
-	<p> This is one of the \
-	early studies we are conducting to test what sorts of methods will work online as well as \
+	<p> This is one of the early studies we are using to test what sorts of methods will work online as well as \
 	in the lab.  We are trying to replicate the finding of <a href='http://pss.sagepub.com/content/20/5/619.short' target='_blank'> \
 	Yuan and Fisher (2009) </a> that 2-year-old store \
 	information about whether a verb is transitive or intransitive even before they know what the verb means. <p>\
-	<p> Your child heard some short dialogs in which the new verb '" + thisVerb + "ing' was used as " + debriefVerbType + " verb. \
+	<p> Your child heard some short dialogs in which the new verb '" + thisVerb + "ing' was used as " + debriefVerbType + ". \
 	We use a variety of different new verbs, and some children hear them used as " + debriefOtherVerbType + " verbs instead. \
 	We then showed two different actions: one with just one participant, and one with two participants.  Your child heard \
 	a " + debriefQuestionList[question] + " We are expecting that on average, when actually prompted to find the novel verb, \

@@ -5,7 +5,7 @@
 var DEBRIEFHTML = "<p> Thanks so much for participating!  To confirm your participation, please press 'Done' below.  (If you \
 				wish to withdraw from the study at this point and delete your data, please press 'Cancel and withdraw.'  But \
 				please note that we are very grateful for your recordings even if you think the study didn't 'work'--if kids just \
-				aren't interested, that means we need to fix something!)";
+				aren't interested, that means we need to fix something!) <p> <br>";
 
 // During an experiment, prompt before user refreshes page, uses back/forward buttons, etc.
 // (These will probably not have the desired effect, but shouldn't and can't be blocked.)

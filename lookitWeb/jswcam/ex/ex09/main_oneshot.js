@@ -22,9 +22,9 @@ var sandbox = false;
 var DEBRIEFHTML = "<p> Thanks so much for participating!  To confirm your participation, please press 'Done' below.  (If you \
 				wish to withdraw from the study at this point and delete your data, please press 'Cancel and withdraw.'  But \
 				please note that we are very grateful for your recordings even if you think the study didn't 'work'--if kids just \
-				aren't interested, that means we need to fix something!)\
+				aren't interested, that means we need to fix something!) <p> <br>\
 				<p> Some more information about this study... \
-				<p>This is one of the early studies we are conducting to test what sorts of methods will work online as well as \
+				<p>This is one of the early studies we are using to find out what sorts of methods will work online as well as \
 				in the lab.  We are trying to replicate the finding of <a href='http://www.pnas.org/content/104/48/19156.long' \
 				target='_blank'> Teglas , Girotto, Gonzalez, and Bonatti (2007) </a> that by about 12 months of age, infants \
 				have expectations about the probabilities of physical events--even events they have never seen before!  \

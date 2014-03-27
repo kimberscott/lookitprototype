@@ -84,7 +84,7 @@ function startExperiment(condition, box) {
 	
 	DEBRIEFHTML += 	"<p> Some more information about this study... </p> \
 	<p> This is one of the \
-	early studies we are conducting to test what sorts of methods will work online as well as \
+	early studies we are using to find out what sorts of methods will work online as well as \
 	in the lab.  We are trying to replicate the finding of <a href='http://psycnet.apa.org/psycinfo/2007-12595-012' target='_blank'> \
 	Pasquini et al. (2007) </a> that preschoolers keep track of how reliable people are in naming objects, and use that  \
 	information to decide whom to trust.   The authors also found an interesting developmental trend: younger children distrusted \
