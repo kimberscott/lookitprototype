@@ -692,7 +692,6 @@ function get_params(fun){
 function show_cam(caller,div_c){
     var no_flash = "<p>To view this page ensure that Adobe Flash Player version </br>11.1.0 or greater is installed. </p></br>";
     no_flash += "<a href='https://www.adobe.com/go/getflashplayer'><img src='https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>";
-    $("#"+div_c).html(no_flash);
     if(div_c == 'webcamdiv'){
         div_c = "widget_holder";
         $("#"+div_c).wrap("<div id='widget_holder1'></div>");
@@ -701,6 +700,7 @@ function show_cam(caller,div_c){
     else{
         $("#"+div_c).wrap("<div id='widget_holder1'></div>");
     }
+    $("#"+div_c).html(no_flash);
     // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
     var swfVersionStr = "11.1.0";
     // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
