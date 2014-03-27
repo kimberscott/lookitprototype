@@ -306,6 +306,7 @@ function register(is_new){
 						$('.btn-continue').css("display", 'none');
                         $('.modal-body').jScrollPane();
                         $('.jspContainer').width($('.jspContainer').width() - 31);
+                        $('.jspPane').css({'margin-left':'0px','width':'590px'});
 					}
 					continu = 1;
 					return false;
