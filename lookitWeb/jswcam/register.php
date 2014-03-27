@@ -286,7 +286,7 @@ $(document).ready(function() {
 		for($i = 1; $i < $count; $i++){ ?>
 			clone("preset");
 	<?php $k++;} ?>
-
+	$('.jspPane').css({'margin-left':'0px','width':'600px'});
 });
 var i ;
 var j;
