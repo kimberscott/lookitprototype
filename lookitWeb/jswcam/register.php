@@ -286,7 +286,7 @@ $(document).ready(function() {
 		for($i = 1; $i < $count; $i++){ ?>
 			clone("preset");
 	<?php $k++;} ?>
-
+	$('.jspPane').css({'margin-left':'0px','width':'590px'});
 });
 var i ;
 var j;
@@ -682,7 +682,7 @@ function validation_2(){
 							<td>
 							
 							<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="">
-								<input id='dp0' class="span2 datepickerinput" type="text" value="" size="16">
+								<input id='dp0' class="span2 datepickerinput" type="text" value="<?php set_value('dob','',0) ?>" size="16" name="dob">
 								<span class="add-on">
 									<i class="icon-calendar"></i>
 								</span>
@@ -784,7 +784,7 @@ function validation_2(){
 		<td>
 			
 		<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="">
-			<input id='dp' class="span2 datepickerinput" type="text"  value="" size="16">
+			<input id='dp' class="span2 datepickerinput" type="text"  value="" size="16" name="dob">
 			<span class="add-on">
 			<i class="icon-calendar"></i>
 			</span>
@@ -846,7 +846,7 @@ function validation_2(){
 		</td>
 	</tr>
 	<tr>
-		<td colspan="3"><img src="./img/cancel.png" class = "cancel count" id = "cancel" onclick="remove1(this);" value="Cancel" align="right" style="margin-top: -235px;margin-right: -11px; display:none;              "/></td>
+		<td colspan="3"><img src="./img/cancel.png" class = "cancel count" id = "cancel" onclick="remove1(this);" value="Cancel" align="right" style="margin-top: -294px;margin-right: -11px; display:none;              "/></td>
 	</tr>
 </TABLE>
 
