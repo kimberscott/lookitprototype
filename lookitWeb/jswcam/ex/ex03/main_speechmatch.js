@@ -307,6 +307,7 @@ function generateHtml(segmentName){
 	} 
 	else if (segmentName=='formPoststudy') {
 		$('#vidElement').detach();
+		$("#flashplayer").remove();
 		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 		leaveFullscreen();
 	}

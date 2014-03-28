@@ -99,6 +99,10 @@ if(!isset($_SESSION['user']['id'])){
     ul.nav_log > li > a {cursor:pointer;float: right; list-style:none;padding: 10px 15px 10px;color: #777;text-decoration: none;text-shadow: 0 1px 0 #FFF;}
     //a:focus{outline: medium none;}
     .btn:focus{outline: medium none;}
+    #positioning > img{
+    	height: 150px !important; 
+    	width: 200px !important;
+    }
     </style>
     </head>
     <body style="padding-top:40px;" ondragstart="return false;" ondrop="return false;">
