@@ -306,6 +306,7 @@ function register(is_new){
 						$('.btn-continue').css("display", 'none');
                         $('.modal-body').jScrollPane();
                         $('.jspContainer').width($('.jspContainer').width() - 31);
+                        $('.jspPane').css({'margin-left':'0px','width':'590px'});
 					}
 					continu = 1;
 					return false;
@@ -690,26 +691,53 @@ function get_params(fun){
 
 // Function to display the camera widget on the screen
 function show_cam(caller,div_c){
-    $('#'+div_c).append($('#widget_holder'));
-    $("#message").css({'visibility':'visible'});
-    $(".bootbox").css({"width":"790px"});
-    $(".bootbox").css({"height":"650px"});
-    $("#widget_holder").css({'visibility':'visible'});
-    $("#widget_holder").css("height","450px");
-    $("#widget").css("height","450px");
-    $(".modal-body").css("max-height","550px");
-    $(".modal-body").css("height","550px");
+    var no_flash = "<p>To view this page ensure that Adobe Flash Player version </br>11.1.0 or greater is installed. </p></br>";
+    no_flash += "<a href='https://www.adobe.com/go/getflashplayer'><img src='https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>";
+    if(div_c == 'webcamdiv'){
+        div_c = "widget_holder";
+        $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+        $("#widget_holder1").css({"width":"50%"});
+    }
+    else{
+        $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+    }
+    $("#"+div_c).html(no_flash);
+    // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
+    var swfVersionStr = "11.1.0";
+    // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
+    var xiSwfUrlStr = "playerProductInstall.swf";
+    var flashvars = {
+                        'width'  :  450, // Set the width and height of the widget here
+                        'height' :  300
+                    };
+    var params = {};
+    params.quality = "high";
+    params.bgcolor = "#ffffff";
+    params.allowscriptaccess = "always";
+    params.allowfullscreen = "true";
+    var attributes = {};
+    attributes.id = "flashplayer";
+    attributes.name = "flashplayer";
+    attributes.align = "middle";
+    swfobject.embedSWF("./camera/Flashms.swf", div_c, "100%", "100%", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);    
+    swfobject.createCSS("#"+div_c, "display:block;text-align:center;");
+    $("#setup_message").append($("#message"));
+    $("#message").css({'display':'block'});
+    $(".bootbox").css({"width":"790px","height":"650px"});
+    $("#widget_holder1").css({"height":"400px"});
+    $('#webcamdiv').height($('#widget_holder1').height());
+    $('#widget_holder1').offset($('#webcamdiv').offset());
+    $(".modal-body").css({"max-height":"550px","height":"550px"});
     $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
 }
 
 // Function to remove the camera widget from the screen
 function hide_cam(div_c){
-    var cloning = $("#widget_holder").clone();
-    $('body').append($('#widget_holder'));
-    $("#widget_holder").css({'visibility':'hidden'});
+    $("body").append($("#message"));
+    $("#widget_holder1").css({'visibility':'hidden'});
     $("#message").css({'visibility':'hidden'});
-    $("#widget_holder").css("height","0px");
+    $("#widget_holder1").css("height","0px");
     $("#widget").css("height","0px");
 }
 
@@ -780,7 +808,8 @@ function connected_mic_cam(){
 
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
 function done_or_withdraw(experiment,DEBRIEFHTML){
-    $("#widget_holder").css("display","none");
+    $("#flashplayer").remove();
+    $("#widget_holder1").attr('id','widget_holder');
     bootbox.dialog(DEBRIEFHTML, [{
         'label': 'Done',
         "class": 'btn-primary reset-close',

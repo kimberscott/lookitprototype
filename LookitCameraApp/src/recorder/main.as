@@ -24,8 +24,7 @@ private var flag:Boolean = false;
 private var urlObject:Object = new Object;
 private var str_concat:String;
 private var date:String;
-public var receivedVars:URLVariables; 
-public static var count:Number = 0;
+public var receivedVars:URLVariables;
 //Parameters for dynamic resizing
 public var width1:Number = 230;
 public var height1:Number = 210;
@@ -128,7 +127,8 @@ public function nc_reConnect():void{
 		Alert.show(e.toString() + e.message.show());
 	}
 }
-public function callpublishcam(expr_id11:String,parent_id11:String, child_id11:String,privacy11:String,caller:String):void{
+
+public function callpublishcam(expr_id11:String,parent_id11:String, child_id11:String,privacy11:String,caller:String,count:String):void{
 	if(caller != ""){
 		theCam.attachCamera(Constants.selected_cam);
 	}
@@ -245,10 +245,14 @@ public function reconnect():void{
 	noConnection.visible = false;
 	reconnectBtn.includeInLayout = false;
 	noConnection.includeInLayout = false;
+	throbber.x = width1/2;
+	throbber.y = height1/2;
+	throbber.visible=true;
 	/*nc = new NetConnection(); 
 	nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatusFailure); 
 	nc.connect(Constants.FMSserver_RTMP);*/
 	nc_Connect();
+	throbber.visible=false;
 }
 
 //*****************************************************************************************************************************************************
@@ -263,7 +267,7 @@ public function publishCamera():void {
 	if(flag){
 		stop();
 	}
-	count++;
+	//count++;
 	ns = new NetStream(nc); 
 	ns.attachCamera(Constants.camobject._camera); 
 	ns.attachAudio(Constants.micobject._mic); 

@@ -46,12 +46,7 @@ if(!isset($_SESSION['user']['id'])){
   ga('send', 'pageview');
 
 </script>
-    <?php	
-    if(isset($_POST['session'])){
-      error_log("in here". $_POST['session']);
-      error_log($_SESSION['user']['name']);
-    } 
-
+    <?php
     if(isset($_GET['name'])){ 
       $_SESSION['user']['name'] = $_GET['name'];
     ?>
@@ -64,7 +59,9 @@ if(!isset($_SESSION['user']['id'])){
     <?php 
 	} 
 
- 	if (isset($_SESSION['user']['name'])) { ?>
+ 	if (isset($_SESSION['user']['name'])) { 
+ 		$_SESSION['user']['filename'] = "";
+ 	?>
 	<script>
 		$('document').ready(function(){
 			$('#reg,#log').css('display', 'none');
@@ -102,6 +99,10 @@ if(!isset($_SESSION['user']['id'])){
     ul.nav_log > li > a {cursor:pointer;float: right; list-style:none;padding: 10px 15px 10px;color: #777;text-decoration: none;text-shadow: 0 1px 0 #FFF;}
     //a:focus{outline: medium none;}
     .btn:focus{outline: medium none;}
+    #positioning > img{
+    	height: 150px !important; 
+    	width: 200px !important;
+    }
     </style>
     </head>
     <body style="padding-top:40px;" ondragstart="return false;" ondrop="return false;">
@@ -149,8 +150,10 @@ if(!isset($_SESSION['user']['id'])){
 
       
 	   <!--Adding the widget holder to the page body-->
-	    <div id = "widget_holder" style = "display:none; height:0px;">
+	    <div id = "widget_holder" style = "height:0px;">
 	      <div id = "widget">
+	      <!--For used only when js is not enabled.-->
+	      <noscript> 
 	        <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="flashplayer">
 	          <param name="movie" value="./camera/Flashms.swf" />
 	          <param name="quality" value="high" />
@@ -158,7 +161,7 @@ if(!isset($_SESSION['user']['id'])){
 	          <param name="allowScriptAccess" value="always" />
 	          <param name="allowFullScreen" value="true" />
 	          <param name="wmode" value="opaque" />
-		  <param name="scale" value="noscale" />
+		  	  <param name="scale" value="noscale" />
 	          <!--Maintain a proper ratio of height and width to avoid distortion-->
 	          <param name="flashVars" value="width=450&height=300" />
 	          <!--[if !IE]>-->
@@ -168,9 +171,9 @@ if(!isset($_SESSION['user']['id'])){
 	            <param name="allowScriptAccess" value="always" />
 	            <param name="allowFullScreen" value="true" />
 	            <param name="wmode" value="opaque" />
-		    <param name="scale" value="noscale" />
-	          <!--Maintain a proper ratio of height and width to avoid distortion-->
-	          <param name="flashVars" value="width=450&height=300" />
+		        <param name="scale" value="noscale" />
+		        <!--Maintain a proper ratio of height and width to avoid distortion-->
+		        <param name="flashVars" value="width=450&height=300" />
 	            <!--<![endif]-->
 	            <!--[if gte IE 6]>-->
 	            <p> 
@@ -182,11 +185,12 @@ if(!isset($_SESSION['user']['id'])){
 	            <!--[if !IE]>-->
 	          </object>
 	                  <!--<![endif]-->
-	        </object>         
+	        </object>     
+	      </noscript>    
 	      </div>
-	      <div id = "message" style="">
+	    </div>
+	    <div id = "message" style="display:none;">
 	        <p>Your video and microphone should be automatically detected and visible above. If your microphone levels are too low, try adjusting them in your Flash settings by right-clicking on the video, selecting Settings, and updating the volume in the microphone tab. </p>
-	      </div>
 	    </div>
   	</body>
 </html>
