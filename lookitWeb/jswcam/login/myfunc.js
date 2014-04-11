@@ -333,6 +333,7 @@ function register(is_new){
 						$('.btn-continue').css("display", 'none');
                         $('.modal-body').jScrollPane();
                         $('.jspContainer').width($('.jspContainer').width() - 31);
+                        $('.jspPane').css({'margin-left':'0px','width':'590px'});
 					}
 					continu = 1;
 					return false;
@@ -717,6 +718,8 @@ function get_params(fun){
 
 // Function to display the camera widget on the screen
 function show_cam(caller,div_c){
+    var no_flash = "<p>To view this page ensure that Adobe Flash Player version </br>11.1.0 or greater is installed. </p></br>";
+    no_flash += "<a href='https://www.adobe.com/go/getflashplayer'><img src='https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>";
     if(div_c == 'webcamdiv'){
         div_c = "widget_holder";
         $("#"+div_c).wrap("<div id='widget_holder1'></div>");
@@ -725,6 +728,7 @@ function show_cam(caller,div_c){
     else{
         $("#"+div_c).wrap("<div id='widget_holder1'></div>");
     }
+    $("#"+div_c).html(no_flash);
     // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
     var swfVersionStr = "11.1.0";
     // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
@@ -742,7 +746,8 @@ function show_cam(caller,div_c){
     attributes.id = "flashplayer";
     attributes.name = "flashplayer";
     attributes.align = "middle";
-    swfobject.embedSWF("./camera/Flashms.swf", div_c, "100%", "100%", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);
+    swfobject.embedSWF("./camera/Flashms.swf", div_c, "100%", "100%", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);    
+    swfobject.createCSS("#"+div_c, "display:block;text-align:center;");
     $("#setup_message").append($("#message"));
     $("#message").css({'display':'block'});
     $(".bootbox").css({"width":"790px","height":"650px"});
