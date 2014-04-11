@@ -18,7 +18,11 @@ if(!isset($_SESSION['user']['id'])){
     <title> Lookit: Online experiments from the Early Childhood Cognition Lab </title>
     <link rel="shortcut icon" type="image/x-icon" href="img/remy4.ico">    
 	
-	
+	<meta property="og:title" content="Lookit: Online experiments from MIT's Early Childhood Cognition Lab " />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://lookit.mit.edu" />
+	<meta property="og:image" content="img/logo.jpg" />
+	<meta property="og:description" content="Participate with your kids in research about cognitive development--from your own computer!  Lookit is home to a variety of short activities for children from birth to 7 years of age.  These fun studies let you as a parent contribute to our collective understanding of the fascinating phenomenon of children's learning." />
 	
     <link rel="stylesheet/less" type="text/css" href="fragments/styles.less"></link>
     <link rel="stylesheet/less" type="text/css" href="bootstrap/less/bootstrap.less"></link>
