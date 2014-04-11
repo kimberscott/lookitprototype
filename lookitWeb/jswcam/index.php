@@ -112,6 +112,16 @@ if(!isset($_SESSION['user']['id'])){
     </style>
     </head>
     <body style="padding-top:40px;" ondragstart="return false;" ondrop="return false;">
+	
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+	
       <!-- Top Navbar -->
 	  <div style='margin-bottom:25px;'>
 		<div id="topbar" class="navbar navbar-fixed-top">
@@ -145,6 +155,8 @@ if(!isset($_SESSION['user']['id'])){
 	      	</div><!--./navbar-inner-->
     	</div><!--./navbar-->
 		</div>
+		
+		<div style="bottom:0px; right: 0px; position: absolute;" class="fb-share-button" data-href="https://lookit.mit.edu" data-type="button"></div>
 
 	    <!-- <div class = "login_form loginDiv"></div> -->
 	    <div id="page-container" class="container-fluid skip-fixed-sidebar">
