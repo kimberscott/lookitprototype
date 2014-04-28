@@ -1,0 +1,14 @@
+{
+	"name" : "Same difference",
+	"id"   : "equality",
+	"desc" : "<p><b>Age range:  11-, 12-, and 13-month olds.</b></p> <p> What do same and different mean to infants?  Do they make connections between various sorts of similarities (same color, same shape, same duration)?  In this study we simply play short audio clips that have either one tone repeated or a few different tones, and observe where your child chooses to look.</p>",
+	"img"  : "ex/equality/equality.png",
+	"path" : "ex/equality/",
+	"scripts": [
+	    "experimentFunctions.js",
+		"fullscreen.js",
+	    "main_equality.js"
+	],
+	"css": ["experiment.css",
+			"equality.css"]
+}
