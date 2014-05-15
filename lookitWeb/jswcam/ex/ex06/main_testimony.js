@@ -598,7 +598,6 @@ function buildVideoElement(videoName, videoID) {
 	'id': videoID,
 	'class': 'vidElement'});
 	videoDiv.append(video);
-	// videoDiv.append(button);
 
     return videoDiv;
 };

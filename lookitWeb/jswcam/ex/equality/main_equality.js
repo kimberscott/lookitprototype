@@ -276,7 +276,6 @@ function generateHtml(segmentName){
 		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 		advanceSegment();
 	}
-	
 
 }
 
@@ -330,8 +329,8 @@ function generate_debriefing() {
 				point and delete your data, please press 'Cancel and withdraw.'  But \
 				please note that we are very grateful for your recordings even if the study \
 				didn't 'work' at all!  This will give us more information to fix it.) \
-				\n \n \
-				Some more information about this study: \n\n\
+				<p> <br> \
+				Some more information about this study: <p> <br> \
 				\
 				This study builds on work by \
 				<a href='http://pss.sagepub.com/content/18/8/740.short'> \
@@ -344,7 +343,7 @@ function generate_debriefing() {
 				these very abstract connections are special to magnitudes (number, duration, size, \
 				etc.). \
 				\
-				Your child was in a 'MAGNITUDE-ONLY' condition, meaning that both the audio clips \
+				<p> <br> Your child was in a 'MAGNITUDE-ONLY' condition, meaning that both the audio clips \
 				(short and long tones, vs medium tones only) and the images (large and small squares, \
 				vs medium squares only) could be described as magnitudes.  We expect that infants in \
 				this condition will spend slightly longer on average looking at the mismatched squares \
@@ -355,10 +354,9 @@ function generate_debriefing() {
 				We are interested in whether infants also make analogies among these non-quantifiable \
 				differences!";
 				
-	if (typeof(debriefInfo) != 'undefined') {
+	//if (typeof(debriefInfo) != 'undefined') {
 		// Make any changes based on specific conditions!
-		continue; 
-	}
+	//}
 	
 	return DEBRIEFHTML;
 

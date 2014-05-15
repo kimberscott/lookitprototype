@@ -136,28 +136,3 @@ function restoreForm(formData, formId) {
 		}
 	}
 }
-
-function advanceIfInAgeRange(validArray) {
-	if (validArray[0]) {
-		if (!validArray[1]) {
-			box = bootbox.dialog("Your child is out of the age range to participate in this study.  If you'd like to proceed \
-				anyway, press 'Continue'.", [{
-				'label': 'Return to experiments',
-				"class": 'btn-danger',
-				'callback': function() {
-					page.show('home');
-					jswcam.toggleWebCamView(true);
-					box.modal('hide');
-					$('body').removeClass('modal-open');
-					$('.modal-backdrop').remove();
-					return false;
-				}
-			}, {
-				'label': 'Continue',
-				"class": "primary"
-			}
-			]);
-		}
-		advanceSegment();
-	}
-}
