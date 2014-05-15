@@ -7,22 +7,12 @@ var currentElement = -1; // State variable: which html element we're on
 var htmlSequence;
 var experiment; // where all information about experiment and events is stored--to send to server
 var audiotype = 'none';
-var audioNames;
-var seqLengths;
-var currentPage;
-var thisSegment;
 var condition; 		// counterbalancing condition
 var tested = false; // whether parent has tried the audio 
 var attachToDiv = '#maindiv';
 
-var characterNames;
-
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 var sandbox = false;
-
-// Used by index.js when generating upload dialog (replace this.html('uploading'))
-// Placeholder in case parent cancels before full debrief html is defined
-var DEBRIEFHTML = "";
 
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
@@ -71,10 +61,17 @@ function startExperiment(condition, box) {
 	experiment.startMatchSound = condition % 2;
 	experiment.startMatchLeft  = condition >= 2;
 	
-	DEBRIEFHTML = "<p> Thanks so much for participating!  To confirm your participation, please press 'Done' below.  (If you \
-				wish to withdraw from the study at this point and delete your data, please press 'Cancel and withdraw.'  But \
-				please note that we are very grateful for your recordings even if you think the study didn't 'work'--if kids just \
-				aren't interested, that means we need to fix something!)";
+	if (experiment.startMatchSound) {
+		var soundArray = ['match', 'mismatch_1', 'match', 'mismatch_2'];
+	} else {
+		var soundArray = ['mismatch_1', 'match', 'mismatch_2',  'match'];
+	}
+	
+	if (experiment.startMatchLeft) {
+		var imageArray = ['L_1', 'L_2', 'R_3', 'R_4'];
+	} else {
+		var imageArray = ['R_1', 'R_2', 'L_3', 'L_4'];
+	}
 
 	// Sequence of sections of the experiment, corresponding to html sections.
 	
@@ -83,9 +80,13 @@ function startExperiment(condition, box) {
 					['positioning2'],
 					['startfullscreen'],
 					['attentiongrabber'],
-					['trial', 'L_1', 'match'],
+					['trial', imageArray[0], soundArray[0]],
 					['attentiongrabber'],
-					['trial', 'L_1', 'mismatch_1'],
+					['trial', imageArray[1], soundArray[1]],
+					['attentiongrabber'],
+					['trial', imageArray[2], soundArray[2]],
+					['attentiongrabber'],
+					['trial', imageArray[3], soundArray[3]],
 					['endfullscreen'],
 					['formPoststudy']];
 
@@ -186,7 +187,7 @@ function generateHtml(segmentName){
 			
 			case "attentiongrabber":
 				
-			
+				console.log('attentiongrabber segment');
 				function keypressHandler(event){
 				
 					event.preventDefault();
@@ -214,14 +215,6 @@ function generateHtml(segmentName){
 				} 
 				console.log(videotype);
 			
-				var audiotype = 'none';
-				if ($('audio')[0].canPlayType("audio/mpeg")) {
-					audiotype = 'mp3';
-				} else if($('audio')[0].canPlayType("audio/ogg")) {
-					audiotype = 'ogg';
-				} 
-				console.log(audiotype);
-			
 				var video = $('video')[0];
 				video.type = videotype;
 				video.load(); // plays upon loading completely ('canplaythrough' listener)
@@ -243,18 +236,21 @@ function generateHtml(segmentName){
 					console.log('no audio');
 				}
 				
-				imgSrc = htmlSequence[thisSegment][1];
-				$('#trialImage').attr('src', imgSrc);
+				imgSrc = experiment.path + 'img/' + htmlSequence[currentElement][1] + '.png';
+				
+				jswcam.startRecording();
+				addEvent(  {'type': 'startRecording'});
 
-				audioName = htmlSequence[thisSegment][2];
+				audioName = htmlSequence[currentElement][2];
 				var audioSource = experiment.path + "sounds/" + audioName + '.' + audiotype;
-				$('#storyAudio').attr('src', audioSource);
-				$('#storyAudio').attr('type', audioTypeString);				
+				$('#trialAudio').attr('src', audioSource);
+				$('#trialAudio').attr('type', audioTypeString);				
 				
 				var audio = $('#trialAudio')[0];
 				audio.load();
-				audio.addEventListener("ended", advanceSegment, false);
-				setTimeout(function(){audio.play()}, 4000);
+				audio.play();
+				audio.addEventListener("ended", function() {advanceSegment(); jswcam.stopRecording(); addEvent(  {'type': 'stopRecording'});}, false);
+				setTimeout(function(){$('#trialImage').attr('src', imgSrc)}, 4000);
 				
 				addEvent({'type': 'startPage', 
 							  'image': imgSrc,
@@ -270,6 +266,7 @@ function generateHtml(segmentName){
 		addFsButton('#maindiv', '#fs');
 		goFullscreen($('#fs')[0]);
 		attachToDiv = '#fs';
+		advanceSegment();
 	} else if (segmentName=='endfullscreen') {
 		leaveFullscreen();
 		$('#fs').detach();
@@ -277,29 +274,10 @@ function generateHtml(segmentName){
 		attachToDiv = '#maindiv';
 		$("#flashplayer").remove();
 		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
+		advanceSegment();
 	}
 	
-	// TODO: start/stop recording
-	if (!sandbox) {
-		switch(segmentName) {
-			case "baselinequestion":
-				jswcam.startRecording("connect");
-				addEvent(  {'type': 'startRecording'});
-				break;
-			case "storyquestion":
-				jswcam.startRecording();
-				addEvent(  {'type': 'startRecording'});
-				break;
-			case "story":
-				jswcam.stopRecording();
-				addEvent(  {'type': 'endRecording'});
-				break;
-			case "storyend":
-				jswcam.stopRecording("remove");
-				addEvent(  {'type': 'endRecording'});
-				break;			
-		}
-	}
+
 }
 
 
@@ -308,34 +286,33 @@ function validateForm(segmentName, formData) {
 	valid = true;
 	switch(segmentName){
 		case 'formBasic':
-			//alert(formData);
 			return validateFormBasic(formData);
 			break;
 		case 'formPoststudy':
-			if (formData.birthmonth == '[Month]' ||
-				formData.birthyear == '[Year]'   ||
-				formData.birthday.length == 0) {
-				valid = false;
-				$('#errorBirthdateMissing').removeClass('hidden');} 
-			else {
-				bd = parseInt(formData.birthday);
-				if (isNaN(bd) || bd < 1 || bd > 31){
-					$('#errorBirthdateMissing').removeClass('hidden');
-					valid = false;}
-				else{
-					birthdateObj = new Date(parseInt(formData.birthyear), parseInt(formData.birthmonth), bd);
-					ageInDays = (experiment.tic - birthdateObj)/(24*60*60*1000);
-					formData.ageInDays = ageInDays;
+			// if (formData.birthmonth == '[Month]' ||
+				// formData.birthyear == '[Year]'   ||
+				// formData.birthday.length == 0) {
+				// valid = false;
+				// $('#errorBirthdateMissing').removeClass('hidden');} 
+			// else {
+				// bd = parseInt(formData.birthday);
+				// if (isNaN(bd) || bd < 1 || bd > 31){
+					// $('#errorBirthdateMissing').removeClass('hidden');
+					// valid = false;}
+				// else{
+					// birthdateObj = new Date(parseInt(formData.birthyear), parseInt(formData.birthmonth), bd);
+					// ageInDays = (experiment.tic - birthdateObj)/(24*60*60*1000);
+					// formData.ageInDays = ageInDays;
 					// Birthdate is in the future
-					if (ageInDays < 0) {
-						valid = false;
-						$('#errorBirthdateMissing').removeClass('hidden');
-					}
-					else {
-						$('#errorBirthdateMissing').addClass('hidden');
-					}
-				}
-			}
+					// if (ageInDays < 0) {
+						// valid = false;
+						// $('#errorBirthdateMissing').removeClass('hidden');
+					// }
+					// else {
+						// $('#errorBirthdateMissing').addClass('hidden');
+					// }
+				// }
+			// }
 			
 			return valid;
 			break;
@@ -343,4 +320,46 @@ function validateForm(segmentName, formData) {
 			return valid;
 			break;
 	}
+}
+
+function generate_debriefing() {
+
+// Used by index.js when generating upload dialog (replace this.html('uploading'))
+	DEBRIEFHTML = "<p> Thanks so much for participating!  To confirm your participation, \
+				please press 'Done' below.  (If you wish to withdraw from the study at this \
+				point and delete your data, please press 'Cancel and withdraw.'  But \
+				please note that we are very grateful for your recordings even if the study \
+				didn't 'work' at all!  This will give us more information to fix it.) \
+				\n \n \
+				Some more information about this study: \n\n\
+				\
+				This study builds on work by \
+				<a href='http://pss.sagepub.com/content/18/8/740.short'> \
+				McCrink & Wynn, 2009</a> as well as \
+				<a href='http://pss.sagepub.com/content/21/6/873.short'> \
+				Lourenco & Longo, 2009</a> showing that infants recognize general relationships \
+				between magnitudes: for instance, seeing 'twice as big' as similar to \
+				'twice as long' and 'twice as many.'  We are interested in whether infants can \
+				draw even more general analogies about 'sameness' in different domains, or whether \
+				these very abstract connections are special to magnitudes (number, duration, size, \
+				etc.). \
+				\
+				Your child was in a 'MAGNITUDE-ONLY' condition, meaning that both the audio clips \
+				(short and long tones, vs medium tones only) and the images (large and small squares, \
+				vs medium squares only) could be described as magnitudes.  We expect that infants in \
+				this condition will spend slightly longer on average looking at the mismatched squares \
+				when the mismatched tones are played, and slightly longer looking at the matching squares \
+				when the matching tones are played.  Other children were in 'MAGNITUDE-QUALITY' or \
+				'QUALITY-ONLY' conditions, which included non-quantifiable differences among the stimuli:\
+				for instance, all cat pictures vs. cats and dogs, or all major chords vs. both major and minor.\
+				We are interested in whether infants also make analogies among these non-quantifiable \
+				differences!";
+				
+	if (typeof(debriefInfo) != 'undefined') {
+		// Make any changes based on specific conditions!
+		continue; 
+	}
+	
+	return DEBRIEFHTML;
+
 }

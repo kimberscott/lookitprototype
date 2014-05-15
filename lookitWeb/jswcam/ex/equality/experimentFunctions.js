@@ -3,11 +3,6 @@
  *                                                                                                                                                                                                                                     
  */
 
-var DEBRIEFHTML = "<p> Thanks so much for participating!  To confirm your participation, please press 'Done' below.  (If you \
-				wish to withdraw from the study at this point and delete your data, please press 'Cancel and withdraw.'  But \
-				please note that we are very grateful for your recordings even if you think the study didn't 'work'--if kids just \
-				aren't interested, that means we need to fix something!)";
-
 // During an experiment, prompt before user refreshes page, uses back/forward buttons, etc.
 // (These will probably not have the desired effect, but shouldn't and can't be blocked.)
 // This is canceled after ending the experiment.
@@ -72,7 +67,7 @@ function advanceSegment(){
 	else{ // End of experiment -- submit data
 		addEvent(  {'type': 'promptUpload'});
 		console.log(experiment);
-		done_or_withdraw(experiment,DEBRIEFHTML); // Function to check if user wants to withdraw from the experiment or not
+		done_or_withdraw(experiment, generate_debriefing()); // Function to check if user wants to withdraw from the experiment or not
 		addEvent(  {'type': 'endUpload'});	
 		return false;
 	}
@@ -115,7 +110,7 @@ function getKeyCode(e){
 					console.log(experiment);
 					if (!sandbox){
 						//jswcam.verifyAndUpload(experiment, jswcam.getExemptIdList());
-						done_or_withdraw(experiment,DEBRIEFHTML); // Function to check if user wants to withdraw from the experiment or not
+						done_or_withdraw(experiment, generate_debriefing()); // Function to check if user wants to withdraw from the experiment or not
 						addEvent(  {'type': 'endUpload'});
 					} else {
 						alert('ending study');
