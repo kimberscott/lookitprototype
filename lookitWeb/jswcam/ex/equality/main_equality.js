@@ -258,16 +258,16 @@ function generateHtml(segmentName){
 				$('#trialAudio').attr('src', audioSource);
 				$('#trialAudio').attr('type', audioTypeString);		
 				
+				$('#trialImage').attr('src', imgSrc);
+				
 				audio.load();
-				audio.play(); 		
+				setTimeout(function(){audio.play();, 2000); 		
 
 				if (htmlSequence[currentElement][3] < 3) {
 					audio.addEventListener("ended", function() {jswcam.stopRecording(); advanceSegment(); addEvent(  {'type': 'stopRecording'});}, false);
 				} else {
 					audio.addEventListener("ended", function() {jswcam.stopRecording("remove"); advanceSegment(); addEvent(  {'type': 'stopRecording'});}, false);
 				}
-				
-				setTimeout(function(){$('#trialImage').attr('src', imgSrc)}, 4000);
 				
 				addEvent({'type': 'startPage', 
 							  'image': imgSrc,

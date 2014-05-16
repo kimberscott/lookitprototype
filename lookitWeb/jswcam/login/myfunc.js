@@ -811,7 +811,7 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
     $("#flashplayer").remove();
     $("#widget_holder1").attr('id','widget_holder');
 	
-	// FIRST do the privacy infomration, INCLUDING withdraw option.
+	// FIRST do the privacy information, INCLUDING withdraw option.
 	var post_data;
 	var privacy_page = page.html("privacy");
 	
