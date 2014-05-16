@@ -876,24 +876,25 @@ function return_to_accounts(post_data){
     $.ajax({
         'type': 'POST',
         'url': './camera/convert.php',
+		'async': true,
         'data': post_data,
         'success': function(resp) {
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-            page.toggleMenu(true);
-            var data =get_params("get_demogra");
-            if(data != ""){
-                    page.show("account");
-            }
-            else{
-                show_demographic();
-            }
+           // var data =get_params("get_demogra");
+           // if(data != ""){
+           //     page.show("account");
+           // }
+           // else{
+           //     show_demographic();
+           // }
+		   console.log(resp);
         },
         'failure': function(resp) {
             window.onbeforeunload = [];
             console.log(resp);
-            page.toggleMenu(true);
-            page.show('account');
         }
     });
+	$('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+	page.toggleMenu(true);
+    page.show('account');
 }
