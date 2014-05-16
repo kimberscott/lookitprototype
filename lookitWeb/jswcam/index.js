@@ -189,9 +189,9 @@ var page = (function() {
 		$('.btn-stop').css("display","none");
 		$('.btn-record').css("display","none");
 		show_cam("consent","cam_setup");
-		 setTimeout(function(){
-    		swfobject.getObjectById("flashplayer").setup();
-  		}, 2000 );
+		// setTimeout(function(){
+    	//	swfobject.getObjectById("flashplayer").setup();
+  		//}, 2000 );
     };
 
     Library.prototype.showVerifyDialog = function(acceptFunc) {
@@ -252,7 +252,6 @@ var page = (function() {
 	$('.active').removeClass('active');
 	$('.' + key).addClass('active');
 
-	this.clear('.content_pane');
 	$('.content_pane').html(this.html(key));
 
 	$('body').trigger('show'+key);
@@ -266,6 +265,8 @@ var page = (function() {
 	if (key=='home') {
 		window.onbeforeunload = [];
 	}
+	
+	this.clear('.content_pane');
 
     };
     

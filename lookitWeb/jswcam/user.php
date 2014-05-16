@@ -372,10 +372,9 @@ function account_add($table,$data,$string){
   $data['date']= date("m/d/y");
 
   $collection = $db->account;
-  //$collection->insert($data);
-  $collection->update(array("email" => $data['email'], "tic" => $data['tic']), $data, array("upsert" => true));
-  
-  echo "done";
+  $collection->update(array('dbid' => $data['dbid']), $data, array("upsert" => true));
+
+  echo $data['dbid'];
 }
 
 // Fetch the demographic form data from the database.
@@ -386,7 +385,6 @@ function get_demographic($string){
   $collection = $db->demographic;
   $cursor = $collection->find($find);
   foreach ($cursor as $obj){
-
     echo json_encode($obj);
   }
 }

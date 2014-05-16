@@ -10,6 +10,9 @@ window.onbeforeunload = function(e) {
 	return '';
 };
 
+var DBID = +new Date;
+DBID = DBID.toString() + '-' + Math.random().toString();
+
 // Standard function used in sending experiment object to server
 $.fn.serializeObject = function()
 {
@@ -50,13 +53,20 @@ function addEvent(event) {
 
 function advanceSegment(){
 
+	experiment['dbid'] = DBID;
+	var subsetData = {};
+	subsetData['dbid'] = DBID;
+	subsetData['tic'] = experiment['tic'];
+	subsetData['eventArray'] = experiment['eventArray'];
+	subsetData['condition'] = experiment['condition'];
+	
 	$.ajax({
                 'type': 'POST',
                 'url': './user.php',
-                'async' : false,
+                'async' : true,
                 'data': {
                     'table'        : 'users',
-                    'json_data'    : experiment,
+                    'json_data'    : subsetData,
                     'function'     : 'set_account'
                 },
                 success: function(resp) {
