@@ -109,7 +109,6 @@ function getKeyCode(e){
 					experiment.endEarlyComments = comments;
 					console.log(experiment);
 					if (!sandbox){
-						//jswcam.verifyAndUpload(experiment, jswcam.getExemptIdList());
 						done_or_withdraw(experiment, generate_debriefing()); // Function to check if user wants to withdraw from the experiment or not
 						addEvent(  {'type': 'endUpload'});
 					} else {

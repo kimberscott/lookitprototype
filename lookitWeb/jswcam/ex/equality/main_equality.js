@@ -14,6 +14,8 @@ var attachToDiv = '#maindiv';
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 var sandbox = false;
 
+var firstRecord = true;
+
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
@@ -21,8 +23,8 @@ function main(mainDivSel, expt) {
 	mainDivSelector = mainDivSel;
 	experiment = expt;
 	experiment.endedEarly = false;
-	experiment.minAgeDays = 11*12/365;
-	experiment.maxAgeDays = 14*12/365;
+	experiment.minAgeDays = 11*365/12;
+	experiment.maxAgeDays = 14*365/12;
 	experiment.tic = new Date();
 	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
 
@@ -80,13 +82,13 @@ function startExperiment(condition, box) {
 					['positioning2'],
 					['startfullscreen'],
 					['attentiongrabber'],
-					['trial', imageArray[0], soundArray[0]],
+					['trial', imageArray[0], soundArray[0], 0],
 					['attentiongrabber'],
-					['trial', imageArray[1], soundArray[1]],
+					['trial', imageArray[1], soundArray[1], 1],
 					['attentiongrabber'],
-					['trial', imageArray[2], soundArray[2]],
+					['trial', imageArray[2], soundArray[2], 2],
 					['attentiongrabber'],
-					['trial', imageArray[3], soundArray[3]],
+					['trial', imageArray[3], soundArray[3], 3],
 					['endfullscreen'],
 					['formPoststudy']];
 
@@ -238,18 +240,32 @@ function generateHtml(segmentName){
 				
 				imgSrc = experiment.path + 'img/' + htmlSequence[currentElement][1] + '.png';
 				
-				jswcam.startRecording();
-				addEvent(  {'type': 'startRecording'});
-
-				audioName = htmlSequence[currentElement][2];
-				var audioSource = experiment.path + "sounds/" + audioName + '.' + audiotype;
-				$('#trialAudio').attr('src', audioSource);
-				$('#trialAudio').attr('type', audioTypeString);				
+				if (firstRecord) {
+					jswcam.startRecording(true, true);
+					firstRecord = false;
+				} else {
+					jswcam.startRecording();
+				}
 				
+				addEvent(  {'type': 'startRecording'});
 				var audio = $('#trialAudio')[0];
+				
+				audioName = htmlSequence[currentElement][2];
+				
+				var audioSource = experiment.path + "sounds/" + audioName + '.' + audiotype;
+				$('#trialAudio').attr('currentTime', 0);	
+				$('#trialAudio').attr('src', audioSource);
+				$('#trialAudio').attr('type', audioTypeString);		
+				
 				audio.load();
-				audio.play();
-				audio.addEventListener("ended", function() {advanceSegment(); jswcam.stopRecording(); addEvent(  {'type': 'stopRecording'});}, false);
+				audio.play(); 		
+
+				if (htmlSequence[currentElement][3] < 3) {
+					audio.addEventListener("ended", function() {jswcam.stopRecording(); advanceSegment(); addEvent(  {'type': 'stopRecording'});}, false);
+				} else {
+					audio.addEventListener("ended", function() {jswcam.stopRecording("remove"); advanceSegment(); addEvent(  {'type': 'stopRecording'});}, false);
+				}
+				
 				setTimeout(function(){$('#trialImage').attr('src', imgSrc)}, 4000);
 				
 				addEvent({'type': 'startPage', 
