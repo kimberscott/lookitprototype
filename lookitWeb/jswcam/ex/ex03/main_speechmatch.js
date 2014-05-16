@@ -220,10 +220,7 @@ function generateHtml(segmentName){
 				
 				video.removeEventListener('canplaythrough', loadedHandler, false);
 				video.removeEventListener('emptied', loadedHandler, false);
-				if (!sandbox) {
-					jswcam.startRecording(true, true);
-					addEvent(  {'type': 'startRecording'});
-				}
+
 				video.style.cursor = 'none'; // hide the cursor
 				
 				addEvent(  {'type': 'startMovie',
@@ -242,6 +239,11 @@ function generateHtml(segmentName){
 				video.type = 'video/'+videotype;
 				console.log(video.src);
 				video.load(); // plays upon loading completely ('canplaythrough' listener)
+				
+				if (!sandbox) {
+					jswcam.startRecording(true, true);
+					addEvent(  {'type': 'startRecording'});
+				}
 				
 			}
 			

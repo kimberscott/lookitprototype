@@ -145,6 +145,10 @@ var page = (function() {
 			'label': 'Record',
 			'class': 'btn-primary btn-record',
 			'callback': function() {
+				if ($('.btn-record').attr('disabled')) {
+					return false;
+				} else {
+			
 				if(recording == 0 && done == 0){
 					recording = 1;
 					done = 0;
@@ -163,6 +167,7 @@ var page = (function() {
 					startTime = (new Date()).getTime();
 				}
 				return false;
+				}
 			}
 		},
 		{
@@ -176,6 +181,12 @@ var page = (function() {
 				$('.btn-send').css('display','inline-block');
 				$('.btn-stop').css('display','inline-block');
 				$('.btn-record').css('display','inline-block');
+				// Only allow recording once user has scrolled down!
+				$('.modal-body').scroll(function() {
+					if ($('.modal-body').scrollTop() + $('.modal-body').height() > $('#top_bar').height() + $('#widget_holder1').height()) {
+						$('.btn-record').attr('disabled', false);
+					}
+				});
 				$('.btn-continue').css('display','none');
 				return false;
 			}
@@ -188,10 +199,11 @@ var page = (function() {
 		$('.btn-send').css("display","none");
 		$('.btn-stop').css("display","none");
 		$('.btn-record').css("display","none");
+		$('.btn-record').attr('disabled', 'disabled');
+		
+		
 		show_cam("consent","cam_setup");
-		// setTimeout(function(){
-    	//	swfobject.getObjectById("flashplayer").setup();
-  		//}, 2000 );
+
     };
 
     Library.prototype.showVerifyDialog = function(acceptFunc) {

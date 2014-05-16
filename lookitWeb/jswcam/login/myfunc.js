@@ -730,6 +730,7 @@ function show_cam(caller,div_c){
     $(".modal-body").css({"max-height":"550px","height":"550px"});
     $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
+	$('.btn-record').attr('disabled', 'disabled');
 }
 
 // Function to remove the camera widget from the screen

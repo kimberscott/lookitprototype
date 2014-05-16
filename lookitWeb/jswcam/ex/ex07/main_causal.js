@@ -149,9 +149,7 @@ function generateHtml(segmentName){
 		if($.browser.safari) bodyelem = $("body")
 		else bodyelem = $("html,body")
 		bodyelem.scrollTop(0);
-		if(session['participant_privacy'] == "free"){
-			sandbox = true;
-		}
+
 		switch(segmentName){			
 			case "formPoststudy": // fall through
 				$('#fsbutton').detach();			
