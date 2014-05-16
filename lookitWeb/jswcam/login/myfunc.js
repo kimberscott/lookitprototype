@@ -533,7 +533,7 @@ function select_child(expr,obje){
     }
     new_page += "</select><input type = 'hidden' name='expriment_id' value="+expr.id+" /> </br></br>";
     new_page += "</form>";
-    new_page += "<p>You will have a chance to select a privacy level for your recordings at the conclusion of the study.  Unless you expressly permit use of your recordings, no video data except for the consent video will be viewed by anyone.</p>";
+    new_page += "<p>You will select a privacy level for your recordings at the end of the study.  Unless you allow the recordings to be used, no video except for the consent video will be viewed by anyone.</p>";
     show_childs(new_page,expr,obje);
 }
 
