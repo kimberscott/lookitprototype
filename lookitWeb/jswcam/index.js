@@ -251,7 +251,7 @@ var page = (function() {
 
 	$('.active').removeClass('active');
 	$('.' + key).addClass('active');
-
+	this.clear('.content_pane');
 	$('.content_pane').html(this.html(key));
 
 	$('body').trigger('show'+key);
@@ -266,7 +266,7 @@ var page = (function() {
 		window.onbeforeunload = [];
 	}
 	
-	this.clear('.content_pane');
+
 
     };
     

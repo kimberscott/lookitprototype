@@ -7,6 +7,7 @@
 // (These will probably not have the desired effect, but shouldn't and can't be blocked.)
 // This is canceled after ending the experiment.
 window.onbeforeunload = function(e) {
+	promptEarlyEnd();
 	return '';
 };
 
@@ -125,6 +126,11 @@ function previousSegment(){
 function getKeyCode(e){
 	e = e.charCode || e.keyCode;
 	if (e==112 || e==35) { // F1 and end keys
+		promptEarlyEnd();
+	}
+}
+
+function promptEarlyEnd() {
 		addEvent(  {'type': 'promptEarlyUpload'});
 		document.removeEventListener('keydown', getKeyCode, false);
 		bootbox.prompt('Are you sure you want to end the study now?', 'No, continue', 'Yes, end now',
@@ -144,7 +150,6 @@ function getKeyCode(e){
 				return false;
 			},
 			'[Optional] Did you experience any problems with this study?');
-		}
 }
 
 function restoreForm(formData, formId) {

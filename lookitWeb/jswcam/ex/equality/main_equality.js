@@ -16,6 +16,8 @@ var sandbox = false;
 
 var firstRecord = true;
 
+var conditionSet = false;
+
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
@@ -76,6 +78,7 @@ function startExperiment(condition, box) {
 		var imageArray = ['R_1', 'R_2', 'L_3', 'L_4'];
 	}
 
+	conditionSet = true;
 	// Sequence of sections of the experiment, corresponding to html sections.
 	
 	htmlSequence = [['instructions'],
@@ -261,7 +264,7 @@ function generateHtml(segmentName){
 				$('#trialImage').attr('src', imgSrc);
 				
 				audio.load();
-				setTimeout(function(){audio.play();, 2000); 		
+				setTimeout(function(){audio.play();}, 2000); 		
 
 				if (htmlSequence[currentElement][3] < 3) {
 					audio.addEventListener("ended", function() {jswcam.stopRecording(); advanceSegment(); addEvent(  {'type': 'stopRecording'});}, false);
@@ -352,9 +355,10 @@ function generate_debriefing() {
 				'twice as long' and 'twice as many.'  We are interested in whether infants can \
 				draw even more general analogies about 'sameness' in different domains, or whether \
 				these very abstract connections are special to magnitudes (number, duration, size, \
-				etc.). \
-				\
-				<p> <br> Your child was in a 'MAGNITUDE-ONLY' condition, meaning that both the audio clips \
+				etc.). ";
+				
+	if (conditionSet) {
+		DEBRIEFHTML += "<p> <br> Your child was in a 'MAGNITUDE-ONLY' condition, meaning that both the audio clips \
 				(short and long tones, vs medium tones only) and the images (large and small squares, \
 				vs medium squares only) could be described as magnitudes.  We expect that infants in \
 				this condition will spend slightly longer on average looking at the mismatched squares \
@@ -364,10 +368,7 @@ function generate_debriefing() {
 				for instance, all cat pictures vs. cats and dogs, or all major chords vs. both major and minor.\
 				We are interested in whether infants also make analogies among these non-quantifiable \
 				differences!";
-				
-	//if (typeof(debriefInfo) != 'undefined') {
-		// Make any changes based on specific conditions!
-	//}
+				}
 	
 	return DEBRIEFHTML;
 

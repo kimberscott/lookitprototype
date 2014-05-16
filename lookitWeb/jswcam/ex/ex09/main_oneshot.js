@@ -17,24 +17,8 @@ var shortTest = false;
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 var sandbox = false;
 
-// Used by index.js when generating upload dialog.  Nothing depends on counterbalancing
-// in this study, so we write out the entire thing here.
-var DEBRIEFHTML = "<p> Thanks so much for participating!  To confirm your participation, please press 'Done' below.  (If you \
-				wish to withdraw from the study at this point and delete your data, please press 'Cancel and withdraw.'  But \
-				please note that we are very grateful for your recordings even if you think the study didn't 'work'--if kids just \
-				aren't interested, that means we need to fix something!) <p> <br>\
-				<p> Some more information about this study... \
-				<p>This is one of the early studies we are using to find out what sorts of methods will work online as well as \
-				in the lab.  We are trying to replicate the finding of <a href='http://www.pnas.org/content/104/48/19156.long' \
-				target='_blank'> Teglas , Girotto, Gonzalez, and Bonatti (2007) </a> that by about 12 months of age, infants \
-				have expectations about the probabilities of physical events--even events they have never seen before!  \
-				The first four machines we showed were warm-up trials, just to get you and your child used to the procedure.  \
-				The last four machines each had three shapes of one color and one shape of a different color.  During two trials, \
-				the more common shape came out of the machine.  During the other two trials, the less common shape came out of the \
-				machine.  We predict that infants will find it more surprising when the less common shape comes out of the machine, \
-				and may look longer at that outcome before looking away from the screen. \
-				<p> Individual children may look to and away from the screen for many different reasons during the study.  However, \
-				over many children these effects average out and we can look for effects of the probability of the outcome."
+var conditionSet = false;
+
 
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
@@ -135,6 +119,7 @@ function startExperiment(condition, box) {
 						
 	vidElement = buildVideoElement('vidElement');
 	$('video').detach();
+	conditionSet = true;
 	
 	// Sequence of sections of the experiment, corresponding to html sections.
 	htmlSequence = [['instructions'],
@@ -532,4 +517,27 @@ function validateForm(segmentName, formData) {
 			return valid;
 			break;
 	}
+}
+
+function generate_debriefing() {
+
+
+	var DEBRIEFHTML = "<p> Some more information about this study... \
+				<p>This is one of the early studies we are using to find out what sorts of methods will work online as well as \
+				in the lab.  We are trying to replicate the finding of <a href='http://www.pnas.org/content/104/48/19156.long' \
+				target='_blank'> Teglas , Girotto, Gonzalez, and Bonatti (2007) </a> that by about 12 months of age, infants \
+				have expectations about the probabilities of physical events--even events they have never seen before! ";
+	if (conditionSet) {
+		DEBRIEFHTML += "The first four machines we showed were warm-up trials, just to get you and your child used to the procedure.  \
+				The last four machines each had three shapes of one color and one shape of a different color.  During two trials, \
+				the more common shape came out of the machine.  During the other two trials, the less common shape came out of the \
+				machine.  We predict that infants will find it more surprising when the less common shape comes out of the machine, \
+				and may look longer at that outcome before looking away from the screen. \
+				<p> Individual children may look to and away from the screen for many different reasons during the study.  However, \
+				over many children these effects average out and we can look for effects of the probability of the outcome.";
+				}
+				
+	
+	return DEBRIEFHTML;
+
 }

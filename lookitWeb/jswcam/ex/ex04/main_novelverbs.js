@@ -16,6 +16,8 @@ var thisVerb;
 var question; // what's happening [0], find verb [1]
 var transitive; // intransitive, transitive
 
+var conditionSet = false;
+
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
@@ -119,33 +121,12 @@ function startExperiment(condition, box) {
 	console.log(vidSequence);
 	experiment.vidSequence = vidSequence;
 	experiment.whichVerb = whichVerb;
+	experiment.thisVerb = thisVerb;
 	experiment.question = question;
 	experiment.order = order;
 	experiment.transitive = transitive;
-	
-	// Get debriefing dialog ready:
-	// Used by index.js when generating upload dialog (replace this.html('uploading'))
-	var debriefTransitiveList = [	'a transitive verb (one that takes a direct object)', 
-									'an intransitive verb (one that doesn\'t take a direct object)'];
-	var debriefVerbType = debriefTransitiveList[transitive];
-	var debriefOtherVerbType = debriefTransitiveList[1-transitive];
-	var debriefQuestionList = ["CONTROL question: What's happening?  Children in another condition hear 'Find " + thisVerb + "ing' instead.", 
-	"prompt: 'FIND " + thisVerb + "ing.  Children in another condition hear 'What's happening?' instead."];
+	conditionSet = true;
 
-	DEBRIEFHTML += "	<p> Some more information about this study... </p> \
-	<p> This is one of the early studies we are using to test what sorts of methods will work online as well as \
-	in the lab.  We are trying to replicate the finding of <a href='http://pss.sagepub.com/content/20/5/619.short' target='_blank'> \
-	Yuan and Fisher (2009) </a> that 2-year-old store \
-	information about whether a verb is transitive or intransitive even before they know what the verb means. <p>\
-	<p> Your child heard some short dialogs in which the new verb '" + thisVerb + "ing' was used as " + debriefVerbType + ". \
-	We use a variety of different new verbs, and some children hear them used as " + debriefOtherVerbType + " verbs instead. \
-	We then showed two different actions: one with just one participant, and one with two participants.  Your child heard \
-	a " + debriefQuestionList[question] + " We are expecting that on average, when actually prompted to find the novel verb, \
-	children who hear the transitive dialogs will look more to the two-participant actions than do children who hear the intransitive \
-	dialogs. </p> \
-	<p> Individual children may look left or right for all sorts of reasons during the study--for instance, other interesting \
-	things going on at home, or a preference for the particular actions.  However, over many \
-	children, these effects average out.</p> ";
 						
 	// Sequence of sections of the experiment, corresponding to html sections.
 	htmlSequence = [['instructions'],
@@ -486,4 +467,45 @@ function validateForm(segmentName, formData) {
 			return valid;
 			break;
 	}
+}
+
+function generate_debriefing() {
+
+
+	if (conditionSet) {
+	
+		// Get debriefing dialog ready:
+	// Used by index.js when generating upload dialog (replace this.html('uploading'))
+	var debriefTransitiveList = [	'a transitive verb (one that takes a direct object)', 
+									'an intransitive verb (one that doesn\'t take a direct object)'];
+	var debriefVerbType = debriefTransitiveList[experiment.transitive];
+	var debriefOtherVerbType = debriefTransitiveList[1-experiment.transitive];
+	var debriefQuestionList = ["CONTROL question: What's happening?  Children in another condition hear 'Find " + experiment.thisVerb + "ing' instead.", 
+	"prompt: 'FIND " + experiment.thisVerb + "ing.  Children in another condition hear 'What's happening?' instead."];
+
+	var DEBRIEFHTML = "	<p> Some more information about this study... </p> \
+	<p> This is one of the early studies we are using to test what sorts of methods will work online as well as \
+	in the lab.  We are trying to replicate the finding of <a href='http://pss.sagepub.com/content/20/5/619.short' target='_blank'> \
+	Yuan and Fisher (2009) </a> that 2-year-old store \
+	information about whether a verb is transitive or intransitive even before they know what the verb means. <p>\
+	<p> Your child heard some short dialogs in which the new verb '" + experiment.thisVerb + "ing' was used as " + debriefVerbType + ". \
+	We use a variety of different new verbs, and some children hear them used as " + debriefOtherVerbType + " verbs instead. \
+	We then showed two different actions: one with just one participant, and one with two participants.  Your child heard \
+	a " + debriefQuestionList[experiment.question] + " We are expecting that on average, when actually prompted to find the novel verb, \
+	children who hear the transitive dialogs will look more to the two-participant actions than do children who hear the intransitive \
+	dialogs. </p> \
+	<p> Individual children may look left or right for all sorts of reasons during the study--for instance, other interesting \
+	things going on at home, or a preference for the particular actions.  However, over many \
+	children, these effects average out.</p> ";
+	}
+	else {
+	var DEBRIEFHTML = "	<p> Some more information about this study... </p> \
+	<p> This is one of the early studies we are using to test what sorts of methods will work online as well as \
+	in the lab.  We are trying to replicate the finding of <a href='http://pss.sagepub.com/content/20/5/619.short' target='_blank'> \
+	Yuan and Fisher (2009) </a> that 2-year-old store \
+	information about whether a verb is transitive or intransitive even before they know what the verb means. <p>";
+	}
+	
+	return DEBRIEFHTML;
+
 }

@@ -14,6 +14,7 @@ var storyNames = {};
 var condition = 0;
 var tested=false;
 var isRecording=false;
+var conditionSet = false;
 
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 // 9.S93 students--keep to 'true' for testing.
@@ -81,20 +82,9 @@ function startExperiment(condition, box) {
 	experiment.accuracyCond = accuracyCond;
 	experiment.cbCond = cbCond;
 	experiment.accuracies = accuracyCondList[accuracyCond];
+	conditionSet = true;
 	
-	DEBRIEFHTML += 	"<p> Some more information about this study... </p> \
-	<p> This is one of the \
-	early studies we are using to find out what sorts of methods will work online as well as \
-	in the lab.  We are trying to replicate the finding of <a href='http://psycnet.apa.org/psycinfo/2007-12595-012' target='_blank'> \
-	Pasquini et al. (2007) </a> that preschoolers keep track of how reliable people are in naming objects, and use that  \
-	information to decide whom to trust.   The authors also found an interesting developmental trend: younger children distrusted \
-	anyone who ever made a mistake, but older children made use of the actual percentages correct.<p>\
-	<p> Your child first saw four naming events where one woman was " + experiment.accuracies[0] + "% correct and the other \
-	was " + experiment.accuracies[1] + "% correct.  Then, the same women labeled four new objects that your child probably didn't know \
-	the names for.  We're predicting that on average, children--especially older preschoolers--will trust the answers given by the \
-	woman who was more accurate during the familiar-object trials.  There are many reasons individual children would choose specific names \
-	for objects--for instance, maybe one sounds like a friend's name, or just 'feels right' for the object.  However, over many children, \
-	these additional effects average out. "	
+	
 	
 	// Counterbalance which object both people get wrong or both people get right,
 	// if necessary.
@@ -675,4 +665,26 @@ function validateForm(segmentName, formData) {
 			return valid;
 			break;
 	}
+}
+
+function generate_debriefing() {
+
+	var DEBRIEFHTML = 	"<p> Some more information about this study... </p> \
+	<p> This is one of the \
+	early studies we are using to find out what sorts of methods will work online as well as \
+	in the lab.  We are trying to replicate the finding of <a href='http://psycnet.apa.org/psycinfo/2007-12595-012' target='_blank'> \
+	Pasquini et al. (2007) </a> that preschoolers keep track of how reliable people are in naming objects, and use that  \
+	information to decide whom to trust.   The authors also found an interesting developmental trend: younger children distrusted \
+	anyone who ever made a mistake, but older children made use of the actual percentages correct.<p>";
+	
+	if (conditionSet) {
+		DEBRIEFHTML += "<p> Your child first saw four naming events where one woman was " + experiment.accuracies[0] + "% correct and the other was " + experiment.accuracies[1] + "% correct.  Then, the same women labeled four new objects that your child probably didn't know \
+	the names for.  We're predicting that on average, children--especially older preschoolers--will trust the answers given by the \
+	woman who was more accurate during the familiar-object trials.  There are many reasons individual children would choose specific names \
+	for objects--for instance, maybe one sounds like a friend's name, or just 'feels right' for the object.  However, over many children, \
+	these additional effects average out. "	
+	}
+	
+	return DEBRIEFHTML;
+
 }

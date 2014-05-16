@@ -824,7 +824,7 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 					'continue' : 'true',
 					'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
 				};
-				if ("input[type='radio'][name='participant_privacy']:checked").val()=='withdraw') {
+				if ($("input[type='radio'][name='participant_privacy']:checked").val()=='withdraw') {
 					post_data =  {'withdraw' : 'true'};
 				}
 				send_post_data(post_data);
@@ -840,7 +840,8 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 	}
 	
 function show_debrief_dialog() {
- bootbox.dialog(DEBRIEFHTML, [{
+	window.onbeforeunload = [];
+	bootbox.dialog(DEBRIEFHTML, [{
         'label': 'Done',
         "class": 'btn-primary reset-close',
         'callback': function() {

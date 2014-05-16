@@ -14,27 +14,6 @@ var tested = false; // whether the audio has been tested
 // 9.S93 students--keep to 'true' for testing.
 var sandbox = false;
 
-// Used by index.js when generating upload dialog (replace this.html('uploading'))
-var DEBRIEFHTML = "<p> Thanks so much for participating!  To confirm your participation, please press 'Done' below.  (If you \
-				wish to withdraw from the study at this point and delete your data, please press 'Cancel and withdraw.'  But \
-				please note that we are very grateful for your recordings even if you think the study didn't 'work'--if kids just \
-				aren't interested, that means we need to fix something!) <p> <br> \
-	<p> Some more information about this study... </p> \
-	<p> This is one of the \
-	early studies we are conducting to test what sorts of methods will work online as well as \
-	in the lab.  In this study we are looking at an ability called intermodal matching: the \
-	ability to connect information from different sensory modalities, in this case vision and hearing. \
-	Even newborns have some expectations about how their senses work together.  Here we are building on some \
-	studies showing that infants match speech sounds to the facial expressions that produce them \
-	(see for example <a href='http://www.sciencedirect.com/science/article/pii/S0163638384800508' target='_blank'> \
-	Kuhl & Melztoff 1984 </a> or <a href='http://onlinelibrary.wiley.com/doi/10.1111/1467-7687.00271/full' target='_blank'> \
-	Patterson & Werker 2003 </a>).	</p> \
-	<p> Our prediction is that children will spend more time looking at the faces that match the audio.  \
-	Individual children may look to or away from the screen for all sorts of reasons during the study--for instance, other interesting \
-	things going on at home, or a preference for familiar stories!  However, over many \
-	children, these effects average out.  We show each child a random sequence of two matching and two non-matching\
-	faces. </p> ";
-
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
@@ -439,4 +418,27 @@ function validateForm(segmentName, formData) {
 			return valid;
 			break;
 	}
+}
+
+function generate_debriefing() {
+
+// Used by index.js when generating upload dialog (replace this.html('uploading'))
+var DEBRIEFHTML = "<p> Some more information about this study... </p> \
+	<p> This is one of the \
+	early studies we are conducting to test what sorts of methods will work online as well as \
+	in the lab.  In this study we are looking at an ability called intermodal matching: the \
+	ability to connect information from different sensory modalities, in this case vision and hearing. \
+	Even newborns have some expectations about how their senses work together.  Here we are building on some \
+	studies showing that infants match speech sounds to the facial expressions that produce them \
+	(see for example <a href='http://www.sciencedirect.com/science/article/pii/S0163638384800508' target='_blank'> \
+	Kuhl & Melztoff 1984 </a> or <a href='http://onlinelibrary.wiley.com/doi/10.1111/1467-7687.00271/full' target='_blank'> \
+	Patterson & Werker 2003 </a>).	</p> \
+	<p> Our prediction is that children will spend more time looking at the faces that match the audio.  \
+	Individual children may look to or away from the screen for all sorts of reasons during the study--for instance, other interesting \
+	things going on at home, or a preference for familiar stories!  However, over many \
+	children, these effects average out.  We show each child a random sequence of two matching and two non-matching\
+	faces. </p> ";
+	
+	return DEBRIEFHTML;
+
 }
