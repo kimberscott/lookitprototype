@@ -18,14 +18,22 @@ if(!isset($_SESSION['user']['id'])){
     <title> Lookit: Online experiments from the Early Childhood Cognition Lab </title>
     <link rel="shortcut icon" type="image/x-icon" href="img/remy4.ico">    
 	
-	<meta property="og:title" content="Lookit: Online experiments from MIT's Early Childhood Cognition Lab " />
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://lookit.mit.edu" />
-	<meta property="og:image" content="img/logo.jpg" />
-	<meta property="og:description" content="Participate with your kids in research about cognitive development--from your own computer!  Lookit is home to a variety of short activities for children from birth to 7 years of age.  These fun studies let you as a parent contribute to our collective understanding of the fascinating phenomenon of children's learning." />
+    <link rel="stylesheet/less" type="text/css" href="fragments/styles.less"></link>
+    <link rel="stylesheet/less" type="text/css" href="bootstrap/less/bootstrap.less"></link>
+    <link rel="stylesheet/css" type="text/css" href="static/css/styles.css"></link>
+	<link rel="stylesheet/css" type="text/css" href="static/datepicker/css/datepicker.css"></link>
 	
-    <link rel="stylesheet/less" type="text/css" href="combined.min.css"></link>
-    <script src="combined.js" type="text/javascript"></script>
+	
+    <script src="static/js/less-1.3.0.min.js" type="text/javascript"></script>
+	
+    <script src="static/js/jquery-1.8.1.min.js"></script> 
+    <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="bootbox/bootbox.min.js" type="text/javascript"></script>
+    <script src="index.js" type="text/javascript"></script>
+    <script type="text/javascript" src="./camera/swfobject.js"></script>
+    <script src="./login/myfunc.js" type="text/javascript"></script>
+    <script src="./login/validate.js" type="text/javascript"></script> 
+    <script src="./login/json.js" type="text/javascript"></script> 
 	
     
 <script>
@@ -98,7 +106,6 @@ if(!isset($_SESSION['user']['id'])){
     </style>
     </head>
     <body style="padding-top:40px;" ondragstart="return false;" ondrop="return false;">
-	
       <!-- Top Navbar -->
 	  <div style='margin-bottom:25px;'>
 		<div id="topbar" class="navbar navbar-fixed-top">
@@ -132,7 +139,6 @@ if(!isset($_SESSION['user']['id'])){
 	      	</div><!--./navbar-inner-->
     	</div><!--./navbar-->
 		</div>
-		
 
 	    <!-- <div class = "login_form loginDiv"></div> -->
 	    <div id="page-container" class="container-fluid skip-fixed-sidebar">
@@ -184,8 +190,7 @@ if(!isset($_SESSION['user']['id'])){
 	      </div>
 	    </div>
 	    <div id = "message" style="display:none;">
-	        <p>Your video and microphone should be automatically detected and visible below. 
-			<p>Try saying hello!  The audio bar on the right should go at least halfway up.  If it doesn't, try adjusting your microphone settings by right-clicking on the video, selecting Settings, and updating the volume in the microphone tab. </p>
+	        <p>Your video and microphone should be automatically detected and visible above. If your microphone levels are too low, try adjusting them in your Flash settings by right-clicking on the video, selecting Settings, and updating the volume in the microphone tab. </p>
 	    </div>
   	</body>
 </html>

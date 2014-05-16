@@ -11,7 +11,8 @@ module.exports = function(grunt) {
 				},
 				files: {
 					// target.css file: source.less file
-					"fragments/styles.css": "fragments/styles.less"
+					"fragments/styles.css": "fragments/styles.less",
+					"bootstrap/bootstrap.css": "bootstrap/less/bootstrap.less"
 				}
 			}
 		},
@@ -27,7 +28,7 @@ module.exports = function(grunt) {
 	    concat: {
 			css: {
 			   src: ['fragments/styles.css',
-					 'bootstrap/css/bootstrap.css',
+					 'bootstrap/bootstrap.css',
 					 'static/css/styles.css', 
 					 'static/datepicker/css/datepicker.css'],
 			   dest: 'combined.css'
@@ -35,12 +36,13 @@ module.exports = function(grunt) {
 			js : {
 				src : ['static/js/less-1.3.0.min.js',
 					"static/js/jquery-1.8.1.min.js",
-					"static/js/bootstrap.min.js",
-					"bootbox/bootbox.min.js",
+					"static/js/bootstrap.js",
+					"bootbox/bootbox.js",
 					"camera/swfobject.js",
 					"login/myfunc.js",
 					"login/validate.js",
-					"login/json.js"],
+					"login/json.js", 
+					"index.js"],
 				dest : 'combined.js'
 			}
 		}, 
