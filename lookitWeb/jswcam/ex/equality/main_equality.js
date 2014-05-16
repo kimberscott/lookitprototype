@@ -25,6 +25,7 @@ function main(mainDivSel, expt) {
 	experiment.endedEarly = false;
 	experiment.minAgeDays = 11*365/12;
 	experiment.maxAgeDays = 14*365/12;
+	experiment.VERSION = 0; // Keep track of any major changes made on PROD manually
 	experiment.tic = new Date();
 	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
 
@@ -39,7 +40,7 @@ function main(mainDivSel, expt) {
 		
 	if(sandbox) {
 		// Manually set the condition number
-		condition = prompt('Please enter a condition number (0-7)', '0');
+		condition = prompt('Please enter a condition number (0-3)', '0');
 		startExperiment(condition, box);
 	} else {
 		// Get the appropriate condition from the server by checking which ones we 

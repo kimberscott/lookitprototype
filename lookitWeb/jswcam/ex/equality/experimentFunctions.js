@@ -49,6 +49,21 @@ function addEvent(event) {
 }
 
 function advanceSegment(){
+
+	$.ajax({
+                'type': 'POST',
+                'url': './user.php',
+                'async' : false,
+                'data': {
+                    'table'        : 'users',
+                    'json_data'    : experiment,
+                    'function'     : 'set_account'
+                },
+                success: function(resp) {
+                    console.log('Updated database');
+                }
+            });
+
 	jswcam.toggleWebCamView(false);
 	// Detach the current html, if any
 	if (currentElement >= 0){

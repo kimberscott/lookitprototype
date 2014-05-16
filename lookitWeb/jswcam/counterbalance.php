@@ -27,6 +27,7 @@ function check_conditions($experiment_id,$string) {
 		"backwards" => 4,
 		"oneshot" => 8,
 		"testimony" => 32,
+		"equality" => 4,
 	);
 	
   $m = new Mongo($string);
