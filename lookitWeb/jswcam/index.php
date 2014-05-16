@@ -24,22 +24,8 @@ if(!isset($_SESSION['user']['id'])){
 	<meta property="og:image" content="img/logo.jpg" />
 	<meta property="og:description" content="Participate with your kids in research about cognitive development--from your own computer!  Lookit is home to a variety of short activities for children from birth to 7 years of age.  These fun studies let you as a parent contribute to our collective understanding of the fascinating phenomenon of children's learning." />
 	
-    <link rel="stylesheet/less" type="text/css" href="fragments/styles.less"></link>
-    <link rel="stylesheet/less" type="text/css" href="bootstrap/less/bootstrap.less"></link>
-    <link rel="stylesheet/css" type="text/css" href="static/css/styles.css"></link>
-	<link rel="stylesheet/css" type="text/css" href="static/datepicker/css/datepicker.css"></link>
-	
-	
-    <script src="static/js/less-1.3.0.min.js" type="text/javascript"></script>
-	
-    <script src="static/js/jquery-1.8.1.min.js"></script> 
-    <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="bootbox/bootbox.min.js" type="text/javascript"></script>
-    <script src="index.js" type="text/javascript"></script>
-    <script type="text/javascript" src="./camera/swfobject.js"></script>
-    <script src="./login/myfunc.js" type="text/javascript"></script>
-    <script src="./login/validate.js" type="text/javascript"></script> 
-    <script src="./login/json.js" type="text/javascript"></script> 
+    <link rel="stylesheet/less" type="text/css" href="combined.min.css"></link>
+    <script src="combined.js" type="text/javascript"></script>
 	
     
 <script>
