@@ -372,7 +372,9 @@ function account_add($table,$data,$string){
   $data['date']= date("m/d/y");
 
   $collection = $db->account;
-  $collection->insert($data);
+  //$collection->insert($data);
+  $collection->update(array("email" => $data['email'], "tic" => $data['tic']), $data, array("upsert" => true));
+  
   echo "done";
 }
 
