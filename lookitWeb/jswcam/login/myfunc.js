@@ -810,82 +810,58 @@ function connected_mic_cam(){
 function done_or_withdraw(experiment,DEBRIEFHTML){
     $("#flashplayer").remove();
     $("#widget_holder1").attr('id','widget_holder');
-    bootbox.dialog(DEBRIEFHTML, [{
+	
+	// FIRST do the privacy infomration, INCLUDING withdraw option.
+	var post_data;
+	var privacy_page = page.html("privacy");
+	
+	bootbox.dialog(privacy_page,[{
+		'label': 'Submit',
+		"class": 'btn-primary reset-close',
+		'callback': function() {
+			if($('input[name=participant_privacy]:checked').length > 0){
+				post_data = {
+					'continue' : 'true',
+					'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
+				};
+				if ("input[type='radio'][name='participant_privacy']:checked").val()=='withdraw') {
+					post_data =  {'withdraw' : 'true'};
+				}
+				send_post_data(post_data);
+				show_debrief_dialog();
+				return true;
+			}
+			else{
+				$("#error").html("<b style='color: #FF0000'>Please select a privacy level for the experiment.</b>");
+				return false;
+			}
+		}
+	}]);
+	}
+	
+function show_debrief_dialog() {
+ bootbox.dialog(DEBRIEFHTML, [{
         'label': 'Done',
         "class": 'btn-primary reset-close',
         'callback': function() {
-            $.ajax({
-                'type': 'POST',
-                'url': './user.php',
-                'async' : false,
-                'data': {
-                    'table'        : 'users',
-                    'json_data'    : experiment,
-                    'function'     : 'set_account'
-                },
-                success: function(resp) {
-                    $(".bootbox").remove();
-                    $(".modal-backdrop").remove();
-                    set_post_data('done');
-                }
-            });
-        }
-    }, 
-    {
-        'label': 'Cancel and withdraw',
-        "class": 'btn-danger reset-close',
-        "callback": function() {
-            $(".bootbox").remove();
-            $(".modal-backdrop").remove();
-            set_post_data('cancel');
+           // Return back to the accounts page
+			$('body').removeClass('modal-open');
+			$('.modal-backdrop').remove();
+			page.toggleMenu(true);
+			page.show('account');
         }
     }]);
 }
 
-function set_post_data(caller){
-    var post_data;
-    if(caller == 'done'){
-        var privacy_page = page.html("privacy");
-        bootbox.dialog(privacy_page,[{
-            'label': 'Submit',
-            "class": 'btn-primary reset-close',
-            'callback': function() {
-                if($('input[name=participant_privacy]:checked').length > 0){
-                    post_data = {
-                        'continue' : 'true',
-                        'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
-                    };
-                    return_to_accounts(post_data);
-                    return true;
-                }
-                else{
-                    $("#error").html("<b style='color: #FF0000'>Please select a privacy level for the experiment.</b>");
-                    return false;
-                }
-            }
-        }]);
-    }
-    else{
-        post_data =  {'withdraw' : 'true'};
-        return_to_accounts(post_data);
-    }
-}
 
-// Post the data to S3 server and return back to the accounts page
-function return_to_accounts(post_data){
-    $.ajax({
+function send_post_data(post_data){
+	// Use the privacy settings to name videos accordingly.
+	$.ajax({
         'type': 'POST',
         'url': './camera/convert.php',
 		'async': true,
         'data': post_data,
         'success': function(resp) {
-           // var data =get_params("get_demogra");
-           // if(data != ""){
-           //     page.show("account");
-           // }
-           // else{
-           //     show_demographic();
-           // }
 		   console.log(resp);
         },
         'failure': function(resp) {
@@ -893,8 +869,21 @@ function return_to_accounts(post_data){
             console.log(resp);
         }
     });
-	$('body').removeClass('modal-open');
-    $('.modal-backdrop').remove();
-	page.toggleMenu(true);
-    page.show('account');
+	
+	// As long as the user did not withdraw, also do a final DB update.
+	if ('continue' in post_data) {
+		$.ajax({
+			'type': 'POST',
+			'url': './user.php',
+			'async' : true,
+			'data': {
+				'table'        : 'users',
+				'json_data'    : experiment,
+				'function'     : 'set_account'
+			},
+			success: function(resp) {
+				console.log('Final database update');
+			}
+		});
+	}
 }

@@ -341,13 +341,7 @@ function validateForm(segmentName, formData) {
 function generate_debriefing() {
 
 // Used by index.js when generating upload dialog (replace this.html('uploading'))
-	DEBRIEFHTML = "<p> Thanks so much for participating!  To confirm your participation, \
-				please press 'Done' below.  (If you wish to withdraw from the study at this \
-				point and delete your data, please press 'Cancel and withdraw.'  But \
-				please note that we are very grateful for your recordings even if the study \
-				didn't 'work' at all!  This will give us more information to fix it.) \
-				<p> <br> \
-				Some more information about this study: <p> <br> \
+	DEBRIEFHTML = "<p> Some more information about this study: <p> <br> \
 				\
 				This study builds on work by \
 				<a href='http://pss.sagepub.com/content/18/8/740.short'> \
