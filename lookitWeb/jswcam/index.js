@@ -2,6 +2,8 @@
  * * Copyright (C) MIT Early Childhood Cognition Lab
  *
  */
+ var RECORDINGSET = "";
+ 
 if(!$.isFunction(Function.prototype.createDelegate)) {
     Function.prototype.createDelegate = function (scope) {
 	var fn = this;
@@ -79,6 +81,8 @@ var page = (function() {
 		var done = 0;
 		var startTime;
 		var difference;
+		// A short random string to identify THIS SET of videos to the user.
+		RECORDINGSET = randomString(3);
 		// Limit the length of recording using window.setTimeout.
 		var timeoutID = 0;
 		var check_cam = "<div id = 'top_bar'><p><h1 style='text-align:center'>Test Your Webcam and Microphone </h1></p></div><div id='cam_setup'></div><div id = 'setup_message'></div>";
@@ -672,9 +676,10 @@ var jswcam = (function() {
     Library.prototype.startRecording = function(caller) {
 		if(is_recording == '1'){
 			this.stopRecording("stopping");
+			console.log('Tried to start recording, but was already recording!  Stopped instead.');
 		}
 		get_params('params'); // Resetting the session variable to access the filename
-		swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id'],session['participant'],session['participant_privacy'],caller,recording_count);
+		swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id']+'_'+RECORDINGSET,session['participant'],session['participant_privacy'],caller,recording_count);
 		recording_count++;
 		is_recording = '1';
 		console.log("Recording Started");
@@ -835,4 +840,15 @@ function show_state_labs() {
 		$('#labs_in_state').html(none_text);
 	}
 	
+}
+
+// Thanks to CaffGeek on http://stackoverflow.com/questions/1349404/generate-a-string-of-5-random-characters-in-javascript
+function randomString(len, charSet) {
+    charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var randomString = '';
+    for (var i = 0; i < len; i++) {
+    	var randomPoz = Math.floor(Math.random() * charSet.length);
+    	randomString += charSet.substring(randomPoz,randomPoz+1);
+    }
+    return randomString;
 }

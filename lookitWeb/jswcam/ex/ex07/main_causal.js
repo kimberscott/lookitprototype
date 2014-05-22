@@ -523,14 +523,14 @@ function generate_debriefing() {
 	
 		if(experiment.characterNames['baseline']=='bambi') {
 			var debriefBaseline = "Speckles's itchy spots";
-			var debriefStory = "Bunny, and when he gets a tummyache."
+			var debriefStory = "Bunny, and when he gets a tummyache.";
 			} 
 		else {
 			var debriefBaseline = "Bunny's tummyache";
-			var debriefStory = "Speckles, and when he gets itchy spots."
+			var debriefStory = "Speckles, and when he gets itchy spots.";
 		}
 		
-		var DEBRIEFHTML += "<p> We first asked your child a baseline question about the cause of " + debriefBaseline + ", to see what children think before hearing any \
+		DEBRIEFHTML += "<p> We first asked your child a baseline question about the cause of " + debriefBaseline + ", to see what children think before hearing any \
 				evidence.  We then read a story about a different character, " + debriefStory + " Some children hear a baseline question about Speckles and a \
 				story about Bunny, and other children hear a baseline question about Bunny and a story about Speckles.  \
 				<p> We are expecting that younger children will rely primarily \

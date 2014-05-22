@@ -842,7 +842,7 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 	
 function show_debrief_dialog() {
 	window.onbeforeunload = [];
-	bootbox.dialog(DEBRIEFHTML, [{
+	bootbox.dialog(generate_debriefing(), [{
         'label': 'Done',
         "class": 'btn-primary reset-close',
         'callback': function() {
