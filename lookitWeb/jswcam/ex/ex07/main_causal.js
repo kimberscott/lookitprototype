@@ -14,6 +14,7 @@ var currentPage;
 var thisSegment;
 var condition; 		// counterbalancing condition
 var tested = false; // whether parent has tried the audio 
+var conditionSet = false;
 
 var characterNames;
 
@@ -103,32 +104,8 @@ function startExperiment(condition, box) {
 	experiment.ab_baseline = ab_baseline;
 	experiment.ab_story = ab_story;
 	experiment.characterNames = characterNames;
-			  
-	if(characterNames['baseline']=='bambi') {
-		var debriefBaseline = "Speckles's itchy spots";
-		var debriefStory = "Bunny, and when he gets a tummyache."
-		} 
-	else {
-		var debriefBaseline = "Bunny's tummyache";
-		var debriefStory = "Speckles, and when he gets itchy spots."
-	}
-			  
-	DEBRIEFHTML = "<p> Thanks so much for participating!  To confirm your participation, please press 'Done' below.  (If you \
-				wish to withdraw from the study at this point and delete your data, please press 'Cancel and withdraw.'  But \
-				please note that we are very grateful for your recordings even if you think the study didn't 'work'--if kids just \
-				aren't interested, that means we need to fix something!)\
-				<p>This is one of the early studies we are conducting to test what sorts of methods will work online as well as \
-				in the lab.  We are trying to replicate the finding of <a href='http://psycnet.apa.org/psycinfo/2007-12595-006' \
-				target='_blank'> Schulz, Bonawitz, and Griffiths (2007) </a> that between 3 and 5 years, children start to take \
-				into account patterns of evidence to infer causal relationships between as well as within domains--for instance, \
-				to figure out that Bunny gets a stomachache from feeling scared, not just from eating a particular food.  \
-				<p> We first asked your child a baseline question about the cause of " + debriefBaseline + ", to see what children think before hearing any \
-				evidence.  We then read a story about a different character, " + debriefStory + " Some children hear a baseline question about Speckles and a \
-				story about Bunny, and other children hear a baseline question about Bunny and a story about Speckles.  \
-				<p> We are expecting that younger children will rely primarily \
-				on what they already know for both questions, and older children will start to accommodate the statistical evidence presented first \
-				within domains, then across domains. Individual children may attribute causes to Bunny's tummyache or Speckles' itchy spots for all \
-				sorts of reasons, such as personal experience.  However, over many children these effects average out. </p> ";
+	conditionSet = true;
+	
 
 	// Sequence of sections of the experiment, corresponding to html sections.
 	
@@ -172,9 +149,7 @@ function generateHtml(segmentName){
 		if($.browser.safari) bodyelem = $("body")
 		else bodyelem = $("html,body")
 		bodyelem.scrollTop(0);
-		if(session['participant_privacy'] == "free"){
-			sandbox = true;
-		}
+
 		switch(segmentName){			
 			case "formPoststudy": // fall through
 				$('#fsbutton').detach();			
@@ -416,6 +391,7 @@ function generateHtml(segmentName){
 		console.log('#baseline');
 		goFullscreen($('#baseline')[0]);
 	} else if (segmentName=='formPoststudy') {
+		$("#flashplayer").remove();
 		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 		leaveFullscreen();
 	}
@@ -528,4 +504,40 @@ function validateForm(segmentName, formData) {
 			return valid;
 			break;
 	}
+}
+
+function generate_debriefing() {
+
+
+
+
+			  
+	var DEBRIEFHTML = "<p> Some more information about this study... \
+				<p>This is one of the early studies we are using to find out what sorts of methods will work online as well as \
+				in the lab.  We are trying to replicate the finding of <a href='http://psycnet.apa.org/psycinfo/2007-12595-006' \
+				target='_blank'> Schulz, Bonawitz, and Griffiths (2007) </a> that between 3 and 5 years, children start to take \
+				into account patterns of evidence to learn about causal relationships--for instance, \
+				to figure out that Bunny gets a stomachache from feeling scared, not just from eating a particular food. ";
+				
+	if (conditionSet) {
+	
+		if(experiment.characterNames['baseline']=='bambi') {
+			var debriefBaseline = "Speckles's itchy spots";
+			var debriefStory = "Bunny, and when he gets a tummyache.";
+			} 
+		else {
+			var debriefBaseline = "Bunny's tummyache";
+			var debriefStory = "Speckles, and when he gets itchy spots.";
+		}
+		
+		DEBRIEFHTML += "<p> We first asked your child a baseline question about the cause of " + debriefBaseline + ", to see what children think before hearing any \
+				evidence.  We then read a story about a different character, " + debriefStory + " Some children hear a baseline question about Speckles and a \
+				story about Bunny, and other children hear a baseline question about Bunny and a story about Speckles.  \
+				<p> We are expecting that younger children will rely primarily \
+				on what they already know for both questions (cattails and gardens are about equally likely to cause itchy spots--who knows?--but a sandwich is more likely to cause a tummyache than feeling scared is), and older children will start to accommodate the statistical evidence. Individual children may attribute causes to Bunny's tummyache or Speckles' itchy spots for all \
+				sorts of reasons, such as personal experience.  However, over many children these effects average out. </p> ";
+	}
+	
+	return DEBRIEFHTML;
+
 }

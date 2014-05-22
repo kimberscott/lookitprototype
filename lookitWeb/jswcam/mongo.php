@@ -9,10 +9,12 @@
  *
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
-function put_data($experiment_id, $user_id, $json) {
+
+include("./config.php");
+function put_data($experiment_id, $user_id, $json, $string) {
   $data = json_decode($json, true);
 
-  $m = new Mongo('mongodb://localhost:27018');
+  $m = new Mongo($string);
   $db = $m->{$experiment_id};
 
   $collection = $db->trials;
@@ -33,6 +35,6 @@ function getValue($ref, $default) {
 $experiment_id = getValue('experiment_id', 'unknown_exp');
 $user_id = getValue('user_id', uniqid('null_user_'));
 $data = getValue('json_data', '{}');
-put_data($experiment_id, $user_id, $data);
+put_data($experiment_id, $user_id, $data, $CONFIG['dbstring']);
 
 ?>

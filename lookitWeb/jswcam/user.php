@@ -5,7 +5,7 @@
  */
 
 session_start();
-include("./login/dbconfig.php");
+include("./config.php");
 
 // Add data to the database for a new registered user
 function put_data($experiment_id, $json, $string) {
@@ -63,32 +63,6 @@ function put_data($experiment_id, $json, $string) {
   $_SESSION['user'] = $data;
 
   echo $data['name'];
-
-  // Also send a welcome email at this point:
-  $to = $data['email'];
-
-  // subject
-  $subject = 'Welcome to Lookit!';
-
-  // message
-  $message = '<html><body>';
-  $message .= "<p>We're delighted to have you join us in learning more about how your child learns and experiences the world.  Welcome to the online branch of MIT's Early Childhood Cognition Lab, <a href='https://lookit.mit.edu'>Lookit</a>! </p>";
-  $message .= '<p> Our online studies are just getting started, so check back as we add new material and feel free to contact us with any questions or feedback by emailing lookit@mit.edu.  We currently have studies available for children ages 4 months through 5 years old.</p>';
-  $message .= '<p> Note: this will be the only email we send you unless you opt in to receive updates about new studies, published results, or questions about your responses.  Your email address is kept strictly confidential. </p>';
-  $message .= "</body></html>";
-
-  // To send HTML mail, the Content-type header must be set
-  $headers  = 'MIME-Version: 1.0' . "\r\n";
-  $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-  // Additional headers
-  $headers .= 'From: Lookit <lookit@mit.edu>' . "\r\n";
-  $headers .= 'mailed-by: blicketadmin@lookit.mit.edu' . "\r\n";
-  $headers .= 'signed-by: blicketadmin@lookit.mit.edu' . "\r\n";
-  $headers .= 'Reply-To: lookit@mit.edu' . "\r\n" ;
-
-  // Mail it
-  $sent_mail = mail($to, $subject, $message, $headers);
 
 }
 
@@ -260,7 +234,7 @@ function accounts($table,$email,$data,$string){
               // Replace the description of the experiment with the name of participant and the participation date
               $temp = $test['desc'];
               $rep = "</p><p>Participant: ".$child_name."</br>".$obj['date']."</p>";
-              $test['desc'] = preg_replace("/<\/p>\s+<p>(.*?)<\/p>/", $rep, $temp);
+              $test['desc'] = preg_replace("/<\/p>\s*<p>(.*?)<\/p>/", $rep, $temp);
             }
 
             else{// if single child, no need to loop just replace the description from the details in session.
@@ -268,7 +242,7 @@ function accounts($table,$email,$data,$string){
 
               $temp = $test['desc'];
               $rep = "</p><p>Participant: ".$child_name."</br>".$obj['date']."</p>";
-              $test['desc'] = preg_replace("/<\/p>\s+<p>(.*?)<\/p>/", $rep, $temp);
+              $test['desc'] = preg_replace("/<\/p>\s*<p>(.*?)<\/p>/", $rep, $temp);
             }
             $packages[] = $test;
           }
@@ -398,8 +372,9 @@ function account_add($table,$data,$string){
   $data['date']= date("m/d/y");
 
   $collection = $db->account;
-  $collection->insert($data);
-  echo "done";
+  $collection->update(array('dbid' => $data['dbid']), $data, array("upsert" => true));
+
+  echo $data['dbid'];
 }
 
 // Fetch the demographic form data from the database.
@@ -410,7 +385,6 @@ function get_demographic($string){
   $collection = $db->demographic;
   $cursor = $collection->find($find);
   foreach ($cursor as $obj){
-
     echo json_encode($obj);
   }
 }
@@ -439,40 +413,40 @@ $email = getvalue('email','');
 
 switch($function){
   case 'login' :
-    login($table, $data, $dbstring);
+    login($table, $data, $CONFIG['dbstring']);
     break;
   case "check" :
-    $x = check($table,$data,$dbstring);
+    $x = check($table,$data,$CONFIG['dbstring']);
     break;
   case 'reset_pass' :
-    reset_pass($table,$data,$dbstring);
+    reset_pass($table,$data,$CONFIG['dbstring']);
     break;
   case 'account' :
-    accounts($table,$email,$data,$dbstring);
+    accounts($table,$email,$data,$CONFIG['dbstring']);
     break;
   case 'child' :
-    $my_datas = child_data($table,$dbstring);
+    $my_datas = child_data($table,$CONFIG['dbstring']);
     break;
   case 'experiment_age' :
-    check_age($table, $data, $dbstring);
+    check_age($table, $data, $CONFIG['dbstring']);
     break;
   case 'params' :
     get_params();
     break;
   case 'demogra':
-    demographic($table, $data, $dbstring);
+    demographic($table, $data, $CONFIG['dbstring']);
     break;
   case 'set_account':
-    account_add($table, $data, $dbstring);
+    account_add($table, $data, $CONFIG['dbstring']);
     break;
   case 'get_demogra':
-    get_demographic($dbstring);
+    get_demographic($CONFIG['dbstring']);
     break;
   case 'checknumber':
-    $x = checknumber($dbstring, $table);
+    $x = checknumber($CONFIG['dbstring'], $table);
     break;
   default :
-    put_data($experiment_id, $data,$dbstring);
+    put_data($experiment_id, $data, $CONFIG['dbstring']);
     break;
 }
 ?>

@@ -117,6 +117,7 @@ $(document).ready(function(){
     get_params('params');
     $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
+    
 });
 var responce;
 
@@ -247,7 +248,7 @@ function register(is_new){
 							var myname = call('','./user.php');
 							$("#reg1,#log1").css("display", "block");
 							$("#reg,#log,.login_form").css("display", "none");
-							$("#reg1").html("<a href='#'' > Hi "+myname+" </a>");
+							$("#reg1").html("<a href='#'' > Hi "+myname+" </a>");							
 							
 							if(!cancel_clicked){
 								
@@ -261,7 +262,7 @@ function register(is_new){
 								
 									}
 									else{
-										$("#message").html("<b>You have not participated in any studies.</b>");
+										$("#message").html("<b>You have not participated in any studies yet.</b>");
 									}
 								});
 							}
@@ -278,7 +279,12 @@ function register(is_new){
 
 						}
 						else{
+                            var element = $('.modal-body').jScrollPane({});
+                            var api = element.data('jsp');
+                            api.destroy();
 							$('.modal-body').scrollTop(0);
+                            $('.modal-body').jScrollPane();
+                            $('.jspContainer').width($('.jspContainer').width() - 31);
 							$("#error2").html($("#error").html());
 							$("#error2").find("label").css({"font-weight": "700"});
 							return false;
@@ -300,6 +306,7 @@ function register(is_new){
 						$('.btn-continue').css("display", 'none');
                         $('.modal-body').jScrollPane();
                         $('.jspContainer').width($('.jspContainer').width() - 31);
+                        $('.jspPane').css({'margin-left':'0px','width':'590px'});
 					}
 					continu = 1;
 					return false;
@@ -526,7 +533,7 @@ function select_child(expr,obje){
     }
     new_page += "</select><input type = 'hidden' name='expriment_id' value="+expr.id+" /> </br></br>";
     new_page += "</form>";
-    new_page += "<p>You will have a chance to select a privacy level for your recordings at the conclusion of the study.  Unless you expressly permit use of your recordings, no video data except for the consent video will be viewed by anyone.</p>";
+    new_page += "<p>You will select a privacy level for your recordings at the end of the study.  Unless you allow the recordings to be used, no video except for the consent video will be viewed by anyone.</p>";
     show_childs(new_page,expr,obje);
 }
 
@@ -611,7 +618,7 @@ function get_permission(err_html,expr,obje){
         'label': 'Yes',
         'class': 'btn-primary btn-stop',
         'callback': function() {
-            var check_cam = "<p><h1 style='text-align:center'>Test Your Webcam and Microphone </h1></p><div id='cam_setup'></div>";
+            var check_cam = "<p><h1 style='text-align:center'>Test your webcam and microphone </h1></p><div id='cam_setup'></div>";
             $(".bootbox").remove();
             $(".modal-backdrop").remove();
             obje.loadExperiment(expr, '.content_pane');
@@ -684,26 +691,54 @@ function get_params(fun){
 
 // Function to display the camera widget on the screen
 function show_cam(caller,div_c){
-    $('#'+div_c).append($('#widget_holder'));
-    $("#message").css({'visibility':'visible'});
-    $(".bootbox").css({"width":"790px"});
-    $(".bootbox").css({"height":"650px"});
-    $("#widget_holder").css({'visibility':'visible'});
-    $("#widget_holder").css("height","450px");
-    $("#widget").css("height","450px");
-    $(".modal-body").css("max-height","550px");
-    $(".modal-body").css("height","550px");
+    var no_flash = "<p>To view this page ensure that Adobe Flash Player version </br>11.1.0 or greater is installed. </p></br>";
+    no_flash += "<a href='https://www.adobe.com/go/getflashplayer'><img src='https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>";
+    if(div_c == 'webcamdiv'){
+        div_c = "widget_holder";
+        $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+        $("#widget_holder1").css({"width":"50%"});
+    }
+    else{
+        $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+    }
+    $("#"+div_c).html(no_flash);
+    // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
+    var swfVersionStr = "11.1.0";
+    // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
+    var xiSwfUrlStr = "playerProductInstall.swf";
+    var flashvars = {
+                        'width'  :  450, // Set the width and height of the widget here
+                        'height' :  300
+                    };
+    var params = {};
+    params.quality = "high";
+    params.bgcolor = "#ffffff";
+    params.allowscriptaccess = "always";
+    params.allowfullscreen = "true";
+    var attributes = {};
+    attributes.id = "flashplayer";
+    attributes.name = "flashplayer";
+    attributes.align = "middle";
+    swfobject.embedSWF("./camera/Flashms.swf", div_c, "100%", "100%", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);    
+    swfobject.createCSS("#"+div_c, "display:block;text-align:center;");
+    $("#setup_message").append($("#message"));
+    $("#message").css({'display':'block'});
+    $(".bootbox").css({"width":"790px","height":"650px"});
+    $("#widget_holder1").css({"height":"400px"});
+    $('#webcamdiv').height($('#widget_holder1').height());
+    $('#widget_holder1').offset($('#webcamdiv').offset());
+    $(".modal-body").css({"max-height":"550px","height":"550px"});
     $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
+	$('.btn-record').attr('disabled', 'disabled');
 }
 
 // Function to remove the camera widget from the screen
 function hide_cam(div_c){
-    var cloning = $("#widget_holder").clone();
-    $('body').append($('#widget_holder'));
-    $("#widget_holder").css({'visibility':'hidden'});
+    $("body").append($("#message"));
+    $("#widget_holder1").css({'visibility':'hidden'});
     $("#message").css({'visibility':'hidden'});
-    $("#widget_holder").css("height","0px");
+    $("#widget_holder1").css("height","0px");
     $("#widget").css("height","0px");
 }
 
@@ -774,84 +809,83 @@ function connected_mic_cam(){
 
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
 function done_or_withdraw(experiment,DEBRIEFHTML){
-    bootbox.dialog(DEBRIEFHTML, [{
+    $("#flashplayer").remove();
+    $("#widget_holder1").attr('id','widget_holder');
+	
+	// FIRST do the privacy information, INCLUDING withdraw option.
+	var post_data;
+	var privacy_page = page.html("privacy");
+	
+	bootbox.dialog(privacy_page,[{
+		'label': 'Submit',
+		"class": 'btn-primary reset-close',
+		'callback': function() {
+			if($('input[name=participant_privacy]:checked').length > 0){
+				post_data = {
+					'continue' : 'true',
+					'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
+				};
+				if ($("input[type='radio'][name='participant_privacy']:checked").val()=='withdraw') {
+					post_data =  {'withdraw' : 'true'};
+				}
+				send_post_data(post_data);
+				show_debrief_dialog();
+				return true;
+			}
+			else{
+				$("#error").html("<b style='color: #FF0000'>Please select a privacy level for the experiment.</b>");
+				return false;
+			}
+		}
+	}]);
+	}
+	
+function show_debrief_dialog() {
+	window.onbeforeunload = [];
+	bootbox.dialog(generate_debriefing(), [{
         'label': 'Done',
         "class": 'btn-primary reset-close',
         'callback': function() {
-            $.ajax({
-                'type': 'POST',
-                'url': './user.php',
-                'async' : false,
-                'data': {
-                    'table'        : 'users',
-                    'json_data'    : experiment,
-                    'function'     : 'set_account'
-                },
-                success: function(resp) {
-                    $(".bootbox").remove();
-                    $(".modal-backdrop").remove();
-                    set_post_data('done');
-                }
-            });
-        }
-    }, 
-    {
-        'label': 'Cancel and withdraw',
-        "class": 'btn-danger reset-close',
-        "callback": function() {
-            $(".bootbox").remove();
-            $(".modal-backdrop").remove();
-            set_post_data('cancel');
+           // Return back to the accounts page
+			$('body').removeClass('modal-open');
+			$('.modal-backdrop').remove();
+			page.toggleMenu(true);
+			page.show('account');
         }
     }]);
 }
 
-function set_post_data(caller){
-    var post_data;
-    if(caller == 'done'){
-        var privacy_page = page.html("privacy");
-        bootbox.dialog(privacy_page,[{
-            'label': 'Submit',
-            "class": 'btn-primary reset-close',
-            'callback': function() {
-                post_data = {
-                    'continue' : 'true',
-                    'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
-                };
-                return_to_accounts(post_data);
-                return true;
-            }
-        }]);
-    }
-    else{
-        post_data =  {'withdraw' : 'true'};
-        return_to_accounts(post_data);
-    }
-}
 
-// Post the data to S3 server and return back to the accounts page
-function return_to_accounts(post_data){
-    $.ajax({
+function send_post_data(post_data){
+	// Use the privacy settings to name videos accordingly.
+	$.ajax({
         'type': 'POST',
         'url': './camera/convert.php',
+		'async': true,
         'data': post_data,
         'success': function(resp) {
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-            page.toggleMenu(true);
-            var data =get_params("get_demogra");
-            if(data != ""){
-                    page.show("account");
-            }
-            else{
-                show_demographic();
-            }
+		   console.log(resp);
         },
         'failure': function(resp) {
             window.onbeforeunload = [];
             console.log(resp);
-            page.toggleMenu(true);
-            page.show('account');
         }
     });
+	
+	// As long as the user did not withdraw, also do a final DB update.
+	if ('continue' in post_data) {
+		$.ajax({
+			'type': 'POST',
+			'url': './user.php',
+			'async' : true,
+			'data': {
+				'table'        : 'users',
+				'json_data'    : experiment,
+				'function'     : 'set_account'
+			},
+			success: function(resp) {
+				console.log('Final database update');
+			}
+		});
+	}
 }
