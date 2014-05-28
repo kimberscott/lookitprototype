@@ -20,6 +20,7 @@ function main(mainDivSel, expt) {
 	
 	mainDivSelector = mainDivSel;
 	experiment = expt;
+	experiment.VERSION = '052814';
 	experiment.endedEarly = false;
 	experiment.minAgeDays = 3*30; // 3 months
 	experiment.maxAgeDays = 2*366; // 24 months
@@ -241,7 +242,7 @@ function generateHtml(segmentName){
 				video.load(); // plays upon loading completely ('canplaythrough' listener)
 				
 				if (!sandbox) {
-					jswcam.startRecording(true, true);
+					jswcam.startRecording();
 					addEvent(  {'type': 'startRecording'});
 				}
 				
@@ -304,15 +305,15 @@ function startExperiment(condition, box) {
 	var movieList = new Array(4);
 	if (startMatching) {
 		if (storySet) {
-			movieList = ['E_sE', 'C_sA', 'N_sN', 'M_sJ'];
+			movieList = ['A11', 'A12', 'B11', 'B12'];
 		} else {
-			movieList = ['B_sB', 'A_sC', 'L_sL', 'J_sM'];
+			movieList = ['A22', 'A21', 'B22', 'B21'];
 		}
 	} else {
 		if (storySet) {
-			movieList = ['E_sB', 'C_sC', 'N_sL', 'M_sM'];
+			movieList = ['A12', 'A11', 'B12', 'B11'];
 		} else {
-			movieList = ['B_sE', 'A_sA', 'L_sN', 'J_sJ'];
+			movieList = ['A21', 'A22', 'B21', 'B22'];
 		}
 	}
 	

@@ -307,7 +307,11 @@ function generateHtml(segmentName){
 				video.removeEventListener('canplaythrough', loadedHandler, false);
 				video.removeEventListener('emptied', loadedHandler, false);
 				if (!sandbox && vidSequence[lastVid][2]!='click') {
-					jswcam.startRecording(true, true);
+					if (lastVid==1) {
+						jswcam.startRecording("connect");
+					} else {
+						jswcam.startRecording();
+					}
 					addEvent(  {'type': 'startRecording'});
 				}
 				
