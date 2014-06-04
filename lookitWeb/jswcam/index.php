@@ -82,6 +82,7 @@ if(!isset($_SESSION['user']['id'])){
   	printf("var experiments = %s;", json_encode($experiments));
   	load_fragments(get_default_fragments());
     ?>
+	
     </script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
@@ -120,12 +121,12 @@ if(!isset($_SESSION['user']['id'])){
 		          <div class="nav-collapse collapse" style="*height:40px;">
 		            <ul class="nav">
 		              <ul class="nav">
-		            		<li class="about active"><a href="#" onclick="page.show('about')">Home</a></li>
-		            		<li class="home"><a href="#" onclick="page.show('home')">Participate in a study!</a></li>
-		            		<li class="faq"><a href="#" onclick="page.show('faq')">FAQ</a></li>		
-		            		<li class="thescientists"><a href="#" onclick="page.show('thescientists')">The Scientists</a></li>
-					<li class="resources"><a href="#" onclick="page.show('resources')">Resources</a></li>
-		            		<li class="contact"><a href="#" onclick="page.show('contact')">Contact Us</a></li>
+		            		<li class="about active"><a href="#about" onclick="page.show('about')">Home</a></li>
+		            		<li class="home"><a href="#home" onclick="page.show('home')">Participate in a study!</a></li>
+		            		<li class="faq"><a href="#faq" onclick="page.show('faq')">FAQ</a></li>		
+		            		<li class="thescientists"><a href="#thescientists" onclick="page.show('thescientists')">The Scientists</a></li>
+					<li class="resources"><a href="#resources" onclick="page.show('resources')">Resources</a></li>
+		            		<li class="contact"><a href="#contact" onclick="page.show('contact')">Contact Us</a></li>
 		         	    </ul>
 		      	    </ul>
 		            <ul class="nav_log" style="*width:auto; *float:right; *display:inline;">

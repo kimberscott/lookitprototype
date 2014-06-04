@@ -2,3 +2,4 @@ config.php
 login/dbconfig.php
 deployProd.php
 deploy.php
+lookitWeb/jswcam/fragments/omitted_segments.html

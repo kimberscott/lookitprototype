@@ -35,7 +35,13 @@ if(!$.isFunction(String.prototype.hashCode)) {
 	$(".loginDiv").hide();
 	$(".login_hide").show(300);
 
-	page.show('about');
+	if(window.location.hash) {
+      		page.show(window.location.hash.substring(1));
+  	} else {
+      		page.show('about');
+  	}
+	
+	
 
 	});
 
