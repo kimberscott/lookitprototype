@@ -176,7 +176,7 @@ function generateHtml(segmentName){
 					// If there's a 4th element, show this image over top until click
 					if (vidSequence[lastVid].length>3) {
 						$('#thevideo').hide();
-						$('#vidElement').prepend('<img class="center clickimage" style="z-index:9999" src="' + experiment.path + 'img/' + vidSequence[lastVid][3] + '.png" >');
+						$('#vidElement').prepend('<img class="center clickimage" style="z-index:9999; position:relative;" src="' + experiment.path + 'img/' + vidSequence[lastVid][3] + '.png" >');
 						
 					}
 					$('#vidElement')[0].addEventListener("click", clickHandler, false); 
