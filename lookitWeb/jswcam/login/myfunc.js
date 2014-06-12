@@ -178,24 +178,24 @@ function register(is_new){
     is_new = (typeof is_new=='undefined');
 
     var too_many_accounts = false;
-    if (is_new) {
-    // First check if we already have too many user accounts
-		$.ajax({
-			'type': 'POST',
-			'url': 'user.php',
-			async: false,
-			'data': {
-			    'experiment_id' : "users",
-			    'function' : 'checknumber',
-			    'table': "users",
-			},
-			'success': function(resp) {
-				too_many_accounts = resp;
-			},
-			'failure': function(resp) {
-			}
-		    });
-	}
+    // if (is_new) {
+    // // First check if we already have too many user accounts
+		// $.ajax({
+			// 'type': 'POST',
+			// 'url': 'user.php',
+			// async: false,
+			// 'data': {
+			    // 'experiment_id' : "users",
+			    // 'function' : 'checknumber',
+			    // 'table': "users",
+			// },
+			// 'success': function(resp) {
+				// too_many_accounts = resp;
+			// },
+			// 'failure': function(resp) {
+			// }
+		    // });
+	// }
 
     if (!too_many_accounts) {
 		$(".bootbox").remove();
