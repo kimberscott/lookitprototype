@@ -310,7 +310,7 @@ function generateHtml(segmentName){
 			addFsButton('#maindiv', '#fsdiv');
 			goFullscreen($('#fsdiv')[0]);
 			break;
-		default:
+		case "object0":
 			$('#fsdiv').append(htmlSequence[currentElement][1]);
 			break;
 	}
@@ -454,8 +454,7 @@ function generateHtml(segmentName){
 					var audio = $('#storyAudio')[0];
 				
 					addEvent({'type': 'startPage', 
-						  'storySegment': thisSegment,
-						  'storyPage': currentPage+1});
+						  'storySegment': thisSegment});
 					
 					if (!sandbox && isRecording) {
 						jswcam.stopRecording();
@@ -474,8 +473,7 @@ function generateHtml(segmentName){
 				
 				$('#replay').click(function(evt) {
 					addEvent({'type': 'replayPage', 
-						  'storySegment': thisSegment,
-						  'storyPage': currentPage});
+						  'storySegment': thisSegment});
 					var audio = $('#storyAudio')[0];
 					audio.currentTime = 0;
 					audio.play();
@@ -493,13 +491,11 @@ function generateHtml(segmentName){
 				$('input').prop('disabled', false);
 				}, false)
 			
-			thisSegment = segmentName;
-			currentPage = 1;
-			$('.storysegment').attr('id', thisSegment);
-			audioName = thisSegment;
+			$('.storysegment').attr('id', segmentName);
+			audioName = segmentName;
 			
 			// Insert the parent text
-			parenthtml = parentText(thisSegment);
+			parenthtml = parentText(segmentName);
 			if(parenthtml == '') {
 				$('#parentText').hide();
 			} else {
@@ -523,13 +519,11 @@ function generateHtml(segmentName){
 			$('#storyAudio').attr('type', audioTypeString);
 			console.log(audioSource);
 			
-			
 			var audio = $('#storyAudio')[0];
 			audio.load();
 			audio.play();
 			addEvent({'type': 'startPage', 
-						  'storySegment': thisSegment,
-						  'storyPage': 1});
+						  'storySegment': segmentName});
 
 			break;
 	}
@@ -595,29 +589,31 @@ function buildVideoElement(videoName, videoID) {
 
 function parentText(segmentName) {
 
+baseTextSummary = "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'What do you think it's called?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers. ";
+
 switch(segmentName) {
 		case "summaryFam0":
-					return "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'What do you think it's called?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers. <p> (Familiar object 1 of 4)";
+			return baseTextSummary + "<p> (Familiar object 1 of 4)";
 		case "summaryFam1":
-					return "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'What do you think it's called?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers. <p> (Familiar object 2 of 4)";
+			return baseTextSummary + "<p> (Familiar object 2 of 4)";
 		case "summaryFam2":
-					return "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'What do you think it's called?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers. <p> (Familiar object 3 of 4)";
+			return baseTextSummary + "<p> (Familiar object 3 of 4)";
 		case "summaryFam3":
-					return "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'What do you think it's called?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers. <p> (Familiar object 4 of 4)";
+			return baseTextSummary + "<p> (Familiar object 4 of 4)";
 		case "summaryNov0":
-					return "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'What do you think it's called?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers. <p> (Novel object 1 of 4)";
+			return baseTextSummary + "<p> (Novel object 1 of 4)";
 		case "summaryNov1":
-					return "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'What do you think it's called?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers.<p> (Novel object 2 of 4)";
+			return baseTextSummary + "<p> (Novel object 2 of 4)";
 		case "summaryNov2":
-					return "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'What do you think it's called?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers.<p> (Novel object 3 of 4)";
+			return baseTextSummary + "<p> (Novel object 3 of 4)";
 		case "summaryNov3":
-			return "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'What do you think it's called?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers.<p> (Novel object 4 of 4)";
+			return baseTextSummary + "<p> (Novel object 4 of 4)";
 		case "whoWasGoodFam":
 		case "whoWasGoodNov":
 			return "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'Who do you think was better at it?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers.";	
 		default:
 			return '';
-}
+	}
 
 
 }
