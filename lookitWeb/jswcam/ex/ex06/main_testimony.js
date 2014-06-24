@@ -311,6 +311,14 @@ function generateHtml(segmentName){
 			goFullscreen($('#fsdiv')[0]);
 			break;
 		case "object0":
+		case "accuracy0":
+		case "accuracy1":
+		case "accuracy2":
+		case "accuracy3":
+		case "novel0":
+		case "novel1":
+		case "novel2":
+		case "novel3":
 			$('#fsdiv').append(htmlSequence[currentElement][1]);
 			break;
 	}
