@@ -454,7 +454,7 @@ function generateHtml(segmentName){
 					var audio = $('#storyAudio')[0];
 				
 					addEvent({'type': 'startPage', 
-						  'storySegment': thisSegment});
+						  'storySegment': segmentName});
 					
 					if (!sandbox && isRecording) {
 						jswcam.stopRecording();
@@ -473,7 +473,7 @@ function generateHtml(segmentName){
 				
 				$('#replay').click(function(evt) {
 					addEvent({'type': 'replayPage', 
-						  'storySegment': thisSegment});
+						  'storySegment': segmentName});
 					var audio = $('#storyAudio')[0];
 					audio.currentTime = 0;
 					audio.play();
