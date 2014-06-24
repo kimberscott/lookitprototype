@@ -310,15 +310,7 @@ function generateHtml(segmentName){
 			addFsButton('#maindiv', '#fsdiv');
 			goFullscreen($('#fsdiv')[0]);
 			break;
-		case "object0":
-		case "accuracy0":
-		case "accuracy1":
-		case "accuracy2":
-		case "accuracy3":
-		case "novel0":
-		case "novel1":
-		case "novel2":
-		case "novel3":
+		default:
 			$('#fsdiv').append(htmlSequence[currentElement][1]);
 			break;
 	}
@@ -396,7 +388,6 @@ function generateHtml(segmentName){
 			video.addEventListener('timeupdate', timeUpdateHandler);
 			video.addEventListener('emptied', loadedHandler, false);
 			video.addEventListener('canplaythrough', loadedHandler, false);
-			
 			
 			var newSrc = experiment.path + "videos/" + videotype + "/" + videoNames[segmentName] + '.' + videotype;
 			// For IE: also set currentSrc, otherwise it stays the same!
@@ -489,6 +480,8 @@ function generateHtml(segmentName){
 				});
 			});
 			
+			var audio = $('#storyAudio')[0];
+			
 			// While playing audio, disable 'next' and 'replay' buttons			
 			audio.addEventListener('play', function() {
 				$('input').prop('disabled', true);
@@ -527,7 +520,7 @@ function generateHtml(segmentName){
 			$('#storyAudio').attr('type', audioTypeString);
 			console.log(audioSource);
 			
-			var audio = $('#storyAudio')[0];
+			
 			audio.load();
 			audio.play();
 			addEvent({'type': 'startPage', 
