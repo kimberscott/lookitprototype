@@ -116,8 +116,8 @@ if(!isset($_SESSION['user']['id'])){
 		          <span class="icon-bar"></span>
 		          <span class="icon-bar"></span>
 		          <span class="icon-bar"></span>
-		          </a>
-		          <a class="brand"><img src='img/remy4.ico' style='height:24px; margin-right: 8px;'/>Lookit</a>
+		          </a>				  
+		          <a class="brand" href="#about" onclick="page.show('about')"><img src='img/remy4.ico' style='height:24px; margin-right: 8px;'/>Lookit</a>
 		          <div class="nav-collapse collapse" style="*height:40px;">
 		            <ul class="nav">
 		              <ul class="nav">
