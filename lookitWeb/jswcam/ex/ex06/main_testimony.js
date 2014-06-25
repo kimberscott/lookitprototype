@@ -324,7 +324,32 @@ function generateHtml(segmentName){
 	switch(segmentName) {
 		case "intro":
 		
-			function endHandler(event){
+			var video = $('video')[0];
+		
+			if (video.canPlayType("video/webm")) {
+				videotype = 'webm';
+			} else if (video.canPlayType("video/mp4")) {
+				videotype = 'mp4';
+			} else if(video.canPlayType("video/ogg")) {
+				videotype = 'ogv';
+			} 
+			
+			console.log(videotype);
+			video.type = 'video/'+videotype;
+			video.style.height = screen.availHeight + 'px';
+			video.style.width  = screen.availWidth  + 'px';
+		
+		case "black":
+		case "accuracy0":
+		case "accuracy1":
+		case "accuracy2":
+		case "accuracy3":
+		case "novel0":
+		case "novel1":
+		case "novel2":
+		case "novel3":
+		
+					function endHandler(event){
 				addEvent(  {'type': 'endMovie',
 							'src': segmentName});
 				
@@ -364,35 +389,6 @@ function generateHtml(segmentName){
 					video.removeEventListener('timeupdate', timeUpdateHandler);
 				}
 			}
-		
-			var video = $('video')[0];
-		
-			if (video.canPlayType("video/webm")) {
-				videotype = 'webm';
-			} else if (video.canPlayType("video/mp4")) {
-				videotype = 'mp4';
-			} else if(video.canPlayType("video/ogg")) {
-				videotype = 'ogv';
-			} 
-			
-			console.log(videotype);
-			video.type = 'video/'+videotype;
-			video.style.height = screen.availHeight + 'px';
-			video.style.width  = screen.availWidth  + 'px';
-		
-			video.addEventListener('timeupdate', timeUpdateHandler);
-			video.addEventListener('emptied', loadedHandler, false);
-			video.addEventListener('canplaythrough', loadedHandler, false);
-		
-		case "black":
-		case "accuracy0":
-		case "accuracy1":
-		case "accuracy2":
-		case "accuracy3":
-		case "novel0":
-		case "novel1":
-		case "novel2":
-		case "novel3":
 	
 			$('.vidElement').attr('id', segmentName);
 			
@@ -403,6 +399,10 @@ function generateHtml(segmentName){
 			video.src = newSrc;
 			video.currentSrc = newSrc;
 			console.log(video.currentSrc);
+			
+			video.addEventListener('timeupdate', timeUpdateHandler);
+			video.addEventListener('emptied', loadedHandler, false);
+			video.addEventListener('canplaythrough', loadedHandler, false);
 			
 			video.load(); // plays upon loading completely ('canplaythrough' listener)
 			break;
