@@ -1,6 +1,5 @@
-/*                                                                                                                                                                                                                                    
- * * Copyright (C) MIT Early Childhood Cognition Lab                                                                                                                                                                                   
- *                                                                                                                                                                                                                                     
+/*                                                                          
+ * * Copyright (C) MIT Early Childhood Cognition Lab                                                                           
  */
 
 // Global variables (available in all functions)
@@ -15,9 +14,6 @@ var condition = 0;
 var tested=false;
 var isRecording=false;
 var conditionSet = false;
-
-// If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
-// 9.S93 students--keep to 'true' for testing.
 var sandbox = false;
 
 // The function 'main' must be defined and is called when the consent form is submitted 
@@ -144,7 +140,7 @@ function startExperiment(condition, box) {
 					['intro', vidElement],
 					
 					['object0', ''],
-					['accuracy0',    vidElement], 
+					['accuracy0', vidElement], 
 					['summaryFam0',  ''],
 					
 					['object1', ''],
@@ -308,7 +304,6 @@ function generateHtml(segmentName){
 			addFsButton('#maindiv', '#fsdiv');
 			goFullscreen($('#fsdiv')[0]);
 			break;
-		case "intro":
 		case "black":
 		case "accuracy0":
 		case "accuracy1":
@@ -327,16 +322,7 @@ function generateHtml(segmentName){
 
 	switch(segmentName) {
 		case "intro":
-		case "black":
-		case "accuracy0":
-		case "accuracy1":
-		case "accuracy2":
-		case "accuracy3":
-		case "novel0":
-		case "novel1":
-		case "novel2":
-		case "novel3":
-	
+		
 			function endHandler(event){
 				addEvent(  {'type': 'endMovie',
 							'src': segmentName});
@@ -389,24 +375,33 @@ function generateHtml(segmentName){
 				videotype = 'ogv';
 			} 
 			console.log(videotype);
+			video.type = 'video/'+videotype;
+			video.style.height = screen.availHeight + 'px';
+			video.style.width  = screen.availWidth  + 'px';
 		
-		
-			lastVid = -1;
-			$('.vidElement').attr('id', segmentName);
-			
 			video.addEventListener('timeupdate', timeUpdateHandler);
 			video.addEventListener('emptied', loadedHandler, false);
 			video.addEventListener('canplaythrough', loadedHandler, false);
+		
+		case "black":
+		case "accuracy0":
+		case "accuracy1":
+		case "accuracy2":
+		case "accuracy3":
+		case "novel0":
+		case "novel1":
+		case "novel2":
+		case "novel3":
+	
+			$('.vidElement').attr('id', segmentName);
+			
+			var video = $('video')[0];
 			
 			var newSrc = experiment.path + "videos/" + videotype + "/" + videoNames[segmentName] + '.' + videotype;
 			// For IE: also set currentSrc, otherwise it stays the same!
 			video.src = newSrc;
 			video.currentSrc = newSrc;
 			console.log(video.currentSrc);
-			video.type = 'video/'+videotype;
-			
-			video.style.height = screen.availHeight + 'px';
-			video.style.width  = screen.availWidth  + 'px';
 			
 			video.load(); // plays upon loading completely ('canplaythrough' listener)
 			break;
