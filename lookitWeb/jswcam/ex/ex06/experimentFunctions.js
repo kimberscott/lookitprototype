@@ -78,8 +78,8 @@ function advanceSegment(){
 	jswcam.toggleWebCamView(false);
 	// Detach the current html, if any
 	if (currentElement >= 0){
-		// Avoid removing data--detach not remove!
-		$('#' + htmlSequence[currentElement][0]).detach();
+		// To avoid deleting data, detach not remove!
+		$('#' + htmlSequence[currentElement][0]).remove();
 	}
 	// Increment the state 
 	currentElement++;
