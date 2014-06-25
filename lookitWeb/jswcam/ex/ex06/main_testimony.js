@@ -308,7 +308,7 @@ function generateHtml(segmentName){
 			addFsButton('#maindiv', '#fsdiv');
 			goFullscreen($('#fsdiv')[0]);
 		}
-		$('#fsdiv').append(htmlSequence[currentElement][1]);
+		$('#fsdiv').append(vidElement);
 		
 		if (segmentName == "intro") {
 			var video = $('video')[0];
@@ -384,7 +384,6 @@ function generateHtml(segmentName){
 			
 			video.load(); // plays upon loading completely ('canplaythrough' listener)
 	
-	} else if (htmlSequence[currentElement][1] == 'story') {
 	} else if (htmlSequence[currentElement][1] == 'story') {
 		$('#fsdiv').append(buildStoryPage(htmlSequence[currentElement][0]));
 		if (!sandbox) {
