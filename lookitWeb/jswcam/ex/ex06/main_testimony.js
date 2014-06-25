@@ -135,7 +135,6 @@ function startExperiment(condition, box) {
 	console.log(storyNames);
 	
 	var vidElement = buildVideoElement('intro', 'vidElement');
-	var storySegment = buildStoryPage('intro');
 					
 	// Sequence of sections of the experiment, corresponding to html sections.
 	htmlSequence = [['instructions', ''],
@@ -144,41 +143,41 @@ function startExperiment(condition, box) {
 					
 					['intro', vidElement],
 					
-					['object0', storySegment],
+					['object0', ''],
 					['accuracy0',    vidElement], 
-					['summaryFam0',  storySegment],
+					['summaryFam0',  ''],
 					
-					['object1', storySegment],
+					['object1', ''],
 					['accuracy1', vidElement], 
-					['summaryFam1', storySegment],
+					['summaryFam1', ''],
 					
-					['object2', storySegment],
+					['object2', ''],
 					['accuracy2',    vidElement], 
-					['summaryFam2',  storySegment],
+					['summaryFam2',  ''],
 					
-					['object3', storySegment],
+					['object3', ''],
 					['accuracy3', vidElement], 
-					['summaryFam3', storySegment],
+					['summaryFam3', ''],
 					
-					['whoWasGoodFam', storySegment],
+					['whoWasGoodFam', ''],
 					
-					['object4', storySegment],
+					['object4', ''],
 					['novel0', vidElement], 
-					['summaryNov0', storySegment],
+					['summaryNov0', ''],
 					
-					['object5', storySegment],
+					['object5', ''],
 					['novel1', vidElement], 
-					['summaryNov1', storySegment],
+					['summaryNov1', ''],
 					
-					['object6', storySegment],
+					['object6', ''],
 					['novel2', vidElement], 
-					['summaryNov2', storySegment],
+					['summaryNov2', ''],
 										
-					['object7', storySegment],
+					['object7', ''],
 					['novel3', vidElement], 
-					['summaryNov3', storySegment],
+					['summaryNov3', ''],
 					
-					['whoWasGoodNov', storySegment],
+					['whoWasGoodNov', ''],
 					
 					['formPoststudy', '']];
 
@@ -212,7 +211,6 @@ function generateHtml(segmentName){
 		case "positioning":
 		case "positioning2":
 		case "instructions":
-			$('#fsdiv').detach();
 			$('#maindiv').append('<div id='+htmlSequence[currentElement][0]+'/>');
 			$('#'+segmentName).load(experiment.path+'html/'+segmentName+'.html', 
 				function() {
@@ -310,8 +308,20 @@ function generateHtml(segmentName){
 			addFsButton('#maindiv', '#fsdiv');
 			goFullscreen($('#fsdiv')[0]);
 			break;
-		default:
+		case "intro":
+		case "black":
+		case "accuracy0":
+		case "accuracy1":
+		case "accuracy2":
+		case "accuracy3":
+		case "novel0":
+		case "novel1":
+		case "novel2":
+		case "novel3":
 			$('#fsdiv').append(htmlSequence[currentElement][1]);
+			break;
+		default:
+			$('#fsdiv').append(buildStoryPage(htmlSequence[currentElement][0]));
 			break;
 	}
 
@@ -402,7 +412,8 @@ function generateHtml(segmentName){
 			video.load(); // plays upon loading completely ('canplaythrough' listener)
 			break;
 			
-			// Story pages (image + audio)
+		// Story pages (image + audio)
+		
 		case "summaryFam0":
 		case "summaryFam1":
 		case "summaryFam2":
@@ -428,9 +439,6 @@ function generateHtml(segmentName){
 		case "object5":
 		case "object6":
 		case "object7":
-		case "thanks":
-		
-
 			
 			// Check what type of audio file to use, store in global variable
 			var audio = $('#storyAudio')[0];
@@ -438,7 +446,7 @@ function generateHtml(segmentName){
 				audiotype = 'ogg';
 				audioTypeString = 'audio/ogg';
 			} else if( audio.canPlayType('audio/mp3')) {
-				audiotype = 'mp3'
+				audiotype = 'mp3';
 				audioTypeString = 'audio/mpeg';
 			} else {
 				console.log('no audio type playable');
@@ -554,7 +562,6 @@ function buildStoryPage(id) {
 
 }	
 	
-
 function buildVideoElement(videoName, videoID) {
 
     //Video Tag, no controls specified, autoloading for use
