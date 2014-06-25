@@ -390,7 +390,6 @@ function generateHtml(segmentName){
 			} 
 			console.log(videotype);
 		
-			$('.storysegment').detach();
 		
 			lastVid = -1;
 			$('.vidElement').attr('id', segmentName);
@@ -500,7 +499,6 @@ function generateHtml(segmentName){
 				$('input').prop('disabled', false);
 				}, false)
 			
-			$('.storysegment').attr('id', segmentName);
 			audioName = segmentName;
 			
 			// Insert the parent text
