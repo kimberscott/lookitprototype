@@ -15,6 +15,7 @@ var tested=false;
 var isRecording=false;
 var conditionSet = false;
 var sandbox = false;
+var videotype = 'none';
 
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
@@ -366,7 +367,6 @@ function generateHtml(segmentName){
 		
 			var video = $('video')[0];
 		
-			var videotype = 'none';
 			if (video.canPlayType("video/webm")) {
 				videotype = 'webm';
 			} else if (video.canPlayType("video/mp4")) {
@@ -374,6 +374,7 @@ function generateHtml(segmentName){
 			} else if(video.canPlayType("video/ogg")) {
 				videotype = 'ogv';
 			} 
+			
 			console.log(videotype);
 			video.type = 'video/'+videotype;
 			video.style.height = screen.availHeight + 'px';
