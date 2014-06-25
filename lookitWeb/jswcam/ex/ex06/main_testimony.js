@@ -384,7 +384,8 @@ function generateHtml(segmentName){
 			
 			video.load(); // plays upon loading completely ('canplaythrough' listener)
 	
-	} else if (htmlSequence[currentElement][1] == 'story') }
+	} else if (htmlSequence[currentElement][1] == 'story') {
+	} else if (htmlSequence[currentElement][1] == 'story') {
 		$('#fsdiv').append(buildStoryPage(htmlSequence[currentElement][0]));
 		if (!sandbox) {
 			jswcam.startRecording();
