@@ -16,6 +16,7 @@ var isRecording=false;
 var conditionSet = false;
 var sandbox = false;
 var videotype = 'none';
+var vidElement;
 
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
@@ -131,52 +132,52 @@ function startExperiment(condition, box) {
 	console.log(videoNames);
 	console.log(storyNames);
 	
-	var vidElement = buildVideoElement('intro', 'vidElement');
+	vidElement = buildVideoElement('intro', 'vidElement');
 					
 	// Sequence of sections of the experiment, corresponding to html sections.
-	htmlSequence = [['instructions', ''],
-					['positioning', ''],
-					['positioning2', ''],
+	htmlSequence = [['instructions', 'html'],
+					['positioning', 'html'],
+					['positioning2', 'html'],
 					
-					['intro', vidElement],
+					['intro', 'vid'],
 					
-					['object0', ''],
-					['accuracy0', vidElement], 
-					['summaryFam0',  ''],
+					['object0', 'story'],
+					['accuracy0', 'vid'], 
+					['summaryFam0',  'story'],
 					
-					['object1', ''],
-					['accuracy1', vidElement], 
-					['summaryFam1', ''],
+					['object1', 'story'],
+					['accuracy1', 'vid'], 
+					['summaryFam1', 'story'],
 					
-					['object2', ''],
-					['accuracy2',    vidElement], 
-					['summaryFam2',  ''],
+					['object2', 'story'],
+					['accuracy2',    'vid'], 
+					['summaryFam2',  'story'],
 					
-					['object3', ''],
-					['accuracy3', vidElement], 
-					['summaryFam3', ''],
+					['object3', 'story'],
+					['accuracy3', 'vid'], 
+					['summaryFam3', 'story'],
 					
-					['whoWasGoodFam', ''],
+					['whoWasGoodFam', 'story'],
 					
-					['object4', ''],
-					['novel0', vidElement], 
-					['summaryNov0', ''],
+					['object4', 'story'],
+					['novel0', 'vid'], 
+					['summaryNov0', 'story'],
 					
-					['object5', ''],
-					['novel1', vidElement], 
-					['summaryNov1', ''],
+					['object5', 'story'],
+					['novel1', 'vid'], 
+					['summaryNov1', 'story'],
 					
-					['object6', ''],
-					['novel2', vidElement], 
-					['summaryNov2', ''],
+					['object6', 'story'],
+					['novel2', 'vid'], 
+					['summaryNov2', 'story'],
 										
-					['object7', ''],
-					['novel3', vidElement], 
-					['summaryNov3', ''],
+					['object7', 'story'],
+					['novel3', 'vid'], 
+					['summaryNov3', 'story'],
 					
-					['whoWasGoodNov', ''],
+					['whoWasGoodNov', 'story'],
 					
-					['formPoststudy', '']];
+					['formPoststudy', 'html']];
 
 					
 
@@ -201,129 +202,115 @@ function generateHtml(segmentName){
 	addEvent(  {'type': 'htmlSegmentDisplayed'});
 	$("body").removeClass('playingVideo');
 	
-	switch(segmentName){
 	// In general, append to the main div, but for story/video elements, 
 	// append to a special full-screen div that will be left in throughout
-		case "formPoststudy":
-		case "positioning":
-		case "positioning2":
-		case "instructions":
-			$('#maindiv').append('<div id='+htmlSequence[currentElement][0]+'/>');
-			$('#'+segmentName).load(experiment.path+'html/'+segmentName+'.html', 
-				function() {
+	if (htmlSequence[currentElement][1] == 'html') {
+		$('#maindiv').append('<div id='+htmlSequence[currentElement][0]+'/>');
+		$('#'+segmentName).load(experiment.path+'html/'+segmentName+'.html', 
+			function() {
+			
+			// Scroll to the top of the text
+			if($.browser.safari) {bodyelem = $("body");}
+			else {bodyelem = $("html,body");}
+			bodyelem.scrollTop(0);
+
+			switch(segmentName){
 				
-				// Scroll to the top of the text
-				if($.browser.safari) {bodyelem = $("body");}
-				else {bodyelem = $("html,body");}
-				bodyelem.scrollTop(0);
+				case "formPoststudy":
 
-				switch(segmentName){
-					
-					case "formPoststudy":
-
-						$('#fsbutton').detach();
-						$(function() {
-							$('#'+segmentName).submit(function(evt) {
-								evt.preventDefault();
-								var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
-								console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
-								experiment[segmentName] = formFields.serializeObject();
-								validArray = validateForm(segmentName, experiment[segmentName]);
-								if(segmentName == 'formBasic') {
-									advanceIfInAgeRange(validArray);
-									}
-								else if (validArray) {
-									advanceSegment();
+					$('#fsbutton').detach();
+					$(function() {
+						$('#'+segmentName).submit(function(evt) {
+							evt.preventDefault();
+							var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
+							console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
+							experiment[segmentName] = formFields.serializeObject();
+							validArray = validateForm(segmentName, experiment[segmentName]);
+							if(segmentName == 'formBasic') {
+								advanceIfInAgeRange(validArray);
 								}
-								return false;
-							});
-							$('#' + segmentName + ' #back').click(function(evt) {
-								evt.preventDefault();
-								previousSegment();
-								return false;
-							});
-						});
-						
-						break;
-						
-					case "positioning2":
-						
-						var testaudio = $('#testaudio')[0];
-						function setTestedTrue(event){
-							tested = true;
-						}
-						testaudio.addEventListener('play', setTestedTrue, false);
-
-						console.log(segmentName);
-						console.log($('#' + segmentName + ' :input'));
-						$(function() {
-							$('#' + segmentName + ' #next').click(function(evt) {
-								evt.preventDefault();
-								if(tested){
-									advanceSegment();
-								}
-								else{
-									bootbox.alert('Please try playing the sample audio before starting the study.');
-								}
-								return false;
-							});
-							$('#' + segmentName + ' #back').click(function(evt) {
-								evt.preventDefault();
-								previousSegment();
-								return false;
-							});
-						});
-						break;	
-						
-					case "positioning":
-						show_cam("","webcamdiv");
-					case "instructions":
-					case "instructions2":
-
-						console.log(segmentName);
-						console.log($('#' + segmentName + ' :input'));
-						$(function() {
-							$('#' + segmentName + ' #next').click(function(evt) {
-								hide_cam("webcamdiv");
-								evt.preventDefault();
+							else if (validArray) {
 								advanceSegment();
-								return false;
-							});
-							$('#' + segmentName + ' #back').click(function(evt) {
-								evt.preventDefault();
-								previousSegment();
-								return false;
-							});
+							}
+							return false;
 						});
-						break;
-				}
-			});
-			break;
-		case "intro":
+						$('#' + segmentName + ' #back').click(function(evt) {
+							evt.preventDefault();
+							previousSegment();
+							return false;
+						});
+					});
+					
+					$('#fsdiv').detach();
+					$('#fsbutton').detach();
+					$("#flashplayer").remove();
+					$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
+	
+					break;
+					
+				case "positioning2":
+					
+					var testaudio = $('#testaudio')[0];
+					function setTestedTrue(event){
+						tested = true;
+					}
+					testaudio.addEventListener('play', setTestedTrue, false);
+
+					console.log(segmentName);
+					console.log($('#' + segmentName + ' :input'));
+					$(function() {
+						$('#' + segmentName + ' #next').click(function(evt) {
+							evt.preventDefault();
+							if(tested){
+								advanceSegment();
+							}
+							else{
+								bootbox.alert('Please try playing the sample audio before starting the study.');
+							}
+							return false;
+						});
+						$('#' + segmentName + ' #back').click(function(evt) {
+							evt.preventDefault();
+							previousSegment();
+							return false;
+						});
+					});
+					break;	
+					
+				case "positioning":
+					show_cam("","webcamdiv");
+				case "instructions":
+				case "instructions2":
+
+					console.log(segmentName);
+					console.log($('#' + segmentName + ' :input'));
+					$(function() {
+						$('#' + segmentName + ' #next').click(function(evt) {
+							hide_cam("webcamdiv");
+							evt.preventDefault();
+							advanceSegment();
+							return false;
+						});
+						$('#' + segmentName + ' #back').click(function(evt) {
+							evt.preventDefault();
+							previousSegment();
+							return false;
+						});
+					});
+					break;
+			}
+		});
+	} 
+	
+	else if (htmlSequence[currentElement][1] == 'vid') {
+		if (segmentName == "intro") {
 			$('#maindiv').append('<div id=fsdiv/>');
-			$('#fsdiv').append(htmlSequence[currentElement][1]);
 			addFsButton('#maindiv', '#fsdiv');
 			goFullscreen($('#fsdiv')[0]);
-			break;
-		case "black":
-		case "accuracy0":
-		case "accuracy1":
-		case "accuracy2":
-		case "accuracy3":
-		case "novel0":
-		case "novel1":
-		case "novel2":
-		case "novel3":
-			$('#fsdiv').append(htmlSequence[currentElement][1]);
-			break;
-		default:
-			$('#fsdiv').append(buildStoryPage(htmlSequence[currentElement][0]));
-			break;
-	}
-
-	switch(segmentName) {
-		case "intro":
+		}
+		$('#fsdiv').append(htmlSequence[currentElement][1]);
 		
+		if (segmentName == "intro") {
 			var video = $('video')[0];
 		
 			if (video.canPlayType("video/webm")) {
@@ -338,18 +325,9 @@ function generateHtml(segmentName){
 			video.type = 'video/'+videotype;
 			video.style.height = screen.availHeight + 'px';
 			video.style.width  = screen.availWidth  + 'px';
+		}
 		
-		case "black":
-		case "accuracy0":
-		case "accuracy1":
-		case "accuracy2":
-		case "accuracy3":
-		case "novel0":
-		case "novel1":
-		case "novel2":
-		case "novel3":
-		
-					function endHandler(event){
+		function endHandler(event){
 				addEvent(  {'type': 'endMovie',
 							'src': segmentName});
 				
@@ -405,37 +383,16 @@ function generateHtml(segmentName){
 			video.addEventListener('canplaythrough', loadedHandler, false);
 			
 			video.load(); // plays upon loading completely ('canplaythrough' listener)
-			break;
-			
-		// Story pages (image + audio)
+	
+	} else if (htmlSequence[currentElement][1] == 'story') }
+		$('#fsdiv').append(buildStoryPage(htmlSequence[currentElement][0]));
+		if (!sandbox) {
+			jswcam.startRecording();
+			isRecording = true;
+			addEvent(  {'type': 'startRecording'});
+		}
 		
-		case "summaryFam0":
-		case "summaryFam1":
-		case "summaryFam2":
-		case "summaryFam3":
-		case "summaryNov0":
-		case "summaryNov1":
-		case "summaryNov2":
-		case "summaryNov3":
-		case "whoWasGoodFam":
-		case "whoWasGoodNov":
-		
-			if (!sandbox) {
-				jswcam.startRecording();
-				isRecording = true;
-				addEvent(  {'type': 'startRecording'});
-			}
-		
-		case "object0":
-		case "object1":
-		case "object2":
-		case "object3":
-		case "object4":
-		case "object5":
-		case "object6":
-		case "object7":
-			
-			// Check what type of audio file to use, store in global variable
+		// Check what type of audio file to use, store in global variable
 			var audio = $('#storyAudio')[0];
 			if (audio.canPlayType('audio/ogg;')) {
 				audiotype = 'ogg';
@@ -447,8 +404,6 @@ function generateHtml(segmentName){
 				console.log('no audio type playable');
 			}
 
-			// Only attach the functions one time (in 'baseline' case)!
-			
 			// Next button
 			$(function() {
 				$('#nextPage').click(function(evt) {
@@ -527,17 +482,8 @@ function generateHtml(segmentName){
 			audio.play();
 			addEvent({'type': 'startPage', 
 						  'storySegment': segmentName});
-
-			break;
 	}
 			
-	if (segmentName=="formPostStudy") {
-		$('#fsdiv').detach();
-		$('#fsbutton').detach();
-		$("#flashplayer").remove();
-		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
-	};
-
 }
 
 // Build story page with first image and sound.  Expects to find first image under

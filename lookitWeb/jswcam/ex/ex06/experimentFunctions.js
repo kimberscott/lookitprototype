@@ -79,7 +79,7 @@ function advanceSegment(){
 	// Detach the current html, if any
 	if (currentElement >= 0){
 		// To avoid deleting data, detach not remove!
-		$('#' + htmlSequence[currentElement][0]).remove();
+		$('#' + htmlSequence[currentElement][0]).detach();
 	}
 	// Increment the state 
 	currentElement++;
