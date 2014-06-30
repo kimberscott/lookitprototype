@@ -10,6 +10,7 @@ var vidSequence;
 var experiment;
 var DELAY;
 var tested = false; // whether the audio has been tested
+var trialCounter = 1;
 
 // Use a shorter version of the study just for testing?
 var shortTest = false;
@@ -349,6 +350,13 @@ $('#maindiv').removeClass('whitebackground');
 			function advanceVideoSource(){
 				lastVid++;
 				
+				if (vidSequence[lastVid][0] == 'fix_space') {
+					$('#indicatorText').html('<p> Trial ' + trialCounter + ' of 8</p>');
+					trialCounter++;
+				} else {
+					$('#indicatorText').html('');
+				}
+				
 				if (vidSequence[lastVid][2] != 'loop') {
 					video.addEventListener('timeupdate', timeUpdateHandler);
 					}
@@ -362,6 +370,7 @@ $('#maindiv').removeClass('whitebackground');
 								video.addEventListener('emptied', loadedHandler, false);
 				video.addEventListener('canplaythrough', loadedHandler, false);
 				
+				// Play the audio for this segment at the start if there is any
 				if (vidSequence[lastVid][1] != '') {
 					music.pause();
 					audio.src = experiment.path + "sounds/" + vidSequence[lastVid][1] + '.' + audiotype;
@@ -426,6 +435,7 @@ $('#maindiv').removeClass('whitebackground');
 			var video = $('video')[0];
 			video.type = videotype;
 			advanceVideoSource();
+			
 
 			break; }
 }
@@ -470,6 +480,7 @@ function buildVideoElement(videoID) {
 	videoDiv.append(video);
 	videoDiv.append(musicsegment);
 	videoDiv.append(audiosegment);
+	videoDiv.append($('<div/>', {'id': 'indicatorText'}));
 
     return videoDiv;
 };

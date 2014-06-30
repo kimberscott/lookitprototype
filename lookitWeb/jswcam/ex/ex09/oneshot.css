@@ -23,6 +23,15 @@
   color: black;
 }
 
+#indicatorText {
+	font-size: 36px;
+	z-index: 999;
+	color: white;
+	top: 50px;
+	right: 50px;
+	position: absolute;
+}
+
 #left-column {
 	width:30%;
 	float:left;

@@ -199,7 +199,7 @@ function startExperiment(condition, box) {
 
 function generateHtml(segmentName){
 
-	addEvent(  {'type': 'htmlSegmentDisplayed'});
+	addEvent(  {'type': 'htmlSegmentDisplayed', 'segment': segmentName});
 	$("body").removeClass('playingVideo');
 	
 	// In general, append to the main div, but for story/video elements, 
@@ -363,8 +363,8 @@ function generateHtml(segmentName){
 			function timeUpdateHandler() {
 				// Note: >= rather than == important for IE
 				if (video.currentTime >= video.duration) {
-					endHandler();
 					video.removeEventListener('timeupdate', timeUpdateHandler);
+					endHandler();
 				}
 			}
 	
@@ -384,7 +384,9 @@ function generateHtml(segmentName){
 			
 			video.load(); // plays upon loading completely ('canplaythrough' listener)
 	
-	} else if (htmlSequence[currentElement][1] == 'story') {
+	} 
+	
+	else if (htmlSequence[currentElement][1] == 'story') {
 		$('#fsdiv').append(buildStoryPage(htmlSequence[currentElement][0]));
 		if (!sandbox) {
 			jswcam.startRecording();
@@ -393,95 +395,92 @@ function generateHtml(segmentName){
 		}
 		
 		// Check what type of audio file to use, store in global variable
-			var audio = $('#storyAudio')[0];
-			if (audio.canPlayType('audio/ogg;')) {
-				audiotype = 'ogg';
-				audioTypeString = 'audio/ogg';
-			} else if( audio.canPlayType('audio/mp3')) {
-				audiotype = 'mp3';
-				audioTypeString = 'audio/mpeg';
-			} else {
-				console.log('no audio type playable');
-			}
+		var audio = $('#storyAudio')[0];
+		if (audio.canPlayType('audio/ogg;')) {
+			audiotype = 'ogg';
+			audioTypeString = 'audio/ogg';
+		} else if( audio.canPlayType('audio/mp3')) {
+			audiotype = 'mp3';
+			audioTypeString = 'audio/mpeg';
+		}
+		console.log(audiotype);
 
-			// Next button
-			$(function() {
-				$('#nextPage').click(function(evt) {
+		// Next button
+		$(function() {
+			$('#nextPage').click(function(evt) {
+			
+				var audio = $('#storyAudio')[0];
+			
+				addEvent({'type': 'startPage', 
+					  'storySegment': segmentName});
 				
-					var audio = $('#storyAudio')[0];
+				if (!sandbox && isRecording) {
+					jswcam.stopRecording();
+					isRecording = false;
+					addEvent(  {'type': 'endRecording'});
+				}
 				
-					addEvent({'type': 'startPage', 
-						  'storySegment': segmentName});
+				advanceSegment();
 					
-					if (!sandbox && isRecording) {
-						jswcam.stopRecording();
-						isRecording = false;
-						addEvent(  {'type': 'endRecording'});
-					}
-					
-					advanceSegment();
-						
-					return false;
-				});
+				return false;
 			});
+		});
 			
-			// Have the "replay" button start the audio over
-			$(function() {
-				
-				$('#replay').click(function(evt) {
-					addEvent({'type': 'replayPage', 
-						  'storySegment': segmentName});
-					var audio = $('#storyAudio')[0];
-					audio.currentTime = 0;
-					audio.play();
-					return false;
-				});
+		// Have the "replay" button start the audio over
+		$(function() {
+			
+			$('#replay').click(function(evt) {
+				addEvent({'type': 'replayPage', 
+					  'storySegment': segmentName});
+				var audio = $('#storyAudio')[0];
+				audio.currentTime = 0;
+				audio.play();
+				return false;
 			});
-			
-			var audio = $('#storyAudio')[0];
-			
-			// While playing audio, disable 'next' and 'replay' buttons			
-			audio.addEventListener('play', function() {
-				$('input').prop('disabled', true);
-				}, false)
-			
-			// Once audio ends, enable both buttons
-			audio.addEventListener('ended', function() {
-				$('input').prop('disabled', false);
-				}, false)
-			
-			audioName = segmentName;
-			
-			// Insert the parent text
-			parenthtml = parentText(segmentName);
-			if(parenthtml == '') {
-				$('#parentText').hide();
-			} else {
-				$('#parentText').html(parenthtml);
-				$('#parentText').show();
-			}
-			
-			newSrc = experiment.path + 'img/' + storyNames[segmentName][0] + '.png';
-			$('#objectPic').attr('src', newSrc);
-			console.log(newSrc);
-			
-			if(storyNames[segmentName][0].length) {
-				$('#objectPic').show();
-			}
-			else {
-				$('#objectPic').hide();
-			}
+		});
+		
+		// While playing audio, disable 'next' and 'replay' buttons			
+		audio.addEventListener('play', function() {
+			$('input').prop('disabled', true);
+			}, false)
+		
+		// Once audio ends, enable both buttons
+		audio.addEventListener('ended', function() {
+			$('input').prop('disabled', false);
+			}, false)
+		
+		audioName = segmentName;
+		
+		// Insert the parent text
+		parenthtml = parentText(segmentName);
+		if(parenthtml == '') {
+			$('#parentText').hide();
+		} else {
+			$('#parentText').html(parenthtml);
+			$('#parentText').show();
+		}
+		
+		newSrc = experiment.path + 'img/' + storyNames[segmentName][0] + '.png';
+		$('#objectPic').attr('src', newSrc);
+		console.log(newSrc);
+		
+		if(storyNames[segmentName][0].length) {
+			$('#objectPic').show();
+		}
+		else {
+			$('#objectPic').hide();
+		}
 
-			var audioSource = experiment.path + "sounds/" + storyNames[segmentName][1] + '.' + audiotype;
-			$('#storyAudio').attr('src', audioSource);
-			$('#storyAudio').attr('type', audioTypeString);
-			console.log(audioSource);
-			
-			
-			audio.load();
-			audio.play();
-			addEvent({'type': 'startPage', 
-						  'storySegment': segmentName});
+		var audioSource = experiment.path + "sounds/" + storyNames[segmentName][1] + '.' + audiotype;
+		$('#storyAudio').attr('src', audioSource);
+		$('#storyAudio').attr('type', audioTypeString);
+		console.log(audioSource);
+		
+		
+		audio.load();
+		audio.play();
+		addEvent({'type': 'startPage', 
+					  'storySegment': segmentName});
 	}
 			
 }
