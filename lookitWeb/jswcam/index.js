@@ -104,7 +104,7 @@ var page = (function() {
 			'callback': function() {
 				if(done == 1){
 					get_params('params'); // Resetting the session variable to access the filename
-					var filename = session['filename'][0];
+			//		var filename = session['filename'][0];
                     $.post("./camera/convert.php", {
                         'continue': 'true',
                         'privacy' : 'INCOMPLETE'
