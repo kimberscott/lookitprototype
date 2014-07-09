@@ -67,7 +67,8 @@ function main(mainDivSel, expt) {
 }
 
 function startExperiment(condition, box) {
-    	console.log('Condition: ' + condition);
+    console.log('Condition: ' + condition);
+		
 	// Counterbalancing condition 0 through 8 --> 3xbinary
 	var storyConds = [	['basebunny', 'bambi'],
 				['basebambi', 'bunny']];
@@ -133,6 +134,19 @@ function startExperiment(condition, box) {
 	
 	// Allow the user to end the experiment by pressing 'Home' or 'End' keys.
 	document.addEventListener('keydown', getKeyCode, false);
+	
+	if (record_whole_study) {
+		success = false;
+		while (!success) {
+			try {
+				jswcam.startRecording();
+				addEvent(  {'type': 'startRecording'});
+				success = true;
+			} catch(e) {
+				console.log(e.message);
+			}
+		}
+	}
 	
 	// Start the experiment
 	advanceSegment();
