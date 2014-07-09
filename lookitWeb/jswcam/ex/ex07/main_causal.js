@@ -136,16 +136,8 @@ function startExperiment(condition, box) {
 	document.addEventListener('keydown', getKeyCode, false);
 	
 	if (record_whole_study) {
-		success = false;
-		while (!success) {
-			try {
-				jswcam.startRecording("connect");
-				addEvent(  {'type': 'startRecording'});
-				success = true;
-			} catch(e) {
-				console.log(e.message);
-			}
-		}
+		jswcam.startRecording();
+		addEvent(  {'type': 'startRecording'});
 	}
 	
 	// Start the experiment

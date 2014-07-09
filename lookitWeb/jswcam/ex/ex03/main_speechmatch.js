@@ -13,7 +13,7 @@ var tested = false; // whether the audio has been tested
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 // 9.S93 students--keep to 'true' for testing.
 var sandbox = false;
-var record_whole_study = true; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
+var record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 
 // The function 'main' must be defined and is called when the consent form is submitted 

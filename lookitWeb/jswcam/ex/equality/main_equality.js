@@ -13,7 +13,7 @@ var attachToDiv = '#maindiv';
 
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 var sandbox = false;
-var record_whole_study = true; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
+var record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 var conditionSet = false;
 
