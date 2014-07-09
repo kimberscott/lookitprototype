@@ -17,6 +17,7 @@ var shortTest = false;
 
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 var sandbox = false;
+var record_whole_study = true; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 var conditionSet = false;
 
@@ -60,6 +61,12 @@ function main(mainDivSel, expt) {
 	}
 	
 function startExperiment(condition, box) {
+
+	if (record_whole_study) { 
+		jswcam.startRecording();
+		addEvent(  {'type': 'startRecording'});
+	}	
+
 	experiment.condition = condition;
 	
 	testMovieLists = [ ['lottoProb3C1S_blueC', 'lottoProb3C1S_yellS', 
@@ -184,6 +191,9 @@ $('#maindiv').removeClass('whitebackground');
 			$(function() {
 				$('#'+segmentName).submit(function(evt) {
 					evt.preventDefault();
+					if (record_whole_study) {
+						jswcam.stopRecording();
+					}
 					var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
 					console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
 					experiment[segmentName] = formFields.serializeObject();
@@ -216,11 +226,10 @@ $('#maindiv').removeClass('whitebackground');
 				$('#' + segmentName + ' #next').click(function(evt) {
 					evt.preventDefault();
 					if(tested){
-					advanceSegment();
-					//jswcam.stopRecording();
+						advanceSegment();
 					}
 					else{
-					bootbox.alert('Please try playing the sample audio before starting the study.');
+						bootbox.alert('Please try playing the sample audio before starting the study.');
 					}
 					return false;
 				});
@@ -272,12 +281,11 @@ $('#maindiv').removeClass('whitebackground');
 					setTimeout(function(){
 									addEvent(  {'type': 'endDelay'});
 									if (!sandbox) {
-										if (lastVid>=(vidSequence.length-2)) {
-											jswcam.stopRecording("remove");
-										} else {
-											jswcam.stopRecording();
-										}
+										jswcam.stopRecording();
 										addEvent(  {'type': 'endRecording'});
+									}
+									if (record_whole_study) {
+										jswcam.startRecording();
 									}
 									if (lastVid == (vidSequence.length - 1)){
 										advanceSegment(); // done playing all videos, move on
@@ -318,8 +326,13 @@ $('#maindiv').removeClass('whitebackground');
 				console.log('loaded handler');
 				video.removeEventListener('emptied', loadedHandler, false);
 				video.removeEventListener('canplaythrough', loadedHandler, false);
+
 				if (!sandbox && vidSequence[lastVid][2]==DELAY) { // only for the test looking-time portions
-					jswcam.startRecording(true, true);
+					if (record_whole_study) {
+						jswcam.stopRecording();
+						addEvent( {'type': 'endRecording'});
+					}
+					jswcam.startRecording();
 					addEvent(  {'type': 'startRecording'});
 				}
 				

@@ -11,6 +11,7 @@ var tested = false; // Parent has not tested audio yet
 
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 var sandbox = false;
+var record_whole_study = true; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 var thisVerb;
 var question; // what's happening [0], find verb [1]
@@ -64,6 +65,11 @@ function startExperiment(condition, box) {
 	experiment.condition = condition;
 	// Counterbalancing condition sets
 	// condition is a single number 0<=condition<32
+	
+	if (record_whole_study) {
+		jswcam.startRecording();
+		addEvent(  {'type': 'startRecording'});
+	}
 	
 	var whichVerb = (condition % 4); // 0, 1, 2, 3: blick, glorp, meek, pimm
 	var remCondition = (condition - whichVerb) / 4;
@@ -177,6 +183,10 @@ function generateHtml(segmentName){
 			$(function() {
 				$('#'+segmentName).submit(function(evt) {
 					evt.preventDefault();
+					if (record_whole_study) {
+						jswcam.stopRecording();
+						addEvent(  {'type': 'endRecording'});
+					}	
 					var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
 					console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
 					experiment[segmentName] = formFields.serializeObject();
@@ -265,10 +275,14 @@ function generateHtml(segmentName){
 					video.style.cursor = 'auto'; // show the cursor again
 					video.addEventListener("click", clickHandler, false); 
 				} else {
-								if (!sandbox) {
-					jswcam.stopRecording();
-					addEvent(  {'type': 'endRecording'});
-				}
+					if (!sandbox) {
+						jswcam.stopRecording();
+						addEvent(  {'type': 'endRecording'});
+					}
+					if (record_whole_study) {
+						jswcam.startRecording();
+						addEvent(  {'type': 'startRecording'});
+					}
 					addEvent(  {'type': 'startDelay'});
 					setTimeout(function(){
 									addEvent(  {'type': 'endDelay'});
@@ -307,11 +321,13 @@ function generateHtml(segmentName){
 				video.removeEventListener('canplaythrough', loadedHandler, false);
 				video.removeEventListener('emptied', loadedHandler, false);
 				if (!sandbox && vidSequence[lastVid][2]!='click') {
-					if (lastVid==1) {
-						jswcam.startRecording("connect");
-					} else {
-						jswcam.startRecording();
+					if (record_whole_study) {
+						jswcam.stopRecording();
+						addEvent(  {'type': 'endRecording'});
 					}
+					
+					jswcam.startRecording();
+					
 					addEvent(  {'type': 'startRecording'});
 				}
 				

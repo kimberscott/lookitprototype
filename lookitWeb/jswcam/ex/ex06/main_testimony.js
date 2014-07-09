@@ -18,6 +18,8 @@ var sandbox = false;
 var videotype = 'none';
 var vidElement;
 
+var record_whole_study = true; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
+
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
@@ -62,6 +64,11 @@ function main(mainDivSel, expt) {
 function startExperiment(condition, box) {
     console.log('condition = ' + condition);
 	experiment.condition = condition;
+	
+	if (record_whole_study) {
+		jswcam.startRecording();
+		addEvent(  {'type': 'startRecording'});
+	}
 	
 	// Counterbalancing condition
 	
@@ -222,6 +229,10 @@ function generateHtml(segmentName){
 					$(function() {
 						$('#'+segmentName).submit(function(evt) {
 							evt.preventDefault();
+							if (record_whole_study) {
+								jswcam.stopRecording();
+								addEvent(  {'type': 'endRecording'});
+							}
 							var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
 							console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
 							experiment[segmentName] = formFields.serializeObject();
@@ -389,6 +400,10 @@ function generateHtml(segmentName){
 	else if (htmlSequence[currentElement][1] == 'story') {
 		$('#fsdiv').append(buildStoryPage(htmlSequence[currentElement][0]));
 		if (!sandbox) {
+			if (record_whole_study) {
+				jswcam.stopRecording();
+				addEvent(  {'type': 'endRecording'});
+			}
 			jswcam.startRecording();
 			isRecording = true;
 			addEvent(  {'type': 'startRecording'});
@@ -418,6 +433,10 @@ function generateHtml(segmentName){
 					jswcam.stopRecording();
 					isRecording = false;
 					addEvent(  {'type': 'endRecording'});
+					if (record_whole_study) {
+						jswcam.startRecording();
+						addEvent(  {'type': 'startRecording'});
+					}
 				}
 				
 				advanceSegment();

@@ -20,6 +20,7 @@ var characterNames;
 
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 var sandbox = false;
+var record_whole_study = true; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 // Used by index.js when generating upload dialog (replace this.html('uploading'))
 // Placeholder in case parent cancels before full debrief html is defined
@@ -151,7 +152,7 @@ function generateHtml(segmentName){
 		bodyelem.scrollTop(0);
 
 		switch(segmentName){			
-			case "formPoststudy": // fall through
+			case "formPoststudy":
 				$('#fsbutton').detach();			
 				var questionTexts = {'bambi': 'Speckles gets itchy spots on his legs', 
 					  'bunny': 'Bunny gets tummyaches'};
@@ -162,6 +163,10 @@ function generateHtml(segmentName){
 					
 					$('#'+segmentName).submit(function(evt) {
 						evt.preventDefault();
+						if (record_whole_study) {
+							jswcam.stopRecording();
+							addEvent(  {'type': 'endRecording'});
+						}
 						var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
 						console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
 						experiment[segmentName] = formFields.serializeObject();
@@ -399,21 +404,23 @@ function generateHtml(segmentName){
 	if (!sandbox) {
 		switch(segmentName) {
 			case "baselinequestion":
-				jswcam.startRecording("connect");
-				addEvent(  {'type': 'startRecording'});
-				break;
 			case "storyquestion":
+				if (record_whole_study) {
+					jswcam.stopRecording();
+					addEvent(  {'type': 'endRecording'});
+				}
 				jswcam.startRecording();
 				addEvent(  {'type': 'startRecording'});
 				break;
 			case "story":
+			case "storyend":
 				jswcam.stopRecording();
 				addEvent(  {'type': 'endRecording'});
-				break;
-			case "storyend":
-				jswcam.stopRecording("remove");
-				addEvent(  {'type': 'endRecording'});
-				break;			
+				if (record_whole_study) {
+					jswcam.startRecording();
+					addEvent(  {'type': 'startRecording'});
+				}
+				break;	
 		}
 	}
 }

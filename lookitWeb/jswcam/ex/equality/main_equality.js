@@ -13,8 +13,7 @@ var attachToDiv = '#maindiv';
 
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 var sandbox = false;
-
-var firstRecord = true;
+var record_whole_study = true; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 var conditionSet = false;
 
@@ -61,6 +60,12 @@ function main(mainDivSel, expt) {
 
 function startExperiment(condition, box) {
     console.log('Condition: ' + condition);
+	
+	if (record_whole_study) {
+		jswcam.startRecording();
+		addEvent(  {'type': 'startRecording'});
+	}
+	
 	// Parse out the counterbalancing condition:
 	experiment.condition = condition;
 	experiment.startMatchSound = condition % 2;
@@ -132,6 +137,10 @@ function generateHtml(segmentName){
 					
 					$('#'+segmentName).submit(function(evt) {
 						evt.preventDefault();
+						if (record_whole_study) {
+							jswcam.stopRecording();
+							addEvent(  {'type': 'endRecording'});
+						}	
 						var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
 						console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
 						experiment[segmentName] = formFields.serializeObject();
@@ -244,12 +253,11 @@ function generateHtml(segmentName){
 				
 				imgSrc = experiment.path + 'img/' + htmlSequence[currentElement][1] + '.png';
 				
-				if (firstRecord) {
-					jswcam.startRecording(true, true);
-					firstRecord = false;
-				} else {
-					jswcam.startRecording();
+				if (record_whole_study) {
+					jswcam.stopRecording();
+					addEvent({'type': 'endRecording'});
 				}
+				jswcam.startRecording();
 				
 				addEvent(  {'type': 'startRecording'});
 				var audio = $('#trialAudio')[0];
@@ -266,11 +274,8 @@ function generateHtml(segmentName){
 				audio.load();
 				setTimeout(function(){audio.play();}, 2000); 		
 
-				if (htmlSequence[currentElement][3] < 3) {
-					audio.addEventListener("ended", function() {jswcam.stopRecording(); advanceSegment(); addEvent(  {'type': 'stopRecording'});}, false);
-				} else {
-					audio.addEventListener("ended", function() {jswcam.stopRecording("remove"); advanceSegment(); addEvent(  {'type': 'stopRecording'});}, false);
-				}
+				audio.addEventListener("ended", function() {jswcam.stopRecording(); addEvent(  {'type': 'stopRecording'});if(record_whole_study) {jswcam.startRecording(); addEvent({'type': 'startRecording'});} advanceSegment(); }, false);
+				
 				
 				addEvent({'type': 'startPage', 
 							  'image': imgSrc,

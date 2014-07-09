@@ -13,6 +13,8 @@ var tested = false; // whether the audio has been tested
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 // 9.S93 students--keep to 'true' for testing.
 var sandbox = false;
+var record_whole_study = true; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
+
 
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
@@ -80,6 +82,10 @@ function generateHtml(segmentName){
 			$(function() {
 				$('#'+segmentName).submit(function(evt) {
 					evt.preventDefault();
+					if (record_whole_study) {
+						jswcam.stopRecording();
+						addEvent(  {'type': 'endRecording'});
+					}	
 					var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
 					console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
 					experiment[segmentName] = formFields.serializeObject();
@@ -160,12 +166,12 @@ function generateHtml(segmentName){
 				addEvent(  {'type': 'endMovie',
 							'src': vidSequence[lastVid][0]});
 				if (!sandbox && lastVid>0) {
-					if (lastVid==(vidSequence.length-1)) {
-						jswcam.stopRecording("remove");
-					} else {
-						jswcam.stopRecording();
-					}
+					jswcam.stopRecording();
 					addEvent(  {'type': 'endRecording'});
+					if (record_whole_study) {
+						jswcam.startRecording();
+						addEvent(  {'type': 'startRecording'});
+					}
 				}
 				if (!video.paused) {video.pause();}
 				
@@ -242,6 +248,10 @@ function generateHtml(segmentName){
 				video.load(); // plays upon loading completely ('canplaythrough' listener)
 				
 				if (!sandbox) {
+					if (record_whole_study) {
+						jswcam.stopRecording();
+						addEvent(  {'type': 'endRecording'});
+					}
 					jswcam.startRecording();
 					addEvent(  {'type': 'startRecording'});
 				}
@@ -297,6 +307,11 @@ function generateHtml(segmentName){
 
 function startExperiment(condition, box) {
 	experiment.condition = condition;
+	
+	if (record_whole_study) {
+		jswcam.startRecording();
+		addEvent(  {'type': 'startRecording'});
+	}
 
 	var startMatching = condition >= 2;
 	var storySet = condition % 2;
