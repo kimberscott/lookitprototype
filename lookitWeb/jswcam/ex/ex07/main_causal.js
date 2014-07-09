@@ -139,7 +139,7 @@ function startExperiment(condition, box) {
 		success = false;
 		while (!success) {
 			try {
-				jswcam.startRecording();
+				jswcam.startRecording("connect");
 				addEvent(  {'type': 'startRecording'});
 				success = true;
 			} catch(e) {
