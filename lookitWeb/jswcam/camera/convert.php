@@ -62,9 +62,10 @@ error_log($filename);
 	//$_SESSION['user']['filename'][substr($matches[0],1)] = $filename;
 $record_count = substr($matches[0],1);
 $file_split = explode("_", $filename);
-error_log($dbString);
-$_SESSION['user']['rec_uid']=$file_split[3];
-save_recording($record_count,$filename,$dbString,$file_split[3]);
+$reverse_file_split = array_reverse($file_split);
+error_log($reverse_file_split[3]);
+$_SESSION['user']['rec_uid']=$reverse_file_split[3];
+save_recording($record_count,$filename,$dbString,$reverse_file_split[3]);
 
 }
 
