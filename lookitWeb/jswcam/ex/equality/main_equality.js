@@ -29,6 +29,7 @@ function main(mainDivSel, expt) {
 	experiment.VERSION = 0; // Keep track of any major changes made on PROD manually
 	experiment.tic = new Date();
 	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
+	experiment.recordingSet = RECORDINGSET;
 
 	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv

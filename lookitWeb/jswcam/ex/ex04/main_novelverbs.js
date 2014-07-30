@@ -30,6 +30,7 @@ function main(mainDivSel, expt) {
 	experiment.maxAgeDays = 366*3; // ~3 years
 	experiment.tic = new Date();
 	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
+	experiment.recordingSet = RECORDINGSET;
 
 	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
@@ -104,6 +105,10 @@ function startExperiment(condition, box) {
 						[thisVerb + '1', 	thisVerb + '2', 	thisVerb + '3']];
 	var testAudio = testAudioAll[question];
 			
+	// Sequence of videos to proceed through during the 'vidSegment' portion of the
+	// study (in htmlSquence).  Format [baseVideoName, baseAudioName, endOfVideoAction]
+	// where endOfVideoAction can either be an number of seconds to wait before proceeding
+	// or 'click' to require the parent to click to proceed.
 	vidSequence = [		['fam1', '', 'click'], 
 						['attentiongrabber',  '', 1],
 						[warmup1, warmupaudio[0], 3],
@@ -124,6 +129,7 @@ function startExperiment(condition, box) {
 						[testMovie, testAudio[2], 0],
 						['end', 'beep', 'click']				];
 
+	// stick all of this in the experiment object so it will be sent to the database
 	console.log(vidSequence);
 	experiment.vidSequence = vidSequence;
 	experiment.whichVerb = whichVerb;
@@ -131,9 +137,8 @@ function startExperiment(condition, box) {
 	experiment.question = question;
 	experiment.order = order;
 	experiment.transitive = transitive;
-	conditionSet = true;
+	conditionSet = true; // have set condition; can use for debriefing now
 
-						
 	// Sequence of sections of the experiment, corresponding to html sections.
 	htmlSequence = [['instructions'],
 					['positioning'],
@@ -161,7 +166,9 @@ function startExperiment(condition, box) {
 
 }
 
-
+// When proceeding to a new element of htmlSequence, advanceSegment (defined in
+// experimentFunctions.js) will call generateHtml.  This grabs any appropriate html
+// from the exNN/html/ directory and adds any necessary JS.
 function generateHtml(segmentName){
 
 	addEvent(  {'type': 'htmlSegmentDisplayed'});
@@ -171,10 +178,12 @@ function generateHtml(segmentName){
 	$('#'+segmentName).load(experiment.path+'html/'+segmentName+'.html', 
 	function() {
 	
+	// Scroll to the top of the page
 	if($.browser.safari) {bodyelem = $("body");}
 	else {bodyelem = $("html,body");}
 	bodyelem.scrollTop(0);
 	
+	// Segment-specific JS additions
 	switch(segmentName){
 	
 		case "formPoststudy":
@@ -183,32 +192,27 @@ function generateHtml(segmentName){
 			$(function() {
 				$('#'+segmentName).submit(function(evt) {
 					evt.preventDefault();
+					// If we were recording the whole time, finally stop when the poststudy form
+					// is submitted.
 					if (record_whole_study) {
 						jswcam.stopRecording();
 						addEvent(  {'type': 'endRecording'});
 					}	
+					// Get the text entered in the fields in this form.
 					var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
-					console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
 					experiment[segmentName] = formFields.serializeObject();
 					validArray = validateForm(segmentName, experiment[segmentName]);
-					if(segmentName == 'formBasic') {
-						advanceIfInAgeRange(validArray);
-						}
-					else if (validArray) {
-						advanceSegment();
+					
+					if (validArray) {
+						advanceSegment(); // Since it's the end of the study this will actually end the experiment.
 					}
-					return false;
-				});
-				$('#' + segmentName + ' #back').click(function(evt) {
-					evt.preventDefault();
-					previousSegment();
 					return false;
 				});
 			});
 			
 			break;
 			
-		case "positioning2": // Special case to deal with test-audio requirement
+		case "positioning2": // Special case to deal with requirement that user should test audio
 			var testaudio = $('#testaudio')[0];
 				function setTestedTrue(event){
 					tested = true;
@@ -234,7 +238,7 @@ function generateHtml(segmentName){
 				break;		
 			
 		case "positioning":
-			show_cam("","webcamdiv");
+			show_cam("","webcamdiv"); // fall through
 		case "instructions":
 		case "instructions2":
 
@@ -245,18 +249,14 @@ function generateHtml(segmentName){
 					advanceSegment();
 					return false;
 				});
-				$('#' + segmentName + ' #back').click(function(evt) {
-					evt.preventDefault();
-					previousSegment();
-					return false;
-				});
 			});
 			break;
 			
 		}
 		});
 		
-	// Enter/exit fullscreen outside of callback function to deal with browser constraints
+	// Enter/exit fullscreen outside of callback function to deal with browser constraints on
+	// doing fullscreen actions without a direct link to something the user did
 	if (segmentName=='formPoststudy') {
 		$("#flashplayer").remove();
 		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
@@ -491,39 +491,42 @@ function validateForm(segmentName, formData) {
 
 function generate_debriefing() {
 
-
 	if (conditionSet) {
-	
-		// Get debriefing dialog ready:
-	// Used by index.js when generating upload dialog (replace this.html('uploading'))
-	var debriefTransitiveList = [	'a transitive verb (one that takes a direct object)', 
-									'an intransitive verb (one that doesn\'t take a direct object)'];
-	var debriefVerbType = debriefTransitiveList[experiment.transitive];
-	var debriefOtherVerbType = debriefTransitiveList[1-experiment.transitive];
-	var debriefQuestionList = ["CONTROL question: What's happening?  Children in another condition hear 'Find " + experiment.thisVerb + "ing' instead.", 
-	"prompt: 'FIND " + experiment.thisVerb + "ing.  Children in another condition hear 'What's happening?' instead."];
+		// Get debriefing dialog ready: Used by index.js when generating upload dialog
+		var debriefTransitiveList = [	'a transitive verb (one that takes a direct object)', 
+										'an intransitive verb (one that doesn\'t take a direct object)'];
+		var debriefVerbType = debriefTransitiveList[experiment.transitive];
+		var debriefOtherVerbType = debriefTransitiveList[1-experiment.transitive];
+		var debriefQuestionList = ["CONTROL question: What's happening?  Children in another condition hear \
+								   'Find " + experiment.thisVerb + "ing' instead.", 
+								   "prompt: 'FIND " + experiment.thisVerb + "ing.  Children in another condition \
+								   hear 'What's happening?' instead."];
 
-	var DEBRIEFHTML = "	<p> Some more information about this study... </p> \
-	<p> This is one of the early studies we are using to test what sorts of methods will work online as well as \
-	in the lab.  We are trying to replicate the finding of <a href='http://pss.sagepub.com/content/20/5/619.short' target='_blank'> \
-	Yuan and Fisher (2009) </a> that 2-year-old store \
-	information about whether a verb is transitive or intransitive even before they know what the verb means. <p>\
-	<p> Your child heard some short dialogs in which the new verb '" + experiment.thisVerb + "ing' was used as " + debriefVerbType + ". \
-	We use a variety of different new verbs, and some children hear them used as " + debriefOtherVerbType + " verbs instead. \
-	We then showed two different actions: one with just one participant, and one with two participants.  Your child heard \
-	a " + debriefQuestionList[experiment.question] + " We are expecting that on average, when actually prompted to find the novel verb, \
-	children who hear the transitive dialogs will look more to the two-participant actions than do children who hear the intransitive \
-	dialogs. </p> \
-	<p> Individual children may look left or right for all sorts of reasons during the study--for instance, other interesting \
-	things going on at home, or a preference for the particular actions.  However, over many \
-	children, these effects average out.</p> ";
+		var DEBRIEFHTML = "	<p> Some more information about this study... </p> \
+		<p> This is one of the early studies we are using to test what sorts of methods will work \
+		online as well as  in the lab.  We are trying to replicate the finding of <a href= \
+		'http://pss.sagepub.com/content/20/5/619.short' target='_blank'> Yuan and Fisher (2009) \
+		</a> that 2-year-old store information about whether a verb is transitive or intransitive \
+		even before they know what the verb means. <p> \
+		<p> Your child heard some short dialogs in which the new verb '" + experiment.thisVerb + "ing' \
+		was used as " + debriefVerbType + ". We use a variety of different new verbs, and some children \
+		hear them used as " + debriefOtherVerbType + " verbs instead. We then showed two different actions: \
+		one with just one participant, and one with two participants.  Your child heard \
+		a " + debriefQuestionList[experiment.question] + " We are expecting that on average, when \
+		actually prompted to find the novel verb, children who hear the transitive dialogs will \
+		look more to the two-participant actions than do children who hear the intransitive \
+		dialogs. </p> \
+		<p> Individual children may look left or right for all sorts of reasons during the study--\
+		for instance, other interesting things going on at home, or a preference for the particular \
+		actions.  However, over many children, these effects average out.</p> ";
 	}
 	else {
-	var DEBRIEFHTML = "	<p> Some more information about this study... </p> \
-	<p> This is one of the early studies we are using to test what sorts of methods will work online as well as \
-	in the lab.  We are trying to replicate the finding of <a href='http://pss.sagepub.com/content/20/5/619.short' target='_blank'> \
-	Yuan and Fisher (2009) </a> that 2-year-old store \
-	information about whether a verb is transitive or intransitive even before they know what the verb means. <p>";
+		var DEBRIEFHTML = "	<p> Some more information about this study... </p> \
+		<p> This is one of the early studies we are using to test what sorts of methods \
+		will work online as well as in the lab.  We are trying to replicate the finding of <a \
+		href='http://pss.sagepub.com/content/20/5/619.short' target='_blank'> \
+		Yuan and Fisher (2009) </a> that 2-year-old store information about whether a verb is \
+		transitive or intransitive even before they know what the verb means. <p>";
 	}
 	
 	return DEBRIEFHTML;

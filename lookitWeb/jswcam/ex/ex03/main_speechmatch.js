@@ -28,6 +28,7 @@ function main(mainDivSel, expt) {
 	experiment.maxAgeDays = 2*366; // 24 months
 	experiment.tic = new Date();
 	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
+	experiment.recordingSet = RECORDINGSET;
 
 	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv

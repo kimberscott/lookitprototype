@@ -18,9 +18,9 @@ function check_conditions($experiment_id,$string) {
 	// row to this array using the same syntax and the experiment id from 
 	// package.json.
 	
-	// Note: that comma on the last line is crucial.
+	// Note: that comma on the last line is required!
 	$experiment_counts = array(
-		"speech_match"  => 6,
+		"speech_match"  => 4,
 		"causaldomains" => 8,
 		"novelverbs" => 32,
 		"syllables" => 4,
@@ -31,10 +31,9 @@ function check_conditions($experiment_id,$string) {
 	);
 	
   $m = new Mongo($string);
-  //$db = $m->{$experiment_id};
-  //$collection = $db->trials;
-  $db = $m->users;
-  $collection = $db->account;
+  $db = $m->users; // Mongo database 'users'
+  $collection = $db->account; // Mongo collection called 'account'; documents in this 
+  // collection record individual instances of participation.
   
   $condition_counts = array();
   
