@@ -11,37 +11,14 @@
  */
 
 include("./config.php");
-function check_conditions($experiment_id,$string) {
-
-	// Look up the experiment ID to see how many conditions there are.
-	// When adding a new experiment with basic counterbalancing, add a single
-	// row to this array using the same syntax and the experiment id from 
-	// package.json.
-	
-	// Note: that comma on the last line is required!
-	$experiment_counts = array(
-		"speech_match"  => 4,
-		"causaldomains" => 8,
-		"novelverbs" => 32,
-		"syllables" => 4,
-		"backwards" => 4,
-		"oneshot" => 8,
-		"testimony" => 32,
-		"equality" => 4,
-	);
-	
+function check_conditions($experiment_id,$string) {  
+  
   $m = new Mongo($string);
-  $db = $m->users; // Mongo database 'users'
-  $collection = $db->account; // Mongo collection called 'account'; documents in this 
-  // collection record individual instances of participation.
+  $experiments = $m->users->experiment_age; // Mongo collection called 'account'; documents in this 
+  $thisExp = $experiments->findOne(array('experiment_id' => $experiment_id));
+  $nConds = $thisExp.INCLUDED;
   
-  $condition_counts = array();
-  
-  for ($i = 0; $i < $experiment_counts[$experiment_id]; $i++) {
-	$condition_counts[$i] = array($collection->count(array('condition' => strval($i), 'experiment_id' => $experiment_id)), $i);
-  }
-
-  $small_pair = min($condition_counts); // (#timesSeen, conditionIndex)
+  $small_pair = min($nConds); // (#subjects, conditionIndex)
   
   return array('condition'=>$small_pair[1]);
 }
