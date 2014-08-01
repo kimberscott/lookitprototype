@@ -847,6 +847,7 @@ function show_debrief_dialog() {
         "class": 'btn-primary reset-close',
         'callback': function() {
            // Return back to the accounts page
+		    $('.bootbox').modal('hide');
 			$('body').removeClass('modal-open');
 			$('.modal-backdrop').remove();
 			page.toggleMenu(true);
