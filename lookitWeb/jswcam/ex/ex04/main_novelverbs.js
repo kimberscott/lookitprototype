@@ -7,6 +7,7 @@ var currentElement = -1; // State variable: which html element we're on
 var htmlSequence;
 var vidSequence;
 var experiment;
+experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 var tested = false; // Parent has not tested audio yet
 
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).

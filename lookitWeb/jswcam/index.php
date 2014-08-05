@@ -16,6 +16,7 @@ if(!isset($_SESSION['user']['id'])){
 <html>
   <head>
     <title> Lookit: Online experiments from the Early Childhood Cognition Lab </title>
+	<meta charset="UTF-8">
     <link rel="shortcut icon" type="image/x-icon" href="img/remy4.ico">    
 	
     <link rel="stylesheet/less" type="text/css" href="fragments/styles.less"></link>

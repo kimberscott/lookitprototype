@@ -7,6 +7,7 @@
 var currentElement = -1; // State variable: which html element we're on	
 var htmlSequence;
 var experiment; // where all information about experiment and events is stored--to send to server
+experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 var audiotype = 'none';
 var audioNames;
 var seqLengths;
