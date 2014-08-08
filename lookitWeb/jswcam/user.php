@@ -6,6 +6,7 @@
 
 session_start();
 include("./config.php");
+include("password.php");
 
 // Add data to the database for a new registered user
 function put_data($experiment_id, $json, $string) {
@@ -17,6 +18,8 @@ function put_data($experiment_id, $json, $string) {
 
   $data['pid'] = $data['name'].$data['email'];
   $data['user_id'] = 1;
+ $data['password'] = generate_password_hash($data['password']);
+  $data['confirm_password'] = $data['password'];
   $find['email'] = $data['email'];
     
   $collection = $db->details;
@@ -66,6 +69,12 @@ function put_data($experiment_id, $json, $string) {
 
 }
 
+//Function to generate password hash
+function generate_password_hash($password){
+$hash = password_hash($password, PASSWORD_BCRYPT);
+return $hash;
+}
+
 // Function to fetch the experiment age requirement to the session array
 Function get_experiment_age_range($string){
 
@@ -101,9 +110,11 @@ function login($table, $json, $string){
   $package = array();
 
   //Search if the email and password match in the database
-  $cursor = $collection->find(array('email' => $data['email'],'password' => $data['password']));
-  
+  $cursor = $collection->find(array('email' => $data['email']));
+
   foreach ($cursor as $obj) {
+ $password_hash = $obj['password'];
+    if(password_verify($data['password'],$password_hash)){
     $obj['password'] = "";
     $obj['confirm_password'] = "";
       // Set user data in the session variable
@@ -111,6 +122,7 @@ function login($table, $json, $string){
       echo json_encode($obj);
       break;
     }
+ }
 }
 
 // Function to check if the queried data exists in the database or not
@@ -178,7 +190,8 @@ function reset_pass($table,$json, $string){
   $m = new Mongo($string);
   $db = $m->{$table};
   $collection = $db->details;
-  
+   $data['password'] = generate_password_hash($data['password']);
+  $data['confirm_password'] = $data['password'];
   // Updating the password and confirmpassword field for the given email.
   $collection->update(array('email' => $data['email']),array('$set' => array('password' => $data['password'],'confirm_password' => $data['confirm_password'])));
 
