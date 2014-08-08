@@ -145,11 +145,11 @@ function startExperiment(condition, box) {
               */
            // Start the experiment
 	     advanceSegment();
-	}
+	 }else{
 
     sleep(4000);
     show_cam_widget("position","webcamdiv");
-
+	 }
 }
 
 	
@@ -224,8 +224,11 @@ function generateHtml(segmentName){
 				
 				
 			case "positioning":
-				//show_cam("position","webcamdiv");
+                    if (!record_whole_study) {
+				show_cam("position","webcamdiv");
+		    }else{
 		                show_getting_setup_widget();
+		    }
 			
 			case "instructions":
 			
