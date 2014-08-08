@@ -128,22 +128,28 @@ function startExperiment(condition, box) {
 	// Then remove the dialog box blacking out the screen.
 	// Force it to close because ajax call has occurred in between, as per
 	// http://stackoverflow.com/questions/11519660/
-	box.modal('hide');
-	$('body').removeClass('modal-open');
-	$('.modal-backdrop').remove();
+	 if(!record_whole_study){
+		 box.modal('hide');
+		 $('body').removeClass('modal-open');
+		 $('.modal-backdrop').remove();
+
+		 addEvent( {'type': 'endLoading'});
 		
-	addEvent(  {'type': 'endLoading'});
-	
-	// Allow the user to end the experiment by pressing 'Home' or 'End' keys.
-	document.addEventListener('keydown', getKeyCode, false);
-	
-	if (record_whole_study) {
-		jswcam.startRecording();
-		addEvent(  {'type': 'startRecording'});
+        // Allow the user to end the experiment by pressing 'Home' or 'End' keys.
+	     document.addEventListener('keydown', getKeyCode, false);
+             /*
+                  if (record_whole_study) {
+                      jswcam.startRecording();
+                       addEvent( {'type': 'startRecording'});
+                   }
+              */
+           // Start the experiment
+	     advanceSegment();
 	}
-	
-	// Start the experiment
-	advanceSegment();
+
+    sleep(4000);
+    show_cam_widget("position","webcamdiv");
+
 }
 
 	
@@ -218,7 +224,8 @@ function generateHtml(segmentName){
 				
 				
 			case "positioning":
-				show_cam("position","webcamdiv");
+				//show_cam("position","webcamdiv");
+		                show_getting_setup_widget();
 			
 			case "instructions":
 			
@@ -404,8 +411,10 @@ function generateHtml(segmentName){
 		console.log('#baseline');
 		goFullscreen($('#baseline')[0]);
 	} else if (segmentName=='formPoststudy') {
+	    if(!record_whole_study){
 		$("#flashplayer").remove();
 		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
+	    }
 		leaveFullscreen();
 	}
 	

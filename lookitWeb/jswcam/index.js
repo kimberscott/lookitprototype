@@ -120,9 +120,10 @@ var page = (function() {
                         'privacy' : 'INCOMPLETE'
                     });
                     console.log(session);
+                                        consent_recording_completed = 1;
 					done = 0;
 					recording = 0;
-					hide_cam();
+					hide_cam("consent");
 					callback(); //start experiment loading
 					return true; //allow to close
 				}
@@ -191,6 +192,7 @@ var page = (function() {
 				$('.btn-send').css('display','inline-block');
 				$('.btn-stop').css('display','inline-block');
 				$('.btn-record').css('display','inline-block');
+			        $("#widget_holder1").append('<div style="position: absolute; z-index: 10000; width: 750px; margin-top: -400px; height: 400px; "></div>');
 				// Only allow recording once user has scrolled down!
 				$('.modal-body').scroll(function() {
 					if ($('.modal-body').scrollTop() + $('.modal-body').height() > $('#top_bar').height() + $('#widget_holder1').height()) {
@@ -211,7 +213,7 @@ var page = (function() {
 		$('.btn-record').css("display","none");
 		$('.btn-record').attr('disabled', 'disabled');
 		
-		
+	    consent_recording_completed = 0;
 		show_cam("consent","cam_setup");
 
     };

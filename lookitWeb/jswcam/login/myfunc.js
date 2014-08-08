@@ -57,7 +57,7 @@ $.ajax({
         });
 return result;
 }
-
+var consent_recording_completed = 0;
 $(document).ready(function(){
     $("#log1").click(function (){
         $.ajax({
@@ -691,8 +691,7 @@ function get_params(fun){
 
 // Function to display the camera widget on the screen
 function show_cam(caller,div_c){
-    var no_flash = "<p>To view this page ensure that Adobe Flash Player version </br>11.1.0 or greater is installed. </p></br>";
-    no_flash += "<a href='https://www.adobe.com/go/getflashplayer'><img src='https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>";
+
     if(div_c == 'webcamdiv'){
         div_c = "widget_holder";
         $("#"+div_c).wrap("<div id='widget_holder1'></div>");
@@ -700,7 +699,39 @@ function show_cam(caller,div_c){
     }
     else{
         $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+	$("#setup_message").append($("#message"));
+	$("#message").css({'display':'block'});
+	$("#message").css({'visibility':'visible'});
     }
+
+    start_cam(div_c);
+    $(".bootbox").css({"width":"790px","height":"650px"});
+    $("#widget_holder1").css({"height":"400px","position":"relative"});
+    $('#webcamdiv').height($('#widget_holder1').height());
+    $('#widget_holder1').offset($('#webcamdiv').offset());
+    $(".modal-body").css({"max-height":"550px","height":"550px"});
+    $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
+    $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
+    $('.btn-record').attr('disabled', 'disabled');
+}
+
+/* Widget to be setup once the consent is recorded for further recording throughout the study */
+function show_cam_widget(caller,div_c){
+    if(div_c == 'webcamdiv'){
+	div_c = "widget_holder";
+	$("#"+div_c).wrap("<div id='widget_holder1'></div>");
+	$("#widget_holder1").css({"height":"0px"});
+	$("#widget_holder1").css({"width":"50%"});
+	$("#message").css({'display':'none'});
+    }
+    start_cam(div_c);
+    $("#setup_message").append($("#message"));
+    $('.btn-record').attr('disabled', 'disabled');
+}
+
+function start_cam(div_c){
+    var no_flash = "<p>To view this page ensure that Adobe Flash Player version </br>11.1.0 or greater is installed. </p></br>";
+    no_flash += "<a href='https://www.adobe.com/go/getflashplayer'><img src='https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>";
     $("#"+div_c).html(no_flash);
     // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
     var swfVersionStr = "11.1.0";
@@ -721,26 +752,29 @@ function show_cam(caller,div_c){
     attributes.align = "middle";
     swfobject.embedSWF("./camera/Flashms.swf", div_c, "100%", "100%", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);    
     swfobject.createCSS("#"+div_c, "display:block;text-align:center;");
-    $("#setup_message").append($("#message"));
-    $("#message").css({'display':'block'});
-    $(".bootbox").css({"width":"790px","height":"650px"});
-    $("#widget_holder1").css({"height":"400px"});
-    $('#webcamdiv').height($('#widget_holder1').height());
-    $('#widget_holder1').offset($('#webcamdiv').offset());
-    $(".modal-body").css({"max-height":"550px","height":"550px"});
-    $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
-    $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
-	$('.btn-record').attr('disabled', 'disabled');
 }
 
 // Function to remove the camera widget from the screen
 function hide_cam(div_c){
+    if(div_c == "consent"){
+	$("#flashplayer").remove();
+    }
     $("body").append($("#message"));
     $("#widget_holder1").css({'visibility':'hidden'});
     $("#message").css({'visibility':'hidden'});
     $("#widget_holder1").css("height","0px");
     $("#widget").css("height","0px");
 }
+
+//Function to show widget in getting setup page
+function show_getting_setup_widget(caller,div_c){
+    $("#widget_holder1").css({"height":"400px"});
+    $('#webcamdiv').height($('#widget_holder1').height());
+    $('#widget_holder1').offset($('#webcamdiv').offset());
+    $('#widget_holder1').css({'position':'absolute','top':'200px','visibility':'visible'});
+
+}
+
 
 // Function to check if the entered date is in the correct format
 function isValidDate(date)
@@ -803,13 +837,35 @@ _connected = 0;
 
 // Function to check when the mic and camera setup is completed. 
 function connected_mic_cam(){
-    _connected = 1;
-    $('.btn-continue').css("display","inline-block");
+    if(consent_recording_completed == 0){
+	_connected = 1;
+	$('.btn-continue').css("display","inline-block");
+    }
+    else{
+	if(record_whole_study != undefined && record_whole_study){
+	    $('.modal').remove();
+	    $('body').removeClass('modal-open');
+	    $('.modal-backdrop').remove();
+
+	    addEvent( {'type': 'endLoading'});
+
+ // Allow the user to end the experiment by pressing 'Home' or 'End' keys.
+	    document.addEventListener('keydown', getKeyCode, false);
+
+	    if (record_whole_study) {
+		jswcam.startRecording();
+		addEvent( {'type': 'startRecording'});
+	    }
+	    consent_recording_completed = 1;
+ // Start the experiment
+	    advanceSegment();
+	}
+    }
 }
 
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
 function done_or_withdraw(experiment,DEBRIEFHTML){
-    $("#flashplayer").remove();
+    //$("#flashplayer").remove();
     $("#widget_holder1").attr('id','widget_holder');
 	
 	// FIRST do the privacy information, INCLUDING withdraw option.
@@ -838,6 +894,13 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 			}
 		}
 	}]);
+
+    setTimeout(function(){
+	$("#flashplayer").remove();
+	$("#widget_holder").css("display","none");
+    }
+	       , 1000);
+
 	}
 	
 function show_debrief_dialog() {
@@ -889,4 +952,12 @@ function send_post_data(post_data){
 			}
 		});
 	}
+
+}
+
+function sleep(miliseconds) {
+    var currentTime = new Date().getTime();
+    while (currentTime + miliseconds >= new Date().getTime()) {
+    }
+
 }
