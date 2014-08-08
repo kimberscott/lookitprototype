@@ -852,10 +852,9 @@ function connected_mic_cam(){
  // Allow the user to end the experiment by pressing 'Home' or 'End' keys.
 	    document.addEventListener('keydown', getKeyCode, false);
 
-	    if (record_whole_study) {
 		jswcam.startRecording();
 		addEvent( {'type': 'startRecording'});
-	    }
+
 	    consent_recording_completed = 1;
  // Start the experiment
 	    advanceSegment();
