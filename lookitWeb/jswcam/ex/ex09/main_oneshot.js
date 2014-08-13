@@ -8,7 +8,6 @@ var currentElement = -1; // State variable: which html element we're on
 var htmlSequence;
 var vidSequence;
 var experiment;
-experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 var DELAY;
 var tested = false; // whether the audio has been tested
 var trialCounter = 1;
@@ -28,7 +27,8 @@ var conditionSet = false;
 function main(mainDivSel, expt) {
 	
 	mainDivSelector = mainDivSel;
-	experiment = expt;
+	experiment = expt;	
+	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 	experiment.endedEarly = false;
 	experiment.minAgeDays = 11*30; // 11 months
 	experiment.maxAgeDays = 365+31; //  13 months
