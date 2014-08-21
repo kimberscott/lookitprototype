@@ -21,7 +21,7 @@ var characterNames;
 
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 var sandbox = false;
-var record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
+var record_whole_study = true; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 // Used by index.js when generating upload dialog (replace this.html('uploading'))
 // Placeholder in case parent cancels before full debrief html is defined
@@ -138,18 +138,12 @@ function startExperiment(condition, box) {
 		
         // Allow the user to end the experiment by pressing 'Home' or 'End' keys.
 	     document.addEventListener('keydown', getKeyCode, false);
-             /*
-                  if (record_whole_study) {
-                      jswcam.startRecording();
-                       addEvent( {'type': 'startRecording'});
-                   }
-              */
-           // Start the experiment
 	     advanceSegment();
-	 }else{
-
-    sleep(4000);
-    show_cam_widget("position","webcamdiv");
+	 }
+	 else{ // Recording whole study: use show_cam_widget to load the cam/mic widget.
+	    // Once it's loaded, connected_mic_cam() will be called to remove the modal pop-up and begin loading.
+		sleep(4000);
+		show_cam_widget("position","webcamdiv");
 	 }
 }
 
@@ -226,10 +220,10 @@ function generateHtml(segmentName){
 				
 			case "positioning":
                     if (!record_whole_study) {
-				show_cam("position","webcamdiv");
-		    }else{
+						show_cam("position","webcamdiv");
+					}else{
 		                show_getting_setup_widget();
-		    }
+					}
 			
 			case "instructions":
 			
@@ -416,8 +410,8 @@ function generateHtml(segmentName){
 		goFullscreen($('#baseline')[0]);
 	} else if (segmentName=='formPoststudy') {
 	    if(!record_whole_study){
-		$("#flashplayer").remove();
-		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
+			$("#flashplayer").remove();
+			$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 	    }
 		leaveFullscreen();
 	}
