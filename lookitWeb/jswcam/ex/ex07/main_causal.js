@@ -21,7 +21,7 @@ var characterNames;
 
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
 var sandbox = false;
-var record_whole_study = true; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
+var record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 // Used by index.js when generating upload dialog (replace this.html('uploading'))
 // Placeholder in case parent cancels before full debrief html is defined
