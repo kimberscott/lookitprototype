@@ -29,16 +29,11 @@ module.exports = function(grunt) {
 			css: {
 			   src: ['fragments/styles.css',
 					 'bootstrap/bootstrap.css',
-					 'static/css/styles.css', 
 					 'static/datepicker/css/datepicker.css'],
 			   dest: 'combined.css'
 			},
-			js : {
-				src : ['static/js/less-1.3.0.min.js',
-					"static/js/jquery-1.8.1.min.js",
-					"static/js/bootstrap.js",
-					"bootbox/bootbox.js",
-					"camera/swfobject.js",
+			js : {			
+				src : ["camera/swfobject.js",
 					"login/myfunc.js",
 					"login/validate.js",
 					"login/json.js", 

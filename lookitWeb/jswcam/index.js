@@ -2,7 +2,7 @@
  * * Copyright (C) MIT Early Childhood Cognition Lab
  *
  */
- var RECORDINGSET = "";
+var RECORDINGSET = "";
  
 if(!$.isFunction(Function.prototype.createDelegate)) {
     Function.prototype.createDelegate = function (scope) {
@@ -37,9 +37,9 @@ if(!$.isFunction(String.prototype.hashCode)) {
 
 	if(window.location.hash) {
       		page.show(window.location.hash.substring(1));
-  	} else {
-      		page.show('about');
-  	}
+  	} //else {
+    //  		page.show('about');
+  	//}
 	
 	
 
