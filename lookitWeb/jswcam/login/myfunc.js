@@ -888,11 +888,14 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 		"class": 'btn-primary reset-close',
 		'callback': function() {
 			if($('input[name=participant_privacy]:checked').length > 0){
+				var privacy_level = $("input[type='radio'][name='participant_privacy']:checked").val();
+				experiment.privacy_confirmation = $('#confirmfree').val();
+				experiment.privacy_level = privacy_level;
 				post_data = {
 					'continue' : 'true',
-					'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
+					'privacy'  : privacy_level
 				};
-				if ($("input[type='radio'][name='participant_privacy']:checked").val()=='withdraw') {
+				if (privacy_level=='withdraw') {
 					post_data =  {'withdraw' : 'true'};
 				}
 				send_post_data(post_data);
