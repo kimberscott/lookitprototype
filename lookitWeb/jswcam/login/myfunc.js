@@ -21,6 +21,16 @@ $.fn.serializeObject = function()
     return o;
 };
 
+function handleprivacyclick(event) {
+		console.log('privacy click handler');
+		var val = $('input[name=participant_privacy]:radio:checked').val();
+		if (val=="free") {
+			textbox.show();
+		} else {
+			textbox.hide();
+		}
+}
+
 // Function to Send a call to the database script and get the responce data back
 function call(str,url){
 var result;
