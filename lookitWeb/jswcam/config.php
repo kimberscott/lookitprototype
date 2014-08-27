@@ -11,8 +11,8 @@ $CONFIG = array();
 // Setting up the experiment order parameter, to display the experiment in a user defiend sequence
 /////////////////////////DEV CONFIG///////////////////////////////////////
 $CONFIG['experiment_order'] = array("equality", "ex03","ex07","ex06","ex09","ex04");
-$CONFIG['server'] = "/dev";
-$CONFIG['port'] = "27018";
+$CONFIG['server'] = "";
+$CONFIG['port'] = "27017";
 $CONFIG['host'] = 'localhost';
 $CONFIG['dbname'] = 'mongodb';
 ///////////////////////////////////////////////////////////////////////////
