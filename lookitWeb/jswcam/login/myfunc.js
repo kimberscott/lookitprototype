@@ -443,7 +443,7 @@ function reset_pass(){
                         'url': './login.php',
                         async: false,
                         'data': {
-							'email' : $("#email").val()
+				'email' : $("#email").val()
                         },
                         success: function(resp) {
                             confirm_page = resp;
@@ -872,6 +872,7 @@ function connected_mic_cam(){
 	}
     }
 }
+
 
 
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
