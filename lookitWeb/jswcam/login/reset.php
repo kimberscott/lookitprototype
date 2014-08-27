@@ -37,7 +37,7 @@
 </script>
 <form id = "forgot" method="POST" action="">	
 	<p><h1 style="text-align:center;">			Reset Password		</h1>	</p> 
-		<p>Email:<input type="text" name="email" id = "email" style="margin-left: 88px;" value="<?php echo $_GET['email'] ?>" readonly></p>	
+		<p>Email:<input type="text" name="email_label" id = "email" style="margin-left: 88px;" value="<?php echo $_GET['email'] ?>" readonly></p>	
 	<p>		Please enter your new password	</p>
 			Password:<input type="password" name="password" id="password" style="margin-left: 64px;" value=""/> </br>		
 			Confirm Password:<input type="password" name="Confirm_Password" style="margin-left: 12px;" id="confirm_password" />
