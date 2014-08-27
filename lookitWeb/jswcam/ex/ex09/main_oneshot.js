@@ -27,7 +27,8 @@ var conditionSet = false;
 function main(mainDivSel, expt) {
 	
 	mainDivSelector = mainDivSel;
-	experiment = expt;
+	experiment = expt;	
+	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 	experiment.endedEarly = false;
 	experiment.minAgeDays = 11*30; // 11 months
 	experiment.maxAgeDays = 365+31; //  13 months

@@ -9,31 +9,24 @@ require_once('config.php');
 if(!isset($_SESSION['user']['id'])){ 
     session_start();
 	 $_SESSION['user']['id'] = uuid();
-     //$_SESSION['user']['id'] = '1254-1458-5268-5157';
 }
 ?>
 <!DOCTYPE html>
 <html>
   <head>
+	<META http-equiv="Content-Type" content="text/html;  charset=ISO-8859-1">
     <title> Lookit: Online experiments from the Early Childhood Cognition Lab </title>
-    <link rel="shortcut icon" type="image/x-icon" href="img/remy4.ico">    
 	
-    <link rel="stylesheet/less" type="text/css" href="fragments/styles.less"></link>
-    <link rel="stylesheet/less" type="text/css" href="bootstrap/less/bootstrap.less"></link>
-    <link rel="stylesheet/css" type="text/css" href="static/css/styles.css"></link>
-	<link rel="stylesheet/css" type="text/css" href="static/datepicker/css/datepicker.css"></link>
+    <link rel="shortcut icon" type="image/x-icon" href="img/remy4.ico">
 	
-	
-    <script src="static/js/less-1.3.0.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="combined.min.css"></link>
 	
     <script src="static/js/jquery-1.8.1.min.js"></script> 
     <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="bootbox/bootbox.min.js" type="text/javascript"></script>
-    <script src="index.js" type="text/javascript"></script>
-    <script type="text/javascript" src="./camera/swfobject.js"></script>
-    <script src="./login/myfunc.js" type="text/javascript"></script>
-    <script src="./login/validate.js" type="text/javascript"></script> 
-    <script src="./login/json.js" type="text/javascript"></script> 
+	<script src="combined.js" type="text/javascript"></script>
+	
+
 	
     
 <script>
@@ -46,6 +39,7 @@ if(!isset($_SESSION['user']['id'])){
   ga('send', 'pageview');
 
 </script>
+
     <?php
     if(isset($_GET['name'])){ 
       $_SESSION['user']['name'] = $_GET['name'];
@@ -84,6 +78,7 @@ if(!isset($_SESSION['user']['id'])){
     ?>
 	
     </script>
+	
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-44819337-1']);
@@ -94,17 +89,7 @@ if(!isset($_SESSION['user']['id'])){
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
     </script>
-    <style>
-    .row-fluid .span12 {width: 80%;}
-    ul.nav_log{list-style:none;}
-    ul.nav_log > li > a {cursor:pointer;float: right; list-style:none;padding: 10px 15px 10px;color: #777;text-decoration: none;text-shadow: 0 1px 0 #FFF;}
-    //a:focus{outline: medium none;}
-    .btn:focus{outline: medium none;}
-    #positioning > img{
-    	height: 150px !important; 
-    	width: 200px !important;
-    }
-    </style>
+
     </head>
     <body style="padding-top:40px;" ondragstart="return false;" ondrop="return false;">
       <!-- Top Navbar -->
@@ -145,6 +130,56 @@ if(!isset($_SESSION['user']['id'])){
 	    <div id="page-container" class="container-fluid skip-fixed-sidebar">
 	      <div class="row-fluid">
 	        <div class="span12 content_pane" id="contentPane">
+			<div class="about_frag instructions">
+
+<img class='logoimg' id='logoimg' src='./img/logo.jpg' style="*margin-top:15px;">
+<div class='blurb' id='aboutblurb'>
+<div class='text'>
+<div class="title">
+<h2><p>Bringing science home</h2>
+</div>
+	
+    <p>Here at MIT's Early Childhood Cognition Lab, we're trying a new approach in developmental psychology: bringing the experiments to you.</p>
+	
+<div class="title">
+    <h2><p>Help us understand how your child thinks</h2>
+	</div>	
+	<p>Our online studies are quick and fun, and let you as a parent contribute to our collective understanding of the fascinating phenomenon of children's learning. In some experiments you'll step into the role of a researcher, asking your child questions or controlling the experiment based on what he or she does.</p>
+	
+	<div class="title">
+    <h2><p>Participate whenever and wherever</h2>
+	</div>	
+	    <p>Log in or create an account at the top right to get started!  You can participate in studies from home by doing an online activity with your child that is videotaped via your webcam.</p>
+	
+</div>
+
+</div>
+
+<img class='logoimg' src='./img/lookitlogo_small.png' style='height:100px; width: 100px'>
+<div class='blurb' id='newsblurb'>
+<div class="title">
+    <h2><p>News</h2>
+</div>	
+<p>
+<table>
+<tr> <td> June 30, 2014 </td> <td> An MIT News press release discusses Lookit <a href="https://newsoffice.mit.edu/2014/mit-launches-online-lab-early-childhood-learning-lookit">here</a>.  The project was also featured in 
+<a href="http://www.bostonmagazine.com/health/blog/2014/06/19/new-mit-lab/">Boston Magazine</a> and on the  
+<a href="https://www.sciencenews.org/blog/growth-curve/your-baby-can-watch-movies-science">Science News blog</a>.  Stay up-to-date and connect with other science-minded parents through our 
+<a href="https://www.facebook.com/lookit.mit.edu">Facebook page!</a>
+
+</td></tr>
+<tr> <td> June 6, 2014 </td> <td> Walk through a study with some of our first participants <a href="#examples" onclick="page.show('examples')"> here! </a></td></tr>
+<tr><td> Feb. 5, 2014 </td> <td> Beta testing of Lookit within the MIT community begins!  Many thanks to our first volunteers. </td></tr>
+</table>
+</div>
+
+
+<div style='text-align:right; margin-top:100px;'>
+This material is based on work supported by the NSF Graduate Research Fellowship under Grant No. 1122374. Any opinion, findings, and conclusions or recommendations expressed in this material are those of the authors(s) and do not necessarily reflect the views of the National Science Foundation. <img id='nsflogo' src='./img/nsf.gif'>
+</div>
+
+</div>
+			
 	  	    </div>	
 	      </div><!--/ .row-fluid-->
 	    </div><!--/ #page-container .container-fluid .skip-fixed-sidebar-->

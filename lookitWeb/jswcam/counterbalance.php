@@ -16,11 +16,14 @@ function check_conditions($experiment_id,$string) {
   $m = new Mongo($string);
   $experiments = $m->users->experiment_age; // Mongo collection called 'account'; documents in this 
   $thisExp = $experiments->findOne(array('experiment_id' => $experiment_id));
-  $nConds = $thisExp.INCLUDED;
-  
-  $small_pair = min($nConds); // (#subjects, conditionIndex)
-  
-  return array('condition'=>$small_pair[1]);
+  $nConds = $thisExp['INCLUDED'];
+
+  $min_part = min($nConds); 
+  $needy_conds = array_keys($nConds, $min_part);
+
+  $c = $needy_conds[rand(0, count($needy_conds)-1)];
+
+  return array('condition'=>$c);
 }
 
 $experiment_id =  $_GET["experiment_id"];

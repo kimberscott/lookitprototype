@@ -862,6 +862,10 @@ function connected_mic_cam(){
     }
 }
 
+function handleprivacyclick(event) {
+	alert("privacy click");
+}
+
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
 function done_or_withdraw(experiment,DEBRIEFHTML){
     //$("#flashplayer").remove();
@@ -909,6 +913,7 @@ function show_debrief_dialog() {
         "class": 'btn-primary reset-close',
         'callback': function() {
            // Return back to the accounts page
+		    $('.bootbox').modal('hide');
 			$('body').removeClass('modal-open');
 			$('.modal-backdrop').remove();
 			page.toggleMenu(true);

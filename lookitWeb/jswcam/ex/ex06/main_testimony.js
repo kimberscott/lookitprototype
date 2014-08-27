@@ -25,7 +25,8 @@ var record_whole_study = false; // records entire study, but retains segmentatio
 function main(mainDivSel, expt) {
 	
 	mainDivSelector = mainDivSel;
-	experiment = expt;
+	experiment = expt;	
+	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 	experiment.endedEarly = false;
 	experiment.minAgeDays = 3*365; // 3 years
 	experiment.maxAgeDays = 6*366; // 6 years

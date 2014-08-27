@@ -25,6 +25,7 @@ function main(mainDivSel, expt) {
 	
 	mainDivSelector = mainDivSel;
 	experiment = expt;
+	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 	experiment.endedEarly = false;
 	experiment.minAgeDays = 365*2; // 2 years
 	experiment.maxAgeDays = 366*3; // ~3 years
