@@ -650,7 +650,7 @@ function validation_2(){
 		    <div id="error1" ></div>
 
 			<p>Name <input type="text" name="name" id="name" style="margin-left: 118px;" value="<?php set_value('name','',$k); ?>"/> </p>			
-			<p>Email Address<input type="text" name="email" id="email" style="margin-left: 68px;" value="<?php set_value('email','',$k) ?>"/>  </p>		
+			<p>Email Address<input type="text" name="email_label" id="email" style="margin-left: 68px;" value="<?php set_value('email_label','',$k) ?>"/>  </p>		
 			<p>Password <input type="password" name="password" id="password" style="margin-left: 94px;" value="<?php set_value('password','',$k) ?>"/> </p>		
 			<p>Confirm Password <input type="password" name="confirm_password" id="confirm_password" style="margin-left: 41px;"/> </p>	
 			<p><input type= "hidden" name="id" value="<?php echo $_SESSION['user']['id'] ?>"></p>
