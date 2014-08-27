@@ -863,6 +863,7 @@ function connected_mic_cam(){
 }
 
 function handleprivacyclick(event) {
+		console.log('privacy click handler');
 		var val = $('input[name=participant_privacy]:radio:checked').val();
 		if (val=="free") {
 			textbox.show();
