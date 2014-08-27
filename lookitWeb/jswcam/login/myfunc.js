@@ -519,7 +519,7 @@ function show_demographic(){
     populateForm(data);
 }
 
-// Fuction to populate the child and privacy selection pop-up for the experiment being participated
+// Function to populate the child and privacy selection pop-up for the current experiment
 function select_child(expr,obje){
     //Create the child selection dropdown
     var new_page = "<form id = 'child_select'><label>Please select a child:</label><select id='child_list' name = 'participant'>";
@@ -563,7 +563,7 @@ function show_childs(html,expr,obje){
      $('input:radio[value = '+session["privacy"]+']').attr('checked', true);
 }
 
-// Function to check if the selected chiold is eligible to participate in the experiment
+// Function to check if the selected child is eligible to participate in the experiment
 // and displaying the corresponding error pop-up.
 function check_age(string,expr,obje){
      $.ajax({
@@ -577,15 +577,15 @@ function check_age(string,expr,obje){
         },
         success: function(resp) {
             switch(resp){
-                case '11':
+                case '11': // Both out of age range and already participated--focus on participation
                     var error_html = $('#child_list :selected').text()+" has already participated in this study.  Do you want to participate again anyway?";
                     get_permission(error_html,expr,obje);
                     break;
-                case '00':
+                case '00': // Out of age range only
                     var error_html = $('#child_list :selected').text()+" does not meet the target age range for this study.  Do you want to participate anyway?";
                     get_permission(error_html,expr,obje);
                     break;
-                case '01':
+                case '01': // Already participated; in age range
                     var error_html = $('#child_list :selected').text()+" has already participated in this study.  Do you want to participate again anyway?";
                     get_permission(error_html,expr,obje);
                     break;
@@ -644,7 +644,7 @@ function set_to_session(){
     });
 }
 
-// Function to set the session dat and the demographic form data
+// Function to set the session data and the demographic form data
 function get_params(fun){
     var sending;
     var flag = 1;
@@ -869,6 +869,17 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 	
 	// FIRST do the privacy information, INCLUDING withdraw option.
 	var post_data;
+	
+	// Textbox that pops up only if user selects 'free' setting.
+	function handle_privacy_click(radioButton) {
+		textbox = $('#confirmfreediv');
+		if (this.value=="free") {
+			textbox.hide();
+		} else {
+			textbox.show();
+		}
+	}
+	
 	var privacy_page = page.html("privacy");
 	
 	bootbox.dialog(privacy_page,[{
