@@ -1,6 +1,17 @@
 <style type="text/css">input[type="radio"] 
 {    margin-top: 3px;    vertical-align: top;    margin-right: 3px;}
 </style>
+<script type='text/javascript'>
+function handleprivacyclick(event) {
+		var val = $('input[name=participant_privacy]:radio:checked').val();
+		if (val=="free") {
+			textbox.show();
+		} else {
+			textbox.hide();
+		}
+}
+</script>
+
 <div id="error"></div>
 <p> Thank you so much for participating!  We appreciate every family's help.  No matter how your child responded, we can learn something from his or her behavior--for instance, if he or she got bored and decided to stop playing, we know we need to make studies that are more fun!
 <p> Select the privacy level for the video of your participation:

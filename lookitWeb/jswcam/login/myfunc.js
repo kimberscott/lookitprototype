@@ -862,14 +862,6 @@ function connected_mic_cam(){
     }
 }
 
-function handleprivacyclick(event) {
-		var val = $('input[name=participant_privacy]:radio:checked').val();
-		if (val=="free") {
-			textbox.show();
-		} else {
-			textbox.hide();
-		}
-}
 
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
 function done_or_withdraw(experiment,DEBRIEFHTML){
