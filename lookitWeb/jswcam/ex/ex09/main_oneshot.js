@@ -184,7 +184,7 @@ $('#maindiv').removeClass('whitebackground');
 	switch(segmentName){
 	
 		case "formPoststudy":
-
+			$("body").css("background-color","#FFFFFF");
 			$('#fsdiv').detach();
 			$('#fsbutton').detach();
 			$("#flashplayer").remove();
@@ -269,7 +269,7 @@ $('#maindiv').removeClass('whitebackground');
 		case "famMovies":
 			addFsButton('#maindiv', '#fsdiv');
 			goFullscreen($('#fsdiv')[0]);
-		
+			$("body").css("background-color","#000000");		
 			$('#fsdiv').append(htmlSequence[currentElement][1]);
 			function endHandler(event){
 				addEvent(  {'type': 'endMovie',
