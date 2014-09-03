@@ -57,6 +57,7 @@ $.ajax({
         });
 return result;
 }
+
 var consent_recording_completed = 0;
 $(document).ready(function(){
     $("#log1").click(function (){
@@ -74,6 +75,10 @@ $(document).ready(function(){
             }
         });
     });
+    setInterval(function(){
+        // prevent server to end the session due to inactivity
+        var refresh = call('refresh','./user.php');
+    }, 300000);
 
     $('#log').click(function(){
             var req = new XMLHttpRequest();
@@ -97,20 +102,72 @@ $(document).ready(function(){
     });
 
     $("#reg1").click(function(){
-        page.show("account");
+    show_edit_page();
+    if($("#experi div").hasClass("row-fluid"))
+    {
+        $('#past_studies').addClass('disabled');
+        $('#acc_edit').removeClass('disabled');
+        $("#past_studies").css("color","gray");
+        $("#acc_edit").css("color","#003366");
+    }
+    else{
+        $('#acc_edit').addClass('disabled');
+        $('#past_studies').removeClass('disabled');
+        $("#acc_edit").css("color","gray");
+        $("#past_studies").css("color","#003366");
+    }
+
     });
 
     $("#demo a").click(function(){
         page.show("account");
     });
 
-    $('body').bind('showaccount', function(evt) {
-        var participated=get_list();
-        if(participated != ""){
-            page.buildExperimentGallery('#experi', participated);
+    // Clicking on the Edit Details link on the My Accounts page
+    // adds disabled class to it, while enables the past studies link, if disabled.
+    $(document).on("click","#acc_edit",function(){
+        if($(this).hasClass("disabled")){
+            return false;
         }
         else{
-            $("#message").html("<b>You have not participated in any studies.</b>");
+            show_edit_page();
+            if($("#experi div").hasClass("row-fluid"))
+            {
+                $('#past_studies').addClass('disabled');
+                $('#acc_edit').removeClass('disabled');
+                $("#past_studies").css("color","gray");
+                $("#acc_edit").css("color","#003366");
+            }
+            else{
+                $('#acc_edit').addClass('disabled');
+                $('#past_studies').removeClass('disabled');
+                $("#acc_edit").css("color","gray");
+                $("#past_studies").css("color","#003366");
+            }
+        }
+    });
+
+    // Clicking on the View Past Studies link on the My Accounts page
+    // adds disabled class to it, while enables the Edit Details link, if disabled.
+    $(document).on("click","#past_studies",function(){
+        if($(this).hasClass("disabled")){
+            return false;
+        }
+        else{
+            show_participated_page();
+            if($("#experi div").hasClass("row-fluid"))
+            {
+                $('#past_studies').addClass('disabled');
+                $('#acc_edit').removeClass('disabled');
+                $("#past_studies").css("color","gray");
+                $("#acc_edit").css("color","#003366");
+            }
+            else{
+                $('#acc_edit').addClass('disabled');
+                $('#past_studies').removeClass('disabled');
+                $("#acc_edit").css("color","gray");
+                $("#past_studies").css("color","#003366");
+            }
         }
     });
 
@@ -119,7 +176,37 @@ $(document).ready(function(){
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
     
 });
+
 var responce;
+
+// Function to display the Edit registration details, on the My Accounts page.
+function show_edit_page(){
+    var req = new XMLHttpRequest();
+    req.open("POST", "./edit_register.php", false);
+    req.send(null);
+    var register_page = req.responseText;
+
+    page.show("account");
+    $("#experi").html(register_page);
+
+    $('body').bind('showhome', function(evt) {
+        page.buildExperimentGallery('#experiments', experiments);
+    });
+}
+
+// Function to display the Previous participated studies, on the My Accounts page.
+function show_participated_page(){
+    var participated=get_list();
+    if(participated != ""){
+    $("#experi").html("");
+        page.buildExperimentGallery('#experi', participated);
+    $("#experi").prepend("<div><h3>Previous Studies</h3></div>");
+    }
+    else{
+        $("#experi").html("<div class='row-fluid' style='text-align: center;'><br /><br /><b>You have not participated in any studies.</b></div>");
+    }
+}
+
 
 // Get the list of participated experiments for the logged in user in the "My Accounts page"
 function get_list(){
@@ -271,6 +358,7 @@ function register(is_new){
                     $('.modal-body').jScrollPane();
                     $('.jspContainer').width($('.jspContainer').width() - 31);
                     $('.jspPane').css({'margin-left':'0px','width':'590px'});
+                    $('.bootbox').css("height","600px");
                     continue_clicked = 1;
                 }
                 else if(continue_clicked == 1 && validation_2()){
