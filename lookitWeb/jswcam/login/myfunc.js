@@ -198,139 +198,119 @@ function register(is_new){
 	// }
 
     if (!too_many_accounts) {
-		$(".bootbox").remove();
-		$(".modal-backdrop").remove();
-		
-		var continu = 0;
-		var cancel_clicked = 0;
-		var register_page = get_reg_page();
+        $(".bootbox").remove();
+        $(".modal-backdrop").remove();
 
-		bootbox.dialog(register_page,[
-			{
-				'label': 'Cancel',
-				'class': 'btn-danger regis-close',
-				'callback': function() {
-					if(!cancel_clicked){
-						$('body').bind('showhome', function(evt) {
-							page.buildExperimentGallery('#experiments', experiments);
-						});
-						if($("#reg1").css("display") == "block"){
-							$('body').bind('showaccount', function(evt) {
-								var participated=get_list();
-								if(participated != ""){
-									page.buildExperimentGallery('.account', participated);
-								   
-								}
-								else{
-									$("#message").html("<b>You have not participated in any studies yet.</b>");
-								}
-							});
-						}
-					}
-					if($("#reg1").css("display") != "block"){
-						$("#reg,#log").css("display", "block");
-					}
-					cancel_clicked =1;
-					continu = 0;
-					return true;
-				}
-			},
-			{
-				'label': 'Register',
-				'class': 'btn-success btn-send btn-ok',
-				'callback': function() {
-					
-					$("#dob_error").css("display","none");
-					$("#gender_error").css("display","none");
-					if(continu == 1){
-						if(validation_2() == 1){
-							
-							var myname = call('','./user.php');
-							$("#reg1,#log1").css("display", "block");
-							$("#reg,#log,.login_form").css("display", "none");
-							$("#reg1").html("<a href='#'' > Hi "+myname+" </a>");							
-							
-							if(!cancel_clicked){
-								
-								$('body').bind('showhome', function(evt) {
-									page.buildExperimentGallery('#experiments', experiments);
-								});
-								$('body').bind('showaccount', function(evt) {
-									var participated=get_list();
-									if(participated != ""){
-										page.buildExperimentGallery('.account', participated);
-								
-									}
-									else{
-										$("#message").html("<b>You have not participated in any studies yet.</b>");
-									}
-								});
-							}
-							$(".bootbox").remove();
-							$(".modal-backdrop").remove();
-							get_params('params');
-							var data = get_params("get_demogra");
-							if(data == ""){
-								display_modal();
-							}
-							continu = 0;
+        var continue_clicked = 0;
+        var cancel_clicked = 0;
+        var register_page = get_reg_page();
 
-							return true;
+        bootbox.dialog(register_page,[
+        {
+            'label': 'Cancel',
+            'class': 'btn-danger regis-close',
+            'callback': function() {
+                if(!cancel_clicked){
+                    $('body').bind('showhome', function(evt) {
+                        page.buildExperimentGallery('#experiments', experiments);
+                    });
+                }
+                if($("#reg1").css("display") != "block"){
+                    $("#reg,#log").css("display", "block");
+                }
+                cancel_clicked =1;
+                continue_clicked = 0;
+                return true;
+            }
+        },
+        {
+            'label': 'Register',
+            'class': 'btn-success btn-send btn-ok',
+            'callback': function() {
 
-						}
-						else{
-                            var element = $('.modal-body').jScrollPane({});
-                            var api = element.data('jsp');
-                            api.destroy();
-							$('.modal-body').scrollTop(0);
-                            $('.modal-body').jScrollPane();
-                            $('.jspContainer').width($('.jspContainer').width() - 31);
-							$("#error2").html($("#error").html());
-							$("#error2").find("label").css({"font-weight": "700"});
-							return false;
-						}
-					}
-					return false;
-				}
-			},
-			{
-				'label': 'Continue',
-				'class': 'btn-primary btn-continue btn-ok',
-				'callback': function() {
-					$("#error").html("");
-					
-					$("#dob_error").css("display","none");
-					$("#gender_error").css("display","none");
-					if(next()){
-						$('.btn-send').css("display", 'inline-block');
-						$('.btn-continue').css("display", 'none');
-                        $('.modal-body').jScrollPane();
-                        $('.jspContainer').width($('.jspContainer').width() - 31);
-                        $('.jspPane').css({'margin-left':'0px','width':'590px'});
-					}
-					continu = 1;
-					return false;
-				}
-			}
-		]);
-		$('.bootbox').css("width","600px");
-		$('.btn-send').css("display", 'none');
-		$(this).keyup(function(event){
-			if(event.keyCode == 13){
-				$(".btn-ok").click();
-			}
-		});
-		if (!is_new) {
-					$('#registrationTitle').text('Confirm account details');
-					$('#regPromptText').text('');
-				 }
-	} 
-	else {
-		bootbox.alert('We\'re still in the early stages of testing Lookit, and currently have as many users \
-		as we can handle!  Thanks for your interest, and please check back in a few days to see if sign-up is open again.  \
-		In the meantime, check out our \'Resources\' page for fun activities you can try at home!');
-	}
+                $("#dob_error").css("display","none");
+                $("#gender_error").css("display","none");
+                if(continue_clicked == 2){
 
+                        var myname = call('','./user.php');
+                        $("#reg1,#log1").css("display", "block");
+                        $("#reg,#log,.login_form").css("display", "none");
+                        $("#reg1").html("<a href='#'' > Hi "+myname+" </a>");
+
+                        if(!cancel_clicked){
+
+                            $('body').bind('showhome', function(evt) {
+                                page.buildExperimentGallery('#experiments', experiments);
+                            });
+                            
+                        }
+                        $(".bootbox").remove();
+                        $(".modal-backdrop").remove();
+                        get_params('params');
+                        var data = get_params("get_demogra");
+                        if(data == ""){
+                            display_modal();
+                        }
+                        continue_clicked = 0;
+
+                        return true;
+                }
+                return false;
+            }
+        },
+        {
+            'label': 'Continue',
+            'class': 'btn-primary btn-continue btn-ok',
+            'callback': function() {
+                $("#dob_error").css("display","none");
+                $("#gender_error").css("display","none");
+                if(continue_clicked == 0 && next()){
+                    $("#error2").html("");
+                    $(".registor").css("display","none");
+                    $("#registration").css("display","block");
+                    $('.modal-body').jScrollPane();
+                    $('.jspContainer').width($('.jspContainer').width() - 31);
+                    $('.jspPane').css({'margin-left':'0px','width':'590px'});
+                    continue_clicked = 1;
+                }
+                else if(continue_clicked == 1 && validation_2()){
+                    $("#error2").html("");
+                    $('.btn-send').css("display", 'inline-block');
+                    $('.btn-continue').css("display", 'none');
+                    $("#registration_communication").css("display","block");
+                    $("#registration").css("display","none");
+                    continue_clicked = 2;
+                }
+                if(continue_clicked == 1){
+                    var element = $('.modal-body').jScrollPane({});
+                    var api = element.data('jsp');
+                    api.destroy();
+                    $('.modal-body').scrollTop(0);
+                    $('.modal-body').jScrollPane();
+                    $('.jspContainer').width($('.jspContainer').width() - 31);
+                }
+                else if(continue_clicked == 2){
+                    var element = $('.modal-body').jScrollPane({});
+                    var api = element.data('jsp');
+                    api.destroy();
+                }
+                return false;
+            }
+        }
+        ]);
+        $('.bootbox').css("width","600px");
+        $('.btn-send').css("display", 'none');
+        $(this).keyup(function(event){
+            if(event.keyCode == 13){
+                $(".btn-ok").click();
+            }
+        });
+    }
+    else {
+        bootbox.alert('We\'re still in the early stages of testing Lookit, and currently have as many users \
+            as we can handle!  Thanks for your interest, and please check back in a few days to see if sign-up is open again.  \
+            In the meantime, check out our \'Resources\' page for fun activities you can try at home!');
+    }
 }
 
 var session;
