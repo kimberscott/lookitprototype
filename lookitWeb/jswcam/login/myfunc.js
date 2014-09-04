@@ -941,6 +941,16 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 
     // FIRST do the privacy information, INCLUDING withdraw option.
     var post_data;
+
+     // Textbox that pops up only if user selects 'free' setting.
+        function handle_privacy_click(radioButton) {
+                textbox = $('#confirmfreediv');
+                if (this.value=="free") {
+                        textbox.hide();
+                } else {
+                        textbox.show();
+                }
+        }
     var privacy_page = page.html("privacy");
 
     bootbox.dialog(privacy_page,[{
