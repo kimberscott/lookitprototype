@@ -67,6 +67,9 @@ function startExperiment(condition, box) {
     console.log('condition = ' + condition);
 	experiment.condition = condition;
 	
+	$('#maindiv').append('<div id="sessioncode"></div>');
+	$('#sessioncode').html('Session ID: ' + experiment.RECORDINGSET);
+	
 	if (record_whole_study) {
 		jswcam.startRecording();
 		addEvent(  {'type': 'startRecording'});

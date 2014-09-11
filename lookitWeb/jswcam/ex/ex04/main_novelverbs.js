@@ -68,6 +68,9 @@ function startExperiment(condition, box) {
 	// Counterbalancing condition sets
 	// condition is a single number 0<=condition<32
 	
+	$('#maindiv').append('<div id="sessioncode"></div>');
+	$('#sessioncode').html('Session ID: ' + experiment.RECORDINGSET);
+	
 	if (record_whole_study) {
 		jswcam.startRecording();
 		addEvent(  {'type': 'startRecording'});
