@@ -88,7 +88,7 @@ var page = (function() {
 		var startTime;
 		var difference;
 		// A short random string to identify THIS SET of videos to the user.
-		RECORDINGSET = randomString(3);
+		RECORDINGSET = randomString(6);
 		// Limit the length of recording using window.setTimeout.
 		var timeoutID = 0;
 		var check_cam = "<div id = 'top_bar'><p><h1 style='text-align:center'>Test Your Webcam and Microphone </h1></p></div><div id='cam_setup'></div><div id = 'setup_message'></div>";
@@ -852,7 +852,7 @@ function show_state_labs() {
 
 // Thanks to CaffGeek on http://stackoverflow.com/questions/1349404/generate-a-string-of-5-random-characters-in-javascript
 function randomString(len, charSet) {
-    charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    charSet = charSet || 'BDGHJKLMNPQRTVWXYZbdghjklmnpqrtvwxyz0123456789,.|[]@#%^&(){}+=~<>?/';
     var randomString = '';
     for (var i = 0; i < len; i++) {
     	var randomPoz = Math.floor(Math.random() * charSet.length);

@@ -11,6 +11,9 @@ window.onbeforeunload = function(e) {
 	return '';
 };
 
+$('#maindiv').append('<div id="sessioncode"></div>');
+$('#sessioncode').html('Session ID: ' + RECORDINGSET);
+
 var DBID = +new Date;
 DBID = DBID.toString() + '-' + Math.random().toString();
 
