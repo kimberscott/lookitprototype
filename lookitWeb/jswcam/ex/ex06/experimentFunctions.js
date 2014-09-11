@@ -11,6 +11,9 @@ window.onbeforeunload = function(e) {
 	return '';
 };
 
+$('#maindiv').append('<div id="sessioncode"></div>');
+$('#sessioncode').html('Session ID: ' + RECORDINGSET);
+
 var DBID = +new Date;
 DBID = DBID.toString() + '-' + Math.random().toString();
 
@@ -78,7 +81,7 @@ function advanceSegment(){
 	jswcam.toggleWebCamView(false);
 	// Detach the current html, if any
 	if (currentElement >= 0){
-		// To avoid deleting data, detach not remove!
+		// Avoid removing data--detach not remove!
 		$('#' + htmlSequence[currentElement][0]).detach();
 	}
 	// Increment the state 
