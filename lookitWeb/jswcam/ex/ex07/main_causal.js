@@ -74,6 +74,8 @@ function startExperiment(condition, box) {
 	
 	$('#maindiv').append('<div id="sessioncode"></div>');
 	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
+	
+	experiment.mturkID = getQueryVariable('workerId');
 			
 	// Counterbalancing condition 0 through 8 --> 3xbinary
 	var storyConds = [	['basebunny', 'bambi'],

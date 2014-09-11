@@ -67,6 +67,7 @@ function startExperiment(condition, box) {
 
 	$('#maindiv').append('<div id="sessioncode"></div>');
 	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
+	experiment.mturkID = getQueryVariable('workerId');
 
 	if (record_whole_study) { 
 		jswcam.startRecording();
