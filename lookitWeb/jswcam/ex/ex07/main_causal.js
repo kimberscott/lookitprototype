@@ -73,7 +73,7 @@ function startExperiment(condition, box) {
     console.log('Condition: ' + condition);
 	
 	$('#maindiv').append('<div id="sessioncode"></div>');
-	$('#sessioncode').html('Session ID: ' + experiment.RECORDINGSET);
+	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
 			
 	// Counterbalancing condition 0 through 8 --> 3xbinary
 	var storyConds = [	['basebunny', 'bambi'],
