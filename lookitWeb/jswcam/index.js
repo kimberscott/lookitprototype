@@ -852,7 +852,7 @@ function show_state_labs() {
 
 // Thanks to CaffGeek on http://stackoverflow.com/questions/1349404/generate-a-string-of-5-random-characters-in-javascript
 function randomString(len, charSet) {
-    charSet = charSet || 'BDGHJKLMNPQRTVWXYZbdghjklmnpqrtvwxyz0123456789,.|[]@#%^&(){}+=~<>?/';
+    charSet = charSet || 'BDGHJKLMNPQRTVWXYZbdghjklmnpqrtvwxyz0123456789';
     var randomString = '';
     for (var i = 0; i < len; i++) {
     	var randomPoz = Math.floor(Math.random() * charSet.length);
