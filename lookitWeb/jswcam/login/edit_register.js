@@ -117,4 +117,5 @@ function remove1(closed){
         z = z+1;
     });
     i -= 1;
+    j--;
 }

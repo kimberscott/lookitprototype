@@ -478,6 +478,7 @@ function next(){
 		$("#error1").html($("#error").html());
 		$("#error1").find("label").css({"font-weight": "700"});
 		$(".error").focus();
+		$("#error").html("");
 	}
 
 	return re;
@@ -566,6 +567,7 @@ function remove1(closed){
    		z = z+1;
 	});
 	i -= 1;
+	j--;
 	$('.modal-body').jScrollPane();
 }
 
