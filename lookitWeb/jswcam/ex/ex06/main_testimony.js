@@ -231,7 +231,6 @@ function generateHtml(segmentName){
 				
 				case "formPoststudy":
 
-					$('#fsbutton').detach();
 					$(function() {
 						$('#'+segmentName).submit(function(evt) {
 							evt.preventDefault();
@@ -259,6 +258,7 @@ function generateHtml(segmentName){
 					});
 					
 					$('#fsdiv').detach();
+					leaveFullscreen();
 					$('#fsbutton').detach();
 					$("#flashplayer").remove();
 					$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
