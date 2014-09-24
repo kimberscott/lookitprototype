@@ -924,7 +924,7 @@ function advanceSegment(){
 	subsetData['tic'] = experiment['tic'];
 	subsetData['eventArray'] = experiment['eventArray'];
 	subsetData['condition'] = experiment['condition'];
-	subsetData['mturkID'] = experiment[mturkID];
+	subsetData['mturkID'] = experiment['mturkID'];
 	subsetData['recordingSet'] = experiment['recordingSet'];
 	subsetData['currentSegment'] = currentElement;
 	
