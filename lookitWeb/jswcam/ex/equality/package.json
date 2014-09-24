@@ -5,8 +5,6 @@
 	"img"  : "ex/equality/equality.png",
 	"path" : "ex/equality/",
 	"scripts": [
-	    "experimentFunctions.js",
-		"fullscreen.js",
 	    "main_equality.js"
 	],
 	"css": ["experiment.css",

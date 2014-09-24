@@ -26,6 +26,9 @@ var conditionSet = false;
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
 	
+	promptBeforeClose();
+	setDBID();
+	
 	mainDivSelector = mainDivSel;
 	experiment = expt;	
 	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';

@@ -3,6 +3,7 @@
  *
  */
 var RECORDINGSET = "";
+var DBID = "";
  
 if(!$.isFunction(Function.prototype.createDelegate)) {
     Function.prototype.createDelegate = function (scope) {
@@ -859,4 +860,282 @@ function randomString(len, charSet) {
     	randomString += charSet.substring(randomPoz,randomPoz+1);
     }
     return randomString;
+}
+
+// Formerly experimentFunctions.js in each study directory:
+function promptBeforeClose() {
+	// During an experiment, prompt before user refreshes page, uses back/forward buttons, etc.
+	// (These will probably not have the desired effect, but shouldn't and can't be blocked.)
+	// This is canceled after ending the experiment.
+	window.onbeforeunload = function(e) {
+		promptEarlyEnd();
+		return '';
+	};
+}
+
+function setDBID() {
+	DBID = +new Date;
+	DBID = DBID.toString() + '-' + Math.random().toString();
+}
+
+// Standard function used in sending experiment object to server
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+	
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
+// Standard function for adding an event to the array.
+// Convention: events have at least a 'type' attribute, e.g.
+// we could addEvent({'type': 'goFullscreen'})
+function addEvent(event) {
+	// Add time relative to global time defined initially
+	event.time = (new Date()) - experiment.tic;
+	// Which part of the experiment we're in (which html is displayed)
+	if(!htmlSequence || currentElement < 0) {
+		event.segment = 'initExperiment';
+	} else if(currentElement >= htmlSequence.length){
+		event.segment = 'endOfExperiment';
+	} else{
+		event.segment = htmlSequence[currentElement][0];
+	}
+	experiment.eventArray.push(event);
+	console.log('Event logged: ' + event.type);
+	console.log(event);
+}
+
+function advanceSegment(){
+
+	experiment['dbid'] = DBID;
+	var subsetData = {};
+	subsetData['dbid'] = DBID;
+	subsetData['tic'] = experiment['tic'];
+	subsetData['eventArray'] = experiment['eventArray'];
+	subsetData['condition'] = experiment['condition'];
+	subsetData['mturkID'] = experiment[mturkID];
+	subsetData['recordingSet'] = experiment['recordingSet'];
+	subsetData['currentSegment'] = currentElement;
+	
+	$.ajax({
+                'type': 'POST',
+                'url': './user.php',
+                'async' : true,
+                'data': {
+                    'table'        : 'users',
+                    'json_data'    : subsetData,
+                    'function'     : 'set_account'
+                },
+                success: function(resp) {
+                    console.log('Updated database');
+                }
+            });
+
+	jswcam.toggleWebCamView(false);
+	// Detach the current html, if any
+	if (currentElement >= 0){
+		// Avoid removing data--detach not remove!
+		$('#' + htmlSequence[currentElement][0]).detach();
+	}
+	// Increment the state 
+	currentElement++;
+	console.log(currentElement);
+	// Generate and append next html
+	if (currentElement < htmlSequence.length){
+		console.log(htmlSequence[currentElement][0]);
+		generateHtml(htmlSequence[currentElement][0]);
+		return false;
+	} 
+	else{ // End of experiment -- submit data
+		addEvent(  {'type': 'promptUpload'});
+		console.log(experiment);
+		done_or_withdraw(experiment, generate_debriefing()); // Function to check if user wants to withdraw from the experiment or not
+		addEvent(  {'type': 'endUpload'});	
+		return false;
+	}
+}
+
+function previousSegment(){
+	jswcam.toggleWebCamView(false);
+	// Detach the current html, if any
+	if (currentElement >= 0){
+		// Avoid removing data--detach not remove!
+		$('#' + htmlSequence[currentElement][0]).detach();
+	}
+	// Increment the state 
+	currentElement--;
+	console.log(currentElement);
+	// Generate and append next html
+	if (currentElement >= 1){
+		console.log(htmlSequence[currentElement][0]);
+		generateHtml(htmlSequence[currentElement][0]);
+		return false;
+	} else{ // Start of experiment--went back to homepage
+		page.toggleMenu(true);
+		page.show('home');
+		return false;
+	}
+}
+
+// Event listener used for allowing the user to end the experiment early.
+
+function getKeyCode(e){
+	e = e.charCode || e.keyCode;
+	if (e==112 || e==35) { // F1 and end keys
+		promptEarlyEnd();
+	}
+}
+
+function promptEarlyEnd() {
+		addEvent(  {'type': 'promptEarlyUpload'});
+		document.removeEventListener('keydown', getKeyCode, false);
+		bootbox.prompt('Are you sure you want to end the study now?', 'No, continue', 'Yes, end now',
+			function(comments) {
+				if (comments!=null) {
+					experiment.endedEarly = true;
+					experiment.endEarlyComments = comments;
+					console.log(experiment);
+					if (!sandbox){
+						done_or_withdraw(experiment, generate_debriefing()); // Function to check if user wants to withdraw from the experiment or not
+						addEvent(  {'type': 'endUpload'});
+					} else {
+						alert('ending study');
+					}
+				}
+				document.addEventListener('keydown', getKeyCode, false);
+				return false;
+			},
+			'[Optional] Did you experience any problems with this study?');
+}
+
+function restoreForm(formData, formId) {
+			
+	if(!(typeof(formData) == 'undefined')) {
+		for(var propt in formData){
+			elem = $(formId + ' [name=' + propt + ']');
+			if(elem.prop('type') == 'radio'){
+				$(formId + ' [value="' + formData[propt] +'"]').attr('checked', true);
+			} else {
+				elem.prop('value', formData[propt]);
+			}
+		}
+	}
+}
+
+// css-tricks.com/snippets/javascript/get-url-variables/?
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+
+// Fullscreen functions
+
+function goFullscreen(element){
+
+	addEvent(  {'type': 'goFullscreen'});
+	$('#fsbutton').hide();
+
+	if (element.mozRequestFullScreen && !element.mozFullScreen) { // 
+		// This is how to go into fullscren mode in Firefox
+		console.log('mozilla fs');
+		element.mozRequestFullScreen();
+		document.addEventListener("mozfullscreenchange", mozEndFullscreen, false);
+		element.style.height = screen.availHeight + 'px';
+		element.style.width  = screen.availWidth  + 'px';
+
+	} else if (element.parentNode.webkitRequestFullScreen && !element.parentNode.webkitIsFullScreen) {  // 
+		// This is how to go into fullscreen mode in Chrome and Safari
+		// Both of those browsers are based on the Webkit project, hence the same prefix.
+		console.log('Webkit fs');
+		element.parentNode.webkitRequestFullScreen();
+		$('#vidElement').addClass('playingVideo');
+		element.style.height = screen.availHeight + 'px';
+		element.style.width  = screen.availWidth  + 'px';
+		
+		document.addEventListener("webkitfullscreenchange", webkitEndFullscreen, false);
+
+		}
+	else {
+		// for IE or other non-supported ...
+		// Unfortunately this does make it hard to tell when we leave fs--need to remove whole element.
+		addEvent({'type': 'alternative Fullscreen'});
+		bootbox.alert("It looks like your browser doesn't support full-screen requests.  Please maximize your browser window or enter fullscreen manually (try pressing F11).  Thanks!");
+		element.style.height = screen.availHeight + 'px';
+		// Just for IE: to avoid horizontal scroll bar
+		element.style.width  = screen.availWidth-20  + 'px';
+	}	
+	
+	function webkitEndFullscreen() {
+		
+		if(!document.webkitIsFullScreen) {
+			document.removeEventListener("webkitfullscreenchange", webkitEndFullscreen, false);
+			addEvent({'type': 'endFullscreen'});
+			// Restore CSS properties here (TODO: remove magic numbers...)
+			element.style.height='400px';
+			element.style.width='800px';
+			$('#fsbutton').show();
+		}
+		
+	}
+	
+	function mozEndFullscreen() {
+		
+		if(!document.mozFullScreen) {
+			document.removeEventListener("mozfullscreenchange", mozEndFullscreen, false);
+			addEvent({'type': 'endFullscreen'});
+			element.style.height='400px';
+			element.style.width='800px';
+			$('#fsbutton').show();
+		}
+		
+	}
+
+	
+	
+}
+
+function leaveFullscreen(){
+	
+	addEvent(  {'type': 'endFullscreen'});
+	if (document.mozCancelFullScreen && document.mozFullScreen) {
+		document.mozCancelFullScreen();
+	} else if (document.webkitCancelFullScreen && document.webkitIsFullScreen) {
+		document.webkitCancelFullScreen();
+	}
+	}
+
+
+function addFsButton(mainDivSelector, elementSelector) {
+	// Make a 'return to full screen' button (will only be visible if the user leaves fs)
+	var button = $('<button/>', {
+	'id': 'fsbutton', 
+	'value': 'Please return to full screen! (click here)', 
+	'text': 'Please return to full screen! (click here)'});
+	
+	button.click(function(evt) {
+		addEvent(  {'type': 'click',
+					'fn': 'fullscreen'});
+		goFullscreen($(elementSelector)[0]);
+		return false;
+	});
+
+	$(mainDivSelector).append(button);
+	$('#fsbutton').hide();
 }

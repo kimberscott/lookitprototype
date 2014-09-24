@@ -30,6 +30,9 @@ var DEBRIEFHTML = "";
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
+
+	promptBeforeClose();
+	setDBID();
 	
 	mainDivSelector = mainDivSel;
 	experiment = expt;

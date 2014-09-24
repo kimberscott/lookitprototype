@@ -6,8 +6,6 @@
 	"img"  : "ex/ex07/causaldomains.png",
 	"path" : "ex/ex07/",
 	"scripts": [
-	    "experimentFunctions.js",
-		"fullscreen.js",
 	    "main_causal.js"
 	],
 	"css": ["experiment.css",
