@@ -11,7 +11,6 @@ window.onbeforeunload = function(e) {
 	return '';
 };
 
-
 var DBID = +new Date;
 DBID = DBID.toString() + '-' + Math.random().toString();
 
@@ -61,6 +60,9 @@ function advanceSegment(){
 	subsetData['tic'] = experiment['tic'];
 	subsetData['eventArray'] = experiment['eventArray'];
 	subsetData['condition'] = experiment['condition'];
+	subsetData['mturkID'] = experiment[mturkID];
+	subsetData['recordingSet'] = experiment['recordingSet'];
+	subsetData['currentSegment'] = currentElement;
 	
 	$.ajax({
                 'type': 'POST',
