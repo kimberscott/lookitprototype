@@ -38,7 +38,7 @@ var result;
 var json_string = JSON.stringify($('form').serializeObject());
 
 if(json_string != "" && str == "check"){
-    json_string = "{\"email\":\""+$("#email").val()+"\"}";
+    json_string = "{\"email_label\":\""+$("#email").val()+"\"}";
 }
 $.ajax({
         'type': 'POST',
@@ -443,7 +443,6 @@ function reset_pass(){
                         'url': './login.php',
                         async: false,
                         'data': {
-                            'email' : $("#email").val(),
 							'email_label' : $("#email").val()
                         },
                         success: function(resp) {
