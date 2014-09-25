@@ -443,7 +443,8 @@ function reset_pass(){
                         'url': './login.php',
                         async: false,
                         'data': {
-                            'email' : $("#email").val()
+                            'email' : $("#email").val(),
+							'email_label' : $("#email").val()
                         },
                         success: function(resp) {
                             confirm_page = resp;
