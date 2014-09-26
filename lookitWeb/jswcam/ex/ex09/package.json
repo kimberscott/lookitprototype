@@ -2,7 +2,7 @@
 	"name" : "Intuitive probability",
 	"id"   : "oneshot",
 	"date" : "6/20/13",
-	"desc" : "<p>Age range: 11-13 months.</p> <p> Infants have rich expectations about how the world works.  Can they estimate how probable a completely new event is?  In this study your child will see some 'lottery drawings' of shapes, for instance a yellow ball coming out of a mostly-blue container.  We're interested in which outcomes he or she finds most surprising.</p>",
+	"desc" : "<p>Age range: 11-18 months.</p> <p> Infants have rich expectations about how the world works.  Can they estimate how probable a completely new event is?  In this study your child will see some 'lottery drawings' of shapes, for instance a yellow ball coming out of a mostly-blue container.  We're interested in which outcomes he or she finds most surprising.</p>",
 	"img"  : "ex/ex09/oneshot.png",
 	"path" : "ex/ex09/",
 	"scripts": [
