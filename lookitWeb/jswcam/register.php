@@ -658,11 +658,21 @@ function validation_2(){
 		<div id = "registration" style="display:none">
 			<div id = "regis">
 
+				<table>
+				<tr><td></br></td></tr>
+				<tr><td colspan="2">1. Select communication preferences: I would like to be contacted when...</td></tr>
+
+				<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="researchers" <?php if(isset($_SESSION['user']['preference']) && in_array("researchers",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>Researchers have questions about my responses.</td></tr>
+				<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="updates" <?php if(isset($_SESSION['user']['preference']) && in_array("updates",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>New studies are available for my child(ren).</td></tr>
+				<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="results" <?php if(isset($_SESSION['user']['preference']) && in_array("results",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>Results of a study we participated in are published.</td></tr>
+								<input class="checkbox" type="hidden" name="preference" value="no_mails" <?php if(isset($_SESSION['user']['preference']) && in_array("no_mails",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/><br>
+				</table>
+			
 			    <div id="error2">
 					<label id="dob_error" class="error" for="dob" style="display:none">Please enter the Date of Birth.</br></label>
 					<label id="gender_error" class="error" for="gender" style="display:none">Please select a gender.</label>
 			    </div>
-				<p>1.Please enter information for your child</p>
+				<p>2. Please enter information for your child.</p>
 				<div>
 					<div id = "test">
 						<TABLE id = "child0" name="child0" BORDER='0' CELLPADDING='5' CELLSPACING='5'  style="border: 1px solid #d8d8d8;padding: 10px; margin-bottom:10px;">	
@@ -752,15 +762,7 @@ function validation_2(){
 					</div>
 				</div>
 				<input type="button" class="btn-success" id = "add" onclick="clone('');" value = "Add another child's information" style="font-size: large;font-weight: bold;"/>
-				<table>
-				<tr><td></br></td></tr>
-				<tr><td colspan="2">2. Select communication preferences: I would like to be contacted when...</td></tr>
 
-				<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="researchers" <?php if(isset($_SESSION['user']['preference']) && in_array("researchers",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>Researchers have questions about my responses.</td></tr>
-				<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="updates" <?php if(isset($_SESSION['user']['preference']) && in_array("updates",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>New studies are available for my child(ren).</td></tr>
-				<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="results" <?php if(isset($_SESSION['user']['preference']) && in_array("results",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>Results of a study we participated in are published.</td></tr>
-								<input class="checkbox" type="hidden" name="preference" value="no_mails" <?php if(isset($_SESSION['user']['preference']) && in_array("no_mails",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/><br>
-				</table>
 
 			</div>
 		</div>
