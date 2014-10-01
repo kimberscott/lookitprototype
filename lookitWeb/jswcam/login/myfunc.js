@@ -96,8 +96,9 @@ $(document).ready(function(){
     
     if($("#reset").val()){
         var email = $("#reset").val();
+        var key = $("#reset_key").val();
         var req = new XMLHttpRequest();
-            req.open("POST", "./login/reset.php?email="+email, false);
+            req.open("POST", "./login/reset.php?email="+email+"&key="+key, false);
             req.send(null);
             var reset_page = req.responseText;
             save_pass(reset_page);
@@ -499,6 +500,10 @@ function save_pass(html){
         }
     }
     ]);
+    if(!$("#email").val()){
+        $(".btn-stop").remove();
+    }
+
 }
 
 // Function to display the confirmation pop-up for displaying the demographic page after registration
