@@ -27,7 +27,7 @@ if(isset($_GET['email']) && isset($_GET['key'])){
 				valii = 0;
 			}
 			else if($("#password").val().length < 5){
-				$("#error").append('<label id="password_error" class="error">Your password must be atleast 5 characters long.<br></label>');
+				$("#error").append('<label id="password_error" class="error">Your password must be at least 5 characters long.<br></label>');
 				pass = 0;
 				valii = 0;
 			}

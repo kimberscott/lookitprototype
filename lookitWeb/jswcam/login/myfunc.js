@@ -21,6 +21,17 @@ $.fn.serializeObject = function()
     return o;
 };
 
+function handleprivacyclick(event) {
+		console.log('privacy click handler');
+		var val = $('input[name=participant_privacy]:radio:checked').val();
+		var textbox = $('#confirmfreediv');
+		if (val=="free") {
+			textbox.show();
+		} else {
+			textbox.hide();
+		}
+}
+
 // Function to Send a call to the database script and get the responce data back
 function call(str,url){
 var result;
@@ -433,7 +444,7 @@ function reset_pass(){
                         'url': './login.php',
                         async: false,
                         'data': {
-                            'email' : $("#email").val()
+							'email' : $("#email").val()
                         },
                         success: function(resp) {
                             confirm_page = resp;
@@ -885,11 +896,14 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 		"class": 'btn-primary reset-close',
 		'callback': function() {
 			if($('input[name=participant_privacy]:checked').length > 0){
+				var privacy_level = $("input[type='radio'][name='participant_privacy']:checked").val();
+				experiment.privacy_confirmation = $('#confirmfree').val();
+				experiment.privacy_level = privacy_level;
 				post_data = {
 					'continue' : 'true',
-					'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
+					'privacy'  : privacy_level
 				};
-				if ($("input[type='radio'][name='participant_privacy']:checked").val()=='withdraw') {
+				if (privacy_level=='withdraw') {
 					post_data =  {'withdraw' : 'true'};
 				}
 				send_post_data(post_data);

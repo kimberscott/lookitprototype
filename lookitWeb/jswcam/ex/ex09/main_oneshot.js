@@ -26,6 +26,9 @@ var conditionSet = false;
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
 	
+	promptBeforeClose();
+	setDBID();
+	
 	mainDivSelector = mainDivSel;
 	experiment = expt;	
 	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
@@ -63,6 +66,11 @@ function main(mainDivSel, expt) {
 	}
 	
 function startExperiment(condition, box) {
+
+
+	$('#maindiv').append('<div id="sessioncode"></div>');
+	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
+	experiment.mturkID = getQueryVariable('workerId');
 
 	if (record_whole_study) { 
 		jswcam.startRecording();

@@ -19,6 +19,9 @@ var record_whole_study = false; // records entire study, but retains segmentatio
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
+
+	promptBeforeClose();
+	setDBID();
 	
 	mainDivSelector = mainDivSel;
 	experiment = expt;

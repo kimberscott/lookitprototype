@@ -7,27 +7,28 @@
 <table>
 
 <tr><p>	
-<td><input type="radio" name="participant_privacy" value="free" onclick="handleprivacyclick"></td>
+<td><input type="radio" name="participant_privacy" value="free" onclick="handleprivacyclick(event)"></td>
 <td>Publicity and educational use (video may be used for publicity or educational purposes online or in the press in addition to for research purposes)</td></p></tr>
 
-<tr id="confirmfreediv" style="display:none;">
-<td colspan="2">
-<label for="confirmfree"> <p>To confirm, please type "These videos may be shared freely for publicity or educational purposes" in the box below.</p></label>
-<p><input name="confirmfree" id="confirmfree" size="60" type="text" /></p>
+<tr id="confirmfreediv" style="display: none">
+<td> </td>
+<td>
+<label for="confirmfree"> <p><strong>To confirm, please type "These videos may be shared freely for publicity or educational purposes" in the box below.</strong></p></label>
+<p><input name="confirmfree" id="confirmfree" type="text" style="width:80%;"/></p>
 </td>
 </tr>
 
-<tr><p>	
-<td><input type="radio" name="participant_privacy" value="scientific"  onclick="handleprivacyclick"></td>
+<tr><p>
+<td><input type="radio" name="participant_privacy" value="scientific"  onclick="handleprivacyclick(event)"></td>
 <td>Scientific use only (e.g., a short clip may be shown at a scientific conference to demonstrate typical responses)</td></p></tr> 
 
 <tr>	
-<td><input type="radio" name="participant_privacy" value="private"  onclick="handleprivacyclick"></td>
+<td><input type="radio" name="participant_privacy" value="private"  onclick="handleprivacyclick(event)"></td>
 <td>In-lab use only (only researchers from MIT's Early Childhood Cognition Lab may view your video)</td>
 </tr> 
 
 <tr><p>	
-<td><input type="radio" name="participant_privacy" value="withdraw"  onclick="handleprivacyclick"></td>
+<td><input type="radio" name="participant_privacy" value="withdraw"  onclick="handleprivacyclick(event)"></td>
 <td>WITHDRAW from the study (your video will be destroyed and no one may view it or any text you submitted)</td></p></tr> 
 
 </table>

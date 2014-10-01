@@ -6,8 +6,6 @@
 	"img"  : "ex/ex04/novelverbs.png",
 	"path" : "ex/ex04/",
 	"scripts": [
-	    "experimentFunctions.js",
-		"fullscreen.js",
 	    "main_novelverbs.js"
 	],
 	"css": ["experiment.css",

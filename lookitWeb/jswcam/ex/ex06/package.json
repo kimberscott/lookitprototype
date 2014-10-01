@@ -6,8 +6,6 @@
 	"img"  : "ex/ex06/testimony.png",
 	"path" : "ex/ex06/",
 	"scripts": [
-	    "experimentFunctions.js",
-		"fullscreen.js",
 	    "main_testimony.js"
 	],
 	"css": ["experiment.css",
