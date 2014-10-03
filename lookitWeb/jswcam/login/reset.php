@@ -67,7 +67,7 @@ function match_key($key, $email, $dbString){
   $db = $m->users;
   $reset_coll = $db->user_reset_password;
   $cursor = $reset_coll->find(array('email_label' => $email, 'key' => $key, "is_active" => '1'));
-  if($cursor->count() == 0 || $cursor->count() >= 1) return false;
+  if($cursor->count() == 0 || $cursor->count() > 1) return false;
   foreach ($cursor as $obj) {
     if($obj['key_generated_on'] >= (time() - 86400)){
       $reset_coll->update(array('email_label' => $email, "is_active" => '1'),array('$set' => array('is_active' => '0')));
