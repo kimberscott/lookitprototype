@@ -879,7 +879,6 @@ function connected_mic_cam(){
 }
 
 
-
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
 function done_or_withdraw(experiment,DEBRIEFHTML){
     //$("#flashplayer").remove();
