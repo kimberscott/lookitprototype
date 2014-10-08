@@ -17,13 +17,11 @@ if($_POST['email']){
 
   // subject
   $subject = 'Reset password';
-  //DEFINE('WEBSITE_URL', $_SERVER['HTTP_HOST'] );
 
   $string = time();
-//  $activation = mt_rand();
   $activation = md5($string);
   
-  // Fetching weather the protocol is http or https.
+  // Fetching whether the protocol is http or https.
   $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
   $domainName = $_SERVER['HTTP_HOST'];
 
