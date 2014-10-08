@@ -17,17 +17,19 @@ if($_POST['email']){
 
   // subject
   $subject = 'Reset password';
-  DEFINE('WEBSITE_URL', $_SERVER['HTTP_HOST'] );
 
   $string = time();
-//  $activation = mt_rand();
   $activation = md5($string);
   
+  // Fetching whether the protocol is http or https.
+  $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+  $domainName = $_SERVER['HTTP_HOST'];
+
   //Message
   $message = "Hi,\n\n";
   $message .= " To reset your password, please click on this link:\n\n";
-  $message .= WEBSITE_URL.$CONFIG['server']."/index.php?email=" . urlencode($email) . "&key=".urlencode($activation) . "\n\n";
-  $message .= "Thanks,\n Support Team";
+  $message .= $protocol.$domainName.$CONFIG['server']."/index.php?email=" . urlencode($email) . "&key=".urlencode($activation) . "\n\n";
+  $message .= "Thanks,\nSupport Team";
   // In case any of our lines are larger than 70 characters, we should use wordwrap()
   $message = wordwrap($message, 70, "\n");
 
