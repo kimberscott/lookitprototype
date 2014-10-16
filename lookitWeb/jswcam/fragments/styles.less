@@ -1,6 +1,16 @@
 /**
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
+ 
+
+.row-fluid .span12 {width: 80%;}
+ul.nav_log {list-style:none;}
+ul.nav_log > li > a {cursor:pointer; float: right; list-style:none;padding: 10px 15px 10px;color: #777;text-decoration: none;text-shadow: 0 1px #FFF;}
+.btn:focus{outline: medium none;}
+#positioning > img{
+	height: 150px !important; 
+	width: 200px !important;
+}
 
 /*Dark color*/
 @color1: #003366;
@@ -420,11 +430,18 @@ div.activitysummary {
 }
 
 #recording-indicator {
-  
-  background-color: #999999;
-  height: 24px;
-  width: 24px;
-  line-height: 24px;
-  float: right;
-  margin: 10px;
+	background-color: #999999;
+	height: 24px;
+	width: 24px;
+	line-height: 24px;
+	float: right;
+	margin: 10px;
+}
+
+.disabled:hover{
+	text-decoration: none;
+	cursor: text;
+}
+a:hover{
+	cursor: pointer;
 }

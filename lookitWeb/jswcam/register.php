@@ -27,16 +27,16 @@ function set_value($name,$default,$k){
 
 ?>   
 
-<link rel="stylesheet/css" type="text/css" href="static/js/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"></link>
 <script src="static/js/jquery-1.8.1.min.js"></script>
-<script src="static/js/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
-<link rel="stylesheet/less" type="text/css" href="bootstrap/less/bootstrap.less"></link>
-<script src="static/js/less-1.3.0.min.js" type="text/javascript"></script>
 <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="static/datepicker/js/bootstrap-datepicker.js"></script>
 <link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
 
 <style type="text/css">
+#registration_communication{
+    margin-top: -30px;
+}
+
 .error {
 	color: red;
 }
@@ -440,7 +440,7 @@ function next(){
 	var re = 0;
 	if(validation()){
 		re =1;
-		var json_string = JSON.stringify($('#email').serializeObject());
+/*		var json_string = JSON.stringify($('#email').serializeObject());
 		$.ajax({
 			'type': 'POST',
 			'url': 'user.php',
@@ -471,13 +471,14 @@ function next(){
 			}
 		    });
 		$("#error").children().css("display","none");
-		return move;
+		return move;*/
 	}
 	else{
 
 		$("#error1").html($("#error").html());
 		$("#error1").find("label").css({"font-weight": "700"});
 		$(".error").focus();
+		$("#error").html("");
 	}
 
 	return re;
@@ -486,7 +487,7 @@ function next(){
 // Validations for the first page of the registration pop-up,
 // Validations for Name, email, password and confirm password.
 function validation(){
-	var valii = 1;
+	var isValid = 1;
 	var pass = 1;
 
 	$("#error").html("");
@@ -494,18 +495,18 @@ function validation(){
 
 		if($("#name").val() == ""){
 			$("#error").append('<label id="name_error" class="error">Please enter your name.<br></label>');
-			valii = 0;
+			isValid = 0;
 		}
 	}
 	if($("#email")){// Validations for email
 		var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
 		if($("#email").val() == ""){
 			$("#error").append('<label id="email_error" class="error">Please enter your email address.<br></label>');
-			valii = 0;
+			isValid = 0;
 		}
 		else if(!pattern.test($("#email").val())){
 			$("#error").append('<label id="email_error" class="error">Please enter a valid email address.<br></label>');
-			valii = 0;
+			isValid = 0;
 		}
 		else{// Check if email already exists.
 			var json_string = JSON.stringify($('#email').serializeObject());
@@ -525,7 +526,7 @@ function validation(){
 
 					if(resp && temp == 0){
 						$("#error").append('<label id="email_error" class="error">Email address already exists.</br></label>');
-						valii = 0;
+						isValid = 0;
 					}	
 				},
 				'failure': function(resp) {}
@@ -535,25 +536,25 @@ function validation(){
 	if($("#password")){// validations for password.
 		if($("#password").val() == ""){
 			$("#error").append('<label id="password_error" class="error">Please enter a password.<br></label>');
-			valii = 0;
+			isValid = 0;
 		}
 		else if($("#password").val().length < 5){
 			$("#error").append('<label id="password_error" class="error">Your password must be at least 5 characters long.<br></label>');
 			pass = 0;
-			valii = 0;
+			isValid = 0;
 		}
 	}
 	if($("#confirm_password")){// validations for confirm password.
 		if($("#confirm_password").val() == ""){
 			$("#error").append('<label id="password_error" class="error">Please re-enter your password to confirm it.<br></label>');
-			valii = 0;
+			isValid = 0;
 		}
 		else if(pass == 1 && (($("#confirm_password").val().length < 5) || ($("#confirm_password").val() != $("#password").val()) )){
 			$("#error").append('<label id="password_error" class="error">Your password confirmation does not match. Please re-enter your password to confirm it.<br></label>');
-			valii = 0;
+			isValid = 0;
 		}
 	}
-	return valii;
+	return isValid;
 }
 
 // Remove the child on click , if added by mistake
@@ -566,14 +567,15 @@ function remove1(closed){
    		z = z+1;
 	});
 	i -= 1;
+	j--;
 	$('.modal-body').jScrollPane();
 }
 
 // Validations for child details page of the registration pop-up
 function validation_2(){
-	var valii = 1;
+	var isValid = 1;
 	var s = []; 
-	$("#error").html("");
+	$("#error2").html("");
 	$('*').removeClass('hasError');
 	if($("input[name = child_name]")){// validation for Child's name
 		var i = 1;
@@ -581,9 +583,9 @@ function validation_2(){
 			
 			s[i] = "";
 			if(($(this).attr("id") != 'child_name') && ($(this).val() == "")){
-				//s[i] += '<label id="child_name_error" class="error">Please enter a nickname for Child '+ i +'.<br></label>';
+				s[i] += '<label id="child_name_error" class="error">Please enter a nickname for Child '+ i +'.<br></label>';
 				$(this).addClass('hasError');
-				valii = 0;
+				isValid = 0;
 			}
 			i++;
 		});
@@ -594,20 +596,19 @@ function validation_2(){
 			if($(this).attr("id") != 'dp'){
 				$(this).attr('value', $(this).prop('value'))
 		        if($(this).val() == "" || $(this).val() == "MM/DD/YYYY"){
-		            //s[i] += '<label id="dob_error" class="error">Please enter the date of birth of Child '+ i +'.<br></label>';
+		            s[i] += '<label id="dob_error" class="error">Please enter the date of birth of Child '+ i +'.<br></label>';
 					$(this).parent().addClass('hasError');
-	    	        valii = 0;
-					alert('dob');
+	    	        isValid = 0;
 	        	}
 		        else if(isValidDate($(this).val()) == "format"){
 		            s[i] += '<label id="dob_error" class="error">Please enter the date of birth of Child '+ i +' in correct format.<br></label>';
 					$(this).parent().addClass('hasError');
-	    	        valii = 0;
+	    	        isValid = 0;
 	        	}
 	        	else if(isValidDate($(this).val()) == "date"){
 		            s[i] += '<label id="dob_error" class="error">Please enter a valid date of birth of Child '+ i +' .<br></label>';
 					$(this).parent().addClass('hasError');
-	    	        valii = 0;
+	    	        isValid = 0;
 	        	}
 	        }
 	        i++;
@@ -617,9 +618,9 @@ function validation_2(){
 		var i = 1;
 	    $(".gender").each(function(){
 	        if(($(this).attr("id") != 'gender') && ($(this).val() == "")){
-	            //s[i] += "<label id='gender_error' class='error'>Please select the gender of Child "+ i +".<br></label>";
+	            s[i] += "<label id='gender_error' class='error'>Please select the gender of Child "+ i +".<br></label>";
 				$(this).prev().addClass('hasError');
-	            valii = 0;
+	            isValid = 0;
 	        }
 	        i++;
 	    });
@@ -627,12 +628,12 @@ function validation_2(){
 	for(var x=0;x<$('.chile_name').length;x++){
 		if($('.chile_name').length == 1){
 			$("#error").append("<label id='child_error' class='error'>Please enter at least one child's details.<br></label>");
-			valii = 0;
+			isValid = 0;
 		}
-		$("#error").append(s[x]);
+		$("#error2").append(s[x]);
 	}
 	
-	return valii;
+	return isValid;
 }
 
 
@@ -647,10 +648,10 @@ function validation_2(){
 
 		<div class ="registor">
 			<p style="text-align: center;" id='regPromptText'>	Please enter login details	</p>
-		    <div id="error1" ></div>
+		    <div id="error1" style="width:90%;"></div>
 
 			<p>Name <input type="text" name="name" id="name" style="margin-left: 118px;" value="<?php set_value('name','',$k); ?>"/> </p>			
-			<p>Email Address<input type="text" name="email" id="email" style="margin-left: 68px;" value="<?php set_value('email','',$k) ?>"/>  </p>		
+			<p>Email Address<input type="text" name="email_label" id="email" style="margin-left: 68px;" value="<?php set_value('email_label','',$k) ?>"/>  </p>		
 			<p>Password <input type="password" name="password" id="password" style="margin-left: 94px;" value="<?php set_value('password','',$k) ?>"/> </p>		
 			<p>Confirm Password <input type="password" name="confirm_password" id="confirm_password" style="margin-left: 41px;"/> </p>	
 			<p><input type= "hidden" name="id" value="<?php echo $_SESSION['user']['id'] ?>"></p>
@@ -752,16 +753,18 @@ function validation_2(){
 					</div>
 				</div>
 				<input type="button" class="btn-success" id = "add" onclick="clone('');" value = "Add another child's information" style="font-size: large;font-weight: bold;"/>
-				<table>
-				<tr><td></br></td></tr>
-				<tr><td colspan="2">2. Select communication preferences: I would like to be contacted when...</td></tr>
+				</div></div> 
+ 				<div id="registration_communication" style="display:none;"> 
+					<table>
+						<tr><td></br></td></tr>
+						<tr><td colspan="2">2. Select communication preferences: I would like to be contacted when...</td></tr>
 
-				<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="researchers" <?php if(isset($_SESSION['user']['preference']) && in_array("researchers",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>Researchers have questions about my responses.</td></tr>
-				<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="updates" <?php if(isset($_SESSION['user']['preference']) && in_array("updates",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>New studies are available for my child(ren).</td></tr>
-				<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="results" <?php if(isset($_SESSION['user']['preference']) && in_array("results",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>Results of a study we participated in are published.</td></tr>
-								<input class="checkbox" type="hidden" name="preference" value="no_mails" <?php if(isset($_SESSION['user']['preference']) && in_array("no_mails",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/><br>
-				</table>
-
+						<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="researchers" <?php if(isset($_SESSION['user']['preference']) && in_array("researchers",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>Researchers have questions about my responses.</td></tr>
+						<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="updates" <?php if(isset($_SESSION['user']['preference']) && in_array("updates",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>New studies are available for my child(ren).</td></tr>
+						<tr>	<td>	<input class="checkbox" type="checkbox" name="preference" value="results" <?php if(isset($_SESSION['user']['preference']) && in_array("results",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/></td><td>Results of a study we participated in are published.</td></tr>
+										<input class="checkbox" type="hidden" name="preference" value="no_mails" <?php if(isset($_SESSION['user']['preference']) && in_array("no_mails",$_SESSION['user']['preference'])){print " checked=\"checked\"";} ?>/><br>
+					</table>
+				</div>
 			</div>
 		</div>
 	</form>
