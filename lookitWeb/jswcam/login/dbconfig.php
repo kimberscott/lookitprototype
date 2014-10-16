@@ -4,7 +4,7 @@
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
  
-$port = "27018";
+$port = "27017";
 $host = 'localhost';
 $dbname = 'mongodb';
 

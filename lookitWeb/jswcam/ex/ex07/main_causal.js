@@ -30,6 +30,9 @@ var DEBRIEFHTML = "";
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
+
+	promptBeforeClose();
+	setDBID();
 	
 	mainDivSelector = mainDivSel;
 	experiment = expt;
@@ -71,7 +74,12 @@ function main(mainDivSel, expt) {
 
 function startExperiment(condition, box) {
     console.log('Condition: ' + condition);
-		
+	
+	$('#maindiv').append('<div id="sessioncode"></div>');
+	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
+	
+	experiment.mturkID = getQueryVariable('workerId');
+			
 	// Counterbalancing condition 0 through 8 --> 3xbinary
 	var storyConds = [	['basebunny', 'bambi'],
 				['basebambi', 'bunny']];

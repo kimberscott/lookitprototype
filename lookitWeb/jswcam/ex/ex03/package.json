@@ -6,8 +6,6 @@
 	"img"  : "ex/ex03/faces.png",
 	"path" : "ex/ex03/",
 	"scripts": [
-	    "experimentFunctions.js",
-		"fullscreen.js",
 	    "main_speechmatch.js"
 	],
 	"css": ["experiment.css",

@@ -663,7 +663,7 @@ function validation_2(){
 					<label id="dob_error" class="error" for="dob" style="display:none">Please enter the Date of Birth.</br></label>
 					<label id="gender_error" class="error" for="gender" style="display:none">Please select a gender.</label>
 			    </div>
-				<p>1.Please enter information for your child</p>
+				<p>2. Please enter information for your child.</p>
 				<div>
 					<div id = "test">
 						<TABLE id = "child0" name="child0" BORDER='0' CELLPADDING='5' CELLSPACING='5'  style="border: 1px solid #d8d8d8;padding: 10px; margin-bottom:10px;">	
