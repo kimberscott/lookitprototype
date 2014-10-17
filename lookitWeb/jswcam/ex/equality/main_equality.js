@@ -6,7 +6,7 @@
 var currentElement = -1; // State variable: which html element we're on	
 var htmlSequence;
 var experiment; // where all information about experiment and events is stored--to send to server
-experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
+
 var audiotype = 'none';
 var condition; 		// counterbalancing condition
 var tested = false; // whether parent has tried the audio 
@@ -22,8 +22,12 @@ var conditionSet = false;
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
 	
+	promptBeforeClose();
+	setDBID();
+	
 	mainDivSelector = mainDivSel;
 	experiment = expt;
+	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 	experiment.endedEarly = false;
 	experiment.minAgeDays = 11*365/12;
 	experiment.maxAgeDays = 14*365/12;

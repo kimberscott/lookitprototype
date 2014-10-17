@@ -7,7 +7,7 @@
 var currentElement = -1; // State variable: which html element we're on	
 var htmlSequence;
 var experiment; // where all information about experiment and events is stored--to send to server
-experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
+
 var audiotype = 'none';
 var audioNames;
 var seqLengths;
@@ -30,9 +30,13 @@ var DEBRIEFHTML = "";
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
+
+	promptBeforeClose();
+	setDBID();
 	
 	mainDivSelector = mainDivSel;
 	experiment = expt;
+	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 	experiment.endedEarly = false;
 	experiment.minAgeDays = 365*3;
 	experiment.maxAgeDays = 366*6;
@@ -70,7 +74,12 @@ function main(mainDivSel, expt) {
 
 function startExperiment(condition, box) {
     console.log('Condition: ' + condition);
-		
+	
+	$('#maindiv').append('<div id="sessioncode"></div>');
+	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
+	
+	experiment.mturkID = getQueryVariable('workerId');
+			
 	// Counterbalancing condition 0 through 8 --> 3xbinary
 	var storyConds = [	['basebunny', 'bambi'],
 				['basebambi', 'bunny']];
@@ -137,18 +146,12 @@ function startExperiment(condition, box) {
 		
         // Allow the user to end the experiment by pressing 'Home' or 'End' keys.
 	     document.addEventListener('keydown', getKeyCode, false);
-             /*
-                  if (record_whole_study) {
-                      jswcam.startRecording();
-                       addEvent( {'type': 'startRecording'});
-                   }
-              */
-           // Start the experiment
 	     advanceSegment();
-	 }else{
-
-    sleep(4000);
-    show_cam_widget("position","webcamdiv");
+	 }
+	 else{ // Recording whole study: use show_cam_widget to load the cam/mic widget.
+	    // Once it's loaded, connected_mic_cam() will be called to remove the modal pop-up and begin loading.
+		sleep(4000);
+		show_cam_widget("position","webcamdiv");
 	 }
 }
 
@@ -225,10 +228,10 @@ function generateHtml(segmentName){
 				
 			case "positioning":
                     if (!record_whole_study) {
-				show_cam("position","webcamdiv");
-		    }else{
+						show_cam("position","webcamdiv");
+					}else{
 		                show_getting_setup_widget();
-		    }
+					}
 			
 			case "instructions":
 			
@@ -415,8 +418,8 @@ function generateHtml(segmentName){
 		goFullscreen($('#baseline')[0]);
 	} else if (segmentName=='formPoststudy') {
 	    if(!record_whole_study){
-		$("#flashplayer").remove();
-		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
+			$("#flashplayer").remove();
+			$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 	    }
 		leaveFullscreen();
 	}

@@ -3,5 +3,10 @@ login/dbconfig.php
 deployProd.php
 deploy.php
 lookitWeb/jswcam/fragments/omitted_segments.html
-config.php
 config.php.sample
+
+combined.css
+combined.js
+combined.min.css
+fragments/styles.css
+bootstrap/bootstrap.css

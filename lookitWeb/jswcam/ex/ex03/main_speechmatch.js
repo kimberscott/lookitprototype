@@ -7,7 +7,6 @@
 var currentElement = -1; // State variable: which html element we're on	
 var htmlSequence;
 var experiment;
-experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 var vidSequence;
 var tested = false; // whether the audio has been tested
 
@@ -20,9 +19,13 @@ var record_whole_study = false; // records entire study, but retains segmentatio
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
+
+	promptBeforeClose();
+	setDBID();
 	
 	mainDivSelector = mainDivSel;
 	experiment = expt;
+	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 	experiment.VERSION = '052814';
 	experiment.endedEarly = false;
 	experiment.minAgeDays = 3*30; // 3 months

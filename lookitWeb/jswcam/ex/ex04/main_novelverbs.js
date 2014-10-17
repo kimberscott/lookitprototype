@@ -7,7 +7,6 @@ var currentElement = -1; // State variable: which html element we're on
 var htmlSequence;
 var vidSequence;
 var experiment;
-experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 var tested = false; // Parent has not tested audio yet
 
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
@@ -24,8 +23,12 @@ var conditionSet = false;
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
 	
+	promptBeforeClose();
+	setDBID();
+	
 	mainDivSelector = mainDivSel;
 	experiment = expt;
+	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 	experiment.endedEarly = false;
 	experiment.minAgeDays = 365*2; // 2 years
 	experiment.maxAgeDays = 366*3; // ~3 years
@@ -67,6 +70,10 @@ function startExperiment(condition, box) {
 	experiment.condition = condition;
 	// Counterbalancing condition sets
 	// condition is a single number 0<=condition<32
+	
+	$('#maindiv').append('<div id="sessioncode"></div>');
+	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
+	experiment.mturkID = getQueryVariable('workerId');
 	
 	if (record_whole_study) {
 		jswcam.startRecording();

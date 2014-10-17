@@ -21,13 +21,24 @@ $.fn.serializeObject = function()
     return o;
 };
 
+function handleprivacyclick(event) {
+		console.log('privacy click handler');
+		var val = $('input[name=participant_privacy]:radio:checked').val();
+		var textbox = $('#confirmfreediv');
+		if (val=="free") {
+			textbox.show();
+		} else {
+			textbox.hide();
+		}
+}
+
 // Function to Send a call to the database script and get the responce data back
 function call(str,url){
 var result;
 var json_string = JSON.stringify($('form').serializeObject());
 
 if(json_string != "" && str == "check"){
-    json_string = "{\"email\":\""+$("#email").val()+"\"}";
+    json_string = "{\"email_label\":\""+$("#email").val()+"\"}";
 }
 $.ajax({
         'type': 'POST',
@@ -57,6 +68,7 @@ $.ajax({
         });
 return result;
 }
+
 var consent_recording_completed = 0;
 $(document).ready(function(){
     $("#log1").click(function (){
@@ -75,6 +87,11 @@ $(document).ready(function(){
         });
     });
 
+    setInterval(function(){
+// prevent server to end the session due to inactivity
+	var refresh = call('refresh','./user.php');
+    }, 300000);
+
     $('#log').click(function(){
             var req = new XMLHttpRequest();
             req.open("POST", "./login/login.html", false);
@@ -85,8 +102,9 @@ $(document).ready(function(){
     
     if($("#reset").val()){
         var email = $("#reset").val();
+        var key = $("#reset_key").val();
         var req = new XMLHttpRequest();
-            req.open("POST", "./login/reset.php?email="+email, false);
+            req.open("POST", "./login/reset.php?email="+email+"&key="+key, false);
             req.send(null);
             var reset_page = req.responseText;
             save_pass(reset_page);
@@ -97,20 +115,72 @@ $(document).ready(function(){
     });
 
     $("#reg1").click(function(){
-        page.show("account");
+	show_edit_page();
+	if($("#experi div").hasClass("row-fluid"))
+	{
+            $('#past_studies').addClass('disabled');
+            $('#acc_edit').removeClass('disabled');
+            $("#past_studies").css("color","gray");
+            $("#acc_edit").css("color","#003366");
+	}
+	else{
+            $('#acc_edit').addClass('disabled');
+            $('#past_studies').removeClass('disabled');
+            $("#acc_edit").css("color","gray");
+            $("#past_studies").css("color","#003366");
+	}
+
     });
 
     $("#demo a").click(function(){
         page.show("account");
     });
 
-    $('body').bind('showaccount', function(evt) {
-        var participated=get_list();
-        if(participated != ""){
-            page.buildExperimentGallery('#experi', participated);
+// Clicking on the Edit Details link on the My Accounts page
+    // adds disabled class to it, while enables the past studies link, if disabled.
+    $(document).on("click","#acc_edit",function(){
+        if($(this).hasClass("disabled")){
+            return false;
         }
         else{
-            $("#message").html("<b>You have not participated in any studies.</b>");
+            show_edit_page();
+            if($("#experi div").hasClass("row-fluid"))
+            {
+                $('#past_studies').addClass('disabled');
+                $('#acc_edit').removeClass('disabled');
+                $("#past_studies").css("color","gray");
+                $("#acc_edit").css("color","#003366");
+            }
+            else{
+                $('#acc_edit').addClass('disabled');
+                $('#past_studies').removeClass('disabled');
+                $("#acc_edit").css("color","gray");
+                $("#past_studies").css("color","#003366");
+            }
+        }
+    });
+
+    // Clicking on the View Past Studies link on the My Accounts page
+    // adds disabled class to it, while enables the Edit Details link, if disabled.
+    $(document).on("click","#past_studies",function(){
+        if($(this).hasClass("disabled")){
+            return false;
+        }
+        else{
+            show_participated_page();
+            if($("#experi div").hasClass("row-fluid"))
+            {
+                $('#past_studies').addClass('disabled');
+                $('#acc_edit').removeClass('disabled');
+                $("#past_studies").css("color","gray");
+                $("#acc_edit").css("color","#003366");
+            }
+            else{
+                $('#acc_edit').addClass('disabled');
+                $('#past_studies').removeClass('disabled');
+                $("#acc_edit").css("color","gray");
+                $("#past_studies").css("color","#003366");
+            }
         }
     });
 
@@ -120,6 +190,35 @@ $(document).ready(function(){
     
 });
 var responce;
+
+// Function to display the Edit registration details, on the My Accounts page.
+function show_edit_page(){
+    var req = new XMLHttpRequest();
+    req.open("POST", "./edit_register.php", false);
+    req.send(null);
+    var register_page = req.responseText;
+
+    page.show("account");
+    $("#experi").html(register_page);
+
+    $('body').bind('showhome', function(evt) {
+        page.buildExperimentGallery('#experiments', experiments);
+    });
+}
+
+// Function to display the Previous participated studies, on the My Accounts page.
+function show_participated_page(){
+    var participated=get_list();
+    if(participated != ""){
+	$("#experi").html("");
+        page.buildExperimentGallery('#experi', participated);
+	$("#experi").prepend("<div><h3>Previous Studies</h3></div>");
+    }
+    else{
+        $("#experi").html("<div class='row-fluid' style='text-align: center;'><br /><br /><b>You have not participated in any studies.</b></div>");
+    }
+}
+
 
 // Get the list of participated experiments for the logged in user in the "My Accounts page"
 function get_list(){
@@ -201,7 +300,7 @@ function register(is_new){
 		$(".bootbox").remove();
 		$(".modal-backdrop").remove();
 		
-		var continu = 0;
+		var continue_clicked = 0;
 		var cancel_clicked = 0;
 		var register_page = get_reg_page();
 
@@ -214,25 +313,14 @@ function register(is_new){
 						$('body').bind('showhome', function(evt) {
 							page.buildExperimentGallery('#experiments', experiments);
 						});
-						if($("#reg1").css("display") == "block"){
-							$('body').bind('showaccount', function(evt) {
-								var participated=get_list();
-								if(participated != ""){
-									page.buildExperimentGallery('.account', participated);
-								   
-								}
-								else{
-									$("#message").html("<b>You have not participated in any studies yet.</b>");
-								}
-							});
-						}
-					}
+
 					if($("#reg1").css("display") != "block"){
 						$("#reg,#log").css("display", "block");
 					}
 					cancel_clicked =1;
-					continu = 0;
+					continue_clicked = 0;
 					return true;
+					}
 				}
 			},
 			{
@@ -242,8 +330,7 @@ function register(is_new){
 					
 					$("#dob_error").css("display","none");
 					$("#gender_error").css("display","none");
-					if(continu == 1){
-						if(validation_2() == 1){
+					if(continue_clicked == 2){
 							
 							var myname = call('','./user.php');
 							$("#reg1,#log1").css("display", "block");
@@ -255,16 +342,7 @@ function register(is_new){
 								$('body').bind('showhome', function(evt) {
 									page.buildExperimentGallery('#experiments', experiments);
 								});
-								$('body').bind('showaccount', function(evt) {
-									var participated=get_list();
-									if(participated != ""){
-										page.buildExperimentGallery('.account', participated);
-								
-									}
-									else{
-										$("#message").html("<b>You have not participated in any studies yet.</b>");
-									}
-								});
+
 							}
 							$(".bootbox").remove();
 							$(".modal-backdrop").remove();
@@ -273,23 +351,12 @@ function register(is_new){
 							if(data == ""){
 								display_modal();
 							}
-							continu = 0;
+							continue_clicked = 0;
 
 							return true;
 
 						}
-						else{
-                            var element = $('.modal-body').jScrollPane({});
-                            var api = element.data('jsp');
-                            api.destroy();
-							$('.modal-body').scrollTop(0);
-                            $('.modal-body').jScrollPane();
-                            $('.jspContainer').width($('.jspContainer').width() - 31);
-							$("#error2").html($("#error").html());
-							$("#error2").find("label").css({"font-weight": "700"});
-							return false;
-						}
-					}
+
 					return false;
 				}
 			},
@@ -297,41 +364,60 @@ function register(is_new){
 				'label': 'Continue',
 				'class': 'btn-primary btn-continue btn-ok',
 				'callback': function() {
-					$("#error").html("");
-					
-					$("#dob_error").css("display","none");
-					$("#gender_error").css("display","none");
-					if(next()){
-						$('.btn-send').css("display", 'inline-block');
-						$('.btn-continue').css("display", 'none');
-                        $('.modal-body').jScrollPane();
-                        $('.jspContainer').width($('.jspContainer').width() - 31);
-                        $('.jspPane').css({'margin-left':'0px','width':'590px'});
-					}
-					continu = 1;
-					return false;
+				
+				    $("#dob_error").css("display","none");
+				    $("#gender_error").css("display","none");
+				    if(continue_clicked == 0 && next()){
+					$("#error2").html("");
+					$(".registor").css("display","none");
+					$("#registration").css("display","block");
+					$('.modal-body').jScrollPane();
+					$('.jspContainer').width($('.jspContainer').width() - 31);
+					$('.jspPane').css({'margin-left':'0px','width':'590px'});
+					continue_clicked = 1;
+				    }
+				    else if(continue_clicked == 1 && validation_2()){
+					$("#error2").html("");
+					$('.btn-send').css("display", 'inline-block');
+					$('.btn-continue').css("display", 'none');
+					$("#registration_communication").css("display","block");
+					$("#registration").css("display","none");
+					continue_clicked = 2;
+				    }
+				    if(continue_clicked == 1){
+					var element = $('.modal-body').jScrollPane({});
+					var api = element.data('jsp');
+					api.destroy();
+					$('.modal-body').scrollTop(0);
+					$('.modal-body').jScrollPane();
+					$('.jspContainer').width($('.jspContainer').width() - 31);
+				    }
+				    else if(continue_clicked == 2){
+					var element = $('.modal-body').jScrollPane({});
+					var api = element.data('jsp');
+					api.destroy();
+				    }	
+				    return false;
 				}
 			}
-		]);
-		$('.bootbox').css("width","600px");
-		$('.btn-send').css("display", 'none');
-		$(this).keyup(function(event){
-			if(event.keyCode == 13){
-				$(".btn-ok").click();
-			}
-		});
-		if (!is_new) {
-					$('#registrationTitle').text('Confirm account details');
-					$('#regPromptText').text('');
-				 }
-	} 
+			]);
+			       $('.bootbox').css("width","600px");
+			       $('.btn-send').css("display", 'none');
+			       $(this).keyup(function(event){
+				   if(event.keyCode == 13){
+				       $(".btn-ok").click();
+				   }
+			       });
+			      }
 	else {
-		bootbox.alert('We\'re still in the early stages of testing Lookit, and currently have as many users \
-		as we can handle!  Thanks for your interest, and please check back in a few days to see if sign-up is open again.  \
-		In the meantime, check out our \'Resources\' page for fun activities you can try at home!');
+            bootbox.alert('We\'re still in the early stages of testing Lookit, and currently have as many users \
+            as we can handle!  Thanks for your interest, and please check back in a few days to see if sign-up is open again.  \
+In the meantime, check out our \'Resources\' page for fun activities you can try at home!');
 	}
+    }
 
-}
+
+
 
 var session;
 
@@ -432,7 +518,7 @@ function reset_pass(){
                         'url': './login.php',
                         async: false,
                         'data': {
-                            'email' : $("#email").val()
+				'email' : $("#email").val()
                         },
                         success: function(resp) {
                             confirm_page = resp;
@@ -488,6 +574,8 @@ function save_pass(html){
         }
     }
     ]);
+
+
 }
 
 // Function to display the confirmation pop-up for displaying the demographic page after registration
@@ -862,6 +950,7 @@ function connected_mic_cam(){
     }
 }
 
+
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
 function done_or_withdraw(experiment,DEBRIEFHTML){
     //$("#flashplayer").remove();
@@ -876,11 +965,14 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 		"class": 'btn-primary reset-close',
 		'callback': function() {
 			if($('input[name=participant_privacy]:checked').length > 0){
+				var privacy_level = $("input[type='radio'][name='participant_privacy']:checked").val();
+				experiment.privacy_confirmation = $('#confirmfree').val();
+				experiment.privacy_level = privacy_level;
 				post_data = {
 					'continue' : 'true',
-					'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
+					'privacy'  : privacy_level
 				};
-				if ($("input[type='radio'][name='participant_privacy']:checked").val()=='withdraw') {
+				if (privacy_level=='withdraw') {
 					post_data =  {'withdraw' : 'true'};
 				}
 				send_post_data(post_data);
@@ -894,64 +986,69 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 		}
 	}]);
 
+// Timeout to remove the camera widget after 1 sec to allow completion of the conversion call.
     setTimeout(function(){
 	$("#flashplayer").remove();
 	$("#widget_holder").css("display","none");
-    }
-	       , 1000);
+    }, 1000);
 
 	}
 	
-function show_debrief_dialog() {
-	window.onbeforeunload = [];
-	bootbox.dialog(generate_debriefing(), [{
+function show_debrief_dialog(post_data) {
+    window.onbeforeunload = [];
+    bootbox.dialog(generate_debriefing(), [{
         'label': 'Done',
         "class": 'btn-primary reset-close',
         'callback': function() {
-           // Return back to the accounts page
-		    $('.bootbox').modal('hide');
-			$('body').removeClass('modal-open');
-			$('.modal-backdrop').remove();
-			page.toggleMenu(true);
-			page.show('account');
+            // Return back to the accounts page
+            $("body").css("background-color","#FFFFFF");
+            $(".bootbox").remove();
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+            page.toggleMenu(true);
+            page.show('account');
+            return true;
         }
     }]);
+    
+    send_post_data(post_data);
+    return true;
 }
 
 
+
 function send_post_data(post_data){
-	// Use the privacy settings to name videos accordingly.
-	$.ajax({
+    // Use the privacy settings to name videos accordingly.
+    $.ajax({
         'type': 'POST',
         'url': './camera/convert.php',
-		'async': true,
         'data': post_data,
         'success': function(resp) {
-		   console.log(resp);
+            console.log(resp);
         },
         'failure': function(resp) {
             window.onbeforeunload = [];
             console.log(resp);
         }
     });
-	
-	// As long as the user did not withdraw, also do a final DB update.
-	if ('continue' in post_data) {
-		$.ajax({
-			'type': 'POST',
-			'url': './user.php',
-			'async' : true,
-			'data': {
-				'table'        : 'users',
-				'json_data'    : experiment,
-				'function'     : 'set_account'
-			},
-			success: function(resp) {
-				console.log('Final database update');
-			}
-		});
-	}
 
+    // As long as the user did not withdraw, also do a final DB update.
+    if ('continue' in post_data) {
+        $.ajax({
+            'type': 'POST',
+            'url': './user.php',
+            'data': {
+                'table'        : 'users',
+                'json_data'    : experiment,
+                'function'     : 'set_account'
+            },
+            success: function(resp) {
+                console.log('Final database update');
+            }
+        });
+    }
+
+    return true;
 }
 
 function sleep(miliseconds) {

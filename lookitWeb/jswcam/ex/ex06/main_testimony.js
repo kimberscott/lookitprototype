@@ -6,7 +6,6 @@
 var currentElement = -1; // State variable: which html element we're on	
 var htmlSequence;
 var experiment;
-experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 var vidSequence;
 var audiotype = 'none';
 var videoNames = {};
@@ -24,9 +23,14 @@ var record_whole_study = false; // records entire study, but retains segmentatio
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
+
+	promptBeforeClose();
+	setDBID();
 	
+	// TODO: refactor -- none of this is study-specific
 	mainDivSelector = mainDivSel;
-	experiment = expt;
+	experiment = expt;	
+	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
 	experiment.endedEarly = false;
 	experiment.minAgeDays = 3*365; // 3 years
 	experiment.maxAgeDays = 6*366; // 6 years
@@ -66,6 +70,10 @@ function main(mainDivSel, expt) {
 function startExperiment(condition, box) {
     console.log('condition = ' + condition);
 	experiment.condition = condition;
+	
+	$('#maindiv').append('<div id="sessioncode"></div>');
+	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
+	experiment.mturkID = getQueryVariable('workerId');
 	
 	if (record_whole_study) {
 		jswcam.startRecording();
@@ -227,7 +235,6 @@ function generateHtml(segmentName){
 				
 				case "formPoststudy":
 
-					$('#fsbutton').detach();
 					$(function() {
 						$('#'+segmentName).submit(function(evt) {
 							evt.preventDefault();
@@ -255,6 +262,7 @@ function generateHtml(segmentName){
 					});
 					
 					$('#fsdiv').detach();
+					leaveFullscreen();
 					$('#fsbutton').detach();
 					$("#flashplayer").remove();
 					$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
