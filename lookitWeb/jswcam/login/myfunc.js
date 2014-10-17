@@ -320,6 +320,7 @@ function register(is_new){
 					cancel_clicked =1;
 					continue_clicked = 0;
 					return true;
+					}
 				}
 			},
 			{
@@ -329,7 +330,7 @@ function register(is_new){
 					
 					$("#dob_error").css("display","none");
 					$("#gender_error").css("display","none");
-					if(continue_clicked == 1){
+					if(continue_clicked == 2){
 							
 							var myname = call('','./user.php');
 							$("#reg1,#log1").css("display", "block");
@@ -363,9 +364,9 @@ function register(is_new){
 				'label': 'Continue',
 				'class': 'btn-primary btn-continue btn-ok',
 				'callback': function() {
-					
-					$("#dob_error").css("display","none");
-					$("#gender_error").css("display","none");
+				
+				    $("#dob_error").css("display","none");
+				    $("#gender_error").css("display","none");
 				    if(continue_clicked == 0 && next()){
 					$("#error2").html("");
 					$(".registor").css("display","none");
@@ -373,14 +374,7 @@ function register(is_new){
 					$('.modal-body').jScrollPane();
 					$('.jspContainer').width($('.jspContainer').width() - 31);
 					$('.jspPane').css({'margin-left':'0px','width':'590px'});
-					$('.bootbox').css("height","600px");
 					continue_clicked = 1;
-					var element = $('.modal-body').jScrollPane({});
-                                        var api = element.data('jsp');
-                                        api.destroy();
-                                        $('.modal-body').scrollTop(0);
-                                        $('.modal-body').jScrollPane();
-                                        $('.jspContainer').width($('.jspContainer').width() - 31);
 				    }
 				    else if(continue_clicked == 1 && validation_2()){
 					$("#error2").html("");
@@ -389,10 +383,20 @@ function register(is_new){
 					$("#registration_communication").css("display","block");
 					$("#registration").css("display","none");
 					continue_clicked = 2;
+				    }
+				    if(continue_clicked == 1){
 					var element = $('.modal-body').jScrollPane({});
 					var api = element.data('jsp');
 					api.destroy();
+					$('.modal-body').scrollTop(0);
+					$('.modal-body').jScrollPane();
+					$('.jspContainer').width($('.jspContainer').width() - 31);
 				    }
+				    else if(continue_clicked == 2){
+					var element = $('.modal-body').jScrollPane({});
+					var api = element.data('jsp');
+					api.destroy();
+				    }	
 				    return false;
 				}
 			}
@@ -413,7 +417,7 @@ In the meantime, check out our \'Resources\' page for fun activities you can try
     }
 
 
-}
+
 
 var session;
 

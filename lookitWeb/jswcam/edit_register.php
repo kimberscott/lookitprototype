@@ -236,7 +236,7 @@ function update_password(){
                         <td>
 
                             <div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="">
-                                <input id='dp0' class="span2 datepickerinput" type="text" value="<?php set_value('dob','',0) ?>" size="16" name="dob">
+                                <input id='dp0' class="span2 datepickerinput" type="text" value="<?php set_value('dob','',0) ?>" size="16" name="dob" readonly="true">
                                 <span class="add-on">
                                     <i class="icon-calendar"></i>
                                 </span>
@@ -336,7 +336,7 @@ function update_password(){
         <td>
 
             <div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="">
-                <input id='dp' class="span2 datepickerinput" type="text"  value="" size="16" name="dob">
+                <input id='dp' class="span2 datepickerinput" type="text"  value="" size="16" name="dob" readonly="true">
                 <span class="add-on">
                     <i class="icon-calendar"></i>
                 </span>

@@ -33,6 +33,11 @@ function set_value($name,$default,$k){
 <link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
 
 <style type="text/css">
+.span2.datepickerinput {
+    background-color: white;
+    cursor: text;
+}
+
 #registration_communication{
     margin-top: -30px;
 }
@@ -271,7 +276,27 @@ $(document).ready(function() {
 	
 	$("#child0 .date_picker" ).datepicker({
 		format: 'mm/dd/yyyy', 
-		viewMode: 2
+		viewMode: 2,
+                autoclose: true,
+                defaultDate: null
+        }).on('show',function(e){
+                var element = $('.modal-body').jScrollPane({});
+                var api = element.data('jsp');
+                api.destroy();
+                $(".modal-body").wrapInner("<div class='wrapper' style='position:relative; width:589px'></div");
+                $(".modal-body").append("<div class='hiding' style='height: 100%;    position: absolute;    right: 0;    top: 0;    width: 7px;'> </div>");
+                $(".modal-body").css("width", "600px");
+                $("body").css("overflow","hidden");
+                $(".modal-body").css("padding", "0px 0px 0px 15px");
+        }).on('hide',function(e){
+                $('.modal-body').jScrollPane();
+                $(".jspContainer").css("width", $(".jspScrollable").css("width"));
+                $("body").css("overflow","auto");
+                $(".modal-body").css("padding", "0");
+        }).on('changeDate',function(e){
+                if(e.viewMode === 'days'){
+                        $(this).datepicker('hide');
+                }
 	});
 	$('#child0 .date_picker').addClass('hasDatepicker');	
 	
@@ -385,7 +410,26 @@ function clone(chck_str){
 		
 		$("#child"+i+" .date_picker" ).datepicker({
 			format: 'mm/dd/yyyy', 
-			viewMode: 2
+			viewMode: 2,
+                        autoclose: true,
+                        defaultDate: null
+                }).on('show',function(e){
+                        $(".modal-body").css("width", "600px");
+                        var element = $('.modal-body').jScrollPane({});
+                        var api = element.data('jsp');
+                        api.destroy();
+                        $(".modal-body").wrapInner("<div class='wrapper' style='position:relative; width:589px'></div");
+                        $(".modal-body").append("<div class='hiding' style='height: 100%;    position: absolute;    right: 0;    top: 0;    width: 7px;'> </div>");
+                        $(".modal-body").css("width", "600px");
+                        $("body").css("overflow","hidden");
+                }).on('hide',function(e){
+                        $('.modal-body').jScrollPane();
+                        $(".jspContainer").css("width", $(".jspScrollable").css("width"));
+                        $("body").css("overflow","auto");
+                }).on('changeDate',function(e){
+                        if(e.viewMode === 'days'){
+                                $(this).datepicker('hide');
+                        }
 		}); 
 		$('#child'+i+' .date_picker').addClass('hasDatepicker');
 		
@@ -683,7 +727,7 @@ function validation_2(){
 							<td>
 							
 							<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="">
-								<input id='dp0' class="span2 datepickerinput" type="text" value="<?php set_value('dob','',0) ?>" size="16" name="dob">
+								<input id='dp0' class="span2 datepickerinput" type="text" value="<?php set_value('dob','',0) ?>" size="16" name="dob" readonly="true">
 								<span class="add-on">
 									<i class="icon-calendar"></i>
 								</span>
@@ -787,7 +831,7 @@ function validation_2(){
 		<td>
 			
 		<div class="input-append date_picker" data-date-format="mm/dd/yyy" data-date="">
-			<input id='dp' class="span2 datepickerinput" type="text"  value="" size="16" name="dob">
+			<input id='dp' class="span2 datepickerinput" type="text"  value="" size="16" name="dob" readonly="true">
 			<span class="add-on">
 			<i class="icon-calendar"></i>
 			</span>
