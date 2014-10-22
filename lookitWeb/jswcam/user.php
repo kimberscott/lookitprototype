@@ -18,8 +18,6 @@ function put_data($experiment_id, $json, $string) {
 
   $data['pid'] = $data['name'].$data['email_label'];
   $data['user_id'] = 1;
-  $data['password'] = generate_password_hash($data['password']);
-  $data['confirm_password'] = $data['password'];
 
   // Converting email of user to lowercase irrespective of the case entered by user, 
   // for login and storage purposes.
@@ -38,9 +36,11 @@ function put_data($experiment_id, $json, $string) {
   $count = $collection->count($find); // Check if there is any entry for the user
   if($count){ // If entry exists update the data
     $data['user_id'] = $_SESSION['user']['user_id'];
-    $collection->update($find,$data);
+    $collection->update($find,array('$set' => $data));
   }
   else{ // If not exists, insert the data into database.
+    $data['password'] = generate_password_hash($data['password']);
+    $data['confirm_password'] = $data['password'];
     $collection->insert($data);
   }
 
@@ -159,7 +159,7 @@ function check($table,$json,$string){
     foreach ($cursor as $obj) {
       if($data['action'] == "update_password"){
         if(password_verify($data['password'],$obj['password'])){
-          echo $obj['name'];
+          echo "updated ".$obj['name'];
           return;
         }
         return;
@@ -430,6 +430,13 @@ $function = getvalue('function','');
 $table = getValue('table','');
 $email = getvalue('email','');
 
+$log = "Form Post Data for user: " . $user_id . PHP_EOL .
+        "For function: " . $function . PHP_EOL .
+        "For Experiment ID: " . $experiment_id . PHP_EOL .
+        "Data: " . $data . PHP_EOL .
+        "On Date: " . date("F j, Y, g:i a") . PHP_EOL .
+        "------------------------" . PHP_EOL;
+file_put_contents('./logs/log_'.date("jnY").'.txt', $log, FILE_APPEND);
 
 switch($function){
   case 'login' :
@@ -452,6 +459,9 @@ switch($function){
     break;
   case 'params' :
     get_params();
+    break;
+   case 'refresh':
+    echo $_SESSION['user']['name'];
     break;
   case 'demogra':
     demographic($table, $data, $CONFIG['dbstring']);
