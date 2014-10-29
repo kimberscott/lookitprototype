@@ -1057,3 +1057,8 @@ function sleep(miliseconds) {
     }
 
 }
+
+// Receiving the current frame rate from the flash and displaying the same at the footer of the consent pop-up.
+function currentFPS(fps){
+ if($(".modal-footer").children(":first").hasClass("btn-continue")){$(".modal-footer").prepend("Current Average FPS = " +Math.round(fps));}
+}

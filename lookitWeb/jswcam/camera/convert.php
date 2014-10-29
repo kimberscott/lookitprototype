@@ -17,7 +17,9 @@ if($_POST['withdraw']) {
 
     $sess_obj = fetch_recording($dbString);
     $str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":\"true\",\"server\":\"'.substr($CONFIG["server"],1).'\"}'; 
-    $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert.php"';
+    // Modified the location from https://lookit-streaming.mit.edu:8080/compress_video/convert.php to https://lookit-streaming.mit.edu:8080/compress_video/convert_copy.php
+    // This is done for testing the changes for sending flv directly to S3
+    $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert_copy.php"';
     $_SESSION['user']['rec_uid'] = "";
 
     // Closing session write to free the session array
@@ -38,7 +40,9 @@ else if($_POST['continue']){
     $sess_obj = fetch_recording($dbString);
     $privacy = $_POST['privacy'];
     $str = '{\"filename\":"'.addslashes(json_encode($sess_obj)).'",\"withdraw\":\"false\",\"server\":\"'.substr($CONFIG["server"],1).'\",\"privacy\":\"'.$privacy.'\"}';
-    $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert.php"';
+    // Modified the location from https://lookit-streaming.mit.edu:8080/compress_video/convert.php to https://lookit-streaming.mit.edu:8080/compress_video/convert_copy.php
+    // This is done for testing the changes for sending flv directly to S3
+    $command = 'curl -X POST --data "result='.$str.'" "https://lookit-streaming.mit.edu:8080/compress_video/convert_copy.php"';
     $_SESSION['user']['rec_uid'] = "";
 
     // Closing session write to free the session array
