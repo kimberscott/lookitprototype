@@ -66,6 +66,7 @@ if(!isset($_SESSION['user']['id'])){
     if(isset($_GET['email'])){    
     ?>
     <input type="hidden" id="reset" value=<?php echo $_GET['email']?>/>
+    <input type="hidden" id="reset_key" value=<?php echo $_GET['key']?>/>
     <?php } ?>
 
 

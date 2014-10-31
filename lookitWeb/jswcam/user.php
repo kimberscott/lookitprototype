@@ -430,6 +430,13 @@ $function = getvalue('function','');
 $table = getValue('table','');
 $email = getvalue('email','');
 
+$log = "Form Post Data for user: " . $user_id . PHP_EOL .
+        "For function: " . $function . PHP_EOL .
+        "For Experiment ID: " . $experiment_id . PHP_EOL .
+        "Data: " . $data . PHP_EOL .
+        "On Date: " . date("F j, Y, g:i a") . PHP_EOL .
+        "------------------------" . PHP_EOL;
+file_put_contents('./logs/log_'.date("jnY").'.txt', $log, FILE_APPEND);
 
 switch($function){
   case 'login' :

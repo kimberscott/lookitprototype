@@ -21,13 +21,24 @@ $.fn.serializeObject = function()
     return o;
 };
 
+function handleprivacyclick(event) {
+		console.log('privacy click handler');
+		var val = $('input[name=participant_privacy]:radio:checked').val();
+		var textbox = $('#confirmfreediv');
+		if (val=="free") {
+			textbox.show();
+		} else {
+			textbox.hide();
+		}
+}
+
 // Function to Send a call to the database script and get the responce data back
 function call(str,url){
 var result;
 var json_string = JSON.stringify($('form').serializeObject());
 
 if(json_string != "" && str == "check"){
-    json_string = "{\"email\":\""+$("#email").val()+"\"}";
+    json_string = "{\"email_label\":\""+$("#email").val()+"\"}";
 }
 $.ajax({
         'type': 'POST',
@@ -75,9 +86,10 @@ $(document).ready(function(){
             }
         });
     });
+
     setInterval(function(){
-        // prevent server to end the session due to inactivity
-        var refresh = call('refresh','./user.php');
+// prevent server to end the session due to inactivity
+	var refresh = call('refresh','./user.php');
     }, 300000);
 
     $('#log').click(function(){
@@ -90,8 +102,9 @@ $(document).ready(function(){
     
     if($("#reset").val()){
         var email = $("#reset").val();
+        var key = $("#reset_key").val();
         var req = new XMLHttpRequest();
-            req.open("POST", "./login/reset.php?email="+email, false);
+            req.open("POST", "./login/reset.php?email="+email+"&key="+key, false);
             req.send(null);
             var reset_page = req.responseText;
             save_pass(reset_page);
@@ -102,20 +115,20 @@ $(document).ready(function(){
     });
 
     $("#reg1").click(function(){
-    show_edit_page();
-    if($("#experi div").hasClass("row-fluid"))
-    {
-        $('#past_studies').addClass('disabled');
-        $('#acc_edit').removeClass('disabled');
-        $("#past_studies").css("color","gray");
-        $("#acc_edit").css("color","#003366");
-    }
-    else{
-        $('#acc_edit').addClass('disabled');
-        $('#past_studies').removeClass('disabled');
-        $("#acc_edit").css("color","gray");
-        $("#past_studies").css("color","#003366");
-    }
+	show_edit_page();
+	if($("#experi div").hasClass("row-fluid"))
+	{
+            $('#past_studies').addClass('disabled');
+            $('#acc_edit').removeClass('disabled');
+            $("#past_studies").css("color","gray");
+            $("#acc_edit").css("color","#003366");
+	}
+	else{
+            $('#acc_edit').addClass('disabled');
+            $('#past_studies').removeClass('disabled');
+            $("#acc_edit").css("color","gray");
+            $("#past_studies").css("color","#003366");
+	}
 
     });
 
@@ -123,7 +136,7 @@ $(document).ready(function(){
         page.show("account");
     });
 
-    // Clicking on the Edit Details link on the My Accounts page
+// Clicking on the Edit Details link on the My Accounts page
     // adds disabled class to it, while enables the past studies link, if disabled.
     $(document).on("click","#acc_edit",function(){
         if($(this).hasClass("disabled")){
@@ -176,7 +189,6 @@ $(document).ready(function(){
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
     
 });
-
 var responce;
 
 // Function to display the Edit registration details, on the My Accounts page.
@@ -198,9 +210,9 @@ function show_edit_page(){
 function show_participated_page(){
     var participated=get_list();
     if(participated != ""){
-    $("#experi").html("");
+	$("#experi").html("");
         page.buildExperimentGallery('#experi', participated);
-    $("#experi").prepend("<div><h3>Previous Studies</h3></div>");
+	$("#experi").prepend("<div><h3>Previous Studies</h3></div>");
     }
     else{
         $("#experi").html("<div class='row-fluid' style='text-align: center;'><br /><br /><b>You have not participated in any studies.</b></div>");
@@ -285,121 +297,127 @@ function register(is_new){
 	// }
 
     if (!too_many_accounts) {
-        $(".bootbox").remove();
-        $(".modal-backdrop").remove();
+		$(".bootbox").remove();
+		$(".modal-backdrop").remove();
+		
+		var continue_clicked = 0;
+		var cancel_clicked = 0;
+		var register_page = get_reg_page();
 
-        var continue_clicked = 0;
-        var cancel_clicked = 0;
-        var register_page = get_reg_page();
+		bootbox.dialog(register_page,[
+			{
+				'label': 'Cancel',
+				'class': 'btn-danger regis-close',
+				'callback': function() {
+					if(!cancel_clicked){
+						$('body').bind('showhome', function(evt) {
+							page.buildExperimentGallery('#experiments', experiments);
+						});
 
-        bootbox.dialog(register_page,[
-        {
-            'label': 'Cancel',
-            'class': 'btn-danger regis-close',
-            'callback': function() {
-                if(!cancel_clicked){
-                    $('body').bind('showhome', function(evt) {
-                        page.buildExperimentGallery('#experiments', experiments);
-                    });
-                }
-                if($("#reg1").css("display") != "block"){
-                    $("#reg,#log").css("display", "block");
-                }
-                cancel_clicked =1;
-                continue_clicked = 0;
-                return true;
-            }
-        },
-        {
-            'label': 'Register',
-            'class': 'btn-success btn-send btn-ok',
-            'callback': function() {
+					if($("#reg1").css("display") != "block"){
+						$("#reg,#log").css("display", "block");
+					}
+					cancel_clicked =1;
+					continue_clicked = 0;
+					return true;
+					}
+				}
+			},
+			{
+				'label': 'Register',
+				'class': 'btn-success btn-send btn-ok',
+				'callback': function() {
+					
+					$("#dob_error").css("display","none");
+					$("#gender_error").css("display","none");
+					if(continue_clicked == 2){
+							
+							var myname = call('','./user.php');
+							$("#reg1,#log1").css("display", "block");
+							$("#reg,#log,.login_form").css("display", "none");
+							$("#reg1").html("<a href='#'' > Hi "+myname+" </a>");							
+							
+							if(!cancel_clicked){
+								
+								$('body').bind('showhome', function(evt) {
+									page.buildExperimentGallery('#experiments', experiments);
+								});
 
-                $("#dob_error").css("display","none");
-                $("#gender_error").css("display","none");
-                if(continue_clicked == 2){
+							}
+							$(".bootbox").remove();
+							$(".modal-backdrop").remove();
+							get_params('params');
+							var data = get_params("get_demogra");
+							if(data == ""){
+								display_modal();
+							}
+							continue_clicked = 0;
 
-                        var myname = call('','./user.php');
-                        $("#reg1,#log1").css("display", "block");
-                        $("#reg,#log,.login_form").css("display", "none");
-                        $("#reg1").html("<a href='#'' > Hi "+myname+" </a>");
+							return true;
 
-                        if(!cancel_clicked){
+						}
 
-                            $('body').bind('showhome', function(evt) {
-                                page.buildExperimentGallery('#experiments', experiments);
-                            });
-                            
-                        }
-                        $(".bootbox").remove();
-                        $(".modal-backdrop").remove();
-                        get_params('params');
-                        var data = get_params("get_demogra");
-                        if(data == ""){
-                            display_modal();
-                        }
-                        continue_clicked = 0;
-
-                        return true;
-                }
-                return false;
-            }
-        },
-        {
-            'label': 'Continue',
-            'class': 'btn-primary btn-continue btn-ok',
-            'callback': function() {
-                $("#dob_error").css("display","none");
-                $("#gender_error").css("display","none");
-                if(continue_clicked == 0 && next()){
-                    $("#error2").html("");
-                    $(".registor").css("display","none");
-                    $("#registration").css("display","block");
-                    $('.modal-body').jScrollPane();
-                    $('.jspContainer').width($('.jspContainer').width() - 31);
-                    $('.jspPane').css({'margin-left':'0px','width':'590px'});
-                    $('.bootbox').css("height","600px");
-                    continue_clicked = 1;
-                }
-                else if(continue_clicked == 1 && validation_2()){
-                    $("#error2").html("");
-                    $('.btn-send').css("display", 'inline-block');
-                    $('.btn-continue').css("display", 'none');
-                    $("#registration_communication").css("display","block");
-                    $("#registration").css("display","none");
-                    continue_clicked = 2;
-                }
-                if(continue_clicked == 1){
-                    var element = $('.modal-body').jScrollPane({});
-                    var api = element.data('jsp');
-                    api.destroy();
-                    $('.modal-body').scrollTop(0);
-                    $('.modal-body').jScrollPane();
-                    $('.jspContainer').width($('.jspContainer').width() - 31);
-                }
-                else if(continue_clicked == 2){
-                    var element = $('.modal-body').jScrollPane({});
-                    var api = element.data('jsp');
-                    api.destroy();
-                }
-                return false;
-            }
-        }
-        ]);
-        $('.bootbox').css("width","600px");
-        $('.btn-send').css("display", 'none');
-        $(this).keyup(function(event){
-            if(event.keyCode == 13){
-                $(".btn-ok").click();
-            }
-        });
-    }
-    else {
-        bootbox.alert('We\'re still in the early stages of testing Lookit, and currently have as many users \
+					return false;
+				}
+			},
+			{
+				'label': 'Continue',
+				'class': 'btn-primary btn-continue btn-ok',
+				'callback': function() {
+				
+				    $("#dob_error").css("display","none");
+				    $("#gender_error").css("display","none");
+				    if(continue_clicked == 0 && next()){
+					$("#error2").html("");
+					$(".registor").css("display","none");
+					$("#registration").css("display","block");
+					$('.modal-body').jScrollPane();
+					$('.jspContainer').width($('.jspContainer').width() - 31);
+					$('.jspPane').css({'margin-left':'0px','width':'590px'});
+					continue_clicked = 1;
+				    }
+				    else if(continue_clicked == 1 && validation_2()){
+					$("#error2").html("");
+					$('.btn-send').css("display", 'inline-block');
+					$('.btn-continue').css("display", 'none');
+					$("#registration_communication").css("display","block");
+					$("#registration").css("display","none");
+					continue_clicked = 2;
+				    }
+				    if(continue_clicked == 1){
+					var element = $('.modal-body').jScrollPane({});
+					var api = element.data('jsp');
+					api.destroy();
+					$('.modal-body').scrollTop(0);
+					$('.modal-body').jScrollPane();
+					$('.jspContainer').width($('.jspContainer').width() - 31);
+				    }
+				    else if(continue_clicked == 2){
+					var element = $('.modal-body').jScrollPane({});
+					var api = element.data('jsp');
+					api.destroy();
+				    }	
+				    return false;
+				}
+			}
+			]);
+			       $('.bootbox').css("width","600px");
+			       $('.btn-send').css("display", 'none');
+			       $(this).keyup(function(event){
+				   if(event.keyCode == 13){
+				       $(".btn-ok").click();
+				   }
+			       });
+			      }
+	else {
+            bootbox.alert('We\'re still in the early stages of testing Lookit, and currently have as many users \
             as we can handle!  Thanks for your interest, and please check back in a few days to see if sign-up is open again.  \
-            In the meantime, check out our \'Resources\' page for fun activities you can try at home!');
+In the meantime, check out our \'Resources\' page for fun activities you can try at home!');
+	}
     }
-}
+
+
+
 
 var session;
 
@@ -500,7 +518,7 @@ function reset_pass(){
                         'url': './login.php',
                         async: false,
                         'data': {
-                            'email' : $("#email").val()
+				'email' : $("#email").val()
                         },
                         success: function(resp) {
                             confirm_page = resp;
@@ -556,6 +574,8 @@ function save_pass(html){
         }
     }
     ]);
+
+
 }
 
 // Function to display the confirmation pop-up for displaying the demographic page after registration
@@ -930,58 +950,50 @@ function connected_mic_cam(){
     }
 }
 
-function handleprivacyclick(event) {
-	alert("privacy click");
-}
 
 // Function to display the popup to allow user to withdraw the recordings at the end of experiment
 function done_or_withdraw(experiment,DEBRIEFHTML){
-
+    //$("#flashplayer").remove();
     $("#widget_holder1").attr('id','widget_holder');
+	
+	// FIRST do the privacy information, INCLUDING withdraw option.
+	var post_data;
+	var privacy_page = page.html("privacy");
+	
+	bootbox.dialog(privacy_page,[{
+		'label': 'Submit',
+		"class": 'btn-primary reset-close',
+		'callback': function() {
+			if($('input[name=participant_privacy]:checked').length > 0){
+				var privacy_level = $("input[type='radio'][name='participant_privacy']:checked").val();
+				experiment.privacy_confirmation = $('#confirmfree').val();
+				experiment.privacy_level = privacy_level;
+				post_data = {
+					'continue' : 'true',
+					'privacy'  : privacy_level
+				};
+				if (privacy_level=='withdraw') {
+					post_data =  {'withdraw' : 'true'};
+				}
+				send_post_data(post_data);
+				show_debrief_dialog();
+				return true;
+			}
+			else{
+				$("#error").html("<b style='color: #FF0000'>Please select a privacy level for the experiment.</b>");
+				return false;
+			}
+		}
+	}]);
 
-    // FIRST do the privacy information, INCLUDING withdraw option.
-    var post_data;
-
-     // Textbox that pops up only if user selects 'free' setting.
-        function handle_privacy_click(radioButton) {
-                textbox = $('#confirmfreediv');
-                if (this.value=="free") {
-                        textbox.hide();
-                } else {
-                        textbox.show();
-                }
-        }
-    var privacy_page = page.html("privacy");
-
-    bootbox.dialog(privacy_page,[{
-        'label': 'Submit',
-        "class": 'btn-primary reset-close',
-        'callback': function() {
-            if($('input[name=participant_privacy]:checked').length > 0){
-                post_data = {
-                    'continue' : 'true',
-                    'privacy'  : $("input[type='radio'][name='participant_privacy']:checked").val()
-                };
-                if ($("input[type='radio'][name='participant_privacy']:checked").val()=='withdraw') {
-                    post_data =  {'withdraw' : 'true'};
-                }
-                show_debrief_dialog(post_data);
-                return true;
-            }
-            else{
-                    $("#error").html("<b style='color: #FF0000'>Please select a privacy level for the experiment.</b>");
-                    return false;
-            }
-        }
-    }]);
-
-    // Timeout to remove the camera widget after 1 sec to allow completion of the conversion call.
+// Timeout to remove the camera widget after 1 sec to allow completion of the conversion call.
     setTimeout(function(){
-        $("#flashplayer").remove();
-        $("#widget_holder").css("display","none");
+	$("#flashplayer").remove();
+	$("#widget_holder").css("display","none");
     }, 1000);
-}
 
+	}
+	
 function show_debrief_dialog(post_data) {
     window.onbeforeunload = [];
     bootbox.dialog(generate_debriefing(), [{
@@ -1044,4 +1056,9 @@ function sleep(miliseconds) {
     while (currentTime + miliseconds >= new Date().getTime()) {
     }
 
+}
+
+// Receiving the current frame rate from the flash and displaying the same at the footer of the consent pop-up.
+function currentFPS(fps){
+ if($(".modal-footer").children(":first").hasClass("btn-continue")){$(".modal-footer").prepend("Current Average FPS = " +Math.round(fps));}
 }
