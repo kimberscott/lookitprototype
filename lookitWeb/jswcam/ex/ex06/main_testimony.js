@@ -576,9 +576,6 @@ correcting it. </b>  (For instance, 'Okay, a blargit!') \
 <li> If your child doesn't want to answer, it's okay!  Just move on. \
 <li> Click 'Next' to proceed. </ul>";
 
-whoWasGoodText = "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' \
-			or ask 'Who do you think was better at it?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers.";	
-
 whoWasGoodText = "<p><b>Parents:</b> \
 	<ul> \
 	<li> To encourage your child to answer, feel free to hit 'Replay' or ask \
@@ -590,8 +587,6 @@ correcting it. </b>  (For instance, 'Okay, the girl in the yellow shirt!')  If h
 say where! \
 <li> If your child doesn't want to answer, it's okay!  Just move on. \
 <li> Click 'Next' to proceed. </ul>";
-
-But please do NOT repeat the options. <p>Click 'Next' once your child answers. ";
 
 switch(segmentName) {
 		case "summaryFam0":
