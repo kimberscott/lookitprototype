@@ -17,11 +17,11 @@
 
 #nextPage {
 	position: absolute;
-	top:40%;
+	top:30%;
 	left: 95%;
 	margin-top:-32px;
 	margin-left:-60px;
-	
+	font-weight: bold;
 	background-image: url('img/arrow.png');
 	background-color: white;
 	background-repeat: no-repeat;
@@ -35,11 +35,11 @@
 
 #replay {
 	position: absolute;
-	top:40%;
+	top:30%;
 	left:5%;
 	margin-top:-32px;
 	margin-left:-32px;
-	
+	font-weight: bold;
 	background-image: url('img/replay.png');
 	background-color: white;
 	background-repeat: no-repeat;
@@ -55,7 +55,7 @@
 	position: absolute;
 	left: 5%;
 	width: 25%;
-	top: 40%;
+	top: 30%;
 	margin: 0px;
 	margin-left:-32px;
 	margin-top: 64px; /* put under the replay button */
