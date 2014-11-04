@@ -932,7 +932,6 @@ function advanceSegment(){
 	subsetData['recordingSet'] = experiment['recordingSet'];
 	subsetData['currentSegment'] = currentElement;
 	subsetData['browserStr'] = experiment['browserStr'];
-	subsetData['browserObj'] = experiment['browserObj'];
 	
 	$.ajax({
                 'type': 'POST',
