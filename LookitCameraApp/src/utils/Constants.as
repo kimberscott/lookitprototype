@@ -24,6 +24,7 @@ package utils
 			public static var cam:XML = <items/>;
 			public static var mic:XML = <items/>;
 			public static var selected_cam:Camera = null;
+			public static var setup_completed:Number = 0;
 			
 			
 			public static function getDate():String{
