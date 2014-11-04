@@ -417,8 +417,7 @@ var page = (function() {
 			//var browser = new WhichBrowser();
 			//packaging.browserObj = browser;
 			//packaging.browserStr = browser.toString();
-			packaging.browserObj = [];
-			packaging.browserStr = '';
+			packaging.browserStr = (new WhichBrowser()).toString();
 			main(divSel, packaging);		 
 	    };
 	    this._replaceExperiment(callback, scripts, css);
