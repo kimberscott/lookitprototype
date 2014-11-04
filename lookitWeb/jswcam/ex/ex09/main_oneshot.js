@@ -40,7 +40,7 @@ function main(mainDivSel, expt) {
 	experiment.recordingSet = RECORDINGSET;
 	var browser = new WhichBrowser();
 	experiment.browserObj = browser;
-	experiment.browserStr = browser.toString();
+	//experiment.browserStr = browser.toString();
 
 	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
