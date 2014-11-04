@@ -414,9 +414,11 @@ var page = (function() {
 	    var callback = function() {
 			//main must be defined in one of
 			//the included experiment scripts
-			browser = new WhichBrowser();
-			packaging.browserObj = browser;
-			packaging.browserStr = browser.toString();
+			//var browser = new WhichBrowser();
+			//packaging.browserObj = browser;
+			//packaging.browserStr = browser.toString();
+			packaging.browserObj = [];
+			packaging.browserStr = '';
 			main(divSel, packaging);		 
 	    };
 	    this._replaceExperiment(callback, scripts, css);
