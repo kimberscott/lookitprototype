@@ -115,7 +115,7 @@ $(document).ready(function(){
     });
 
     $("#reg1").click(function(){
-	show_edit_page();
+	show_participated_page();
 	if($("#experi div").hasClass("row-fluid"))
 	{
             $('#past_studies').addClass('disabled');
@@ -198,7 +198,6 @@ function show_edit_page(){
     req.send(null);
     var register_page = req.responseText;
 
-    page.show("account");
     $("#experi").html(register_page);
 
     $('body').bind('showhome', function(evt) {
@@ -208,6 +207,7 @@ function show_edit_page(){
 
 // Function to display the Previous participated studies, on the My Accounts page.
 function show_participated_page(){
+    page.show("account");
     var participated=get_list();
     if(participated != ""){
 	$("#experi").html("");
@@ -1066,6 +1066,8 @@ function currentFPS(fps){
 }
 
 // Receiving the average brightness of the feed being displayed.
-function averageBrightness(brightness){
-         $("#message").append("<b>Average Brightness = " +brightness+"</b>");
+function avarageBrightness(brightness){
+        $("#brightness_message").remove();
+        $("#message").append("<span id='brightness_message'><b>Average Brightness = " +brightness+"</b></span>");
 }
+
