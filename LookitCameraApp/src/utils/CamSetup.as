@@ -292,8 +292,10 @@ package utils
 				Constants._cameraSet = 0;
 				Constants._micSet = 0;
 				Constants._camListPopulateComplete = true;
+				Constants.snapshot.getBrightness();
 				ExternalInterface.call("connected_mic_cam");
 			}
 		}
+		
 	}
 }

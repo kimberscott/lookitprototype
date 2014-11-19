@@ -1,7 +1,12 @@
-
 /*
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
+import flash.display.BitmapData;
+import flash.external.ExternalInterface;
+import flash.net.NetConnection;
+import flash.net.NetStream;
+import flash.net.NetStreamInfo;
+import flash.net.URLVariables;
 
 import mx.controls.Alert;
 import mx.core.FlexGlobals;
@@ -18,6 +23,7 @@ private var _state:String;
 
 private var nc:NetConnection;
 private var ns:NetStream;
+private var nsi:NetStreamInfo;
 private var _h264Settings:H264VideoStreamSettings = new H264VideoStreamSettings(); 
 
 private var flag:Boolean = false;
@@ -39,6 +45,7 @@ public var cam:XML = Constants.cam;
 public const icon2:Class;
 [Bindable]
 public var mic:XML = Constants.mic;
+
 //This flag is used for reconnection using RTMP when RTMPS fails 
 public var reconnect_tried:Boolean = false;
 private function geticon(item:Object):Class
@@ -80,7 +87,7 @@ public function init():void
 	nc_Connect();
 	try{
 		loading();
-		ExternalInterface.addCallback("takeScreenshot", callsnapshot);
+		//ExternalInterface.addCallback("takeScreenshot", callsnapshot);
 		ExternalInterface.addCallback("recordToCamera", callpublishcam);
 		ExternalInterface.addCallback("stop_record", callstop);
 		ExternalInterface.addCallback("connect", reconnect);
@@ -137,11 +144,11 @@ public function callpublishcam(expr_id11:String,parent_id11:String, child_id11:S
 	urlObject.filename = str_concat;
 	setState(States.RECORDING);	
 }
-
+/*
 public function callsnapshot():void{
 	Constants.snapshot.takePicture();
 }
-
+*/
 public function callstop(caller:String):void{
 	if(caller != ""){
 		theCam.attachCamera(null);
@@ -275,7 +282,7 @@ public function publishCamera():void {
 	_h264Settings.setKeyFrameInterval(50);
 	_h264Settings.setMode(OUTPUT_WIDTH,OUTPUT_HEIGHT,FLV_FRAMERATE);
 	_h264Settings.setProfileLevel(H264Profile.BASELINE, H264Level.LEVEL_1_2);
-	ns.videoStreamSettings = _h264Settings; 
+	ns.videoStreamSettings = _h264Settings;
 	ns.publish("flv:"+str_concat, "record");
 	flag = true;
 }
@@ -285,7 +292,8 @@ public function publishCamera():void {
 //*****************************************************************************************************************************************************
 
 public function stop():void {
-	ns.close();
+	ExternalInterface.call("currentFPS",ns.currentFPS);
+	ns.close(); 
 	flag = false;
 	var flashPHP:FlashPHP = new FlashPHP(Constants.conversionserver, urlObject);
 	flashPHP.addEventListener("ready", processPHPVars);
