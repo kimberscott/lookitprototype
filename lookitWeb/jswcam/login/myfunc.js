@@ -115,7 +115,7 @@ $(document).ready(function(){
     });
 
     $("#reg1").click(function(){
-	show_edit_page();
+	show_participated_page();
 	if($("#experi div").hasClass("row-fluid"))
 	{
             $('#past_studies').addClass('disabled');
@@ -198,7 +198,6 @@ function show_edit_page(){
     req.send(null);
     var register_page = req.responseText;
 
-    page.show("account");
     $("#experi").html(register_page);
 
     $('body').bind('showhome', function(evt) {
@@ -208,6 +207,7 @@ function show_edit_page(){
 
 // Function to display the Previous participated studies, on the My Accounts page.
 function show_participated_page(){
+    page.show("account");
     var participated=get_list();
     if(participated != ""){
 	$("#experi").html("");
@@ -1057,3 +1057,14 @@ function sleep(miliseconds) {
     }
 
 }
+
+// Receiving the current frame rate from the flash and displaying the same at the footer of the consent pop-up.
+function currentFPS(fps){
+
+}
+
+// Receiving the average brightness of the feed being displayed.
+function avarageBrightness(brightness){
+
+}
+

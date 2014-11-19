@@ -213,7 +213,6 @@ var page = (function() {
 		$('.btn-stop').css("display","none");
 		$('.btn-record').css("display","none");
 		$('.btn-record').attr('disabled', 'disabled');
-		
 	    consent_recording_completed = 0;
 		show_cam("consent","cam_setup");
 
