@@ -624,9 +624,13 @@ function select_child(expr,obje){
     new_page += "<p>You will select a privacy level for your recordings at the end of the study.  Unless you allow the recordings to be used, no video except for the consent video will be viewed by anyone.</p>";
     show_childs(new_page,expr,obje);
 }
-
+var object_new;
+var experiment_new;
 // Function to create the child and privacy selection pop-up
 function show_childs(html,expr,obje){
+    object_new = obje;
+    experiment_new = expr;
+
      bootbox.dialog(html,[
     {
         'label': 'Cancel',

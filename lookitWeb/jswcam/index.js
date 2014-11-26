@@ -148,7 +148,8 @@ var page = (function() {
 					$('.btn-record').attr('disabled', 'disabled');
 					$('.btn-stop').attr('disabled', 'disabled');
 					$('#recording-indicator').css({'background-color': '#666666'});
-					$('.btn-send').attr('disabled', false);
+					//$('.btn-send').attr('disabled', false);
+					$(".modal-footer").prepend("<span class='waiting'>Please Wait...</span>");
 					jswcam.stopRecording();
 					$('.btn-send').html('Send video (' + parseInt(difference) + ' seconds)')
 					return false;
