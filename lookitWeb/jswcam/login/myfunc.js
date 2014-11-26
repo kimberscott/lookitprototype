@@ -1068,3 +1068,20 @@ function avarageBrightness(brightness){
 
 }
 
+function audioVideoData(audioData,videoData){
+    if((audioData < 100 || videoData < 100) && $('body').hasClass('modal-open')){
+        hide_cam('consent');
+        $(".bootbox").remove();
+        $(".modal-backdrop").remove();
+        object_new.loadExperiment(experiment_new, '.content_pane');
+        $("#message").after("<span class='error' style='color:red;'>It seems that either your video or audio was missing in the recorded message, please try again.</span>");
+    }
+    else{
+        done = 1;
+        $('.btn-send').attr('disabled', false);
+        $('.waiting').remove();
+        return done;
+    }
+}
+
+

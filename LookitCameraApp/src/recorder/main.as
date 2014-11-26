@@ -2,11 +2,13 @@
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
 import flash.display.BitmapData;
+import flash.events.TimerEvent;
 import flash.external.ExternalInterface;
 import flash.net.NetConnection;
 import flash.net.NetStream;
 import flash.net.NetStreamInfo;
 import flash.net.URLVariables;
+import flash.utils.Timer;
 
 import mx.controls.Alert;
 import mx.core.FlexGlobals;
@@ -269,7 +271,8 @@ public function reconnect():void{
 //*****************************************************************************************************************************************************
 //Starting the Recording
 //*****************************************************************************************************************************************************
-
+private var Framerate: Number = 0;
+private var countFramerate:Number = 0;
 public function publishCamera():void { 
 	if(flag){
 		stop();
@@ -283,8 +286,20 @@ public function publishCamera():void {
 	_h264Settings.setMode(OUTPUT_WIDTH,OUTPUT_HEIGHT,FLV_FRAMERATE);
 	_h264Settings.setProfileLevel(H264Profile.BASELINE, H264Level.LEVEL_1_2);
 	ns.videoStreamSettings = _h264Settings;
+	//nsi = new NetStreamInfo
 	ns.publish("flv:"+str_concat, "record");
+	Framerate = 0;
+	countFramerate = 0;
+	var _timer:Timer = new Timer(500, 0);
+	_timer.addEventListener(TimerEvent.TIMER, calculateFramerate);
+	_timer.start();
 	flag = true;
+}
+private function calculateFramerate( event : TimerEvent ):void{
+	if(ns.currentFPS > 0){
+		Framerate += ns.currentFPS;
+		countFramerate++;
+	}
 }
 
 //*****************************************************************************************************************************************************
@@ -292,17 +307,71 @@ public function publishCamera():void {
 //*****************************************************************************************************************************************************
 
 public function stop():void {
-	ExternalInterface.call("currentFPS",ns.currentFPS);
-	ns.close(); 
+	var frameRate:Number = 0;
+	if(countFramerate == 0){
+		frameRate = 0;
+	}
+	else{
+		frameRate = Framerate/countFramerate; 
+	}
+	ExternalInterface.call("currentFPS",frameRate);
+	ns.close();
 	flag = false;
 	var flashPHP:FlashPHP = new FlashPHP(Constants.conversionserver, urlObject);
 	flashPHP.addEventListener("ready", processPHPVars);
+	getAudioVideoData();
+	
 }
-
 private function processPHPVars(event:Event):void{
 	//Alert.show("Thanks for Uploading");
 }
 
+private var ns_playback:NetStream;
+private function getAudioVideoData():void{
+	
+	ns_playback = new NetStream(nc);
+	var nsst:SoundTransform=new SoundTransform(1);
+	nsst.volume=0;
+	ns_playback.play(str_concat + ".flv");
+	ns_playback.soundTransform = nsst;
+	
+	var _timer:Timer = new Timer(100, 50);
+	_timer.addEventListener(TimerEvent.TIMER, checkInfo);
+	_timer.addEventListener( TimerEvent.TIMER_COMPLETE, sendInfo);
+	_timer.start();
+}
+
+private var audioData:Number = 0;
+private var videoData:Number = 0;
+private var countAudio:Number = 0;
+private var countVideo:Number = 0;
+
+private function checkInfo( event : TimerEvent ):void{
+	if(ns_playback.info.audioBufferByteLength > 0){
+		audioData += ns_playback.info.audioBufferByteLength;
+		countAudio++;
+	}
+	if(ns_playback.info.videoBufferByteLength > 0){
+		videoData += ns_playback.info.videoBufferByteLength;
+		countVideo++;
+	}
+}
+
+private function sendInfo( event : TimerEvent ) : void{
+	if(countAudio > 0){
+		audioData = (audioData/countAudio);
+	}
+	else{
+		audioData = 0;
+	}
+	if(countVideo > 0){
+		videoData = (videoData/countVideo);
+	}
+	else{
+		videoData = 0;
+	}	
+	ExternalInterface.call("audioVideoData",audioData,videoData);
+}
 
 private function setState(state:String):void
 {

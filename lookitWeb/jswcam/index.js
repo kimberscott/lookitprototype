@@ -49,6 +49,7 @@ if(!$.isFunction(String.prototype.hashCode)) {
  })();
 
 var recording_count = '0';
+var done = 0;
 var page = (function() {
 	
     function Library() {
@@ -85,7 +86,9 @@ var page = (function() {
 		// Look up the file '[expt.id].html' under 'fragments' and sub into dialog
 		var html = this.html(expt.id);
 		var recording = 0;
-		var done = 0;
+		if(done == 1){
+	       	done = 0;
+	    }
 		var startTime;
 		var difference;
 		// A short random string to identify THIS SET of videos to the user.
