@@ -624,9 +624,13 @@ function select_child(expr,obje){
     new_page += "<p>You will select a privacy level for your recordings at the end of the study.  Unless you allow the recordings to be used, no video except for the consent video will be viewed by anyone.</p>";
     show_childs(new_page,expr,obje);
 }
-
+var object_new;
+var experiment_new;
 // Function to create the child and privacy selection pop-up
 function show_childs(html,expr,obje){
+    object_new = obje;
+    experiment_new = expr;
+
      bootbox.dialog(html,[
     {
         'label': 'Cancel',
@@ -1067,4 +1071,21 @@ function currentFPS(fps){
 function avarageBrightness(brightness){
 
 }
+
+function audioVideoData(audioData,videoData){
+    if((audioData < 100 || videoData < 100) && $('body').hasClass('modal-open')){
+        hide_cam('consent');
+        $(".bootbox").remove();
+        $(".modal-backdrop").remove();
+        object_new.loadExperiment(experiment_new, '.content_pane');
+        $("#message").after("<span class='error' style='color:red;'>It seems that either your video or audio was missing in the recorded message, please try again.</span>");
+    }
+    else{
+        done = 1;
+        $('.btn-send').attr('disabled', false);
+        $('.waiting').remove();
+        return done;
+    }
+}
+
 
