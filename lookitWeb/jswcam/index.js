@@ -144,7 +144,7 @@ var page = (function() {
 					difference = (endTime - startTime)/1000;
 					startTime = null;
 					recording = 0;
-					done = 1;
+					//done = 1;
 					$('.btn-record').attr('disabled', 'disabled');
 					$('.btn-stop').attr('disabled', 'disabled');
 					$('#recording-indicator').css({'background-color': '#666666'});
@@ -205,6 +205,7 @@ var page = (function() {
 					}
 				});
 				$('.btn-continue').css('display','none');
+				$('.error').remove();
 				return false;
 			}
 		}
