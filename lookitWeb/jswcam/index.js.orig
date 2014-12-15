@@ -49,7 +49,6 @@ if(!$.isFunction(String.prototype.hashCode)) {
  })();
 
 var recording_count = '0';
-var done = 0;
 var page = (function() {
 	
     function Library() {
@@ -86,9 +85,7 @@ var page = (function() {
 		// Look up the file '[expt.id].html' under 'fragments' and sub into dialog
 		var html = this.html(expt.id);
 		var recording = 0;
-		if(done == 1){
-	       	done = 0;
-	    }
+		var done = 0;
 		var startTime;
 		var difference;
 		// A short random string to identify THIS SET of videos to the user.
@@ -144,12 +141,11 @@ var page = (function() {
 					difference = (endTime - startTime)/1000;
 					startTime = null;
 					recording = 0;
-					//done = 1;
+					done = 1;
 					$('.btn-record').attr('disabled', 'disabled');
 					$('.btn-stop').attr('disabled', 'disabled');
 					$('#recording-indicator').css({'background-color': '#666666'});
-					//$('.btn-send').attr('disabled', false);
-					$(".modal-footer").prepend("<span class='waiting'>Please Wait...</span>");
+					$('.btn-send').attr('disabled', false);
 					jswcam.stopRecording();
 					$('.btn-send').html('Send video (' + parseInt(difference) + ' seconds)')
 					return false;
@@ -205,7 +201,6 @@ var page = (function() {
 					}
 				});
 				$('.btn-continue').css('display','none');
-				$('.error').remove();
 				return false;
 			}
 		}
@@ -218,6 +213,7 @@ var page = (function() {
 		$('.btn-stop').css("display","none");
 		$('.btn-record').css("display","none");
 		$('.btn-record').attr('disabled', 'disabled');
+		
 	    consent_recording_completed = 0;
 		show_cam("consent","cam_setup");
 
@@ -418,10 +414,9 @@ var page = (function() {
 	    var callback = function() {
 			//main must be defined in one of
 			//the included experiment scripts
-			//var browser = new WhichBrowser();
-			//packaging.browserObj = browser;
-			//packaging.browserStr = browser.toString();
-			packaging.browserStr = (new WhichBrowser()).toString();
+			browser = new WhichBrowser();
+			packaging.browserObj = browser;
+			packaging.browserStr = browser.toString();
 			main(divSel, packaging);		 
 	    };
 	    this._replaceExperiment(callback, scripts, css);
@@ -488,9 +483,8 @@ var page = (function() {
 				}
 				else
 				{
-					if(check_browser_support()){
-						select_child(info,this);
-					}
+
+					select_child(info,this);
 				}
 			}.createDelegate(this));
 			
@@ -937,6 +931,7 @@ function advanceSegment(){
 	subsetData['recordingSet'] = experiment['recordingSet'];
 	subsetData['currentSegment'] = currentElement;
 	subsetData['browserStr'] = experiment['browserStr'];
+	subsetData['browserObj'] = experiment['browserObj'];
 	
 	$.ajax({
                 'type': 'POST',
@@ -1157,5 +1152,9 @@ function addFsButton(mainDivSelector, elementSelector) {
     e|=(e&16&&({}.toString).toString().indexOf("\n")===-1)?32:0;p.push('e='+e);f|='sandbox' in d.createElement('iframe')?1:0;f|='WebSocket' in w?2:0;
     f|=w.Worker?4:0;f|=w.applicationCache?8:0;f|=w.history && history.pushState?16:0;f|=d.documentElement.webkitRequestFullScreen?32:0;f|='FileReader' in w?64:0;
     p.push('f='+f);p.push('r='+Math.random().toString(36).substring(7));p.push('w='+screen.width);p.push('h='+screen.height);var s=d.createElement('script');
-    s.src='whichbrowser/detect.js?' + p.join('&');d.getElementsByTagName('head')[0].appendChild(s);})();
+<<<<<<< HEAD
+    s.src='/whichbrowser/detect.php' + p.join('&');d.getElementsByTagName('head')[0].appendChild(s);})();
+=======
+    s.src='/whichbrowser/detect.js?' + p.join('&');d.getElementsByTagName('head')[0].appendChild(s);})();
+>>>>>>> def7e1aab9f01450b7e663f917e274b9037e12fe
 	
