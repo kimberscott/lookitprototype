@@ -7,7 +7,6 @@
 session_start();
 
 if(isset($_SESSION['user']['submitted_form_values'])){extract($_SESSION['user']['submitted_form_values']);}
-$k = 0;
 
 // Set the  parameter value if there or set the default value.
 function set_value($name,$default,$k){
@@ -34,6 +33,12 @@ function set_value($name,$default,$k){
 <script src="./login/edit_register.js" type="text/javascript"></script>
 <script>
 var temp;
+var i ;
+var j;
+var range ;
+var s = [""];
+var genders;
+
 $(document).ready(function() {
 	$(".cancel").bind("contextmenu",function(e){
 		e.preventDefault();
@@ -52,15 +57,15 @@ $(document).ready(function() {
 	i = 1;
 	j = 1;
 	range = 4;
+	genders = <?php echo json_encode($_SESSION['user']['gender']); ?>;
+
 	<?php 
 	$count = count($_SESSION['user']['child_name']);
-	$k=0;
+
 	for($i = 1; $i < $count; $i++){ 
 	?>
 		clone("preset");
-	<?php 
-		$k++;
-	} ?>
+	<?php } ?>
 	$('.jspPane').css({'margin-left':'0px','width':'590px'});
 	$("form").submit(function(event){
 		if(!validation())
@@ -79,10 +84,7 @@ $(document).ready(function() {
 		return false;    
 	});
 });
-var i ;
-var j;
-var range ;
-var s = [""];
+
 
 // Function to copy the child data table when adding more childs and populate the data into it if user is editting the details.
 function clone(chck_str){
@@ -140,16 +142,19 @@ function clone(chck_str){
 					$(this).val(session['weeks'][i]);
 				}
 				if($(this).attr('name') == 'gender_'+i){
-					<?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "boy"){?>
-						$("#gender"+i).val("boy");
-						$("#gender_boy"+i).attr("checked","checked");
-					<?php } elseif(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "girl"){ ?>
-						$("#gender"+i).val("girl");
-						$("#gender_girl"+i).attr("checked","checked");
-					<?php } elseif(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "other"){ ?>
-						$("#gender"+i).val("other");
-						$("#gender_other"+i).attr("checked","checked");
-					<?php }	$k++;?>
+					if(genders[i] == "boy"){
+                        $("#gender"+i).val("boy");
+                        $("#gender_boy"+i).attr("checked","checked");
+                    }
+                    else if(genders[i] == "girl"){
+                        $("#gender"+i).val("girl");
+                        $("#gender_girl"+i).attr("checked","checked");
+                    }
+                    else if(genders[i] == "other"){
+                        $("#gender"+i).val("other");
+                        $("#gender_other"+i).attr("checked","checked");
+                    }
+
 				}
 			}				
 			$('#'+date_id).next().next().remove();
@@ -213,8 +218,8 @@ function update_password(){
     <h1 id="registrationTitle" style="text-align: center;">Edit Registration</h1>
     <form id="edit_form" method="POST" action="">
         <div class ="register">
-            <p>Name <input type="text" name="name" id="name" style="margin-left: 118px;" value="<?php set_value('name','',$k); ?>"/> </p>
-            <p>Email Address<input type="text" name="email_label" id="email" style="margin-left: 68px;" value="<?php set_value('email_label','',$k) ?>" readonly/>  </p>
+            <p>Name <input type="text" name="name" id="name" style="margin-left: 118px;" value="<?php set_value('name','',0); ?>"/> </p>
+            <p>Email Address<input type="text" name="email_label" id="email" style="margin-left: 68px;" value="<?php set_value('email_label','',0) ?>" readonly/>  </p>
             <p><a href="#" onclick="update_password();">Reset Password</a> </p>
             <p><input type= "hidden" name="id" value="<?php echo $_SESSION['user']['id'] ?>"></p>
             <p>1.Please enter information for your child</p>

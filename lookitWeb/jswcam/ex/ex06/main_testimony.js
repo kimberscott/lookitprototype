@@ -588,8 +588,6 @@ say where! \
 <li> If your child doesn't want to answer, it's okay!  Just move on. \
 <li> Click 'Next' to proceed. </ul>";
 
-But please do NOT repeat the options. <p>Click 'Next' once your child answers. ";
-
 switch(segmentName) {
 		case "summaryFam0":
 			return baseTextSummary + "<p> (Familiar object 1 of 4)";
