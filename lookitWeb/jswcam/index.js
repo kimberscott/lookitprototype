@@ -144,7 +144,6 @@ var page = (function() {
 					difference = (endTime - startTime)/1000;
 					startTime = null;
 					recording = 0;
-					//done = 1;
 					$('.btn-record').attr('disabled', 'disabled');
 					$('.btn-stop').attr('disabled', 'disabled');
 					$('#recording-indicator').css({'background-color': '#666666'});
@@ -177,7 +176,7 @@ var page = (function() {
 						recording = 2;
 						$('.btn-stop').attr('disabled', false);
 						return false;
-					}, 5000); // 5 second min recording
+					}, 5000); // 5 second minimum recording
 					recording_count = '0';
 					jswcam.startRecording('');
 					startTime = (new Date()).getTime();
@@ -414,18 +413,18 @@ var page = (function() {
 	    var css = [];
 	    if('css' in packaging && $.isArray(packaging['css']))
 		css = $.map(packaging['css'], includePath);
-	    //TODO: path/img
+
 	    var callback = function() {
-			//main must be defined in one of
-			//the included experiment scripts
+			// record the user's browser for testing purposes
 			packaging.browserStr = (new WhichBrowser()).toString();
+			// main must be defined in one of the experiment scripts!
 			main(divSel, packaging);		 
 	    };
 	    this._replaceExperiment(callback, scripts, css);
 	}
 	var delegate = loadExp.createDelegate(this);
 
-	if (immediate) {
+	if (immediate) { // for testing locally; skip consent
 		delegate();
 	}
 	else {
