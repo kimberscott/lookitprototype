@@ -49,6 +49,7 @@ if(!$.isFunction(String.prototype.hashCode)) {
  })();
 
 var recording_count = '0';
+var done = 0;
 var page = (function() {
 	
     function Library() {
@@ -85,7 +86,9 @@ var page = (function() {
 		// Look up the file '[expt.id].html' under 'fragments' and sub into dialog
 		var html = this.html(expt.id);
 		var recording = 0;
-		var done = 0;
+		if(done == 1){
+	       	done = 0;
+	    }
 		var startTime;
 		var difference;
 		// A short random string to identify THIS SET of videos to the user.
@@ -141,11 +144,12 @@ var page = (function() {
 					difference = (endTime - startTime)/1000;
 					startTime = null;
 					recording = 0;
-					done = 1;
+					//done = 1;
 					$('.btn-record').attr('disabled', 'disabled');
 					$('.btn-stop').attr('disabled', 'disabled');
 					$('#recording-indicator').css({'background-color': '#666666'});
-					$('.btn-send').attr('disabled', false);
+					//$('.btn-send').attr('disabled', false);
+					$(".modal-footer").prepend("<span class='waiting'>Please Wait...</span>");
 					jswcam.stopRecording();
 					$('.btn-send').html('Send video (' + parseInt(difference) + ' seconds)')
 					return false;
@@ -201,6 +205,7 @@ var page = (function() {
 					}
 				});
 				$('.btn-continue').css('display','none');
+				$('.error').remove();
 				return false;
 			}
 		}
@@ -213,7 +218,6 @@ var page = (function() {
 		$('.btn-stop').css("display","none");
 		$('.btn-record').css("display","none");
 		$('.btn-record').attr('disabled', 'disabled');
-		
 	    consent_recording_completed = 0;
 		show_cam("consent","cam_setup");
 

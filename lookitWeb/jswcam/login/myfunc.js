@@ -114,7 +114,7 @@ $(document).ready(function(){
     });
 
     $("#reg1").click(function(){
-	show_edit_page();
+	show_participated_page();
 	if($("#experi div").hasClass("row-fluid"))
 	{
             $('#past_studies').addClass('disabled');
@@ -197,7 +197,6 @@ function show_edit_page(){
     req.send(null);
     var register_page = req.responseText;
 
-    page.show("account");
     $("#experi").html(register_page);
 
     $('body').bind('showhome', function(evt) {
@@ -207,6 +206,7 @@ function show_edit_page(){
 
 // Function to display the Previous participated studies, on the My Accounts page.
 function show_participated_page(){
+    page.show("account");
     var participated=get_list();
     if(participated != ""){
 	$("#experi").html("");
@@ -623,9 +623,13 @@ function select_child(expr,obje){
     new_page += "<p>You will select a privacy level for your recordings at the end of the study.  Unless you allow the recordings to be used, no video except for the consent video will be viewed by anyone.</p>";
     show_childs(new_page,expr,obje);
 }
-
+var object_new;
+var experiment_new;
 // Function to create the child and privacy selection pop-up
 function show_childs(html,expr,obje){
+    object_new = obje;
+    experiment_new = expr;
+
      bootbox.dialog(html,[
     {
         'label': 'Cancel',
@@ -1056,3 +1060,31 @@ function sleep(miliseconds) {
     }
 
 }
+
+// Receiving the current frame rate from the flash and displaying the same at the footer of the consent pop-up.
+function currentFPS(fps){
+
+}
+
+// Receiving the average brightness of the feed being displayed.
+function avarageBrightness(brightness){
+
+}
+
+function audioVideoData(audioData,videoData){
+    if((audioData < 100 || videoData < 100) && $('body').hasClass('modal-open')){
+        hide_cam('consent');
+        $(".bootbox").remove();
+        $(".modal-backdrop").remove();
+        object_new.loadExperiment(experiment_new, '.content_pane');
+        $("#message").after("<span class='error' style='color:red;'>It seems that either your video or audio was missing in the recorded message, please try again.</span>");
+    }
+    else{
+        done = 1;
+        $('.btn-send').attr('disabled', false);
+        $('.waiting').remove();
+        return done;
+    }
+}
+
+

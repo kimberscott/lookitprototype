@@ -72,6 +72,11 @@
 						height="400" 
 						width="10" 
 						id="micLevelCanvas"/>
+					<s:Line id="indicator" xFrom="-2" yFrom="2" xTo="12" yTo="2" y="200">
+						<s:stroke>
+							<s:SolidColorStroke color="black" weight="3"/>
+						</s:stroke>
+					</s:Line>
 				</s:BorderContainer>  	
 			
 			<s:HGroup id="dropdowns"

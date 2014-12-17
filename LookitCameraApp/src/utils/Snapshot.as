@@ -6,16 +6,19 @@ package utils
 {
 	//import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import mx.core.FlexGlobals;
-	import mx.graphics.codec.JPEGEncoder;
-	//import mx.utils.Base64Encoder;
+	import flash.events.Event;
+	import flash.events.TimerEvent;
 	import flash.external.ExternalInterface;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	import flash.utils.ByteArray;
-	import flash.events.Event;
+	import flash.utils.Timer;
+	
+	import mx.controls.Alert;
+	import mx.core.FlexGlobals;
+	import mx.graphics.codec.JPEGEncoder;
 	
 	public class Snapshot
 	{
@@ -30,15 +33,17 @@ package utils
 		//Take snapshot portion starts
 		//*****************************************************************************************************************************************************
 		
-		public function takePicture():void 
+		private function takePicture():Number 
 		{
 			//create a BitmapData variable called picture that has theCam's size
 			var picture:BitmapData = new BitmapData(FlexGlobals.topLevelApplication.theCam.width, FlexGlobals.topLevelApplication.theCam.height);
 			//the BitmapData draws our theCam
-			picture.draw(FlexGlobals.topLevelApplication.theCam);      
+			picture.draw(FlexGlobals.topLevelApplication.theCam);
+			var brightness:Number = getframeBrightness(picture);
+			return brightness;
 			//stores this BitmapData into another BitmapData (outside this function)       
-			bm = picture;          
-			sendPicture();    
+			//bm = picture;          
+			//sendPicture();    
 		}
 		
 		//*****************************************************************************************************************************************************
@@ -97,6 +102,63 @@ package utils
 		//**************************************************************************************************************************************
 		//Take Snapshot portion ends
 		//**************************************************************************************************************************************
+		
+		private function getframeBrightness(picture:BitmapData) : Number{
+			var v:Vector.<Vector.<Number >  >  = picture.histogram();
+			
+			var r:Number = 0;
+			
+			var g:Number = 0;
+			
+			var b:Number = 0;
+			
+			var a:Number = 0;
+			
+			
+			
+			for (var i:int=0; i<256; i++) {
+				
+				r +=  i * v[0][i] / 255;
+				
+				g +=  i * v[1][i] / 255;
+				
+				b +=  i * v[2][i] / 255;
+				
+				a += i*v[3][i]/255;
+				
+			}
+			
+			
+			
+			var brightness:Number = (r+g+b)/(3*a);
+			
+			picture.dispose();
+			return brightness*10;
+		}
+		private var count:Number = 0;
+		private var total:Number = 0;
+		private var brightness:Number = 0;
+		
+		private function showIndex ( event : TimerEvent ) : void 
+		{
+			brightness = Constants.snapshot.takePicture();
+			if( brightness != 0){
+				total += brightness;
+				count ++;
+			}
+		}
+		
+		private function returnTimerComplete(event: TimerEvent) : void{
+			var averageBrightness:Number = (total/count);
+			ExternalInterface.call("avarageBrightness",averageBrightness);
+		}
+		
+		public function getBrightness() : void{
+			var _timer:Timer = new Timer(500, 10);
+			_timer.addEventListener(TimerEvent.TIMER, showIndex);
+			_timer.addEventListener( TimerEvent.TIMER_COMPLETE, returnTimerComplete);
+			_timer.start();
+		}
 
 	}
 }
