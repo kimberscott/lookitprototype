@@ -390,7 +390,7 @@ var page = (function() {
 	this._getTempFiles(arr);
     };
 
-    Library.prototype.loadExperiment = function(packaging, divSel) {
+    Library.prototype.loadExperiment = function(packaging, divSel, immediate=false) {
 	 try {
 		console.log(packaging);		
 //jswcam.setExperiment(packaging['id']);
@@ -414,9 +414,6 @@ var page = (function() {
 	    var callback = function() {
 			//main must be defined in one of
 			//the included experiment scripts
-			//var browser = new WhichBrowser();
-			//packaging.browserObj = browser;
-			//packaging.browserStr = browser.toString();
 			packaging.browserStr = (new WhichBrowser()).toString();
 			main(divSel, packaging);		 
 	    };
@@ -424,7 +421,13 @@ var page = (function() {
 	}
 	var delegate = loadExp.createDelegate(this);
 
-	this.showVerbalConsentDialog(delegate, packaging);
+	if (immediate) {
+		delegate();
+	}
+	else {
+		this.showVerbalConsentDialog(delegate, packaging);
+	}
+	
     };
 
     Library.prototype.buildExperimentGallery = function(jqSelector, experiments) {
@@ -933,19 +936,21 @@ function advanceSegment(){
 	subsetData['currentSegment'] = currentElement;
 	subsetData['browserStr'] = experiment['browserStr'];
 	
-	$.ajax({
-                'type': 'POST',
-                'url': './user.php',
-                'async' : true,
-                'data': {
-                    'table'        : 'users',
-                    'json_data'    : subsetData,
-                    'function'     : 'set_account'
-                },
-                success: function(resp) {
-                    console.log('Updated database');
-                }
-            });
+	if (!sandbox) {
+		$.ajax({
+             	   'type': 'POST',
+             	   'url': './user.php',
+             	   'async' : true,
+             	   'data': {
+             	       'table'        : 'users',
+             	       'json_data'    : subsetData,
+             	       'function'     : 'set_account'
+             	   },
+              		  success: function(resp) {
+              	      console.log('Updated database');
+              	  }
+           	 });
+	}
 
 	jswcam.toggleWebCamView(false);
 	// Detach the current html, if any
@@ -1152,5 +1157,5 @@ function addFsButton(mainDivSelector, elementSelector) {
     e|=(e&16&&({}.toString).toString().indexOf("\n")===-1)?32:0;p.push('e='+e);f|='sandbox' in d.createElement('iframe')?1:0;f|='WebSocket' in w?2:0;
     f|=w.Worker?4:0;f|=w.applicationCache?8:0;f|=w.history && history.pushState?16:0;f|=d.documentElement.webkitRequestFullScreen?32:0;f|='FileReader' in w?64:0;
     p.push('f='+f);p.push('r='+Math.random().toString(36).substring(7));p.push('w='+screen.width);p.push('h='+screen.height);var s=d.createElement('script');
-    s.src='whichbrowser/detect.js?' + p.join('&');d.getElementsByTagName('head')[0].appendChild(s);})();
+    s.src='whichbrowser/detect.php?' + p.join('&');d.getElementsByTagName('head')[0].appendChild(s);})();
 	

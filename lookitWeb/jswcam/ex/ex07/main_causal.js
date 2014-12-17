@@ -20,7 +20,10 @@ var conditionSet = false;
 var characterNames;
 
 // If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
-var sandbox = false;
+// Sandbox may be defined as true in a local testing environment (test_experiments.js)
+if (typeof sandbox == 'undefined') {
+	var sandbox = false;
+	}
 var record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 // Used by index.js when generating upload dialog (replace this.html('uploading'))
@@ -176,23 +179,21 @@ function generateHtml(segmentName){
 				var thisQuestionText = questionTexts[audioNames['story']];
 				$('#questionText').html(thisQuestionText);
 				
-				$(function() {
 					
-					$('#'+segmentName).submit(function(evt) {
-						evt.preventDefault();
-						if (record_whole_study) {
-							jswcam.stopRecording();
-							addEvent(  {'type': 'endRecording'});
-						}
-						var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
-						console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
-						experiment[segmentName] = formFields.serializeObject();
-						validArray = validateForm(segmentName, experiment[segmentName]);
-						if (validArray) {
-							advanceSegment();
-						}
-						return false;
-					});
+				$('#'+segmentName).submit(function(evt) {
+					evt.preventDefault();
+					if (record_whole_study) {
+						jswcam.stopRecording();
+						addEvent(  {'type': 'endRecording'});
+					}
+					var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
+					console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
+					experiment[segmentName] = formFields.serializeObject();
+					validArray = validateForm(segmentName, experiment[segmentName]);
+					if (validArray) {
+						advanceSegment();
+					}
+					return false;
 				});
 				
 				break;
@@ -206,23 +207,18 @@ function generateHtml(segmentName){
 					tested = true;
 				}
 				testaudio.addEventListener('play', setTestedTrue, false);
-				$(function() {
-					$('#' + segmentName + ' #next').click(function(evt) {
-						evt.preventDefault();
-						if(tested){
-							advanceSegment();
-						}
-						else{
-							bootbox.alert('Please try playing the sample audio before starting the study.');
-						}
-						return false;
-					});
-					$('#' + segmentName + ' #back').click(function(evt) {
-						evt.preventDefault();
-						previousSegment();
-						return false;
-					});
+		
+				$('#' + segmentName + ' #next').click(function(evt) {
+					evt.preventDefault();
+					if(tested){
+						advanceSegment();
+					}
+					else{
+						bootbox.alert('Please try playing the sample audio before starting the study.');
+					}
+					return false;
 				});
+
 				break;		
 				
 				
@@ -234,23 +230,16 @@ function generateHtml(segmentName){
 					}
 			
 			case "instructions":
-			
 				if(segmentName=='instructions') {
 					$('#'+segmentName).addClass('instructions');
 					}
 				$("body").removeClass('playingVideo');
-				$(function() {
-					$('#' + segmentName + ' #next').click(function(evt) {
-						hide_cam("webcamdiv");
-						evt.preventDefault();
-						advanceSegment();
-						return false;
-					});
-					$('#' + segmentName + ' #back').click(function(evt) {
-						evt.preventDefault();
-						previousSegment();
-						return false;
-					});
+				$('#' + segmentName + ' #next').click(function(evt) {
+					console.log('click');
+					hide_cam("webcamdiv");
+					evt.preventDefault();
+					advanceSegment();
+					return false;
 				});
 				break;
 			
@@ -275,7 +264,6 @@ function generateHtml(segmentName){
 				// Only attach the functions one time (in 'baseline' case)!
 				
 				// Next button
-				$(function() {
 					$('#nextPage').click(function(evt) {
 					
 						var audio = $('#storyAudio')[0];
@@ -318,10 +306,8 @@ function generateHtml(segmentName){
 						}
 						return false;
 					});
-				});
 				
 	// to start the audio over
-				$(function() {
 					
 					$('#replay').click(function(evt) {
 						addEvent({'type': 'replayPage', 
@@ -334,7 +320,6 @@ function generateHtml(segmentName){
 						audio.play();
 						return false;
 					});
-				});
 				
 				// While playing audio, disable 'next' and 'replay' buttons			
 				audio.addEventListener('play', function() {

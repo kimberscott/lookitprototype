@@ -1,5 +1,4 @@
  /*
-
  * * Copyright (C) MIT Early Childhood Cognition Lab
  *
  */
@@ -732,7 +731,7 @@ function set_to_session(){
     });
 }
 
-// Function to set the session dat and the demographic form data
+// Function to set the session data and the demographic form data
 function get_params(fun){
     var sending;
     var flag = 1;
@@ -741,7 +740,7 @@ function get_params(fun){
         'url': './user.php',
         async: false,
         'data': {
-            'function'  : fun,
+            'function'  : fun
         },
         success: function(resp) {
             if (resp) {
@@ -868,7 +867,7 @@ function show_getting_setup_widget(caller,div_c){
 function isValidDate(date)
 {
     var matches = /^(\d{2})[\/](\d{2})[\/](\d{4})$/.exec(date);
-    if (matches == null) return "format";
+    if (matches == null) {return "format";}
     //else return true;
     var d = matches[2];
     var m = matches[1] - 1;
