@@ -48,6 +48,8 @@ if(!$.isFunction(String.prototype.hashCode)) {
 
  })();
 
+var unsupportedBrowsers = ["Safari"];
+var unsupportedOS = ["Mac OS X", "Mac OS", "iOS", "OS X"];
 var recording_count = '0';
 var done = 0;
 var page = (function() {
@@ -488,8 +490,9 @@ var page = (function() {
 				}
 				else
 				{
-
-					select_child(info,this);
+					if(check_browser_support()){
+						select_child(info,this);
+					}
 				}
 			}.createDelegate(this));
 			

@@ -451,7 +451,12 @@ function login(html,expr,obje){
                         if(obje){
                             $(".bootbox").remove();
                             $(".modal-backdrop").remove();
-                            select_child(expr,obje);
+                            if(check_browser_support()){
+                                select_child(expr,obje);
+                            }
+                        }
+                        else{
+                            check_browser_support();
                         }
                         return true;
                     }
@@ -586,6 +591,9 @@ function display_modal(){
         'label': 'No',
         "class": 'btn-danger',
         'callback': function() {
+            $(".bootbox").remove();
+            $(".modal-backdrop").remove();
+            check_browser_support();
             return true;
         }
     },
@@ -594,6 +602,9 @@ function display_modal(){
         'class': 'btn-primary btn-stop',
         'callback': function() {
             show_demographic();
+            $(".bootbox").remove();
+            $(".modal-backdrop").remove();
+            check_browser_support();
         }
     }
     ]);
@@ -1088,4 +1099,18 @@ function audioVideoData(audioData,videoData){
     }
 }
 
+
+function check_browser_support(){
+    var browser = (new WhichBrowser()).browser.name.toString();
+    var os = (new WhichBrowser()).browser.name.toString();
+    console.log(browser +"==>"+ os);
+
+    if($.inArray(browser,unsupportedBrowsers) >= 0 && $.inArray(os,unsupportedOS) >= 0){
+        var html = "This is not a supported browser. To participate in an experiment please access using any of the following browsers: Chrome, Firefox, or Internet Explorer 11+";
+        bootbox.alert(html);
+    }
+    else{
+        return true;
+    }
+}
 

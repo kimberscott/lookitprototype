@@ -7,7 +7,6 @@
 session_start();
 
 if(isset($_SESSION['user']['submitted_form_values'])){extract($_SESSION['user']['submitted_form_values']);}
-$k = 0;
 
 // Set the  parameter value if there or set the default value.
 function set_value($name,$default,$k){
@@ -34,6 +33,12 @@ function set_value($name,$default,$k){
 <script src="./login/edit_register.js" type="text/javascript"></script>
 <script>
 var temp;
+var i ;
+var j;
+var range ;
+var s = [""];
+var genders;
+
 $(document).ready(function() {
 	$(".cancel").bind("contextmenu",function(e){
 		e.preventDefault();
@@ -52,15 +57,15 @@ $(document).ready(function() {
 	i = 1;
 	j = 1;
 	range = 4;
+	genders = <?php echo json_encode($_SESSION['user']['gender']); ?>;
+
 	<?php 
 	$count = count($_SESSION['user']['child_name']);
-	$k=0;
+
 	for($i = 1; $i < $count; $i++){ 
 	?>
 		clone("preset");
-	<?php 
-		$k++;
-	} ?>
+	<?php } ?>
 	$('.jspPane').css({'margin-left':'0px','width':'590px'});
 	$("form").submit(function(event){
 		if(!validation())
@@ -79,10 +84,7 @@ $(document).ready(function() {
 		return false;    
 	});
 });
-var i ;
-var j;
-var range ;
-var s = [""];
+
 
 // Function to copy the child data table when adding more childs and populate the data into it if user is editting the details.
 function clone(chck_str){
@@ -140,16 +142,19 @@ function clone(chck_str){
 					$(this).val(session['weeks'][i]);
 				}
 				if($(this).attr('name') == 'gender_'+i){
-					<?php if(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "boy"){?>
-						$("#gender"+i).val("boy");
-						$("#gender_boy"+i).attr("checked","checked");
-					<?php } elseif(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "girl"){ ?>
-						$("#gender"+i).val("girl");
-						$("#gender_girl"+i).attr("checked","checked");
-					<?php } elseif(isset($_SESSION['user']['gender']) && $_SESSION['user']['gender'][$k] == "other"){ ?>
-						$("#gender"+i).val("other");
-						$("#gender_other"+i).attr("checked","checked");
-					<?php }	$k++;?>
+					if(genders[i] == "boy"){
+                        $("#gender"+i).val("boy");
+                        $("#gender_boy"+i).attr("checked","checked");
+                    }
+                    else if(genders[i] == "girl"){
+                        $("#gender"+i).val("girl");
+                        $("#gender_girl"+i).attr("checked","checked");
+                    }
+                    else if(genders[i] == "other"){
+                        $("#gender"+i).val("other");
+                        $("#gender_other"+i).attr("checked","checked");
+                    }
+
 				}
 			}				
 			$('#'+date_id).next().next().remove();
@@ -213,8 +218,8 @@ function update_password(){
     <h1 id="registrationTitle" style="text-align: center;">Edit Registration</h1>
     <form id="edit_form" method="POST" action="">
         <div class ="register">
-            <p>Name <input type="text" name="name" id="name" style="margin-left: 118px;" value="<?php set_value('name','',$k); ?>"/> </p>
-            <p>Email Address<input type="text" name="email_label" id="email" style="margin-left: 68px;" value="<?php set_value('email_label','',$k) ?>" readonly/>  </p>
+            <p>Name <input type="text" name="name" id="name" style="margin-left: 118px;" value="<?php set_value('name','',0); ?>"/> </p>
+            <p>Email Address<input type="text" name="email_label" id="email" style="margin-left: 68px;" value="<?php set_value('email_label','',0) ?>" readonly/>  </p>
             <p><a href="#" onclick="update_password();">Reset Password</a> </p>
             <p><input type= "hidden" name="id" value="<?php echo $_SESSION['user']['id'] ?>"></p>
             <p>1.Please enter information for your child</p>
@@ -271,29 +276,29 @@ function update_password(){
                         <td>Gestational age at birth </td>
 
                         <td>
-                            <select name="weeks" id=" weeks0" class="weeks" value = "<?php set_value('weeks',0,0) ?>">
-                                <option value="na" selected>Not sure or prefer not to answer</option>
-                                <option value="43">Over 42 weeks</option>
-                                <option value="42">42 weeks</option>
-                                <option value="41">41 weeks</option>
-                                <option value="40">40 weeks(around due date)</option>
-                                <option value="39">39 weeks</option>
-                                <option value="38">38 weeks</option>
-                                <option value="37">37 weeks</option>
-                                <option value="36">36 weeks</option>
-                                <option value="35">35 weeks</option>
-                                <option value="34">34 weeks</option>
-                                <option value="33">33 weeks</option>
-                                <option value="32">32 weeks</option>
-                                <option value="31">31 weeks</option>
-                                <option value="30">30 weeks</option>
-                                <option value="29">29 weeks</option>
-                                <option value="28">28 weeks</option>
-                                <option value="27">27 weeks</option>
-                                <option value="26">26 weeks</option>
-                                <option value="25">25 weeks</option>
-                                <option value="24">24 weeks</option>
-                                <option value="23">Under 24 weeks</option>
+                            <select name="weeks" id=" weeks0" class="weeks">
+                                <option value="na" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "na" ) || $_SESSION['user']['weeks'] == "na") {print "selected";} ?>>Not sure or prefer not to answer</option>
+                                <option value="43" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "43" ) || $_SESSION['user']['weeks'] == "43") {print "selected";} ?>>Over 42 weeks</option>
+                                <option value="42" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "42" ) || $_SESSION['user']['weeks'] == "42") {print "selected";} ?>>42 weeks</option>
+                                <option value="41" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "41" ) || $_SESSION['user']['weeks'] == "41") {print "selected";} ?>>41 weeks</option>
+                                <option value="40" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "40" ) || $_SESSION['user']['weeks'] == "40") {print "selected";} ?>>40 weeks(around due date)</option>
+                                <option value="39" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "39" ) || $_SESSION['user']['weeks'] == "39") {print "selected";} ?>>39 weeks</option>
+                                <option value="38" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "38" ) || $_SESSION['user']['weeks'] == "38") {print "selected";} ?>>38 weeks</option>
+                                <option value="37" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "37" ) || $_SESSION['user']['weeks'] == "37") {print "selected";} ?>>37 weeks</option>
+                                <option value="36" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "36" ) || $_SESSION['user']['weeks'] == "36") {print "selected";} ?>>36 weeks</option>
+                                <option value="35" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "35" ) || $_SESSION['user']['weeks'] == "35") {print "selected";} ?>>35 weeks</option>
+                                <option value="34" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "34" ) || $_SESSION['user']['weeks'] == "34") {print "selected";} ?>>34 weeks</option>
+                                <option value="33" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "33" ) || $_SESSION['user']['weeks'] == "33") {print "selected";} ?>>33 weeks</option>
+                                <option value="32" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "32" ) || $_SESSION['user']['weeks'] == "32") {print "selected";} ?>>32 weeks</option>
+                                <option value="31" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "31" ) || $_SESSION['user']['weeks'] == "31") {print "selected";} ?>>31 weeks</option>
+                                <option value="30" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "30" ) || $_SESSION['user']['weeks'] == "30") {print "selected";} ?>>30 weeks</option>
+                                <option value="29" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "29" ) || $_SESSION['user']['weeks'] == "29") {print "selected";} ?>>29 weeks</option>
+                                <option value="28" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "28" ) || $_SESSION['user']['weeks'] == "28") {print "selected";} ?>>28 weeks</option>
+                                <option value="27" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "27" ) || $_SESSION['user']['weeks'] == "27") {print "selected";} ?>>27 weeks</option>
+                                <option value="26" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "26" ) || $_SESSION['user']['weeks'] == "26") {print "selected";} ?>>26 weeks</option>
+                                <option value="25" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "25" ) || $_SESSION['user']['weeks'] == "25") {print "selected";} ?>>25 weeks</option>
+                                <option value="24" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "24" ) || $_SESSION['user']['weeks'] == "24") {print "selected";} ?>>24 weeks</option>
+                                <option value="23" <?php if((count($_SESSION['user']['weeks']) > 1 && $_SESSION['user']['weeks'][0] == "23" ) || $_SESSION['user']['weeks'] == "23") {print "selected";} ?>>Under 24 weeks</option>
                             </select>
                         </td>
                     </tr>
