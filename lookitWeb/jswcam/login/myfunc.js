@@ -795,27 +795,26 @@ function get_params(fun){
 // Function to display the camera widget on the screen
 function show_cam(caller,div_c){
 
-    if(div_c == 'webcamdiv'){
-        div_c = "widget_holder";
-        $("#"+div_c).wrap("<div id='widget_holder1'></div>");
-        $("#widget_holder1").css({"width":"50%"});
-    }
-    else{
-        $("#"+div_c).wrap("<div id='widget_holder1'></div>");
-	$("#setup_message").append($("#message"));
-	$("#message").css({'display':'block'});
-	$("#message").css({'visibility':'visible'});
-    }
+    $("#"+div_c).wrap("<div id='widget_holder1'></div>");
+    div_c = "widget";
 
     start_cam(div_c);
+
+    $("#setup_message").append($("#message"));                                                                   
+    $("#message").css({'display':'block'});                                                                        
+    $("#message").css({'visibility':'visible'});
+
     $(".bootbox").css({"width":"790px","height":"650px"});
-    $("#widget_holder1").css({"height":"400px","position":"relative"});
-    $('#webcamdiv').height($('#widget_holder1').height());
-    $('#widget_holder1').offset($('#webcamdiv').offset());
     $(".modal-body").css({"max-height":"550px","height":"550px"});
     $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
-    $('.btn-record').attr('disabled', 'disabled');
+    $("#widget_holder").css({"height":"400px","width":"40%","display":"block","visibility":"visible"});
+    $('#cam_setup').height($('#widget_holder').height());
+    $('#widget_holder').offset($('#widget_holder1').offset());
+    $("#widget_holder").css({"position":"relative","z-index":"1051","overflow":"hidden"});
+    $('body').css("overflow","hidden");
+    $("#widget").css("height","400px");
+
 }
 
 /* Widget to be setup once the consent is recorded for further recording throughout the study */
@@ -847,34 +846,34 @@ function start_cam(div_c){
     var params = {};
     params.quality = "high";
     params.bgcolor = "#ffffff";
+    params.wmode = "transparent";
     params.allowscriptaccess = "always";
     params.allowfullscreen = "true";
     var attributes = {};
     attributes.id = "flashplayer";
     attributes.name = "flashplayer";
     attributes.align = "middle";
-    swfobject.embedSWF("./camera/Flashms.swf", div_c, "100%", "100%", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);    
+    swfobject.embedSWF("./camera/Flashms.swf", div_c, "100%", "400px", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);    
     swfobject.createCSS("#"+div_c, "display:block;text-align:center;");
 }
 
 // Function to remove the camera widget from the screen
 function hide_cam(div_c){
-    if(div_c == "consent"){
-	$("#flashplayer").remove();
-    }
     $("body").append($("#message"));
-    $("#widget_holder1").css({'visibility':'hidden'});
+    $("#widget_holder").css({'visibility':'hidden'});
     $("#message").css({'visibility':'hidden'});
-    $("#widget_holder1").css("height","0px");
+    $("#widget_holder").css("height","0px");
     $("#widget").css("height","0px");
+    $("body").css("overflow","auto");
+    swfobject.getObjectById('flashplayer').setup();
 }
 
 //Function to show widget in getting setup page
 function show_getting_setup_widget(caller,div_c){
-    $("#widget_holder1").css({"height":"400px"});
-    $('#webcamdiv').height($('#widget_holder1').height());
-    $('#widget_holder1').offset($('#webcamdiv').offset());
-    $('#widget_holder1').css({'position':'absolute','top':'200px','visibility':'visible'});
+    $("#widget_holder").css({"height":"400px"});
+    $('#webcamdiv').height($('#widget_holder').height());
+    $('#widget_holder').offset($('#webcamdiv').offset());
+    $('#widget_holder').css({'position':'absolute','top':'200px','visibility':'visible','z-index':'1040'});
 
 }
 
@@ -1003,7 +1002,7 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 
 // Timeout to remove the camera widget after 1 sec to allow completion of the conversion call.
     setTimeout(function(){
-	$("#flashplayer").remove();
+	//$("#flashplayer").remove();
 	$("#widget_holder").css("display","none");
     }, 1000);
 
@@ -1090,6 +1089,9 @@ function audioVideoData(audioData,videoData){
         $(".modal-backdrop").remove();
         object_new.loadExperiment(experiment_new, '.content_pane');
         $("#message").after("<span class='error' style='color:red;'>It seems that either your video or audio was missing in the recorded message, please try again.</span>");
+        $('.btn-continue').attr('disabled', false);
+        $('.btn-continue').css("display","inline-block");
+        swfobject.getObjectById('flashplayer').setup();
     }
     else{
         done = 1;
@@ -1110,5 +1112,28 @@ function check_browser_support(){
     }
     else{
         return true;
+    }
+}
+
+// Function to determine the visible height of a div on scrolling up or down inside the modal pop-up.
+function computeVisibleHeight ($t) {
+    $t = $($t);
+    var top = $($t).position().top;
+    var windowHeight = $("modal-body").height();
+    var scrollTop = $("modal-body").scrollTop();
+    var height = $t.height();
+
+    if (top < scrollTop && height - scrollTop >= windowHeight) {
+        // first case: the top and the bottom of the element is outside of the window
+        return windowHeight;
+    } else if (top < scrollTop) {
+        // second: the top is outside of the viewport but the bottom is visible
+        return height - (scrollTop - top);
+    } else if (top > scrollTop && top + height < windowHeight) {
+        // the whole element is visible
+        return height;
+    } else {
+        // the top is visible but the bottom is outside of the viewport
+        return windowHeight - (top - scrollTop);
     }
 }

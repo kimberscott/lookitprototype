@@ -188,7 +188,7 @@ function generateHtml(segmentName){
 				
 				
 			case "positioning":
-				show_cam("position","webcamdiv");
+				show_getting_setup_widget();
 			
 			case "instructions":
 			

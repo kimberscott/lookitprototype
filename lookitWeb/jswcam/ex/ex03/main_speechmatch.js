@@ -142,7 +142,9 @@ function generateHtml(segmentName){
 			break;
 			
 		case "positioning":
-			if (!sandbox) {	show_cam("","webcamdiv");}
+			if (!sandbox) {	
+				show_getting_setup_widget();
+			}
 		
 		case "instructions":
 		case "instructions2":
