@@ -808,15 +808,15 @@ function show_cam(caller,div_c){
     $(".modal-body").css({"max-height":"550px","height":"550px"});
     $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
-    $("#widget_holder").css({"height":"400px","width":"40%","display":"block","visibility":"visible"});
+    $("#widget_holder").css({"height":"400px","width":"39%","display":"block","visibility":"visible"});
     $('#cam_setup').height($('#widget_holder').height());
+    $("#widget_holder1").css({"margin-left":"5px"});
     $('#widget_holder').offset($('#widget_holder1').offset());
     $("#widget_holder").css({"position":"relative","z-index":"1051","overflow":"hidden"});
     $('body').css("overflow","hidden");
     $("#widget").css("height","400px");
-
+    $("#widget_holder").offset($("#widget_holder1").offset());
 }
-
 /* Widget to be setup once the consent is recorded for further recording throughout the study */
 function show_cam_widget(caller,div_c){
     if(div_c == 'webcamdiv'){
@@ -1000,12 +1000,6 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 		}
 	}]);
 
-// Timeout to remove the camera widget after 1 sec to allow completion of the conversion call.
-    setTimeout(function(){
-	//$("#flashplayer").remove();
-	$("#widget_holder").css("display","none");
-    }, 1000);
-
 	}
 	
 function show_debrief_dialog(post_data) {
@@ -1061,7 +1055,7 @@ function send_post_data(post_data){
             }
         });
     }
-
+    $("#widget_holder").css("display","none");
     return true;
 }
 
@@ -1103,8 +1097,7 @@ function audioVideoData(audioData,videoData){
 
 function check_browser_support(){
     var browser = (new WhichBrowser()).browser.name.toString();
-    var os = (new WhichBrowser()).browser.name.toString();
-    console.log(browser +"==>"+ os);
+    var os = (new WhichBrowser()).os.name.toString();
 
     if($.inArray(browser,unsupportedBrowsers) >= 0 && $.inArray(os,unsupportedOS) >= 0){
         var html = "This is not a supported browser. To participate in an experiment please access using any of the following browsers: Chrome, Firefox, or Internet Explorer 11+";
