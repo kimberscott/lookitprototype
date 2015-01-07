@@ -865,6 +865,7 @@ function hide_cam(div_c){
     $("#widget_holder").css("height","0px");
     $("#widget").css("height","0px");
     $("body").css("overflow","auto");
+    swfobject.getObjectById('flashplayer').setup();
 }
 
 //Function to show widget in getting setup page
@@ -1001,7 +1002,7 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 
 // Timeout to remove the camera widget after 1 sec to allow completion of the conversion call.
     setTimeout(function(){
-	$("#flashplayer").remove();
+	//$("#flashplayer").remove();
 	$("#widget_holder").css("display","none");
     }, 1000);
 
@@ -1114,6 +1115,7 @@ function check_browser_support(){
     }
 }
 
+// Function to determine the visible height of a div on scrolling up or down inside the modal pop-up.
 function computeVisibleHeight ($t) {
     $t = $($t);
     var top = $($t).position().top;

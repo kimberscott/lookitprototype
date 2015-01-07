@@ -212,8 +212,11 @@ var page = (function() {
 				$('.btn-record').css('display','inline-block');
 			    $("#widget_holder1").append('<div style="position: absolute; z-index: 10000; width: 750px; margin-top: -400px; height: 400px; "></div>');
 			    $("#widget_holder").offset($("#widget_holder1").offset());
+				
 				// Only allow recording once user has scrolled down!
 				$('.modal-body').scroll(function() {
+					// Check if the scrollbar has hit the bottom of the pop-up and all the elements are ready. This check is performed only once using the ready flag.
+					// The record button is enabled and the ready flag ensures that it is not re-enabled on scrolling.
 	                if (($('.modal-body').scrollTop() + $('.modal-body').height() + 10 > $('#top_bar').height() + $('#widget_holder1').height()) && ready == 0) {
 	                    initial = computeVisibleHeight("#widget_holder1");
 	                    $('.btn-record').attr('disabled', false);
@@ -221,6 +224,8 @@ var page = (function() {
 	                    $("#widget_holder").css('visibility','visible');
 	                    ready = 1;
 	                }
+	                
+	                // Adjust the height of the widget on scrolling the pop-up. This ensures widget is not visible outside the modal pop-up.
 	                if(ready == 1){
 	                    var val = computeVisibleHeight("#widget_holder1");
                         delta = initial - val;
@@ -228,6 +233,8 @@ var page = (function() {
                         $("#widget_holder").height(height);
                         $("#widget_holder").offset($("#widget_holder1").offset());
 	                }
+
+	                // While the pop-up is being scrolled first time, the height of the widget is adjusted according to the scrolled down area.
 	                if(($('.modal-body').scrollTop() >= $("#top_bar").height() - $('.modal-body').height())){
                         if(ready == 0){
 	                        $("#widget_holder").offset($("#widget_holder1").offset());
