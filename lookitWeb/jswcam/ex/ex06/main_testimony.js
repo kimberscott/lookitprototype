@@ -299,7 +299,7 @@ function generateHtml(segmentName){
 					break;	
 					
 				case "positioning":
-					show_cam("","webcamdiv");
+					show_getting_setup_widget();
 				case "instructions":
 				case "instructions2":
 

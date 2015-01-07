@@ -151,7 +151,7 @@ function startExperiment(condition, box) {
 	 else{ // Recording whole study: use show_cam_widget to load the cam/mic widget.
 	    // Once it's loaded, connected_mic_cam() will be called to remove the modal pop-up and begin loading.
 		sleep(4000);
-		show_cam_widget("position","webcamdiv");
+		//show_cam_widget("position","webcamdiv");
 	 }
 }
 
@@ -227,11 +227,7 @@ function generateHtml(segmentName){
 				
 				
 			case "positioning":
-                    if (!record_whole_study) {
-						show_cam("position","webcamdiv");
-					}else{
-		                show_getting_setup_widget();
-					}
+                show_getting_setup_widget();
 			
 			case "instructions":
 			

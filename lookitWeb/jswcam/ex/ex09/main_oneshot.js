@@ -251,7 +251,7 @@ $('#maindiv').removeClass('whitebackground');
 			break;
 			
 		case "positioning":
-			show_cam("position","webcamdiv");	
+			show_getting_setup_widget();
 			
 		case "pretest":
 		case "instructions":

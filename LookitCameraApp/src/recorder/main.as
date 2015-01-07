@@ -109,6 +109,7 @@ public function consent_page():void{
 public function setup_page():void{
 	Constants.is_consent = false;
 	theCam.attachCamera(Constants.selected_cam);
+	FlexGlobals.topLevelApplication.dropdowns.visible = true;
 }
 
 public function nc_Connect():void{
