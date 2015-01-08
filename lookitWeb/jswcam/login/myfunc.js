@@ -865,7 +865,7 @@ function hide_cam(div_c){
     $("#widget_holder").css("height","0px");
     $("#widget").css("height","0px");
     $("body").css("overflow","auto");
-    swfobject.getObjectById('flashplayer').setup();
+    //swfobject.getObjectById('flashplayer').setup();
 }
 
 //Function to show widget in getting setup page
@@ -1055,6 +1055,8 @@ function send_post_data(post_data){
             }
         });
     }
+    $("#flashplayer").remove();
+    $("#widget_holder").append("<div id='widget'></div>");
     $("#widget_holder").css("display","none");
     return true;
 }

@@ -113,6 +113,7 @@ var page = (function() {
 					window.clearTimeout(timeoutID);
 					$('#recording-indicator').css({'background-color': '#666666'});
 					recording = 0;
+					swfobject.getObjectById('flashplayer').setup();
 				}
 				$("#widget_holder").css("display","none");
 				hide_cam();
@@ -136,6 +137,7 @@ var page = (function() {
 					recording = 0;
 					hide_cam("consent");
 					callback(); //start experiment loading
+					swfobject.getObjectById('flashplayer').setup();
 					return true; //allow to close
 				}
 				return false;

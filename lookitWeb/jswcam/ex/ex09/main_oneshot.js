@@ -195,7 +195,7 @@ $('#maindiv').removeClass('whitebackground');
 			$("body").css("background-color","#FFFFFF");
 			$('#fsdiv').detach();
 			$('#fsbutton').detach();
-			$("#flashplayer").remove();
+			//$("#flashplayer").remove();
 			$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 			$(function() {
 				$('#'+segmentName).submit(function(evt) {

@@ -414,7 +414,7 @@ function generateHtml(segmentName){
 		goFullscreen($('#baseline')[0]);
 	} else if (segmentName=='formPoststudy') {
 	    if(!record_whole_study){
-			$("#flashplayer").remove();
+			//$("#flashplayer").remove();
 			$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 	    }
 		leaveFullscreen();
