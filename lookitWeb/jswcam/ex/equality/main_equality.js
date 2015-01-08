@@ -303,7 +303,7 @@ function generateHtml(segmentName){
 		$('#fs').detach();
 		$('#fsbutton').detach();
 		attachToDiv = '#maindiv';
-		$("#flashplayer").remove();
+		//$("#flashplayer").remove();
 		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 		advanceSegment();
 	}
