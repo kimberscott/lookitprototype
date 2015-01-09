@@ -115,6 +115,8 @@ var page = (function() {
 					recording = 0;
 					swfobject.getObjectById('flashplayer').setup();
 				}
+				$("#flashplayer").remove();
+				$("#widget_holder").append("<div id='widget'></div>");
 				$("#widget_holder").css("display","none");
 				hide_cam();
 				return true;
