@@ -808,7 +808,7 @@ function show_cam(caller,div_c){
     $(".modal-body").css({"max-height":"550px","height":"550px"});
     $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
-    $("#widget_holder").css({"height":"400px","width":"39%","display":"block","visibility":"visible"});
+    $("#widget_holder").css({"height":"400px","width":"733px","display":"block","visibility":"visible"});
     $('#cam_setup').height($('#widget_holder').height());
     $("#widget_holder1").css({"margin-left":"5px"});
     $('#widget_holder').offset($('#widget_holder1').offset());
@@ -1079,7 +1079,7 @@ function avarageBrightness(brightness){
 }
 
 function audioVideoData(audioData,videoData){
-    if((audioData < 100 || videoData < 100) && $('body').hasClass('modal-open')){
+    if((audioData < 100 || videoData < 100) && $('body').hasClass('modal-open') && $("div#experiments").length == 1){
         hide_cam('consent');
         $(".bootbox").remove();
         $(".modal-backdrop").remove();
