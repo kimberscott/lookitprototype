@@ -1068,9 +1068,10 @@ function sleep(miliseconds) {
 
 }
 
+var global_fps = 0;
 // Receiving the current frame rate from the flash and displaying the same at the footer of the consent pop-up.
 function currentFPS(fps){
-
+    global_fps = fps;
 }
 
 // Receiving the average brightness of the feed being displayed.
