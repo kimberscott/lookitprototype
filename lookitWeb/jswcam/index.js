@@ -774,6 +774,7 @@ var jswcam = (function() {
 	}
 	is_recording = '0';
     console.log("Recording Stopped");
+    return global_fps;
     };
 
     //arguments: (fn, vidId0, vidId1, ..., vidIdN)
