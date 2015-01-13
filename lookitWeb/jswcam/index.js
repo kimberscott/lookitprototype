@@ -769,12 +769,13 @@ var jswcam = (function() {
 	* {'video': videoID, 'audio': audioID} (including whichever keys are available)
 	* if recording was in progress. */
     Library.prototype.stopRecording = function(caller) {
+    	var fps = 0;
     if(is_recording == '1'){
-		swfobject.getObjectById("flashplayer").stop_record("");
+		fps = swfobject.getObjectById("flashplayer").stop_record("");
 	}
 	is_recording = '0';
     console.log("Recording Stopped");
-    return global_fps;
+    return fps;
     };
 
     //arguments: (fn, vidId0, vidId1, ..., vidIdN)
