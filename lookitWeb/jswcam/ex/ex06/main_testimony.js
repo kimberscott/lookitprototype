@@ -264,7 +264,7 @@ function generateHtml(segmentName){
 					$('#fsdiv').detach();
 					leaveFullscreen();
 					$('#fsbutton').detach();
-					$("#flashplayer").remove();
+					//$("#flashplayer").remove();
 					$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 	
 					break;
@@ -299,7 +299,7 @@ function generateHtml(segmentName){
 					break;	
 					
 				case "positioning":
-					show_cam("","webcamdiv");
+					show_getting_setup_widget();
 				case "instructions":
 				case "instructions2":
 
@@ -565,7 +565,28 @@ function buildVideoElement(videoName, videoID) {
 
 function parentText(segmentName) {
 
-baseTextSummary = "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'What do you think it's called?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers. ";
+baseTextSummary = "<p><b>Parents:</b> \
+<ul> \
+<li> To encourage your child to answer, feel free to hit 'Replay' or ask \
+'What do you think it's called?'  But please don't repeat the two options. \
+<li> If your child gives an answer that wasn't one of the two options, you can say \
+'Actually, it's one of those two names.' and replay the question. \
+<li> Once your child answers, <b> please repeat the answer he/she gave without confirming or \
+correcting it. </b>  (For instance, 'Okay, a blargit!') \
+<li> If your child doesn't want to answer, it's okay!  Just move on. \
+<li> Click 'Next' to proceed. </ul>";
+
+whoWasGoodText = "<p><b>Parents:</b> \
+	<ul> \
+	<li> To encourage your child to answer, feel free to hit 'Replay' or ask \
+'Who do you think was better at it?'  But please don't repeat the two options. \
+<li> If your child gives an answer that wasn't one of the two options, you can say \
+'Which one of these two girls?' or replay the question. \
+<li> Once your child answers, <b> please repeat the answer he/she gave without confirming or \
+correcting it. </b>  (For instance, 'Okay, the girl in the yellow shirt!')  If he/she points, please \
+say where! \
+<li> If your child doesn't want to answer, it's okay!  Just move on. \
+<li> Click 'Next' to proceed. </ul>";
 
 switch(segmentName) {
 		case "summaryFam0":
@@ -586,7 +607,7 @@ switch(segmentName) {
 			return baseTextSummary + "<p> (Novel object 4 of 4)";
 		case "whoWasGoodFam":
 		case "whoWasGoodNov":
-			return "<p><b>Parents:</b> To encourage your child to answer, feel free to hit 'Replay' or ask 'Who do you think was better at it?'  But please do NOT repeat the options. <p>Click 'Next' once your child answers.";	
+			return whoWasGoodText;
 		default:
 			return '';
 	}

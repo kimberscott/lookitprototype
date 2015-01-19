@@ -274,6 +274,12 @@ body {
 #picdiv {
 	width:100%;
 }
+
+.scientists > .blurb{
+	max-width:600px;
+	font-size:small;
+	margin:auto;
+}
 .thumb {
     position: relative;
 	float:left;
@@ -298,19 +304,20 @@ body {
 	border: 10px;
 	border-radius: 10px;
 }
-.thumb > div {
-    background-color: rgba(0,0,0,0.85);
-    opacity: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    color: @color-blurb-background;
-	font-size: medium;
-	font-weight:bold;
-	border: 10px;
-	border-radius: 10px;
+.thumb>div{
+	background-color:rgba(0,0,0,.85);
+	opacity:0;
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	color:#ccc;
+	font-size:small;
+	line-height:110%;
+	font-weight:500;
+	border:10px;
+	border-radius:10px
 }
 
 
@@ -453,4 +460,9 @@ div.activitysummary {
 }
 a:hover{
 	cursor: pointer;
+}
+
+#confirmfreediv p {
+	font-weight: bold;
+	margin-left: 20px;
 }

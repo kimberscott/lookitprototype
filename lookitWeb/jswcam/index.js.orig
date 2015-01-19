@@ -48,10 +48,7 @@ if(!$.isFunction(String.prototype.hashCode)) {
 
  })();
 
-var unsupportedBrowsers = ["Safari"];
-var unsupportedOS = ["Mac OS X", "Mac OS", "iOS", "OS X"];
 var recording_count = '0';
-var done = 0;
 var page = (function() {
 	
     function Library() {
@@ -88,14 +85,7 @@ var page = (function() {
 		// Look up the file '[expt.id].html' under 'fragments' and sub into dialog
 		var html = this.html(expt.id);
 		var recording = 0;
-		
-		var initial = 0; 
- 		var initial_height = 0; 
- 		var ready = 0;
-		
-		if(done == 1){
-	       	done = 0;
-	    }
+		var done = 0;
 		var startTime;
 		var difference;
 		// A short random string to identify THIS SET of videos to the user.
@@ -113,10 +103,7 @@ var page = (function() {
 					window.clearTimeout(timeoutID);
 					$('#recording-indicator').css({'background-color': '#666666'});
 					recording = 0;
-					swfobject.getObjectById('flashplayer').setup();
 				}
-				$("#flashplayer").remove();
-				$("#widget_holder").append("<div id='widget'></div>");
 				$("#widget_holder").css("display","none");
 				hide_cam();
 				return true;
@@ -137,10 +124,8 @@ var page = (function() {
                     consent_recording_completed = 1;
 					done = 0;
 					recording = 0;
-					$("#widget_holder").css({'pointer-events':'all'});
 					hide_cam("consent");
 					callback(); //start experiment loading
-					swfobject.getObjectById('flashplayer').setup();
 					return true; //allow to close
 				}
 				return false;
@@ -156,12 +141,11 @@ var page = (function() {
 					difference = (endTime - startTime)/1000;
 					startTime = null;
 					recording = 0;
-					//done = 1;
+					done = 1;
 					$('.btn-record').attr('disabled', 'disabled');
 					$('.btn-stop').attr('disabled', 'disabled');
 					$('#recording-indicator').css({'background-color': '#666666'});
-					//$('.btn-send').attr('disabled', false);
-					$(".modal-footer").prepend("<span class='waiting'>Please Wait...</span>");
+					$('.btn-send').attr('disabled', false);
 					jswcam.stopRecording();
 					$('.btn-send').html('Send video (' + parseInt(difference) + ' seconds)')
 					return false;
@@ -202,96 +186,34 @@ var page = (function() {
 			'label': 'Continue',
 			'class': 'btn-primary btn-continue',
 			'callback': function() {
-				initial = 0; 
- 				initial_height = 400; 
- 				ready = 0; 
- 				var first_scroll = 0; 
- 				var delta = 0;
 				swfobject.getObjectById('flashplayer').consent();
 				$('#top_bar').html(html);
 				$('#top_bar').append(page.html('consent_verbal'));
 				$('#message').css({'visibility':'hidden'});
-				$('body').append($('#message'));
 				$('.btn-send').css('display','inline-block');
 				$('.btn-stop').css('display','inline-block');
 				$('.btn-record').css('display','inline-block');
-			    $("#widget_holder1").append('<div style="position: absolute; z-index: 10000; width: 750px; margin-top: -400px; height: 400px; "></div>');
-			    $("#widget_holder").offset($("#widget_holder1").offset());
-
-			    // Implementing modal-popup scroll when pointer is on the flash widget.
-			    // Since the widget is outside the modal sframe, the pop-up will not scroll.
-			    // Added "pointer-events:none" property which works on all browsers except IE to transfer the browser scroll propety to the element below the widget i.e. the modal popup
-			    // For IE, The pop-up is scrolled on mousewheel scroll.
-				if((new WhichBrowser()).browser.name.toString() == "Internet Explorer"){
-                    $("#widget_holder").bind('mousewheel', function(e){
-    					if(e.originalEvent.wheelDelta > 0)
-    					{
-        					$(".modal-body").scrollTop($(".modal-body").scrollTop() - 87);
-    					}
-    					else
-    					{
-							$(".modal-body").scrollTop($(".modal-body").scrollTop()+87);
-    					}
-	                });
-                }
-                else{
-                    $("#widget_holder").css({'pointer-events':'none'});
-                    $("#widget_holder1").css("position","relative");
-                }
+			        $("#widget_holder1").append('<div style="position: absolute; z-index: 10000; width: 750px; margin-top: -400px; height: 400px; "></div>');
 				// Only allow recording once user has scrolled down!
 				$('.modal-body').scroll(function() {
-					// Check if the scrollbar has hit the bottom of the pop-up and all the elements are ready. This check is performed only once using the ready flag.
-					// The record button is enabled and the ready flag ensures that it is not re-enabled on scrolling.
-	                if (($('.modal-body').scrollTop() + $('.modal-body').height() + 10 > $('#top_bar').height() + $('#widget_holder1').height()) && ready == 0) {
-	                    initial = computeVisibleHeight("#widget_holder1");
-	                    $('.btn-record').attr('disabled', false);
-	                    $("#widget_holder").offset($("#widget_holder1").offset());
-	                    $("#widget_holder").css('visibility','visible');
-	                    ready = 1;
-	                }
-	                
-	                // Adjust the height of the widget on scrolling the pop-up. This ensures widget is not visible outside the modal pop-up.
-	                if(ready == 1){
-	                    var val = computeVisibleHeight("#widget_holder1");
-                        delta = initial - val;
-                        height = initial_height - delta;
-                        $("#widget_holder").height(height);
-                        $("#widget_holder").offset($("#widget_holder1").offset());
-	                }
-
-	                // While the pop-up is being scrolled first time, the height of the widget is adjusted according to the scrolled down area.
-	                if(($('.modal-body').scrollTop() >= $("#top_bar").height() - $('.modal-body').height())){
-                        if(ready == 0){
-	                        $("#widget_holder").offset($("#widget_holder1").offset());
-	                        $("#widget_holder").css('visibility','visible');
-	                        if(delta == 0 ){
-	                        	first_scroll = computeVisibleHeight("#widget_holder1");
-	                        }
-	                        var val = computeVisibleHeight("#widget_holder1") + 1;
-	                        delta = val - first_scroll;
-	                        $("#widget_holder").height(delta);
-                        }
-	                }
-	                else{
-	                    $("#widget_holder").height(0);
-	                }
-        		});
-        		$('.btn-continue').css('display','none');
-        		$('.error').remove();
-
+					if ($('.modal-body').scrollTop() + $('.modal-body').height() > $('#top_bar').height() + $('#widget_holder1').height()) {
+						$('.btn-record').attr('disabled', false);
+					}
+				});
+				$('.btn-continue').css('display','none');
 				return false;
 			}
 		}
 		]);
 		
 		$('.btn-continue').css("display","none");
-		$("#widget_holder").css({'pointer-events':'all'});
 		$('.btn-send').attr('disabled', 'disabled');
 		$('.btn-stop').attr('disabled', 'disabled');
 		$('.btn-send').css("display","none");
 		$('.btn-stop').css("display","none");
 		$('.btn-record').css("display","none");
 		$('.btn-record').attr('disabled', 'disabled');
+		
 	    consent_recording_completed = 0;
 		show_cam("consent","cam_setup");
 
@@ -492,10 +414,9 @@ var page = (function() {
 	    var callback = function() {
 			//main must be defined in one of
 			//the included experiment scripts
-			//var browser = new WhichBrowser();
-			//packaging.browserObj = browser;
-			//packaging.browserStr = browser.toString();
-			packaging.browserStr = (new WhichBrowser()).toString();
+			browser = new WhichBrowser();
+			packaging.browserObj = browser;
+			packaging.browserStr = browser.toString();
 			main(divSel, packaging);		 
 	    };
 	    this._replaceExperiment(callback, scripts, css);
@@ -562,9 +483,8 @@ var page = (function() {
 				}
 				else
 				{
-					if(check_browser_support()){
-						select_child(info,this);
-					}
+
+					select_child(info,this);
 				}
 			}.createDelegate(this));
 			
@@ -791,13 +711,11 @@ var jswcam = (function() {
 	* {'video': videoID, 'audio': audioID} (including whichever keys are available)
 	* if recording was in progress. */
     Library.prototype.stopRecording = function(caller) {
-    	var fps = 0;
     if(is_recording == '1'){
-		fps = swfobject.getObjectById("flashplayer").stop_record("");
+		swfobject.getObjectById("flashplayer").stop_record("");
 	}
 	is_recording = '0';
     console.log("Recording Stopped");
-    return fps;
     };
 
     //arguments: (fn, vidId0, vidId1, ..., vidIdN)
@@ -1013,6 +931,7 @@ function advanceSegment(){
 	subsetData['recordingSet'] = experiment['recordingSet'];
 	subsetData['currentSegment'] = currentElement;
 	subsetData['browserStr'] = experiment['browserStr'];
+	subsetData['browserObj'] = experiment['browserObj'];
 	
 	$.ajax({
                 'type': 'POST',
@@ -1233,5 +1152,9 @@ function addFsButton(mainDivSelector, elementSelector) {
     e|=(e&16&&({}.toString).toString().indexOf("\n")===-1)?32:0;p.push('e='+e);f|='sandbox' in d.createElement('iframe')?1:0;f|='WebSocket' in w?2:0;
     f|=w.Worker?4:0;f|=w.applicationCache?8:0;f|=w.history && history.pushState?16:0;f|=d.documentElement.webkitRequestFullScreen?32:0;f|='FileReader' in w?64:0;
     p.push('f='+f);p.push('r='+Math.random().toString(36).substring(7));p.push('w='+screen.width);p.push('h='+screen.height);var s=d.createElement('script');
-    s.src='whichbrowser/detect.js?' + p.join('&');d.getElementsByTagName('head')[0].appendChild(s);})();
+<<<<<<< HEAD
+    s.src='/whichbrowser/detect.php' + p.join('&');d.getElementsByTagName('head')[0].appendChild(s);})();
+=======
+    s.src='/whichbrowser/detect.js?' + p.join('&');d.getElementsByTagName('head')[0].appendChild(s);})();
+>>>>>>> def7e1aab9f01450b7e663f917e274b9037e12fe
 	

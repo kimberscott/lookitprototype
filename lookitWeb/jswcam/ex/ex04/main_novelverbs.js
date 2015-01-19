@@ -246,7 +246,7 @@ function generateHtml(segmentName){
 				break;		
 			
 		case "positioning":
-			show_cam("","webcamdiv"); // fall through
+			show_getting_setup_widget(); // fall through
 		case "instructions":
 		case "instructions2":
 
@@ -266,7 +266,7 @@ function generateHtml(segmentName){
 	// Enter/exit fullscreen outside of callback function to deal with browser constraints on
 	// doing fullscreen actions without a direct link to something the user did
 	if (segmentName=='formPoststudy') {
-		$("#flashplayer").remove();
+		//$("#flashplayer").remove();
 		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 		leaveFullscreen();
 	}

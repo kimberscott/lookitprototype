@@ -48,6 +48,9 @@ public const icon2:Class;
 [Bindable]
 public var mic:XML = Constants.mic;
 
+private var Framerate: Number = 0;
+private var countFramerate:Number = 0;
+
 //This flag is used for reconnection using RTMP when RTMPS fails 
 public var reconnect_tried:Boolean = false;
 private function geticon(item:Object):Class
@@ -109,6 +112,7 @@ public function consent_page():void{
 public function setup_page():void{
 	Constants.is_consent = false;
 	theCam.attachCamera(Constants.selected_cam);
+	FlexGlobals.topLevelApplication.dropdowns.visible = true;
 }
 
 public function nc_Connect():void{
@@ -151,11 +155,19 @@ public function callsnapshot():void{
 	Constants.snapshot.takePicture();
 }
 */
-public function callstop(caller:String):void{
+public function callstop(caller:String):int{
 	if(caller != ""){
 		theCam.attachCamera(null);
 	}
 	setState(States.STOPPING);
+	var frameRate:Number = 0;
+	if(countFramerate == 0){
+		frameRate = 0;
+	}
+	else{
+		frameRate = Framerate/countFramerate; 
+	}
+	return frameRate;
 }
 
 public function onNetStatusFailure(event:NetStatusEvent):void{
@@ -271,8 +283,7 @@ public function reconnect():void{
 //*****************************************************************************************************************************************************
 //Starting the Recording
 //*****************************************************************************************************************************************************
-private var Framerate: Number = 0;
-private var countFramerate:Number = 0;
+
 public function publishCamera():void { 
 	if(flag){
 		stop();
@@ -307,14 +318,7 @@ private function calculateFramerate( event : TimerEvent ):void{
 //*****************************************************************************************************************************************************
 
 public function stop():void {
-	var frameRate:Number = 0;
-	if(countFramerate == 0){
-		frameRate = 0;
-	}
-	else{
-		frameRate = Framerate/countFramerate; 
-	}
-	ExternalInterface.call("currentFPS",frameRate);
+	removeEventListener(TimerEvent.TIMER, calculateFramerate);
 	ns.close();
 	flag = false;
 	var flashPHP:FlashPHP = new FlashPHP(Constants.conversionserver, urlObject);

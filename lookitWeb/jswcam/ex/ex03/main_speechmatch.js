@@ -142,7 +142,9 @@ function generateHtml(segmentName){
 			break;
 			
 		case "positioning":
-			if (!sandbox) {	show_cam("","webcamdiv");}
+			if (!sandbox) {	
+				show_getting_setup_widget();
+			}
 		
 		case "instructions":
 		case "instructions2":
@@ -304,7 +306,7 @@ function generateHtml(segmentName){
 	} 
 	else if (segmentName=='formPoststudy') {
 		$('#vidElement').detach();
-		$("#flashplayer").remove();
+		//$("#flashplayer").remove();
 		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 		leaveFullscreen();
 	}

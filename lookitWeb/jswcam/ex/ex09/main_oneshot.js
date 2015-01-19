@@ -21,7 +21,6 @@ var record_whole_study = false; // records entire study, but retains segmentatio
 
 var conditionSet = false;
 
-
 // The function 'main' must be defined and is called when the consent form is submitted 
 // (or from sandbox.html)
 function main(mainDivSel, expt) {
@@ -38,7 +37,7 @@ function main(mainDivSel, expt) {
 	experiment.tic = new Date();
 	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
 	experiment.recordingSet = RECORDINGSET;
-
+	
 	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
 	addEvent(  {'type': 'startLoading'});
@@ -196,7 +195,7 @@ $('#maindiv').removeClass('whitebackground');
 			$("body").css("background-color","#FFFFFF");
 			$('#fsdiv').detach();
 			$('#fsbutton').detach();
-			$("#flashplayer").remove();
+			//$("#flashplayer").remove();
 			$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 			$(function() {
 				$('#'+segmentName).submit(function(evt) {
@@ -252,7 +251,7 @@ $('#maindiv').removeClass('whitebackground');
 			break;
 			
 		case "positioning":
-			show_cam("position","webcamdiv");	
+			show_getting_setup_widget();
 			
 		case "pretest":
 		case "instructions":
