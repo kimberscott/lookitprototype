@@ -264,7 +264,7 @@ function generateHtml(segmentName){
 					$('#fsdiv').detach();
 					leaveFullscreen();
 					$('#fsbutton').detach();
-					$("#flashplayer").remove();
+					//$("#flashplayer").remove();
 					$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 	
 					break;
@@ -299,7 +299,7 @@ function generateHtml(segmentName){
 					break;	
 					
 				case "positioning":
-					show_cam("","webcamdiv");
+					show_getting_setup_widget();
 				case "instructions":
 				case "instructions2":
 
