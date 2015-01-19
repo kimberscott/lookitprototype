@@ -137,6 +137,7 @@ var page = (function() {
                     consent_recording_completed = 1;
 					done = 0;
 					recording = 0;
+					$("#widget_holder").css({'pointer-events':'all'});
 					hide_cam("consent");
 					callback(); //start experiment loading
 					swfobject.getObjectById('flashplayer').setup();
@@ -216,6 +217,11 @@ var page = (function() {
 				$('.btn-record').css('display','inline-block');
 			    $("#widget_holder1").append('<div style="position: absolute; z-index: 10000; width: 750px; margin-top: -400px; height: 400px; "></div>');
 			    $("#widget_holder").offset($("#widget_holder1").offset());
+
+			    // Implementing modal-popup scroll when pointer is on the flash widget.
+			    // Since the widget is outside the modal sframe, the pop-up will not scroll.
+			    // Added "pointer-events:none" property which works on all browsers except IE to transfer the browser scroll propety to the element below the widget i.e. the modal popup
+			    // For IE, The pop-up is scrolled on mousewheel scroll.
 				if((new WhichBrowser()).browser.name.toString() == "Internet Explorer"){
                     $("#widget_holder").bind('mousewheel', function(e){
     					if(e.originalEvent.wheelDelta > 0)
@@ -279,6 +285,7 @@ var page = (function() {
 		]);
 		
 		$('.btn-continue').css("display","none");
+		$("#widget_holder").css({'pointer-events':'all'});
 		$('.btn-send').attr('disabled', 'disabled');
 		$('.btn-stop').attr('disabled', 'disabled');
 		$('.btn-send').css("display","none");
