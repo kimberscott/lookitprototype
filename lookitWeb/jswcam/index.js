@@ -276,8 +276,8 @@ var page = (function() {
 	                    $("#widget_holder").height(0);
 	                }
         		});
-        $('.btn-continue').css('display','none');
-        $('.error').remove();
+        		$('.btn-continue').css('display','none');
+        		$('.error').remove();
 
 				return false;
 			}
