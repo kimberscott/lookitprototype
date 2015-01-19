@@ -1082,6 +1082,7 @@ function audioVideoData(audioData,videoData){
         $("#message").after("<span class='error' style='color:red;'>It seems that either your video or audio was missing in the recorded message, please try again.</span>");
         $('.btn-continue').attr('disabled', false);
         $('.btn-continue').css("display","inline-block");
+        $("#widget_holder").css({'pointer-events':'all'});
         swfobject.getObjectById('flashplayer').setup();
     }
     else{
