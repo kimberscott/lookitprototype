@@ -216,7 +216,22 @@ var page = (function() {
 				$('.btn-record').css('display','inline-block');
 			    $("#widget_holder1").append('<div style="position: absolute; z-index: 10000; width: 750px; margin-top: -400px; height: 400px; "></div>');
 			    $("#widget_holder").offset($("#widget_holder1").offset());
-				
+				if((new WhichBrowser()).browser.name.toString() == "Internet Explorer"){
+                    $("#widget_holder").bind('mousewheel', function(e){
+    					if(e.originalEvent.wheelDelta > 0)
+    					{
+        					$(".modal-body").scrollTop($(".modal-body").scrollTop() - 87);
+    					}
+    					else
+    					{
+							$(".modal-body").scrollTop($(".modal-body").scrollTop()+87);
+    					}
+	                });
+                }
+                else{
+                    $("#widget_holder").css({'pointer-events':'none'});
+                    $("#widget_holder1").css("position","relative");
+                }
 				// Only allow recording once user has scrolled down!
 				$('.modal-body').scroll(function() {
 					// Check if the scrollbar has hit the bottom of the pop-up and all the elements are ready. This check is performed only once using the ready flag.
