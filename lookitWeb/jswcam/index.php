@@ -15,7 +15,7 @@ if(!isset($_SESSION['user']['id'])){
 <html>
   <head>
 	<META http-equiv="Content-Type" content="text/html;  charset=ISO-8859-1">
-    <title> CLEAN UP CODE Lookit: Online experiments from the Early Childhood Cognition Lab </title>
+    <title>Lookit: Online experiments from the Early Childhood Cognition Lab </title>
 	
     <link rel="shortcut icon" type="image/x-icon" href="img/remy4.ico">
 	

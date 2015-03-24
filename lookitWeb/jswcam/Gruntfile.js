@@ -21,6 +21,9 @@ module.exports = function(grunt) {
 			files: ["login/myfunc.js",
 					"login/validate.js",
 					"login/json.js",
+					"fullscreen.js",
+					"experiment_functions.js",
+					"camera/swfobject.js",
 					'fragments/styles.less'],
 			tasks: ['less', 'concat', 'cssmin', 'uglify']
 		},
@@ -37,6 +40,8 @@ module.exports = function(grunt) {
 					"login/myfunc.js",
 					"login/validate.js",
 					"login/json.js", 
+					"fullscreen.js",
+					"experiment_functions.js",
 					"index.js"],
 				dest : 'combined.js'
 			}
