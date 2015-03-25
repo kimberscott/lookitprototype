@@ -22,6 +22,7 @@ module.exports = function(grunt) {
 					"login/validate.js",
 					"login/json.js",
 					"fullscreen.js",
+					"screenfull.js",
 					"page.js",
 					"experiment_functions.js",
 					"camera/swfobject.js",
@@ -43,6 +44,7 @@ module.exports = function(grunt) {
 					"login/json.js", 
 					"page.js",
 					"fullscreen.js",
+					"screenfull.js",
 					"experiment_functions.js",
 					"index.js"],
 				dest : 'combined.js'

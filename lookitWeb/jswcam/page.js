@@ -5,26 +5,16 @@ var page = (function() {
     }
 
     default_config = {
-	'jq_selector': '#jswcam',
+		'jq_selector': '#jswcam',
 
-	'app_width' : 200,
-	'app_height': 200,
-
-	'basepath'  : '/webcam/',
-	'codebase'  : 'java/', //or '/full/path/to/java/'
-	'archive'   : 'webcam-0.1.jar',
+		'app_width' : 200,
+		'app_height': 200,
 	
-	'libpath'   : 'lib/',
-	'uploadpath': 'upload.php',
+		'libpath'   : 'lib/',
+		'uploadpath': 'upload.php',
 	
-	'rec_width' : 320,
-	'rec_height': 240,
-
-	'dll_archive_64'  : 'windows-x86_64.jar',
-	'dll_archive_32'  : 'windows-x86_64.jar',
-	'so_archive_64'   : 'linux-x86_64.jar',
-	'so_archive_32'   : 'linux-x86_64.jar',
-	'dylib_archive_64': 'osx-x86_64.jar'
+		'rec_width' : 320,
+		'rec_height': 240,
     };
 
     Library.prototype.init = function(config) {
@@ -682,7 +672,6 @@ var page = (function() {
 		    bootbox.hideAll();
 		    this.getUploadingDialog(false);
 		    this.show('home');
-		    //jswcam.toggleWebCamView(true);
 		}
 	    }.createDelegate(this), 1000);
 	}
