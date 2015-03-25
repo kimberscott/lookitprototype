@@ -1,10 +1,9 @@
-// Fullscreen functions
+// Simple wrapper functions for screenfull.js (in case of wanting different functionality, 
+// while allowing us to update screenfull as needed).
 
 function goFullscreen(element){
 
 	addEvent(  {'type': 'goFullscreen'});
-	$('#fsbutton').hide();
-	
 	if (screenfull.enabled) {
 		screenfull.request(element);
 	} else {
@@ -15,8 +14,10 @@ function goFullscreen(element){
 		element.style.height = screen.availHeight + 'px';
 		// Just for IE: to avoid horizontal scroll bar
 		element.style.width  = screen.availWidth-20  + 'px';
+		// Don't continue to show the fs button in this case, since we won't be able to FS
+		// just a different div.
+		$('#fsbutton').hide();
 	}	
-	
 }
 
 function leaveFullscreen(){
@@ -25,7 +26,6 @@ function leaveFullscreen(){
 		screenfull.exit();
 	}
 }
-
 
 function addFsButton(mainDivSelector, elementSelector) {
 	// Make a 'return to full screen' button (will only be visible if the user leaves fs)
