@@ -39,19 +39,20 @@ $.fn.serializeObject = function()
 // Convention: events have at least a 'type' attribute, e.g.
 // we could addEvent({'type': 'goFullscreen'})
 function addEvent(event) {
-	// Add time relative to global time defined initially
-	event.time = (new Date()) - experiment.tic;
-	// Which part of the experiment we're in (which html is displayed)
-	if(!htmlSequence || currentElement < 0) {
-		event.segment = 'initExperiment';
-	} else if(currentElement >= htmlSequence.length){
-		event.segment = 'endOfExperiment';
-	} else{
-		event.segment = htmlSequence[currentElement][0];
+	if (experiment) {
+		// Add time relative to global time defined initially
+		event.time = (new Date()) - experiment.tic;
+		// Which part of the experiment we're in (which html is displayed)
+		if(!htmlSequence || currentElement < 0) {
+			event.segment = 'initExperiment';
+		} else if(currentElement >= htmlSequence.length){
+			event.segment = 'endOfExperiment';
+		} else{
+			event.segment = htmlSequence[currentElement][0];
+		}
+		experiment.eventArray.push(event);
 	}
-	experiment.eventArray.push(event);
 	console.log('Event logged: ' + event.type);
-	console.log(event);
 }
 
 function advanceSegment(){
