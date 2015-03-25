@@ -39,7 +39,7 @@ $.fn.serializeObject = function()
 // Convention: events have at least a 'type' attribute, e.g.
 // we could addEvent({'type': 'goFullscreen'})
 function addEvent(event) {
-	if (experiment) {
+	if (typeof experiment != 'undefined') {
 		// Add time relative to global time defined initially
 		event.time = (new Date()) - experiment.tic;
 		// Which part of the experiment we're in (which html is displayed)
