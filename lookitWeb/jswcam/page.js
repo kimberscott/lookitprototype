@@ -96,7 +96,6 @@ var page = (function() {
 					$('.btn-record').attr('disabled', 'disabled');
 					$('.btn-stop').attr('disabled', 'disabled');
 					$('#recording-indicator').css({'background-color': '#666666'});
-					//$('.btn-send').attr('disabled', false);
 					$(".modal-footer").prepend("<span class='waiting'>Please Wait...</span>");
 					jswcam.stopRecording();
 					$('.btn-send').html('Send video (' + parseInt(difference) + ' seconds)')
@@ -156,8 +155,10 @@ var page = (function() {
 
 			    // Implementing modal-popup scroll when pointer is on the flash widget.
 			    // Since the widget is outside the modal sframe, the pop-up will not scroll.
-			    // Added "pointer-events:none" property which works on all browsers except IE to transfer the browser scroll propety to the element below the widget i.e. the modal popup
+			    // Added "pointer-events:none" property which works on all browsers except 
+			    // IE to transfer the browser scroll propety to the element below the widget i.e. the modal popup
 			    // For IE, The pop-up is scrolled on mousewheel scroll.
+			    // TODO: check for feature here rather than browser!
 				if((new WhichBrowser()).browser.name.toString() == "Internet Explorer"){
                     $("#widget_holder").bind('mousewheel', function(e){
     					if(e.originalEvent.wheelDelta > 0)
@@ -176,9 +177,11 @@ var page = (function() {
                 }
 				// Only allow recording once user has scrolled down!
 				$('.modal-body').scroll(function() {
-					// Check if the scrollbar has hit the bottom of the pop-up and all the elements are ready. This check is performed only once using the ready flag.
-					// The record button is enabled and the ready flag ensures that it is not re-enabled on scrolling.
-	                if (($('.modal-body').scrollTop() + $('.modal-body').height() + 10 > $('#top_bar').height() + $('#widget_holder1').height()) && ready == 0) {
+					// Check if the scrollbar has hit the bottom of the pop-up and all the 
+					// elements are ready. This check is performed only once using the ready flag.
+					// The record button is enabled and the ready flag ensures that it 
+					// is not re-enabled on scrolling.
+	                if (($('.modal-body').scrollTop() + $('.modal-body').height() + 100 > $('#top_bar').height() + $('#widget_holder1').height()) && ready == 0) {
 	                    initial = computeVisibleHeight("#widget_holder1");
 	                    $('.btn-record').attr('disabled', false);
 	                    $("#widget_holder").offset($("#widget_holder1").offset());
@@ -186,7 +189,8 @@ var page = (function() {
 	                    ready = 1;
 	                }
 	                
-	                // Adjust the height of the widget on scrolling the pop-up. This ensures widget is not visible outside the modal pop-up.
+	                // Adjust the height of the widget on scrolling the pop-up. 
+	                // This ensures widget is not visible outside the modal pop-up.
 	                if(ready == 1){
 	                    var val = computeVisibleHeight("#widget_holder1");
                         delta = initial - val;
@@ -195,7 +199,8 @@ var page = (function() {
                         $("#widget_holder").offset($("#widget_holder1").offset());
 	                }
 
-	                // While the pop-up is being scrolled first time, the height of the widget is adjusted according to the scrolled down area.
+	                // While the pop-up is being scrolled first time, the height of the 
+	                // widget is adjusted according to the scrolled down area.
 	                if(($('.modal-body').scrollTop() >= $("#top_bar").height() - $('.modal-body').height())){
                         if(ready == 0){
 	                        $("#widget_holder").offset($("#widget_holder1").offset());

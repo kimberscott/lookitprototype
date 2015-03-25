@@ -50,7 +50,7 @@
 				'mozfullscreenchange',
 				'mozfullscreenerror'
 			],
-			[
+			[ // IE 11
 				'msRequestFullscreen',
 				'msExitFullscreen',
 				'msFullscreenElement',

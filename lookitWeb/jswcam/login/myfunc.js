@@ -1075,6 +1075,8 @@ function avarageBrightness(brightness){
 
 function audioVideoData(audioData,videoData){
     if((audioData < 100 || videoData < 100) && $('body').hasClass('modal-open') && $("div#experiments").length == 1){
+        alert(audioData);
+        alert(videoData);
         hide_cam('consent');
         $(".bootbox").remove();
         $(".modal-backdrop").remove();
