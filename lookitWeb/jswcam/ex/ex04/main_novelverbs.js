@@ -290,10 +290,11 @@ function generateHtml(segmentName){
 			
 			function loadedHandler(){				
 				// Moved here from below removing event listeners--doesn't work there.(???)
+				video.play();
 				audio.play();
 				
 				video.addEventListener('playing', setCurrentTime);
-				video.play();
+				
 				
 				video.removeEventListener('canplaythrough', loadedHandler, false);
 				video.removeEventListener('emptied', loadedHandler, false);
