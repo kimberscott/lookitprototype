@@ -6,7 +6,13 @@ function goFullscreen(element){
 	addEvent(  {'type': 'goFullscreen'});
 	if (screenfull.enabled) {
 		screenfull.request(element);
-		document.addEventListener(screenfull.raw.fullscreenchange, dealWithChange, false);
+		$(document).on(screenfull.raw.fullscreenchange, function () {
+			if (screenfull.isFullscreen) {
+    			addEvent({'type': 'endFullscreen'});
+    		} else {
+    			addEvent({'type': 'goFullscreen'});
+    		}
+		});
 	} else {
 		// for IE or other non-supported ...
 		// Unfortunately this does make it hard to tell when we leave fs--need to remove whole element.
@@ -15,16 +21,8 @@ function goFullscreen(element){
 		element.style.height = screen.availHeight + 'px';
 		// Just for IE: to avoid horizontal scroll bar
 		element.style.width  = screen.availWidth-20  + 'px';
+		$('#fsbutton').hide();
 	}	
-	$('#fsbutton').hide();
-}
-
-function dealWithChange() {
-	if (!screenfull.isFullscreen) {
-		addEvent({'type': 'endFullscreen'});
-		$('#fsbutton').show();
-	}
-	document.removeEventListener(screenfull.raw.fullscreenchange, dealWithChange, false);
 }
 
 function leaveFullscreen(){
@@ -32,6 +30,7 @@ function leaveFullscreen(){
 	if (screenfull.enabled) {
 		screenfull.exit();
 	}
+	$('#fsbutton').hide();
 }
 
 function addFsButton(mainDivSelector, elementSelector) {
@@ -49,5 +48,5 @@ function addFsButton(mainDivSelector, elementSelector) {
 	});
 
 	$(mainDivSelector).append(button);
-	$('#fsbutton').hide();
+	$('#fsbutton').show();
 }
