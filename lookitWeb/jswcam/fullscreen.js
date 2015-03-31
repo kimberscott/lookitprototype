@@ -14,16 +14,15 @@ function goFullscreen(element){
 		element.style.height = screen.availHeight + 'px';
 		// Just for IE: to avoid horizontal scroll bar
 		element.style.width  = screen.availWidth-20  + 'px';
-		// Don't continue to show the fs button in this case, since we won't be able to FS
-		// just a different div.
-		$('#fsbutton').hide();
 	}	
+	$('#fsbutton').hide();
 }
 
 function leaveFullscreen(){
 	addEvent(  {'type': 'endFullscreen'});
 	if (screenfull.enabled) {
 		screenfull.exit();
+		$('#fsbutton').show();
 	}
 }
 

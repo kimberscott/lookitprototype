@@ -13,7 +13,6 @@ var isRecording=false;
 var conditionSet = false;
 var videotype = 'none';
 var vidElement;
-experiment.record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 // The function 'main' must be defined and is called when the consent form is submitted
 function main(mainDivSelector, expt) {
