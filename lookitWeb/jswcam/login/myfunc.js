@@ -944,7 +944,7 @@ function connected_mic_cam(){
 	$('.btn-continue').css("display","inline-block");
     }
     else{
-	if(record_whole_study != undefined && record_whole_study){
+	if(experiment.record_whole_study != undefined && experiment.record_whole_study){
 	    $('.modal').remove();
 	    $('body').removeClass('modal-open');
 	    $('.modal-backdrop').remove();

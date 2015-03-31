@@ -4,40 +4,23 @@
  */
 
 // Global variables (available in all functions)
-var currentElement = -1; // State variable: which html element we're on	
-var htmlSequence;
-var vidSequence;
 var experiment;
 var DELAY;
 var tested = false; // whether the audio has been tested
 var trialCounter = 1;
-
 // Use a shorter version of the study just for testing?
 var shortTest = false;
-
-// If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
-var sandbox = false;
-var record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
-
 var conditionSet = false;
 
 // The function 'main' must be defined and is called when the consent form is submitted 
-// (or from sandbox.html)
-function main(mainDivSel, expt) {
+function main(mainDivSelector, expt) {
 	
 	promptBeforeClose();
 	setDBID();
 	
-	mainDivSelector = mainDivSel;
 	experiment = expt;	
-	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
-	experiment.endedEarly = false;
-	experiment.minAgeDays = 11*30; // 11 months
-	experiment.maxAgeDays = 365+31; //  13 months
-	experiment.tic = new Date();
-	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
-	experiment.recordingSet = RECORDINGSET;
-	
+	initializeExperiment();
+
 	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
 	addEvent(  {'type': 'startLoading'});
@@ -47,7 +30,7 @@ function main(mainDivSel, expt) {
 		"Please wait while the experiment loads.", 
 		[]); 
 		
-	if(sandbox) {
+	if(LOOKIT.sandbox) {
 		// Just use a specific arbitrary condition number (0 through 7)
 		condition = prompt('Please enter a condition (0 through 7)', '0');
 		startExperiment(condition, box);
@@ -71,7 +54,7 @@ function startExperiment(condition, box) {
 	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
 	experiment.mturkID = getQueryVariable('workerId');
 
-	if (record_whole_study) { 
+	if (experiment.record_whole_study) { 
 		jswcam.startRecording();
 		addEvent(  {'type': 'startRecording'});
 	}	
@@ -139,7 +122,7 @@ function startExperiment(condition, box) {
 	conditionSet = true;
 	
 	// Sequence of sections of the experiment, corresponding to html sections.
-	htmlSequence = [['instructions'],
+	experiment.htmlSequence = [['instructions'],
 					['positioning'],
 					['positioning2'],
 					['famMovies', vidElement],
@@ -200,7 +183,7 @@ $('#maindiv').removeClass('whitebackground');
 			$(function() {
 				$('#'+segmentName).submit(function(evt) {
 					evt.preventDefault();
-					if (record_whole_study) {
+					if (experiment.record_whole_study) {
 						jswcam.stopRecording();
 					}
 					var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
@@ -278,30 +261,28 @@ $('#maindiv').removeClass('whitebackground');
 			addFsButton('#maindiv', '#fsdiv');
 			goFullscreen($('#fsdiv')[0]);
 			$("body").css("background-color","#000000");		
-			$('#fsdiv').append(htmlSequence[currentElement][1]);
+			$('#fsdiv').append(experiment.htmlSequence[experiment.currentElement][1]);
 			function endHandler(event){
 				addEvent(  {'type': 'endMovie',
-							'src': vidSequence[lastVid]});
+							'src': experiment.vidSequence[lastVid]});
 					
 				if (!video.paused) {video.pause();}
 				
-				if (vidSequence[lastVid][2] != 'click') {
+				if (experiment.vidSequence[lastVid][2] != 'click') {
 					addEvent(  {'type': 'startDelay'});
 					setTimeout(function(){
 									addEvent(  {'type': 'endDelay'});
-									if (!sandbox) {
-										jswcam.stopRecording();
-										addEvent(  {'type': 'endRecording'});
-									}
-									if (record_whole_study) {
+									jswcam.stopRecording();
+									addEvent(  {'type': 'endRecording'});
+									if (experiment.record_whole_study) {
 										jswcam.startRecording();
 									}
-									if (lastVid == (vidSequence.length - 1)){
+									if (lastVid == (experiment.vidSequence.length - 1)){
 										advanceSegment(); // done playing all videos, move on
 									} else {
 										advanceVideoSource(); // load and play next video
 									}
-								}, 1000*vidSequence[lastVid][2]);
+								}, 1000*experiment.vidSequence[lastVid][2]);
 				}
 
 				return false;
@@ -318,12 +299,12 @@ $('#maindiv').removeClass('whitebackground');
 					addEvent(  {'type': 'click',
 								'fn': 'advancevideo'});
 					document.removeEventListener("keydown", keypressHandler, false);
-					if (vidSequence[lastVid][2]=='loop') {
+					if (experiment.vidSequence[lastVid][2]=='loop') {
 						addEvent(  {'type': 'endMovie',
-							'src': vidSequence[lastVid]});
+							'src': experiment.vidSequence[lastVid]});
 						if (!video.paused) {video.pause();}
 					}
-					if (lastVid == (vidSequence.length - 1)){
+					if (lastVid == (experiment.vidSequence.length - 1)){
 						advanceSegment(); // done playing all videos, move on
 					} else {
 						advanceVideoSource(); // load and play next video
@@ -336,8 +317,8 @@ $('#maindiv').removeClass('whitebackground');
 				video.removeEventListener('emptied', loadedHandler, false);
 				video.removeEventListener('canplaythrough', loadedHandler, false);
 
-				if (!sandbox && vidSequence[lastVid][2]==DELAY) { // only for the test looking-time portions
-					if (record_whole_study) {
+				if (experiment.vidSequence[lastVid][2]==DELAY) { // only for the test looking-time portions
+					if (experiment.record_whole_study) {
 						jswcam.stopRecording();
 						addEvent( {'type': 'endRecording'});
 					}
@@ -347,13 +328,13 @@ $('#maindiv').removeClass('whitebackground');
 				
 				video.play();
 				
-				if (vidSequence[lastVid][2] == 'loop') {
+				if (experiment.vidSequence[lastVid][2] == 'loop') {
 					$('video').attr('loop', 'loop');
 					video.style.cursor = 'auto'; // show the cursor again
 					document.addEventListener("keydown", keypressHandler, false);
 					console.log('looping');
 					}
-				else if (vidSequence[lastVid][2] == 'click') {
+				else if (experiment.vidSequence[lastVid][2] == 'click') {
 					video.style.cursor = 'auto'; // show the cursor again
 					document.addEventListener("keydown", keypressHandler, false);
 					$('video').removeAttr('loop');
@@ -366,20 +347,20 @@ $('#maindiv').removeClass('whitebackground');
 					}
 				
 				addEvent(  {'type': 'startMovie',
-							'src': vidSequence[lastVid]});
+							'src': experiment.vidSequence[lastVid]});
 			}
 			
 			function advanceVideoSource(){
 				lastVid++;
 				
-				if (vidSequence[lastVid][0] == 'fix_space') {
+				if (experiment.vidSequence[lastVid][0] == 'fix_space') {
 					$('#indicatorText').html('<p> Trial ' + trialCounter + ' of 8</p>');
 					trialCounter++;
 				} else {
 					$('#indicatorText').html('');
 				}
 				
-				if (vidSequence[lastVid][2] != 'loop') {
+				if (experiment.vidSequence[lastVid][2] != 'loop') {
 					video.addEventListener('timeupdate', timeUpdateHandler);
 					}
 				else {
@@ -388,14 +369,14 @@ $('#maindiv').removeClass('whitebackground');
 				video.addEventListener('emptied', loadedHandler, false);
 				video.addEventListener('canplaythrough', loadedHandler, false);
 				
-				video.src = experiment.path + "videos/" + videotype + "/" + vidSequence[lastVid][0] + '.' + videotype;
+				video.src = experiment.path + "videos/" + videotype + "/" + experiment.vidSequence[lastVid][0] + '.' + videotype;
 								video.addEventListener('emptied', loadedHandler, false);
 				video.addEventListener('canplaythrough', loadedHandler, false);
 				
 				// Play the audio for this segment at the start if there is any
-				if (vidSequence[lastVid][1] != '') {
+				if (experiment.vidSequence[lastVid][1] != '') {
 					music.pause();
-					audio.src = experiment.path + "sounds/" + vidSequence[lastVid][1] + '.' + audiotype;
+					audio.src = experiment.path + "sounds/" + experiment.vidSequence[lastVid][1] + '.' + audiotype;
 					audio.load();
 					audio.play();
 					audio.addEventListener("ended", switchToMusic, false);
@@ -423,8 +404,8 @@ $('#maindiv').removeClass('whitebackground');
 				}
 			}
 		
-			if(segmentName=='famMovies') {var vidSequence = famMovies;}
-			else if(segmentName=='testMovies') {var vidSequence = testMovies;}
+			if(segmentName=='famMovies') {var experiment.vidSequence = famMovies;}
+			else if(segmentName=='testMovies') {var experiment.vidSequence = testMovies;}
 			
 			var videotype = 'none';
 			if ($('video')[0].canPlayType("video/webm")) {

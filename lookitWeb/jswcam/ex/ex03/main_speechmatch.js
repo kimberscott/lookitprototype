@@ -3,36 +3,17 @@
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
  
-// Global variables (available in all functions)
-var currentElement = -1; // State variable: which html element we're on	
-var htmlSequence;
 var experiment;
-var vidSequence;
 var tested = false; // whether the audio has been tested
 
-// If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
-// 9.S93 students--keep to 'true' for testing.
-var sandbox = false;
-var record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
-
-
 // The function 'main' must be defined and is called when the consent form is submitted 
-// (or from sandbox.html)
-function main(mainDivSel, expt) {
+function main(mainDivSelector, expt) {
 
 	promptBeforeClose();
 	setDBID();
 	
-	mainDivSelector = mainDivSel;
 	experiment = expt;
-	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
-	experiment.VERSION = '052814';
-	experiment.endedEarly = false;
-	experiment.minAgeDays = 3*30; // 3 months
-	experiment.maxAgeDays = 2*366; // 24 months
-	experiment.tic = new Date();
-	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
-	experiment.recordingSet = RECORDINGSET;
+	initializeExperiment();
 
 	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
@@ -43,7 +24,7 @@ function main(mainDivSel, expt) {
 		"Please wait while the experiment loads.", 
 		[]); 
 		
-	if(sandbox) {
+	if(LOOKIT.sandbox) {
 		// Manually set the condition number
 		condition = prompt('Please enter a condition number (0-3)', '0');
 		startExperiment(condition, box);
@@ -87,7 +68,7 @@ function generateHtml(segmentName){
 			$(function() {
 				$('#'+segmentName).submit(function(evt) {
 					evt.preventDefault();
-					if (record_whole_study) {
+					if (experiment.record_whole_study) {
 						jswcam.stopRecording();
 						addEvent(  {'type': 'endRecording'});
 					}	
@@ -142,9 +123,7 @@ function generateHtml(segmentName){
 			break;
 			
 		case "positioning":
-			if (!sandbox) {	
-				show_getting_setup_widget();
-			}
+			show_getting_setup_widget();
 		
 		case "instructions":
 		case "instructions2":
@@ -153,7 +132,7 @@ function generateHtml(segmentName){
 			$(function() {
 				$('#' + segmentName + ' #next').click(function(evt) {
 					evt.preventDefault();
-					if (!sandbox) {	hide_cam("webcamdiv"); }
+					hide_cam("webcamdiv");
 					advanceSegment();
 					return false;
 				});
@@ -171,25 +150,25 @@ function generateHtml(segmentName){
 	if (segmentName=='vidElement') {
 			function endHandler(event){
 				addEvent(  {'type': 'endMovie',
-							'src': vidSequence[lastVid][0]});
-				if (!sandbox && lastVid>0) {
+							'src': experiment.vidSequence[lastVid][0]});
+				if (lastVid>0) {
 					jswcam.stopRecording();
 					addEvent(  {'type': 'endRecording'});
-					if (record_whole_study) {
+					if (experiment.record_whole_study) {
 						jswcam.startRecording();
 						addEvent(  {'type': 'startRecording'});
 					}
 				}
 				if (!video.paused) {video.pause();}
 				
-				if (vidSequence[lastVid][2] == 'click') {
+				if (experiment.vidSequence[lastVid][2] == 'click') {
 					// At end of the movie (but only then!), click to continue.
 					// This handler removes itself (don't do it here)
 					video.style.cursor = 'auto'; // show the cursor again
 					// If there's a 4th element, show this image over top until click
-					if (vidSequence[lastVid].length>3) {
+					if (experiment.vidSequence[lastVid].length>3) {
 						$('#thevideo').hide();
-						$('#vidElement').prepend('<img class="center clickimage" style="z-index:9999; position:relative;" src="' + experiment.path + 'img/' + vidSequence[lastVid][3] + '.png" >');
+						$('#vidElement').prepend('<img class="center clickimage" style="z-index:9999; position:relative;" src="' + experiment.path + 'img/' + experiment.vidSequence[lastVid][3] + '.png" >');
 						
 					}
 					$('#vidElement')[0].addEventListener("click", clickHandler, false); 
@@ -197,12 +176,12 @@ function generateHtml(segmentName){
 					addEvent(  {'type': 'startDelay'});
 					setTimeout(function(){
 									addEvent(  {'type': 'endDelay'});
-									if (lastVid == (vidSequence.length - 1)){
+									if (lastVid == (experiment.vidSequence.length - 1)){
 										advanceSegment(); // done playing all videos, move on
 									} else {
 										advanceVideoSource(); // load and play next video
 									}
-								}, 1000*vidSequence[lastVid][2]);
+								}, 1000*experiment.vidSequence[lastVid][2]);
 				}
 
 				return false;
@@ -216,7 +195,7 @@ function generateHtml(segmentName){
 				vidSeg.removeEventListener("click", clickHandler, false);
 				$('.clickimage').remove();
 				$('#thevideo').show();
-				if (lastVid == (vidSequence.length - 1)){
+				if (lastVid == (experiment.vidSequence.length - 1)){
 					$('#vidElement').detach(); // I don't understand why this doesn't just work from advanceSegment, but it doesn't.
 					advanceSegment(); // done playing all videos, move on
 				} else {
@@ -238,7 +217,7 @@ function generateHtml(segmentName){
 				video.style.cursor = 'none'; // hide the cursor
 				
 				addEvent(  {'type': 'startMovie',
-							'src': vidSequence[lastVid]});
+							'src': experiment.vidSequence[lastVid]});
 			}
 			
 			function advanceVideoSource(){
@@ -248,20 +227,19 @@ function generateHtml(segmentName){
 				video.addEventListener('emptied', loadedHandler, false);
 				video.addEventListener('canplaythrough', loadedHandler, false);
 				
-				video.src = experiment.path + "videos/" + videotype + "/" + vidSequence[lastVid][0] + '.' + videotype;
+				video.src = experiment.path + "videos/" + videotype + "/" + experiment.vidSequence[lastVid][0] + '.' + videotype;
 				
 				video.type = 'video/'+videotype;
 				console.log(video.src);
 				video.load(); // plays upon loading completely ('canplaythrough' listener)
 				
-				if (!sandbox) {
-					if (record_whole_study) {
-						jswcam.stopRecording();
-						addEvent(  {'type': 'endRecording'});
-					}
-					jswcam.startRecording();
-					addEvent(  {'type': 'startRecording'});
+				
+				if (experiment.record_whole_study) {
+					jswcam.stopRecording();
+					addEvent(  {'type': 'endRecording'});
 				}
+				jswcam.startRecording();
+				addEvent(  {'type': 'startRecording'});
 				
 			}
 			
@@ -315,7 +293,7 @@ function generateHtml(segmentName){
 function startExperiment(condition, box) {
 	experiment.condition = condition;
 	
-	if (record_whole_study) {
+	if (experiment.record_whole_study) {
 		jswcam.startRecording();
 		addEvent(  {'type': 'startRecording'});
 	}
@@ -344,14 +322,14 @@ function startExperiment(condition, box) {
 	
 	// List of videos to play in the single video element for this experiment
 	
-	vidSequence = [ ['', '', 'click', 'story1'],
+	experiment.vidSequence = [ ['', '', 'click', 'story1'],
 					[movieList[0], '', 'click', 'story2'], 
 					[movieList[1], '', 'click', 'story3'], 
 					[movieList[2], '', 'click', 'story4'],
 					[movieList[3], '', 'click', 'AllDone']];
 
 	// Sequence of sections of the experiment, corresponding to html sections.
-	htmlSequence = [['instructions'],
+	experiment.htmlSequence = [['instructions'],
 					['instructions2'],
 					['positioning'],
 					['positioning2'],

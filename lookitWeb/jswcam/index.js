@@ -2,14 +2,16 @@
  * * Copyright (C) MIT Early Childhood Cognition Lab
  *
  */
-var RECORDINGSET = "";
-var DBID = "";
-var DEBUGMODE = false;
+ 
+// Single global variable containing data that needs to be available across the session
+var LOOKIT = {};
+LOOKIT.RECORDINGSET = "";
+LOOKIT.DBID = "";
+LOOKIT.sandbox = false;
 
 // Make a safe dummy function to replace console.log.
-// Should eventually remove any calls to console.log for production code 
-// (e.g. in uglify settings)
-if ((typeof console === "undefined") || !DEBUGMODE){
+// Calls are removed for production code anyway using grunt-strip
+if ((typeof console === "undefined")){
 		console= {};
 		console.log = function(){
 			return;
@@ -86,7 +88,7 @@ var jswcam = (function() {
 			console.log('Tried to start recording, but was already recording!  Stopped instead.');
 		}
 		get_params('params'); // Resetting the session variable to access the filename
-		swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id']+'_'+RECORDINGSET,session['participant'],session['participant_privacy'],caller,recording_count);
+		swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id']+'_'+LOOKIT.RECORDINGSET,session['participant'],session['participant_privacy'],caller,recording_count);
 		recording_count++;
 		is_recording = '1';
 		console.log("Recording Started");

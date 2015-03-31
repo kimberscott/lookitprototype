@@ -2,39 +2,16 @@
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
  
-// Global variables (available in all functions)
-var currentElement = -1; // State variable: which html element we're on	
-var htmlSequence;
-var vidSequence;
 var experiment;
-var tested = false; // Parent has not tested audio yet
-
-// If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
-var sandbox = false;
-var record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
-
-var thisVerb;
-var question; // what's happening [0], find verb [1]
-var transitive; // intransitive, transitive
-
-var conditionSet = false;
 
 // The function 'main' must be defined and is called when the consent form is submitted 
-// (or from sandbox.html)
-function main(mainDivSel, expt) {
+function main(mainDivSelector, expt) {
 	
 	promptBeforeClose();
 	setDBID();
 	
-	mainDivSelector = mainDivSel;
-	experiment = expt;
-	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
-	experiment.endedEarly = false;
-	experiment.minAgeDays = 365*2; // 2 years
-	experiment.maxAgeDays = 366*3; // ~3 years
-	experiment.tic = new Date();
-	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
-	experiment.recordingSet = RECORDINGSET;
+	experiment = expt; 
+	initializeExperiment();
 
 	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
@@ -46,8 +23,7 @@ function main(mainDivSel, expt) {
 		"Please wait while the experiment loads.", 
 		[]); 
 		
-	if(sandbox) {
-		// Just use a specific arbitrary condition number (0 through 31)
+	if(LOOKIT.sandbox) {
 		condition = prompt('Please enter a condition number (0-31)', '0');
 		startExperiment(condition, box);
 	} else {
@@ -75,17 +51,17 @@ function startExperiment(condition, box) {
 	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
 	experiment.mturkID = getQueryVariable('workerId');
 	
-	if (record_whole_study) {
+	if (experiment.record_whole_study) {
 		jswcam.startRecording();
 		addEvent(  {'type': 'startRecording'});
 	}
 	
 	var whichVerb = (condition % 4); // 0, 1, 2, 3: blick, glorp, meek, pimm
 	var remCondition = (condition - whichVerb) / 4;
-	var question = remCondition % 2; // 0 or 1: what's happening vs find verb
-	remCondition = (remCondition - question) / 2;
+	experiment.question = remCondition % 2; // 0 or 1: what's happening vs find verb
+	remCondition = (remCondition - experiment.question) / 2;
 	var order = remCondition % 2; // 0 or 1: 1,2 vs 2,1
-	var transitive = (remCondition - order) / 2; // 0 or 1
+	experiment.transitive = (remCondition - order) / 2; // 0 or 1
 	
 	// List of videos to play in the single video element for this experiment
 	
@@ -101,23 +77,23 @@ function startExperiment(condition, box) {
 	
 	var dialogVideoList = [['Blick_Transitive',   'Glorp_Transitive',   'Meek_Transitive',   'Pimm_Transitive'],
 						   ['Blick_Intransitive', 'Glorp_Intransitive', 'Meek_Intransitive', 'Pimm_Intransitive']];
-	var dialogVideo = dialogVideoList[transitive][whichVerb];
+	var dialogVideo = dialogVideoList[experiment.transitive][whichVerb];
 	
 	var warmupaudio = ['clap1', 	'clap2', 	'clap3', 
 					   'tickle1', 	'tickle2', 	'tickle3'];
 					   
 	var verbs = ['blick', 'glorp', 'meek', 'pimm'];
-	var thisVerb = verbs[whichVerb];
+	var experiment.thisVerb = verbs[whichVerb];
 	
 	var testAudioAll = [['Whatshappening2x', 		'Whatshappening2x', 		'Whatshappening2x'], 
-						[thisVerb + '1', 	thisVerb + '2', 	thisVerb + '3']];
-	var testAudio = testAudioAll[question];
+						[experiment.thisVerb + '1', 	experiment.thisVerb + '2', 	experiment.thisVerb + '3']];
+	var testAudio = testAudioAll[experiment.question];
 			
 	// Sequence of videos to proceed through during the 'vidSegment' portion of the
 	// study (in htmlSquence).  Format [baseVideoName, baseAudioName, endOfVideoAction]
 	// where endOfVideoAction can either be an number of seconds to wait before proceeding
 	// or 'click' to require the parent to click to proceed.
-	vidSequence = [		['fam1', '', 'click'], 
+	experiment.vidSequence = [		['fam1', '', 'click'], 
 						['attentiongrabber',  '', 1],
 						[warmup1, warmupaudio[0], 3],
 						[warmup1, warmupaudio[1], 3],
@@ -138,17 +114,14 @@ function startExperiment(condition, box) {
 						['end', 'beep', 'click']				];
 
 	// stick all of this in the experiment object so it will be sent to the database
-	console.log(vidSequence);
-	experiment.vidSequence = vidSequence;
+	console.log(experiment.vidSequence);
+	experiment.experiment.vidSequence = experiment.vidSequence;
 	experiment.whichVerb = whichVerb;
-	experiment.thisVerb = thisVerb;
-	experiment.question = question;
 	experiment.order = order;
-	experiment.transitive = transitive;
-	conditionSet = true; // have set condition; can use for debriefing now
+	experiment.conditionIsSet = true; // have set condition; can use for debriefing now
 
 	// Sequence of sections of the experiment, corresponding to html sections.
-	htmlSequence = [['instructions'],
+	experiment.htmlSequence = [['instructions'],
 					['positioning'],
 					['positioning2'],
 					['vidElement'],
@@ -174,7 +147,7 @@ function startExperiment(condition, box) {
 
 }
 
-// When proceeding to a new element of htmlSequence, advanceSegment (defined in
+// When proceeding to a new element of experiment.htmlSequence, advanceSegment (defined in
 // experimentFunctions.js) will call generateHtml.  This grabs any appropriate html
 // from the exNN/html/ directory and adds any necessary JS.
 function generateHtml(segmentName){
@@ -202,7 +175,7 @@ function generateHtml(segmentName){
 					evt.preventDefault();
 					// If we were recording the whole time, finally stop when the poststudy form
 					// is submitted.
-					if (record_whole_study) {
+					if (experiment.record_whole_study) {
 						jswcam.stopRecording();
 						addEvent(  {'type': 'endRecording'});
 					}	
@@ -222,11 +195,14 @@ function generateHtml(segmentName){
 			
 		case "positioning2": // Special case to deal with requirement that user should test audio
 			var testaudio = $('#testaudio')[0];
-				function setTestedTrue(event){
-					tested = true;
-				}
+
 				testaudio.addEventListener('play', setTestedTrue, false);
 				$(function() {
+					var tested = false;
+					function setTestedTrue(event){
+						tested = true;
+					}
+				
 					$('#' + segmentName + ' #next').click(function(evt) {
 						evt.preventDefault();
 						if(tested){
@@ -272,33 +248,31 @@ function generateHtml(segmentName){
 	else if (segmentName=='vidElement') {
 			function endHandler(event){
 				addEvent(  {'type': 'endMovie',
-							'src': vidSequence[lastVid]});
+							'src': experiment.vidSequence[lastVid]});
 
 				if (!video.paused) {video.pause();}
 				
-				if (vidSequence[lastVid][2] == 'click') {
+				if (experiment.vidSequence[lastVid][2] == 'click') {
 					// At end of the movie (but only then!), click to continue.
 					// This handler removes itself (don't do it here)
 					video.style.cursor = 'auto'; // show the cursor again
 					video.addEventListener("click", clickHandler, false); 
 				} else {
-					if (!sandbox) {
-						jswcam.stopRecording();
-						addEvent(  {'type': 'endRecording'});
-					}
-					if (record_whole_study) {
+					jswcam.stopRecording();
+					addEvent(  {'type': 'endRecording'});
+					if (experiment.record_whole_study) {
 						jswcam.startRecording();
 						addEvent(  {'type': 'startRecording'});
 					}
 					addEvent(  {'type': 'startDelay'});
 					setTimeout(function(){
 									addEvent(  {'type': 'endDelay'});
-									if (lastVid == (vidSequence.length - 1)){
+									if (lastVid == (experiment.vidSequence.length - 1)){
 										advanceSegment(); // done playing all videos, move on
 									} else {
 										advanceVideoSource(); // load and play next video
 									}
-								}, 1000*vidSequence[lastVid][2]);
+								}, 1000*experiment.vidSequence[lastVid][2]);
 				}
 
 				return false;
@@ -309,7 +283,7 @@ function generateHtml(segmentName){
 				addEvent(  {'type': 'click',
 							'fn': 'advancevideo'});
 				video.removeEventListener("click", clickHandler, false);
-				if (lastVid == (vidSequence.length - 1)){
+				if (lastVid == (experiment.vidSequence.length - 1)){
 					$('#vidElement').detach(); // I don't understand why this doesn't just work from advanceSegment, but it doesn't.
 					advanceSegment(); // done playing all videos, move on
 				} else {
@@ -327,8 +301,8 @@ function generateHtml(segmentName){
 				
 				video.removeEventListener('canplaythrough', loadedHandler, false);
 				video.removeEventListener('emptied', loadedHandler, false);
-				if (!sandbox && vidSequence[lastVid][2]!='click') {
-					if (record_whole_study) {
+				if (experiment.vidSequence[lastVid][2]!='click') {
+					if (experiment.record_whole_study) {
 						jswcam.stopRecording();
 						addEvent(  {'type': 'endRecording'});
 					}
@@ -341,7 +315,7 @@ function generateHtml(segmentName){
 				video.style.cursor = 'none'; // hide the cursor
 				
 				addEvent(  {'type': 'startMovie',
-							'src': vidSequence[lastVid]});
+							'src': experiment.vidSequence[lastVid]});
 			}
 			
 			function advanceVideoSource(){
@@ -351,10 +325,10 @@ function generateHtml(segmentName){
 				video.addEventListener('emptied', loadedHandler, false);
 				video.addEventListener('canplaythrough', loadedHandler, false);
 				
-				video.src = experiment.path + "videos/" + videotype + "/" + vidSequence[lastVid][0] + '.' + videotype;
+				video.src = experiment.path + "videos/" + videotype + "/" + experiment.vidSequence[lastVid][0] + '.' + videotype;
 				
-				if (vidSequence[lastVid][1] != '') {
-					audio.src = experiment.path + "sounds/" + audiotype + "/" + vidSequence[lastVid][1] + '.' + audiotype;
+				if (experiment.vidSequence[lastVid][1] != '') {
+					audio.src = experiment.path + "sounds/" + audiotype + "/" + experiment.vidSequence[lastVid][1] + '.' + audiotype;
 				} else {audio.src = '';}
 				
 				audio.load();
@@ -498,7 +472,7 @@ function validateForm(segmentName, formData) {
 
 function generate_debriefing() {
 
-	if (conditionSet) {
+	if (experiment.conditionIsSet) {
 		// Get debriefing dialog ready: Used by index.js when generating upload dialog
 		var debriefTransitiveList = [	'a transitive verb (one that takes a direct object)', 
 										'an intransitive verb (one that doesn\'t take a direct object)'];

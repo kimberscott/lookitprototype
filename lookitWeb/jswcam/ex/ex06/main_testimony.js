@@ -2,11 +2,8 @@
  * * Copyright (C) MIT Early Childhood Cognition Lab                                                                           
  */
 
-// Global variables (available in all functions)
-var currentElement = -1; // State variable: which html element we're on	
-var htmlSequence;
 var experiment;
-var vidSequence;
+
 var audiotype = 'none';
 var videoNames = {};
 var storyNames = {};
@@ -14,29 +11,18 @@ var condition = 0;
 var tested=false;
 var isRecording=false;
 var conditionSet = false;
-var sandbox = false;
 var videotype = 'none';
 var vidElement;
+experiment.record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
-var record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
-
-// The function 'main' must be defined and is called when the consent form is submitted 
-// (or from sandbox.html)
-function main(mainDivSel, expt) {
+// The function 'main' must be defined and is called when the consent form is submitted
+function main(mainDivSelector, expt) {
 
 	promptBeforeClose();
 	setDBID();
 	
-	// TODO: refactor -- none of this is study-specific
-	mainDivSelector = mainDivSel;
 	experiment = expt;	
-	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
-	experiment.endedEarly = false;
-	experiment.minAgeDays = 3*365; // 3 years
-	experiment.maxAgeDays = 6*366; // 6 years
-	experiment.tic = new Date();
-	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
-	experiment.recordingSet = RECORDINGSET;
+	initializeExperiment();
 
 	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
@@ -47,7 +33,7 @@ function main(mainDivSel, expt) {
 		"Please wait while the experiment loads.", 
 		[]); 
 		
-	if(sandbox) {
+	if(LOOKIT.sandbox) {
 		// Just use a specific arbitrary condition number (0 through 31)
 		condition = prompt('Please enter a number (0-31)', '0');
 		startExperiment(condition, box);
@@ -75,7 +61,7 @@ function startExperiment(condition, box) {
 	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
 	experiment.mturkID = getQueryVariable('workerId');
 	
-	if (record_whole_study) {
+	if (experiment.record_whole_study) {
 		jswcam.startRecording();
 		addEvent(  {'type': 'startRecording'});
 	}
@@ -152,7 +138,7 @@ function startExperiment(condition, box) {
 	vidElement = buildVideoElement('intro', 'vidElement');
 					
 	// Sequence of sections of the experiment, corresponding to html sections.
-	htmlSequence = [['instructions', 'html'],
+	experiment.htmlSequence = [['instructions', 'html'],
 					['positioning', 'html'],
 					['positioning2', 'html'],
 					
@@ -221,8 +207,8 @@ function generateHtml(segmentName){
 	
 	// In general, append to the main div, but for story/video elements, 
 	// append to a special full-screen div that will be left in throughout
-	if (htmlSequence[currentElement][1] == 'html') {
-		$('#maindiv').append('<div id='+htmlSequence[currentElement][0]+'/>');
+	if (experiment.htmlSequence[experiment.currentElement][1] == 'html') {
+		$('#maindiv').append('<div id='+experiment.htmlSequence[experiment.currentElement][0]+'/>');
 		$('#'+segmentName).load(experiment.path+'html/'+segmentName+'.html', 
 			function() {
 			
@@ -238,7 +224,7 @@ function generateHtml(segmentName){
 					$(function() {
 						$('#'+segmentName).submit(function(evt) {
 							evt.preventDefault();
-							if (record_whole_study) {
+							if (experiment.record_whole_study) {
 								jswcam.stopRecording();
 								addEvent(  {'type': 'endRecording'});
 							}
@@ -323,7 +309,7 @@ function generateHtml(segmentName){
 		});
 	} 
 	
-	else if (htmlSequence[currentElement][1] == 'vid') {
+	else if (experiment.htmlSequence[experiment.currentElement][1] == 'vid') {
 		if (segmentName == "intro") {
 			$('#maindiv').append('<div id=fsdiv/>');
 			addFsButton('#maindiv', '#fsdiv');
@@ -407,17 +393,15 @@ function generateHtml(segmentName){
 	
 	} 
 	
-	else if (htmlSequence[currentElement][1] == 'story') {
-		$('#fsdiv').append(buildStoryPage(htmlSequence[currentElement][0]));
-		if (!sandbox) {
-			if (record_whole_study) {
-				jswcam.stopRecording();
-				addEvent(  {'type': 'endRecording'});
-			}
-			jswcam.startRecording();
-			isRecording = true;
-			addEvent(  {'type': 'startRecording'});
+	else if (experiment.htmlSequence[experiment.currentElement][1] == 'story') {
+		$('#fsdiv').append(buildStoryPage(experiment.htmlSequence[experiment.currentElement][0]));
+		if (experiment.record_whole_study) {
+			jswcam.stopRecording();
+			addEvent(  {'type': 'endRecording'});
 		}
+		jswcam.startRecording();
+		isRecording = true;
+		addEvent(  {'type': 'startRecording'});
 		
 		// Check what type of audio file to use, store in global variable
 		var audio = $('#storyAudio')[0];
@@ -443,7 +427,7 @@ function generateHtml(segmentName){
 					jswcam.stopRecording();
 					isRecording = false;
 					addEvent(  {'type': 'endRecording'});
-					if (record_whole_study) {
+					if (experiment.record_whole_study) {
 						jswcam.startRecording();
 						addEvent(  {'type': 'startRecording'});
 					}

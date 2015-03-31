@@ -12,8 +12,9 @@ function promptBeforeClose() {
 // Helper function to set a global variable DBID to a unique timestamp + random number
 // string so we can identify records in the database
 function setDBID() {
-	DBID = +new Date;
-	DBID = DBID.toString() + '-' + Math.random().toString();
+	LOOKIT.DBID = "";
+	LOOKIT.DBID = +new Date;
+	LOOKIT.DBID = LOOKIT.DBID.toString() + '-' + Math.random().toString();
 }
 
 // Standard function used in sending experiment object to server
@@ -35,6 +36,19 @@ $.fn.serializeObject = function()
     return o;
 };
 
+function initializeExperiment() {
+	experiment.currentElement = -1; // State variable: which html element we're on	
+	experiment.htmlSequence = [];
+	experiment.vidSequence = [];
+	experiment.record_whole_study = false; // records entire study, 
+	// but retains segmentation indicated (just records in between too)--so clip #s doubled
+	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
+	experiment.endedEarly = false;
+	experiment.tic = new Date();
+	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
+	experiment.recordingSet = LOOKIT.RECORDINGSET;
+}
+
 // Standard function for adding an event to the array.
 // Convention: events have at least a 'type' attribute, e.g.
 // we could addEvent({'type': 'goFullscreen'})
@@ -43,12 +57,12 @@ function addEvent(event) {
 		// Add time relative to global time defined initially
 		event.time = (new Date()) - experiment.tic;
 		// Which part of the experiment we're in (which html is displayed)
-		if(!htmlSequence || currentElement < 0) {
+		if(!experiment.htmlSequence || experiment.currentElement < 0) {
 			event.segment = 'initExperiment';
-		} else if(currentElement >= htmlSequence.length){
+		} else if(experiment.currentElement >= experiment.htmlSequence.length){
 			event.segment = 'endOfExperiment';
 		} else{
-			event.segment = htmlSequence[currentElement][0];
+			event.segment = experiment.htmlSequence[experiment.currentElement][0];
 		}
 		experiment.eventArray.push(event);
 	}
@@ -57,15 +71,15 @@ function addEvent(event) {
 
 function advanceSegment(){
 
-	experiment['dbid'] = DBID;
+	experiment['dbid'] = LOOKIT.DBID;
 	var subsetData = {};
-	subsetData['dbid'] = DBID;
+	subsetData['dbid'] = experiment['dbid'];
 	subsetData['tic'] = experiment['tic'];
 	subsetData['eventArray'] = experiment['eventArray'];
 	subsetData['condition'] = experiment['condition'];
 	subsetData['mturkID'] = experiment['mturkID'];
 	subsetData['recordingSet'] = experiment['recordingSet'];
-	subsetData['currentSegment'] = currentElement;
+	subsetData['currentSegment'] = experiment.currentElement;
 	subsetData['browserStr'] = experiment['browserStr'];
 	
 	$.ajax({
@@ -84,17 +98,17 @@ function advanceSegment(){
 
 	jswcam.toggleWebCamView(false);
 	// Detach the current html, if any
-	if (currentElement >= 0){
+	if (experiment.currentElement >= 0){
 		// Avoid removing data--detach not remove!
-		$('#' + htmlSequence[currentElement][0]).detach();
+		$('#' + experiment.htmlSequence[experiment.currentElement][0]).detach();
 	}
 	// Increment the state 
-	currentElement++;
-	console.log(currentElement);
+	experiment.currentElement++;
+	console.log(experiment.currentElement);
 	// Generate and append next html
-	if (currentElement < htmlSequence.length){
-		console.log(htmlSequence[currentElement][0]);
-		generateHtml(htmlSequence[currentElement][0]);
+	if (experiment.currentElement < experiment.htmlSequence.length){
+		console.log(experiment.htmlSequence[experiment.currentElement][0]);
+		generateHtml(experiment.htmlSequence[experiment.currentElement][0]);
 		return false;
 	} 
 	else{ // End of experiment -- submit data
@@ -109,17 +123,17 @@ function advanceSegment(){
 function previousSegment(){
 	jswcam.toggleWebCamView(false);
 	// Detach the current html, if any
-	if (currentElement >= 0){
+	if (experiment.currentElement >= 0){
 		// Avoid removing data--detach not remove!
-		$('#' + htmlSequence[currentElement][0]).detach();
+		$('#' + experiment.htmlSequence[experiment.currentElement][0]).detach();
 	}
 	// Increment the state 
-	currentElement--;
-	console.log(currentElement);
+	experiment.currentElement--;
+	console.log(experiment.currentElement);
 	// Generate and append next html
-	if (currentElement >= 1){
-		console.log(htmlSequence[currentElement][0]);
-		generateHtml(htmlSequence[currentElement][0]);
+	if (experiment.currentElement >= 1){
+		console.log(experiment.htmlSequence[experiment.currentElement][0]);
+		generateHtml(experiment.htmlSequence[experiment.currentElement][0]);
 		return false;
 	} else{ // Start of experiment--went back to homepage
 		page.toggleMenu(true);
@@ -146,7 +160,7 @@ function promptEarlyEnd() {
 					experiment.endedEarly = true;
 					experiment.endEarlyComments = comments;
 					console.log(experiment);
-					if (!sandbox){
+					if (!LOOKIT.sandbox){
 						done_or_withdraw(experiment, generate_debriefing()); // Function to check if user wants to withdraw from the experiment or not
 						addEvent(  {'type': 'endUpload'});
 					} else {

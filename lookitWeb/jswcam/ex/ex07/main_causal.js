@@ -3,9 +3,6 @@
  *                                                                                                                                                                                                                                     
  */
 
-// Global variables (available in all functions)
-var currentElement = -1; // State variable: which html element we're on	
-var htmlSequence;
 var experiment; // where all information about experiment and events is stored--to send to server
 
 var audiotype = 'none';
@@ -16,33 +13,20 @@ var thisSegment;
 var condition; 		// counterbalancing condition
 var tested = false; // whether parent has tried the audio 
 var conditionSet = false;
-
 var characterNames;
-
-// If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
-var sandbox = false;
-var record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 // Used by index.js when generating upload dialog (replace this.html('uploading'))
 // Placeholder in case parent cancels before full debrief html is defined
 var DEBRIEFHTML = "";
 
 // The function 'main' must be defined and is called when the consent form is submitted 
-// (or from sandbox.html)
-function main(mainDivSel, expt) {
+function main(mainDivSelector, expt) {
 
 	promptBeforeClose();
 	setDBID();
 	
-	mainDivSelector = mainDivSel;
 	experiment = expt;
-	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
-	experiment.endedEarly = false;
-	experiment.minAgeDays = 365*3;
-	experiment.maxAgeDays = 366*6;
-	experiment.tic = new Date();
-	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
-	experiment.recordingSet = RECORDINGSET;
+	initializeExperiment();
 
 	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
@@ -53,7 +37,7 @@ function main(mainDivSel, expt) {
 		"Please wait while the experiment loads.", 
 		[]); 
 		
-	if(sandbox) {
+	if(LOOKIT.sandbox) {
 		// Manually set the condition number
 		condition = prompt('Please enter a condition number (0-7)', '0');
 		startExperiment(condition, box);
@@ -122,7 +106,7 @@ function startExperiment(condition, box) {
 
 	// Sequence of sections of the experiment, corresponding to html sections.
 	
-	htmlSequence = [['instructions'],
+	experiment.htmlSequence = [['instructions'],
 					['positioning'],
 					['positioning2'],
 					['baseline'],
@@ -137,7 +121,7 @@ function startExperiment(condition, box) {
 	// Then remove the dialog box blacking out the screen.
 	// Force it to close because ajax call has occurred in between, as per
 	// http://stackoverflow.com/questions/11519660/
-	 if(!record_whole_study){
+	 if(!experiment.record_whole_study){
 		 box.modal('hide');
 		 $('body').removeClass('modal-open');
 		 $('.modal-backdrop').remove();
@@ -180,7 +164,7 @@ function generateHtml(segmentName){
 					
 					$('#'+segmentName).submit(function(evt) {
 						evt.preventDefault();
-						if (record_whole_study) {
+						if (experiment.record_whole_study) {
 							jswcam.stopRecording();
 							addEvent(  {'type': 'endRecording'});
 						}
@@ -308,8 +292,8 @@ function generateHtml(segmentName){
 							if(thisSegment=='storyend'){
 								advanceSegment();
 							} else {
-								currentElement++;
-								generateHtml(htmlSequence[currentElement][0]);
+								experiment.currentElement++;
+								generateHtml(experiment.htmlSequence[experiment.currentElement][0]);
 							}
 						}
 						return false;
@@ -413,35 +397,35 @@ function generateHtml(segmentName){
 		console.log('#baseline');
 		goFullscreen($('#baseline')[0]);
 	} else if (segmentName=='formPoststudy') {
-	    if(!record_whole_study){
+	    if(!experiment.record_whole_study){
 			//$("#flashplayer").remove();
 			$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
 	    }
 		leaveFullscreen();
 	}
 	
-	if (!sandbox) {
-		switch(segmentName) {
-			case "baselinequestion":
-			case "storyquestion":
-				if (record_whole_study) {
-					jswcam.stopRecording();
-					addEvent(  {'type': 'endRecording'});
-				}
-				jswcam.startRecording();
-				addEvent(  {'type': 'startRecording'});
-				break;
-			case "story":
-			case "storyend":
+
+	switch(segmentName) {
+		case "baselinequestion":
+		case "storyquestion":
+			if (experiment.record_whole_study) {
 				jswcam.stopRecording();
 				addEvent(  {'type': 'endRecording'});
-				if (record_whole_study) {
-					jswcam.startRecording();
-					addEvent(  {'type': 'startRecording'});
-				}
-				break;	
-		}
+			}
+			jswcam.startRecording();
+			addEvent(  {'type': 'startRecording'});
+			break;
+		case "story":
+		case "storyend":
+			jswcam.stopRecording();
+			addEvent(  {'type': 'endRecording'});
+			if (experiment.record_whole_study) {
+				jswcam.startRecording();
+				addEvent(  {'type': 'startRecording'});
+			}
+			break;	
 	}
+
 }
 
 

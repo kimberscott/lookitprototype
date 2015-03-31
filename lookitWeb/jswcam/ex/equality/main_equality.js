@@ -2,9 +2,6 @@
  * * Copyright (C) MIT Early Childhood Cognition Lab                                                                              
  */
 
-// Global variables (available in all functions)
-var currentElement = -1; // State variable: which html element we're on	
-var htmlSequence;
 var experiment; // where all information about experiment and events is stored--to send to server
 
 var audiotype = 'none';
@@ -12,29 +9,18 @@ var condition; 		// counterbalancing condition
 var tested = false; // whether parent has tried the audio 
 var attachToDiv = '#maindiv';
 
-// If sandbox is true, we skip all the calls to jswcam (to start/stop recording, etc.).
-var sandbox = false;
-var record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
+experiment.record_whole_study = false; // records entire study, but retains segmentation indicated (just records in between too)--so clip #s doubled
 
 var conditionSet = false;
 
 // The function 'main' must be defined and is called when the consent form is submitted 
-// (or from sandbox.html)
-function main(mainDivSel, expt) {
+function main(mainDivSelector, expt) {
 	
 	promptBeforeClose();
 	setDBID();
 	
-	mainDivSelector = mainDivSel;
 	experiment = expt;
-	experiment.INCLUDE_IN_ANALYSIS = 'NOT YET VIEWED';
-	experiment.endedEarly = false;
-	experiment.minAgeDays = 11*365/12;
-	experiment.maxAgeDays = 14*365/12;
-	experiment.VERSION = 0; // Keep track of any major changes made on PROD manually
-	experiment.tic = new Date();
-	experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
-	experiment.recordingSet = RECORDINGSET;
+	initializeExperiment();
 
 	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
@@ -45,7 +31,7 @@ function main(mainDivSel, expt) {
 		"Please wait while the experiment loads.", 
 		[]); 
 		
-	if(sandbox) {
+	if(LOOKIT.sandbox) {
 		// Manually set the condition number
 		condition = prompt('Please enter a condition number (0-3)', '0');
 		startExperiment(condition, box);
@@ -67,7 +53,7 @@ function main(mainDivSel, expt) {
 function startExperiment(condition, box) {
     console.log('Condition: ' + condition);
 	
-	if (record_whole_study) {
+	if (experiment.record_whole_study) {
 		jswcam.startRecording();
 		addEvent(  {'type': 'startRecording'});
 	}
@@ -92,7 +78,7 @@ function startExperiment(condition, box) {
 	conditionSet = true;
 	// Sequence of sections of the experiment, corresponding to html sections.
 	
-	htmlSequence = [['instructions'],
+	experiment.htmlSequence = [['instructions'],
 					['positioning'],
 					['positioning2'],
 					['startfullscreen'],
@@ -143,7 +129,7 @@ function generateHtml(segmentName){
 					
 					$('#'+segmentName).submit(function(evt) {
 						evt.preventDefault();
-						if (record_whole_study) {
+						if (experiment.record_whole_study) {
 							jswcam.stopRecording();
 							addEvent(  {'type': 'endRecording'});
 						}	
@@ -257,9 +243,9 @@ function generateHtml(segmentName){
 					console.log('no audio');
 				}
 				
-				imgSrc = experiment.path + 'img/' + htmlSequence[currentElement][1] + '.png';
+				imgSrc = experiment.path + 'img/' + experiment.htmlSequence[experiment.currentElement][1] + '.png';
 				
-				if (record_whole_study) {
+				if (experiment.record_whole_study) {
 					jswcam.stopRecording();
 					addEvent({'type': 'endRecording'});
 				}
@@ -268,7 +254,7 @@ function generateHtml(segmentName){
 				addEvent(  {'type': 'startRecording'});
 				var audio = $('#trialAudio')[0];
 				
-				audioName = htmlSequence[currentElement][2];
+				audioName = experiment.htmlSequence[currentElement][2];
 				
 				var audioSource = experiment.path + "sounds/" + audioName + '.' + audiotype;
 				$('#trialAudio').attr('currentTime', 0);	
@@ -280,7 +266,7 @@ function generateHtml(segmentName){
 				audio.load();
 				setTimeout(function(){audio.play();}, 2000); 		
 
-				audio.addEventListener("ended", function() {jswcam.stopRecording(); addEvent(  {'type': 'stopRecording'});if(record_whole_study) {jswcam.startRecording(); addEvent({'type': 'startRecording'});} advanceSegment(); }, false);
+				audio.addEventListener("ended", function() {jswcam.stopRecording(); addEvent(  {'type': 'stopRecording'});if(experiment.record_whole_study) {jswcam.startRecording(); addEvent({'type': 'startRecording'});} advanceSegment(); }, false);
 				
 				
 				addEvent({'type': 'startPage', 
