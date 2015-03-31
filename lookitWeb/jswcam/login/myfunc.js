@@ -1086,10 +1086,10 @@ function audioVideoData(audioData,videoData){
         swfobject.getObjectById('flashplayer').setup();
     }
     else{
-        done = 1;
+        LOOKIT.doneWithExperiment = true;
         $('.btn-send').attr('disabled', false);
         $('.waiting').remove();
-        return done;
+        return LOOKIT.doneWithExperiment;
     }
 }
 
@@ -1097,7 +1097,7 @@ function check_browser_support(){
     var browser = (new WhichBrowser()).browser.name.toString();
     var os = (new WhichBrowser()).os.name.toString();
 
-    if($.inArray(browser,unsupportedBrowsers) >= 0 && $.inArray(os,unsupportedOS) >= 0){
+    if($.inArray(browser,LOOKIT.unsupportedBrowsers) >= 0 && $.inArray(os,LOOKIT.unsupportedOS) >= 0){
         var html = "This is not a supported browser. To participate in an experiment please access using any of the following browsers: Chrome, Firefox, or Internet Explorer 11+";
         bootbox.alert(html);
     }

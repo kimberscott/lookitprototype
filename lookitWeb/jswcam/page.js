@@ -125,7 +125,7 @@ var page = (function() {
 						$('.btn-stop').attr('disabled', false);
 						return false;
 					}, 5000); // 5 second min recording
-					recording_count = '0';
+					LOOKIT.recording_count = '0';
 					jswcam.startRecording('');
 					startTime = (new Date()).getTime();
 				}

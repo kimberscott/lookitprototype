@@ -9,6 +9,14 @@ LOOKIT.RECORDINGSET = "";
 LOOKIT.DBID = "";
 LOOKIT.sandbox = false;
 
+// Don't allow participation from users using BOTH an unsupported browser AND an 
+// unsupported OS (conjunction is the problem).  
+LOOKIT.unsupportedBrowsers  = ["Safari"];
+LOOKIT.unsupportedOS = ["Mac OS X", "Mac OS", "iOS", "OS X"];
+LOOKIT.recording_count = '0';
+LOOKIT.doneWithExperiment = false;
+LOOKIT.is_recording = false;
+
 // Make a safe dummy function to replace console.log.
 // Calls are removed for production code anyway using grunt-strip
 if ((typeof console === "undefined")){
@@ -57,11 +65,7 @@ if(!$.isFunction(String.prototype.hashCode)) {
 	});
  })();
 
-var unsupportedBrowsers = ["Safari"];
-var unsupportedOS = ["Mac OS X", "Mac OS", "iOS", "OS X"];
-var recording_count = '0';
-var done = 0;
-var is_recording = '0';
+
 
 var jswcam = (function() {
 
@@ -83,7 +87,7 @@ var jswcam = (function() {
     };
     /**/
     Library.prototype.startRecording = function(caller) {
-		if(is_recording == '1'){
+		if(LOOKIT.is_recording){
 			this.stopRecording("stopping");
 			console.log('Tried to start recording, but was already recording!  Stopped instead.');
 		}
@@ -97,9 +101,9 @@ var jswcam = (function() {
 			// before using client-accessible vars to set filenames...
 			get_params('params'); // Resetting the session variable to access the filename
 		}
-		swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id']+'_'+LOOKIT.RECORDINGSET,session['participant'],session['participant_privacy'],caller,recording_count);
-		recording_count++;
-		is_recording = '1';
+		swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id']+'_'+LOOKIT.RECORDINGSET,session['participant'],session['participant_privacy'],caller,LOOKIT.recording_count);
+		LOOKIT.recording_count++;
+		LOOKIT.is_recording = true;
 		console.log("Recording Started");
     };
 
@@ -117,10 +121,10 @@ var jswcam = (function() {
 	recording (or -1 if no recording was in progress).  */
     Library.prototype.stopRecording = function(caller) {
     	var fps = -1;
-		if(is_recording == '1'){
+		if(LOOKIT.is_recording){
 			fps = swfobject.getObjectById("flashplayer").stop_record("");
 		}
-		is_recording = '0';
+		LOOKIT.is_recording = false;
 		console.log("Recording Stopped");
 		return fps;
     };
