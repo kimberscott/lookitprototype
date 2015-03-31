@@ -18,6 +18,19 @@ LOOKIT.doneWithExperiment = false;
 LOOKIT.is_recording = false;
 LOOKIT.consent_recording_completed = false;
 
+// I don't understand what these do--they're used for loading a new experiment
+// (object_new.loadExperiment(experiment_new, '.content_pane') and seem to have been made
+// global because audioVideoData (which is called from Flash) uses them to reset the 
+// experiment.  This is one of many VERY sloppy practices I'm trying to sort out after 
+// ending the contract with WebIntensive... sigh.  At least the global definition of 
+// 'object_new' isn't buried in the middle of 'myfunc.js' anymore.  -ks 3/2015
+LOOKIT.object_new = None;
+LOOKIT.experiment_new = None;
+
+LOOKIT._connected = false;
+
+var session;
+
 // Make a safe dummy function to replace console.log.
 // Calls are removed for production code anyway using grunt-strip
 if ((typeof console === "undefined")){

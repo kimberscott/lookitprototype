@@ -234,10 +234,10 @@ function show_participation_list(){
     });
 }
 
-var reg_page;
 
 // Get the content to be populated in the registration page.
 function get_reg_page(){
+	var reg_page;
     $.ajax({
         'type'  :  'POST',
         'url'   :  './register.php',
@@ -264,24 +264,6 @@ function register(is_new){
     is_new = (typeof is_new=='undefined');
 
     var too_many_accounts = false;
-    // if (is_new) {
-    // // First check if we already have too many user accounts
-		// $.ajax({
-			// 'type': 'POST',
-			// 'url': 'user.php',
-			// async: false,
-			// 'data': {
-			    // 'experiment_id' : "users",
-			    // 'function' : 'checknumber',
-			    // 'table': "users",
-			// },
-			// 'success': function(resp) {
-				// too_many_accounts = resp;
-			// },
-			// 'failure': function(resp) {
-			// }
-		    // });
-	// }
 
     if (!too_many_accounts) {
 		$(".bootbox").remove();
@@ -402,11 +384,6 @@ function register(is_new){
 In the meantime, check out our \'Resources\' page for fun activities you can try at home!');
 	}
     }
-
-
-
-
-var session;
 
 // Function to populate the login pop-up and its functionality.
 function login(html,expr,obje){
@@ -622,14 +599,13 @@ function select_child(expr,obje){
     new_page += "<p>You will select a privacy level for your recordings at the end of the study.  Unless you allow the recordings to be used, no video except for the consent video will be viewed by anyone.</p>";
     show_childs(new_page,expr,obje);
 }
-var object_new;
-var experiment_new;
+
 // Function to create the child and privacy selection pop-up
 function show_childs(html,expr,obje){
-    object_new = obje;
-    experiment_new = expr;
+    LOOKIT.object_new = obje;
+    LOOKIT.experiment_new = expr;
 
-     bootbox.dialog(html,[
+    bootbox.dialog(html,[
     {
         'label': 'Cancel',
         "class": 'btn-danger',
@@ -650,7 +626,7 @@ function show_childs(html,expr,obje){
         }
     }
     ]);
-     $('input:radio[value = '+session["privacy"]+']').attr('checked', true);
+    $('input:radio[value = '+session["privacy"]+']').attr('checked', true);
 }
 
 // Function to check if the selected chiold is eligible to participate in the experiment
@@ -922,12 +898,10 @@ function populateForm(data, form) {
     } );
 };
 
-_connected = 0;
-
 // Function to check when the mic and camera setup is completed. 
 function connected_mic_cam(){
     if(!LOOKIT.consent_recording_completed){
-	_connected = 1;
+	LOOKIT._connected = true;
 	$('.btn-continue').css("display","inline-block");
     }
     else{
@@ -945,7 +919,7 @@ function connected_mic_cam(){
 		addEvent( {'type': 'startRecording'});
 
 	    LOOKIT.consent_recording_completed = true;
- // Start the experiment
+ 		// Start the experiment
 	    advanceSegment();
 	}
     }
@@ -1048,13 +1022,6 @@ function send_post_data(post_data){
     return true;
 }
 
-function sleep(miliseconds) {
-    var currentTime = new Date().getTime();
-    while (currentTime + miliseconds >= new Date().getTime()) {
-    }
-
-}
-
 // Receiving the average brightness of the feed being displayed.
 function avarageBrightness(brightness){
 
@@ -1065,7 +1032,7 @@ function audioVideoData(audioData,videoData){
         hide_cam('consent');
         $(".bootbox").remove();
         $(".modal-backdrop").remove();
-        object_new.loadExperiment(experiment_new, '.content_pane');
+        LOOKIT.object_new.loadExperiment(LOOKIT.experiment_new, '.content_pane');
         $("#message").after("<span class='error' style='color:red;'>It seems that either your video or audio was missing in the recorded message, please try again.</span>");
         $('.btn-continue').attr('disabled', false);
         $('.btn-continue').css("display","inline-block");

@@ -130,7 +130,8 @@ function startExperiment(condition, box) {
 	 }
 	 else{ // Recording whole study: use show_cam_widget to load the cam/mic widget.
 	    // Once it's loaded, connected_mic_cam() will be called to remove the modal pop-up and begin loading.
-		sleep(4000);
+		//sleep(4000); //This seems like a terrible idea.  Courtesy of WI as a solution to 
+		//   the widget not necessarily being ready yet... just wait 4 seconds and it probably will be!
 		//show_cam_widget("position","webcamdiv");
 	 }
 }

@@ -260,9 +260,7 @@ var page = (function() {
 	if(typeof setVisible == "undefined") {
 	    var setVisible = this.isMenuCollapsed();
 	}
-	//do not use jquery show(), hide() or reload applet in chrome
-	//KS 2/5/13: use left rather than right to avoid scrollbar;
-	//           set top value for menu as well to hide
+
 	if(setVisible) {
 	    $('#menu-container').css('position', '');
 	    $('#menu-container').css('left', '');
@@ -409,14 +407,6 @@ var page = (function() {
     };
 
     Library.prototype.loadExperiment = function(packaging, divSel) {
-	 try {
-		console.log(packaging);		
-//jswcam.setExperiment(packaging['id']);
-		if(typeof userId == 'undefined') userId = 'test_user';
-		//document.jswcam.setUser(userId);		
-	 } catch(e) {
-		console.log(e);
-	 }
 
 	function loadExp() {
 	    var includePath = function(element, index) {
