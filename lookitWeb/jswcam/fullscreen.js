@@ -6,6 +6,7 @@ function goFullscreen(element){
 	addEvent(  {'type': 'goFullscreen'});
 	if (screenfull.enabled) {
 		screenfull.request(element);
+		document.addEventListener(screenfull.raw.fullscreenchange, dealWithChange, false);
 	} else {
 		// for IE or other non-supported ...
 		// Unfortunately this does make it hard to tell when we leave fs--need to remove whole element.
@@ -18,11 +19,18 @@ function goFullscreen(element){
 	$('#fsbutton').hide();
 }
 
+function dealWithChange() {
+	if (!screenfull.isFullscreen) {
+		addEvent({'type': 'endFullscreen'});
+		$('#fsbutton').show();
+	}
+	document.removeEventListener(screenfull.raw.fullscreenchange, dealWithChange, false);
+}
+
 function leaveFullscreen(){
 	addEvent(  {'type': 'endFullscreen'});
 	if (screenfull.enabled) {
 		screenfull.exit();
-		$('#fsbutton').show();
 	}
 }
 
