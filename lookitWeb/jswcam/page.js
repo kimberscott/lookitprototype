@@ -29,8 +29,8 @@ var page = (function() {
  		var initial_height = 0; 
  		var ready = 0;
 		
-		if(LOOKIT.doneWithExperiment){
-	        LOOKIT.doneWithExperiment = false;
+		if(LOOKIT.doneWithConsent ){
+	        LOOKIT.doneWithConsent = false;
 	    }
 		var startTime;
 		var difference;
@@ -62,7 +62,7 @@ var page = (function() {
 			'label': 'Send video (0 seconds)',
 			"class": "btn-success btn-send",
 			'callback': function() {
-				if(done == 1){
+				if(LOOKIT.doneWithConsent){
 					get_params('params'); // Resetting the session variable to access the filename
 			//		var filename = session['filename'][0];
                     $.post("./camera/convert.php", {
@@ -71,7 +71,7 @@ var page = (function() {
                     });
                     console.log(session);
                     LOOKIT.consent_recording_completed = true;
-					done = 0;
+					LOOKIT.doneWithConsent = false;
 					recording = 0;
 					$("#widget_holder").css({'pointer-events':'all'});
 					hide_cam("consent");
@@ -92,7 +92,6 @@ var page = (function() {
 					difference = (endTime - startTime)/1000;
 					startTime = null;
 					recording = 0;
-					//done = 1;
 					$('.btn-record').attr('disabled', 'disabled');
 					$('.btn-stop').attr('disabled', 'disabled');
 					$('#recording-indicator').css({'background-color': '#666666'});
@@ -112,9 +111,9 @@ var page = (function() {
 					return false;
 				} else {
 			
-				if(recording == 0 && done == 0){
+				if(recording == 0 && LOOKIT.doneWithConsent  == 0){
 					recording = 1;
-					done = 0;
+					LOOKIT.doneWithConsent = false;
 					$('.btn-send').attr('disabled', 'disabled');
 					$('.btn-record').attr('disabled', 'disabled');
 					$('#recording-indicator').css({'background-color': '#FF0000'});
@@ -633,42 +632,6 @@ var page = (function() {
 	    'text' : barId
 	}));
 	return outer;
-    };
-
-    Library.prototype.updateUpload = function(name, progress, size) {
-	console.log(name, progress, size);
-	var percentage = (progress / size) * 100;
-	var map = this.getUploadingMap();
-	if(!(name in map)) {
-	    $('.uploading').append(this.makeProgressBar(name));
-	} else {
-	    $('#' + name.hashCode()).css('width', percentage + '%');
-	}
-	
-	map[name] = {
-	    'percentage': percentage,
-	    'progress': progress,
-	    'size': size
-	};
-	
-	var done = true;
-	for(var key in map) {
-	    if(map.hasOwnProperty(key)) {
-		var prog = map[key];
-		done = done && (prog.size == prog.progress);
-	    }
-	}
-	if(done) {
-	    setTimeout(function() {
-		this.getUploadingMap(true); //reset
-		var doneexp = this.getUploadingDialog();
-		if(doneexp) {
-		    bootbox.hideAll();
-		    this.getUploadingDialog(false);
-		    this.show('home');
-		}
-	    }.createDelegate(this), 1000);
-	}
     };
 
     var _lib = new Library();
