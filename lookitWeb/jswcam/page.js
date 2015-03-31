@@ -29,8 +29,8 @@ var page = (function() {
  		var initial_height = 0; 
  		var ready = 0;
 		
-		if(done == 1){
-	       	done = 0;
+		if(LOOKIT.doneWithExperiment){
+	        LOOKIT.doneWithExperiment = false;
 	    }
 		var startTime;
 		var difference;
