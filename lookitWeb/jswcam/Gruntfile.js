@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 					"experiment_functions.js",
 					"camera/swfobject.js",
 					'fragments/styles.less'],
-			tasks: ['less', 'concat', 'cssmin', 'uglify']
+			tasks: ['less', 'concat', 'cssmin', 'strip', 'uglify']
 		},
     
 	    concat: {
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
         },
         
         strip : {
-  			main : {
+  			js: {
     			src : 'combined.js',
     			dest : 'combined.js',
     			nodes : ['console']
@@ -87,7 +87,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.registerTask('default', ['less', 'concat:css', 'cssmin:css', 'concat:js', 'uglify:js' ]);
+    grunt.registerTask('default', ['less', 'concat:css', 'cssmin:css', 'concat:js', 'strip:js', 'uglify:js' ]);
 	
 };
 
