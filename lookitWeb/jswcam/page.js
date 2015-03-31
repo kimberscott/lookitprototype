@@ -29,7 +29,7 @@ var page = (function() {
  		var initial_height = 0; 
  		var ready = 0;
 		
-		if(LOOKIT.doneWithConsent ){
+		if(LOOKIT.doneWithConsent){
 	        LOOKIT.doneWithConsent = false;
 	    }
 		var startTime;
@@ -92,6 +92,7 @@ var page = (function() {
 					difference = (endTime - startTime)/1000;
 					startTime = null;
 					recording = 0;
+					LOOKIT.doneWithConsent = true;
 					$('.btn-record').attr('disabled', 'disabled');
 					$('.btn-stop').attr('disabled', 'disabled');
 					$('#recording-indicator').css({'background-color': '#666666'});
@@ -111,7 +112,7 @@ var page = (function() {
 					return false;
 				} else {
 			
-				if(recording == 0 && LOOKIT.doneWithConsent  == 0){
+				if(recording == 0 && !LOOKIT.doneWithConsent){
 					recording = 1;
 					LOOKIT.doneWithConsent = false;
 					$('.btn-send').attr('disabled', 'disabled');
