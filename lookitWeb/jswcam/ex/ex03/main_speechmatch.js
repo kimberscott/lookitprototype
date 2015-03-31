@@ -15,7 +15,6 @@ function main(mainDivSelector, expt) {
 	experiment = expt;
 	initializeExperiment();
 
-	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
 	addEvent(  {'type': 'startLoading'});
 
@@ -35,7 +34,6 @@ function main(mainDivSelector, expt) {
 			'counterbalance.php',
 			{'experiment_id': experiment.id},
 			function(jsonresp) {
-				console.log(jsonresp);
 				startExperiment(jsonresp.condition, box);
 			}
 		);
@@ -73,7 +71,6 @@ function generateHtml(segmentName){
 						addEvent(  {'type': 'endRecording'});
 					}	
 					var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
-					console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
 					experiment[segmentName] = formFields.serializeObject();
 					validArray = validateForm(segmentName, experiment[segmentName]);
 					if(segmentName == 'formBasic') {
@@ -101,8 +98,6 @@ function generateHtml(segmentName){
 			}
 			
 			testaudio.addEventListener('play', setTestedTrue, false);
-			console.log(segmentName);
-			console.log($('#' + segmentName + ' :input'));
 			$(function() {
 				$('#' + segmentName + ' #next').click(function(evt) {
 					evt.preventDefault();
@@ -127,8 +122,6 @@ function generateHtml(segmentName){
 		
 		case "instructions":
 		case "instructions2":
-			console.log(segmentName);
-			console.log($('#' + segmentName + ' :input'));
 			$(function() {
 				$('#' + segmentName + ' #next').click(function(evt) {
 					evt.preventDefault();
@@ -204,7 +197,6 @@ function generateHtml(segmentName){
 			}
 			
 			function loadedHandler(){
-				console.log('loaded handler');
 
 				// Moved here from below removing event listeners--doesn't work there.(???)
 				
@@ -230,7 +222,6 @@ function generateHtml(segmentName){
 				video.src = experiment.path + "videos/" + videotype + "/" + experiment.vidSequence[lastVid][0] + '.' + videotype;
 				
 				video.type = 'video/'+videotype;
-				console.log(video.src);
 				video.load(); // plays upon loading completely ('canplaythrough' listener)
 				
 				
@@ -266,7 +257,6 @@ function generateHtml(segmentName){
 			} else if($('video')[0].canPlayType("video/ogg")) {
 				videotype = 'ogv';
 			} 
-			console.log(videotype);
 		
 			addFsButton('#maindiv', '#vidElement');
 			goFullscreen($('#vidElement')[0]);
@@ -317,7 +307,6 @@ function startExperiment(condition, box) {
 		}
 	}
 	
-	console.log(movieList);
 	experiment.movieList = movieList;
 	
 	// List of videos to play in the single video element for this experiment
@@ -370,7 +359,6 @@ function buildVideoElement(videoName, videoID) {
 	
 	// Don't allow right-clicking on the video to get controls
 	video[0].addEventListener('contextmenu', function(evt) {
-		console.log(evt);
 		evt.preventDefault();
 	});
 	

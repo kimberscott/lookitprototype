@@ -28,7 +28,6 @@ function main(mainDivSelector, expt) {
 	experiment = expt;
 	initializeExperiment();
 
-	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
 	addEvent(  {'type': 'startLoading'});
 
@@ -48,7 +47,6 @@ function main(mainDivSelector, expt) {
 			'counterbalance.php',
 			{'experiment_id': experiment.id},
 			function(jsonresp) {
-				console.log(jsonresp);
 				startExperiment(jsonresp.condition, box);
 			}
 		);
@@ -57,7 +55,6 @@ function main(mainDivSelector, expt) {
 }
 
 function startExperiment(condition, box) {
-    console.log('Condition: ' + condition);
 	
 	$('#maindiv').append('<div id="sessioncode"></div>');
 	$('#sessioncode').html('Session ID: ' + experiment.recordingSet);
@@ -94,7 +91,6 @@ function startExperiment(condition, box) {
 				  'storyquestion': 1,
 				  'storyend': 1};
 					  
-	console.log(audioNames);
 	// Store the counterbalancing information in the experiment structure
 	experiment.condition = condition;
 	experiment.whichStory = whichStory;
@@ -169,7 +165,6 @@ function generateHtml(segmentName){
 							addEvent(  {'type': 'endRecording'});
 						}
 						var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
-						console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
 						experiment[segmentName] = formFields.serializeObject();
 						validArray = validateForm(segmentName, experiment[segmentName]);
 						if (validArray) {
@@ -279,9 +274,6 @@ function generateHtml(segmentName){
 
 							var audioSource = experiment.path + "sounds/" + audioName + numString + '.' + audiotype;
 							$('#storyAudio').attr('src', audioSource);
-							
-							console.log($('#storyAudio').attr('src'));
-							console.log(numString);
 
 							audio.load();
 							audio.play();
@@ -308,7 +300,6 @@ function generateHtml(segmentName){
 							  'storySegment': thisSegment,
 							  'storyPage': currentPage});
 					
-						console.log('replay');
 						var audio = $('#storyAudio')[0];
 						audio.currentTime = 0;
 						audio.play();
@@ -394,7 +385,6 @@ function generateHtml(segmentName){
 	if (segmentName=='baseline') {
 		// Enter fullscreen (will be retained throughout story segments)
 		addFsButton('#maindiv', '.storysegment');
-		console.log('#baseline');
 		goFullscreen($('#baseline')[0]);
 	} else if (segmentName=='formPoststudy') {
 	    if(!experiment.record_whole_study){

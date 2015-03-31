@@ -24,7 +24,6 @@ function main(mainDivSelector, expt) {
 	experiment = expt;	
 	initializeExperiment();
 
-	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
 	addEvent(  {'type': 'startLoading'});
 
@@ -44,9 +43,7 @@ function main(mainDivSelector, expt) {
 			'counterbalance.php',
 			{'experiment_id': experiment.id},
 			function(jsonresp) {
-				
-			console.log(jsonresp);
-			startExperiment(jsonresp.condition, box);
+				startExperiment(jsonresp.condition, box);
 			}
 		);
 	}
@@ -54,7 +51,6 @@ function main(mainDivSelector, expt) {
 	
 	
 function startExperiment(condition, box) {
-    console.log('condition = ' + condition);
 	experiment.condition = condition;
 	
 	$('#maindiv').append('<div id="sessioncode"></div>');
@@ -132,8 +128,6 @@ function startExperiment(condition, box) {
 		storyNames['summaryNov'+i] = [storyNames['object'+(i+4)][0], 'pair1_summary_novel' + i];
 	}
 	
-	console.log(videoNames);
-	console.log(storyNames);
 	
 	vidElement = buildVideoElement('intro', 'vidElement');
 					
@@ -229,7 +223,6 @@ function generateHtml(segmentName){
 								addEvent(  {'type': 'endRecording'});
 							}
 							var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
-							console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
 							experiment[segmentName] = formFields.serializeObject();
 							validArray = validateForm(segmentName, experiment[segmentName]);
 							if(segmentName == 'formBasic') {
@@ -263,8 +256,6 @@ function generateHtml(segmentName){
 					}
 					testaudio.addEventListener('play', setTestedTrue, false);
 
-					console.log(segmentName);
-					console.log($('#' + segmentName + ' :input'));
 					$(function() {
 						$('#' + segmentName + ' #next').click(function(evt) {
 							evt.preventDefault();
@@ -289,8 +280,6 @@ function generateHtml(segmentName){
 				case "instructions":
 				case "instructions2":
 
-					console.log(segmentName);
-					console.log($('#' + segmentName + ' :input'));
 					$(function() {
 						$('#' + segmentName + ' #next').click(function(evt) {
 							hide_cam("webcamdiv");
@@ -327,8 +316,6 @@ function generateHtml(segmentName){
 			} else if(video.canPlayType("video/ogg")) {
 				videotype = 'ogv';
 			} 
-			
-			console.log(videotype);
 			video.type = 'video/'+videotype;
 			video.style.height = screen.availHeight + 'px';
 			video.style.width  = screen.availWidth  + 'px';
@@ -383,7 +370,6 @@ function generateHtml(segmentName){
 			// For IE: also set currentSrc, otherwise it stays the same!
 			video.src = newSrc;
 			video.currentSrc = newSrc;
-			console.log(video.currentSrc);
 			
 			video.addEventListener('timeupdate', timeUpdateHandler);
 			video.addEventListener('emptied', loadedHandler, false);
@@ -412,7 +398,6 @@ function generateHtml(segmentName){
 			audiotype = 'mp3';
 			audioTypeString = 'audio/mpeg';
 		}
-		console.log(audiotype);
 
 		// Next button
 		$(function() {
@@ -475,7 +460,6 @@ function generateHtml(segmentName){
 		
 		newSrc = experiment.path + 'img/' + storyNames[segmentName][0] + '.png';
 		$('#objectPic').attr('src', newSrc);
-		console.log(newSrc);
 		
 		if(storyNames[segmentName][0].length) {
 			$('#objectPic').show();
@@ -487,7 +471,6 @@ function generateHtml(segmentName){
 		var audioSource = experiment.path + "sounds/" + storyNames[segmentName][1] + '.' + audiotype;
 		$('#storyAudio').attr('src', audioSource);
 		$('#storyAudio').attr('type', audioTypeString);
-		console.log(audioSource);
 		
 		
 		audio.load();
@@ -533,7 +516,6 @@ function buildVideoElement(videoName, videoID) {
 	
 	// Don't allow right-clicking on the video to get controls
 	video[0].addEventListener('contextmenu', function(evt) {
-		console.log(evt);
 		evt.preventDefault();
 	});
 	

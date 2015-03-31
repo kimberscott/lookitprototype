@@ -21,7 +21,6 @@ function main(mainDivSelector, expt) {
 	experiment = expt;	
 	initializeExperiment();
 
-	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
 	addEvent(  {'type': 'startLoading'});
 
@@ -41,7 +40,6 @@ function main(mainDivSelector, expt) {
 			'counterbalance.php',
 			{'experiment_id': experiment.id},
 			function(jsonresp) {
-				console.log(jsonresp);
 				startExperiment(jsonresp.condition, box);
 			});
  	}
@@ -187,7 +185,6 @@ $('#maindiv').removeClass('whitebackground');
 						jswcam.stopRecording();
 					}
 					var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
-					console.log(segmentName + ':  '+JSON.stringify(formFields.serializeObject()));
 					experiment[segmentName] = formFields.serializeObject();
 					validArray = validateForm(segmentName, experiment[segmentName]);
 					if (validArray) {
@@ -212,8 +209,6 @@ $('#maindiv').removeClass('whitebackground');
 			}
 			
 			testaudio.addEventListener('play', setTestedTrue, false);
-			console.log(segmentName);
-			console.log($('#' + segmentName + ' :input'));
 			$(function() {
 				$('#' + segmentName + ' #next').click(function(evt) {
 					evt.preventDefault();
@@ -291,9 +286,7 @@ $('#maindiv').removeClass('whitebackground');
 			function keypressHandler(event){
 			
 				event.preventDefault();
-				console.log('click');
 				event = event.charCode || event.keyCode;
-				console.log(event);
 				if (event==32 && audio.paused) { // Space bar
 			
 					addEvent(  {'type': 'click',
@@ -313,7 +306,6 @@ $('#maindiv').removeClass('whitebackground');
 			}
 			
 			function loadedHandler(){
-				console.log('loaded handler');
 				video.removeEventListener('emptied', loadedHandler, false);
 				video.removeEventListener('canplaythrough', loadedHandler, false);
 
@@ -332,18 +324,15 @@ $('#maindiv').removeClass('whitebackground');
 					$('video').attr('loop', 'loop');
 					video.style.cursor = 'auto'; // show the cursor again
 					document.addEventListener("keydown", keypressHandler, false);
-					console.log('looping');
 					}
 				else if (experiment.vidSequence[lastVid][2] == 'click') {
 					video.style.cursor = 'auto'; // show the cursor again
 					document.addEventListener("keydown", keypressHandler, false);
 					$('video').removeAttr('loop');
-					console.log('click delay');
 					}
 				else {
 					video.style.cursor = 'none'; // hide the cursor
 					$('video').removeAttr('loop');
-					console.log('regular delay');
 					}
 				
 				addEvent(  {'type': 'startMovie',
@@ -383,7 +372,6 @@ $('#maindiv').removeClass('whitebackground');
 				} else {audio.src = '';}
 				
 				video.load(); // plays upon loading completely ('canplaythrough' listener)
-				console.log(video.src);
 			}
 			
 			function switchToMusic() {
@@ -415,7 +403,6 @@ $('#maindiv').removeClass('whitebackground');
 			} else if($('video')[0].canPlayType("video/ogg")) {
 				videotype = 'ogv';
 			} 
-			console.log(videotype);
 			
 			var audiotype = 'none';
 			if ($('audio')[0].canPlayType("audio/mpeg")) {
@@ -423,7 +410,6 @@ $('#maindiv').removeClass('whitebackground');
 			} else if($('audio')[0].canPlayType("audio/ogg")) {
 				audiotype = 'ogg';
 			} 
-			console.log(audiotype);
 			var music = $('#vidElementMusic')[0];
 			music.type = audiotype;
 			music.src= experiment.path + "sounds/lasting-memories." + audiotype;
@@ -463,7 +449,6 @@ function buildVideoElement(videoID) {
 	
 	// Don't allow right-clicking on the video to get controls
 	video[0].addEventListener('contextmenu', function(evt) {
-		console.log(evt);
 		evt.preventDefault();
 	});
 	

@@ -13,7 +13,6 @@ function main(mainDivSelector, expt) {
 	experiment = expt; 
 	initializeExperiment();
 
-	console.log("Starting experiment: ", experiment.name);
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
 	addEvent(  {'type': 'startLoading'});
 
@@ -33,9 +32,7 @@ function main(mainDivSelector, expt) {
 			'counterbalance.php',
 			{'experiment_id': experiment.id},
 			function(jsonresp) {
-				
-			console.log(jsonresp);
-			startExperiment(jsonresp.condition, box);
+				startExperiment(jsonresp.condition, box);
 			}
 		);
 	}
@@ -286,9 +283,7 @@ function generateHtml(segmentName){
 				}
 			}
 			
-			function loadedHandler(){
-				console.log('loaded handler');
-				
+			function loadedHandler(){				
 				// Moved here from below removing event listeners--doesn't work there.(???)
 				video.play();
 				video.currentTime = 0;
@@ -328,7 +323,6 @@ function generateHtml(segmentName){
 				
 				audio.load();
 				video.type = 'video/'+videotype;
-				console.log(video.src);
 				video.load(); // plays upon loading completely ('canplaythrough' listener)
 				
 			}
@@ -357,7 +351,6 @@ function generateHtml(segmentName){
 			} else if($('video')[0].canPlayType("video/ogg")) {
 				videotype = 'ogv';
 			} 
-			console.log(videotype);
 			
 			var audiotype = 'none';
 			if ($('audio')[0].canPlayType("audio/mpeg")) {
@@ -366,7 +359,6 @@ function generateHtml(segmentName){
 			} else if($('audio')[0].canPlayType("audio/ogg")) {
 				audiotype = 'ogg';
 			} 
-			console.log(audiotype);
 		
 			addFsButton('#maindiv', '#thevideo');
 			goFullscreen($('#thevideo')[0]);
@@ -400,7 +392,6 @@ function buildVideoElement(videoName, videoID) {
 	
 	// Don't allow right-clicking on the video to get controls
 	video[0].addEventListener('contextmenu', function(evt) {
-		console.log(evt);
 		evt.preventDefault();
 	});
 	
