@@ -630,7 +630,7 @@ function select_child(expr,obje){
     else{
         new_page += "<option name = 'participants' id = 'participant' value = "+session.child+" disabled = 'disabled' selected> " + session.child_name +" </option>";
     }
-    new_page += "</select><input type = 'hidden' name='expriment_id' value="+expr.id+" /> </br></br>";
+    new_page += "</select><input type = 'hidden' name='experiment_id' value="+expr.id+" /> </br></br>";
     new_page += "</form>";
     new_page += "<p>You will select a privacy level for your recordings at the end of the study.  Unless you allow the recordings to be used, no video except for the consent video will be viewed by anyone.</p>";
     show_childs(new_page,expr,obje);
@@ -657,7 +657,6 @@ function show_childs(html,expr,obje){
             var json_string = JSON.stringify($('form').serializeObject());
             var new_var = JSON.parse(json_string);
             session['participant'] = new_var['participant'];
-            session['expriment_id'] = new_var['expriment_id'];
             session['participant_privacy'] = 'INCOMPLETE';
             check_age(json_string,expr,obje);
         }
@@ -747,7 +746,7 @@ function set_to_session(){
     });
 }
 
-// Function to set the session dat and the demographic form data
+// Function to set the session data and the demographic form data
 function get_params(fun){
     var sending;
     var flag = 1;

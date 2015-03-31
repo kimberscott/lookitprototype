@@ -87,7 +87,16 @@ var jswcam = (function() {
 			this.stopRecording("stopping");
 			console.log('Tried to start recording, but was already recording!  Stopped instead.');
 		}
-		get_params('params'); // Resetting the session variable to access the filename
+
+		if (!session.hasOwnProperty('user_id'))
+		{
+			// This was originally (thanks WI...) a non-async call made EVERY recording start, 
+			// which was causing problems.
+			// All it does it set the value of the variable 'session', which we should 
+			// already have.  TODO: should also do more input checking in recordToCamera
+			// before using client-accessible vars to set filenames...
+			get_params('params'); // Resetting the session variable to access the filename
+		}
 		swfobject.getObjectById("flashplayer").recordToCamera(session['experiment_id'],session['user_id']+'_'+LOOKIT.RECORDINGSET,session['participant'],session['participant_privacy'],caller,recording_count);
 		recording_count++;
 		is_recording = '1';
