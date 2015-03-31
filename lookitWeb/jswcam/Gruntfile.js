@@ -57,6 +57,14 @@ module.exports = function(grunt) {
                 dest: 'combined.min.css'
             }
         },
+        
+        strip : {
+  			main : {
+    			src : 'combined.js',
+    			dest : 'combined.js',
+    			nodes : ['console']
+  			}
+		},
 		
 		uglify : {
 			options: {
@@ -80,6 +88,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['watch']);
 	
 	grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-strip');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
