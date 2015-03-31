@@ -243,7 +243,6 @@ function generateHtml(segmentName){
 							'src': experiment.vidSequence[lastVid]});
 
 				if (!video.paused) {video.pause();}
-				video.removeEventListener('playing', setCurrentTime, false);
 				
 				if (experiment.vidSequence[lastVid][2] == 'click') {
 					// At end of the movie (but only then!), click to continue.
@@ -286,6 +285,7 @@ function generateHtml(segmentName){
 			
 			function setCurrentTime() {
 				video.currentTime = 0;
+				video.removeEventListener('playing', setCurrentTime, false);
 			}
 			
 			function loadedHandler(){				
@@ -294,7 +294,6 @@ function generateHtml(segmentName){
 				audio.play();
 				
 				video.addEventListener('playing', setCurrentTime);
-				
 				
 				video.removeEventListener('canplaythrough', loadedHandler, false);
 				video.removeEventListener('emptied', loadedHandler, false);
