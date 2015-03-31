@@ -16,6 +16,7 @@ LOOKIT.unsupportedOS = ["Mac OS X", "Mac OS", "iOS", "OS X"];
 LOOKIT.recording_count = '0';
 LOOKIT.doneWithExperiment = false;
 LOOKIT.is_recording = false;
+LOOKIT.consent_recording_completed = false;
 
 // Make a safe dummy function to replace console.log.
 // Calls are removed for production code anyway using grunt-strip
@@ -47,6 +48,16 @@ if(!$.isFunction(String.prototype.hashCode)) {
 	}
 	return hash;
     }
+}
+
+function handleprivacyclick(event) {
+	var val = $('input[name=participant_privacy]:radio:checked').val();
+	var textbox = $('#confirmfreediv');
+	if (val=="free") {
+		textbox.show();
+	} else {
+		textbox.hide();
+	}
 }
 
 (function() {

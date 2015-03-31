@@ -21,55 +21,44 @@ $.fn.serializeObject = function()
     return o;
 };
 
-function handleprivacyclick(event) {
-		console.log('privacy click handler');
-		var val = $('input[name=participant_privacy]:radio:checked').val();
-		var textbox = $('#confirmfreediv');
-		if (val=="free") {
-			textbox.show();
-		} else {
-			textbox.hide();
-		}
-}
-
-// Function to Send a call to the database script and get the responce data back
+// Function to Send a call to the database script and get the response data back
 function call(str,url){
-var result;
-var json_string = JSON.stringify($('form').serializeObject());
+	var result;
+	var json_string = JSON.stringify($('form').serializeObject());
 
-if(json_string != "" && str == "check"){
-    json_string = "{\"email_label\":\""+$("#email").val()+"\"}";
-}
-$.ajax({
-        'type': 'POST',
-        'url': url,
-        async: false,
-        'data': {
-            'table'    : 'users',
-            'json_data': json_string,
-            'function' : str  
-        },
-        success: function(resp) {
-            if(resp)
-            {
-                if(str == "login" || str == "reset_pass"){
-            	   $("#reg,#log,.login_form").css("display", "none");
-            	   $("#reg1,#log1").css("display", "block");
-                }
-                result = resp;
-            }
-            else{
-                $("#error").css("display","block");
-            }
-        },
-        failure: function(resp) {
-            result = false;
-        }
-        });
-return result;
+	if(json_string != "" && str == "check"){
+		json_string = "{\"email_label\":\""+$("#email").val()+"\"}";
+	}
+	
+	$.ajax({
+			'type': 'POST',
+			'url': url,
+			async: false,
+			'data': {
+				'table'    : 'users',
+				'json_data': json_string,
+				'function' : str  
+			},
+			success: function(resp) {
+				if(resp)
+				{
+					if(str == "login" || str == "reset_pass"){
+					   $("#reg,#log,.login_form").css("display", "none");
+					   $("#reg1,#log1").css("display", "block");
+					}
+					result = resp;
+				}
+				else{
+					$("#error").css("display","block");
+				}
+			},
+			failure: function(resp) {
+				result = false;
+			}
+			});
+	return result;
 }
 
-var consent_recording_completed = 0;
 $(document).ready(function(){
     $("#log1").click(function (){
         $.ajax({
@@ -88,9 +77,9 @@ $(document).ready(function(){
     });
 
     setInterval(function(){
-// prevent server to end the session due to inactivity
-	var refresh = call('refresh','./user.php');
-    }, 300000);
+			// prevent server to end the session due to inactivity
+			var refresh = call('refresh','./user.php');
+    	}, 300000);
 
     $('#log').click(function(){
             var req = new XMLHttpRequest();
@@ -189,7 +178,7 @@ $(document).ready(function(){
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
     
 });
-var responce;
+
 
 // Function to display the Edit registration details, on the My Accounts page.
 function show_edit_page(){
@@ -208,24 +197,15 @@ function show_edit_page(){
 // Function to display the Previous participated studies, on the My Accounts page.
 function show_participated_page(){
     page.show("account");
-    var participated=get_list();
-    if(participated != ""){
-	$("#experi").html("");
-        page.buildExperimentGallery('#experi', participated);
-	$("#experi").prepend("<div><h3>Previous Studies</h3></div>");
-    }
-    else{
-        $("#experi").html("<div class='row-fluid' style='text-align: center;'><br /><br /><b>You have not participated in any studies.</b></div>");
-    }
+    show_participation_list();
 }
 
-
-// Get the list of participated experiments for the logged in user in the "My Accounts page"
-function get_list(){
+// Display the list of participated experiments for the logged in user in the "My Accounts page"
+function show_participation_list(){
     $.ajax({
         'type': 'POST',
         'url': './user.php',
-        async: false,
+        async: true,
         'data': {
             'table'     : 'users',
             'function'  : 'account',
@@ -234,7 +214,15 @@ function get_list(){
         success: function(resp) {
             if(resp)
             {
-                responce = eval("(" + resp + ')');
+                participated=eval("(" + resp + ')');
+    			if(participated != ""){
+					$("#experi").html("");
+					page.buildExperimentGallery('#experi', participated);
+					$("#experi").prepend("<div><h3>Previous Studies</h3></div>");
+				}
+				else{
+					$("#experi").html("<div class='row-fluid' style='text-align: center;'><br /><br /><b>You have not participated in any studies.</b></div>");
+				}
             }
             else{
                 $("#error").css("display","block");
@@ -244,7 +232,6 @@ function get_list(){
             result = false;
         }
     });
-    return responce;
 }
 
 var reg_page;
@@ -445,9 +432,9 @@ function login(html,expr,obje){
                     var x = call('login','./user.php');
                     var count = x.indexOf('error'); // Check for Database error
                     if(count == -1){
-                        var responce = eval("(" + x + ')');
-                        session = responce;
-                        $("#reg1").html("<a href='#'' > Hi "+responce['name']+" </a>");
+                        var response = eval("(" + x + ')');
+                        session = response;
+                        $("#reg1").html("<a href='#'' > Hi "+response['name']+" </a>");
                         if(obje){
                             $(".bootbox").remove();
                             $(".modal-backdrop").remove();
@@ -939,7 +926,7 @@ _connected = 0;
 
 // Function to check when the mic and camera setup is completed. 
 function connected_mic_cam(){
-    if(consent_recording_completed == 0){
+    if(!LOOKIT.consent_recording_completed){
 	_connected = 1;
 	$('.btn-continue').css("display","inline-block");
     }
@@ -957,7 +944,7 @@ function connected_mic_cam(){
 		jswcam.startRecording();
 		addEvent( {'type': 'startRecording'});
 
-	    consent_recording_completed = 1;
+	    LOOKIT.consent_recording_completed = true;
  // Start the experiment
 	    advanceSegment();
 	}

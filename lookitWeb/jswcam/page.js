@@ -70,7 +70,7 @@ var page = (function() {
                         'privacy' : 'INCOMPLETE'
                     });
                     console.log(session);
-                    consent_recording_completed = 1;
+                    LOOKIT.consent_recording_completed = true;
 					done = 0;
 					recording = 0;
 					$("#widget_holder").css({'pointer-events':'all'});
@@ -233,14 +233,13 @@ var page = (function() {
 		$('.btn-stop').css("display","none");
 		$('.btn-record').css("display","none");
 		$('.btn-record').attr('disabled', 'disabled');
-	    consent_recording_completed = 0;
+	    LOOKIT.consent_recording_completed = false;
 		show_cam("consent","cam_setup");
 
     };
 
     Library.prototype.showVerifyDialog = function(acceptFunc) {
 	var html = this.html('upload');
-	//TODO: OK -> SEND (confirm -> dialog)
 	bootbox.confirm(html, function(result) {
 	    if(result) {
 		acceptFunc();
