@@ -195,30 +195,26 @@ function generateHtml(segmentName){
 		case "positioning2": // Special case to deal with requirement that user should test audio
 			var testaudio = $('#testaudio')[0];
 
-				testaudio.addEventListener('play', setTestedTrue, false);
-				$(function() {
-					var tested = false;
-					function setTestedTrue(event){
-						tested = true;
+			$.data(testaudio, "tested", false);
+
+			function setTestedTrue(event){
+				$.data(testaudio, "tested", true);
+			}
+			testaudio.addEventListener('play', setTestedTrue, false);
+
+			$(function() {
+				$('#' + segmentName + ' #next').click(function(evt) {
+					evt.preventDefault();
+					if($.data(testaudio, "tested"){
+						advanceSegment();
 					}
-				
-					$('#' + segmentName + ' #next').click(function(evt) {
-						evt.preventDefault();
-						if(tested){
-							advanceSegment();
-						}
-						else{
-							bootbox.alert('Please play the chime so you\'ll know what it sounds like.');
-						}
-						return false;
-					});
-					$('#' + segmentName + ' #back').click(function(evt) {
-						evt.preventDefault();
-						previousSegment();
-						return false;
-					});
+					else{
+						bootbox.alert('Please play the chime so you\'ll know what it sounds like.');
+					}
+					return false;
 				});
-				break;		
+			});
+			break;		
 			
 		case "positioning":
 			show_getting_setup_widget(); // fall through
