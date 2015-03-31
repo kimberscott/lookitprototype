@@ -284,6 +284,10 @@ function generateHtml(segmentName){
 				}
 			}
 			
+			function setCurrentTime() {
+				video.currentTime = 0;
+			}
+			
 			function loadedHandler(){				
 				// Moved here from below removing event listeners--doesn't work there.(???)
 				audio.play();
@@ -310,9 +314,7 @@ function generateHtml(segmentName){
 							'src': experiment.vidSequence[lastVid]});
 			}
 			
-			function setCurrentTime() {
-				video.currentTime = 0;
-			}
+
 			
 			function advanceVideoSource(){
 				lastVid++;
