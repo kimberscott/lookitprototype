@@ -24,8 +24,8 @@ LOOKIT.consent_recording_completed = false;
 // experiment.  This is one of many VERY sloppy practices I'm trying to sort out after 
 // ending the contract with WebIntensive... sigh.  At least the global definition of 
 // 'object_new' isn't buried in the middle of 'myfunc.js' anymore.  -ks 3/2015
-LOOKIT.object_new = None;
-LOOKIT.experiment_new = None;
+LOOKIT.object_new = [];
+LOOKIT.experiment_new = [];
 
 LOOKIT._connected = false;
 
