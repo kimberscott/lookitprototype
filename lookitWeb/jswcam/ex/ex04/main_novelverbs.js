@@ -83,7 +83,7 @@ function startExperiment(condition, box) {
 					   'tickle1', 	'tickle2', 	'tickle3'];
 					   
 	var verbs = ['blick', 'glorp', 'meek', 'pimm'];
-	var experiment.thisVerb = verbs[whichVerb];
+	experiment.thisVerb = verbs[whichVerb];
 	
 	var testAudioAll = [['Whatshappening2x', 		'Whatshappening2x', 		'Whatshappening2x'], 
 						[experiment.thisVerb + '1', 	experiment.thisVerb + '2', 	experiment.thisVerb + '3']];
@@ -114,8 +114,7 @@ function startExperiment(condition, box) {
 						['end', 'beep', 'click']				];
 
 	// stick all of this in the experiment object so it will be sent to the database
-	console.log(experiment.vidSequence);
-	experiment.experiment.vidSequence = experiment.vidSequence;
+	experiment.vidSequence = experiment.vidSequence;
 	experiment.whichVerb = whichVerb;
 	experiment.order = order;
 	experiment.conditionIsSet = true; // have set condition; can use for debriefing now
