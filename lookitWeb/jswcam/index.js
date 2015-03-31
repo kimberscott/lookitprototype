@@ -4,6 +4,18 @@
  */
 var RECORDINGSET = "";
 var DBID = "";
+var DEBUGMODE = false;
+
+// Make a safe dummy function to replace console.log.
+// Should eventually remove any calls to console.log for production code 
+// (e.g. in uglify settings)
+if ((typeof console === "undefined") || !DEBUGMODE){
+		console= {};
+		console.log = function(){
+			return;
+		}
+		window.console = console;
+}
  
 if(!$.isFunction(Function.prototype.createDelegate)) {
     Function.prototype.createDelegate = function (scope) {
