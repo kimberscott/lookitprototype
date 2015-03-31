@@ -160,35 +160,6 @@ var jswcam = (function() {
     Library.prototype.toggleWebCamView = function(visible) {
 		page.toggleMenu(visible);
     };
-
-    Library.prototype.verifyAndUpload = function(json, exemptList) {
-
-		page.showVerifyDialog(function() {
-			//clear and show uploading dialog
-			page.getUploadingDialog(true);
-
-			var json_string = JSON.stringify(json);
-			document.jswcam.upload(exemptList);
-			$.ajax({
-			'type': 'POST',
-			'url': 'mongo.php',
-			'data': {
-				'experiment_id' : document.jswcam.getExperiment(),
-				'user_id' : document.jswcam.getUser(),
-				'json_data': json_string
-			},
-			'success': function(resp) {
-				window.onbeforeunload = [];
-				console.log(resp);
-			},
-			'failure': function(resp) {
-				window.onbeforeunload = [];
-				console.log(resp);
-			}
-		});
-	});
-	
-    };
     
     return new Library();
 })();
