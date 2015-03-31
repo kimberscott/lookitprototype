@@ -621,7 +621,7 @@ function show_childs(html,expr,obje){
             var new_var = JSON.parse(json_string);
             session['participant'] = new_var['participant'];
             session['participant_privacy'] = 'INCOMPLETE';
-            session['experiment_id'] = new_var['expriment_id'];
+            session['experiment_id'] = new_var['experiment_id'];
             check_age(json_string,expr,obje);
         }
     }

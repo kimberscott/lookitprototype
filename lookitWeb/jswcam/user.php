@@ -307,7 +307,7 @@ function check_age($table, $json, $string){
   get_experiment_age_range($string); // Fetching the experiment data from the db.
 
   // Setting participant's data in session.
-  $_SESSION['user']['experiment_id'] = $data['expriment_id'];
+  $_SESSION['user']['experiment_id'] = $data['experiment_id'];
   $_SESSION['user']['participant'] = $data['participant'];
   $_SESSION['user']['participant_privacy'] = "INCOMPLETE";
 
@@ -331,7 +331,7 @@ function check_age($table, $json, $string){
   $age_in_days = ceil(abs(strtotime($current_date) - strtotime($participant_dob))/86400);
 
   // Fetch the age range of the participating experiment from the session.
-  $experiment_age_range = $_SESSION['user']['age_range'][$data['expriment_id']];
+  $experiment_age_range = $_SESSION['user']['age_range'][$data['experiment_id']];
 
   // Check if the child falls in the accepted age range.
   if($age_in_days >= $experiment_age_range['min_age'] &&  $age_in_days <= $experiment_age_range['max_age']){
@@ -342,8 +342,8 @@ function check_age($table, $json, $string){
   $new_find['email_label'] = $_SESSION['user']['email_label'];
   $new_find['child_id'] =  $data['participant'];
 
-  if($data['expriment_id']){
-    $new_find['experiment_id'] = $data['expriment_id'];
+  if($data['experiment_id']){
+    $new_find['experiment_id'] = $data['experiment_id'];
   }
 
   // Creating connection string to check if the child has already participated in the experiment
