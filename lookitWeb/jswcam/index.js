@@ -14,7 +14,6 @@ LOOKIT.sandbox = false;
 LOOKIT.unsupportedBrowsers  = ["Safari"];
 LOOKIT.unsupportedOS = ["Mac OS X", "Mac OS", "iOS", "OS X"];
 LOOKIT.recording_count = '0';
-LOOKIT.doneWithExperiment = false;
 LOOKIT.doneWithConsent = false;
 LOOKIT.is_recording = false;
 LOOKIT.consent_recording_completed = false;

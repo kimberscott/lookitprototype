@@ -1040,10 +1040,10 @@ function audioVideoData(audioData,videoData){
         swfobject.getObjectById('flashplayer').setup();
     }
     else{
-        LOOKIT.doneWithExperiment = true;
+        LOOKIT.doneWithConsent = true;
         $('.btn-send').attr('disabled', false);
         $('.waiting').remove();
-        return LOOKIT.doneWithExperiment;
+        return LOOKIT.doneWithConsent;
     }
 }
 
