@@ -116,7 +116,7 @@ var jswcam = (function() {
 			console.log('Tried to start recording, but was already recording!  Stopped instead.');
 		}
 
-		if (!session.hasOwnProperty('user_id'))
+		if (!session.hasOwnProperty('user_id') || !session.hasOwnProperty('experiment_id'))
 		{
 			// This was originally (thanks WI...) a non-async call made EVERY recording start, 
 			// which was causing problems.
