@@ -188,27 +188,26 @@ function show_state_labs() {
 }
 
 // Generate a random string of length len made up of the characters in charSet (optional)
-//Thanks to CaffGeek,
-// http://stackoverflow.com/questions/1349404/generate-a-string-of-5-random-characters-in-javascript
 function randomString(len, charSet) {
     charSet = charSet || 'BDGHJKLMNPQRTVWXYZbdghjklmnpqrtvwxyz0123456789';
     var randomString = '';
-    for (var i = 0; i < len; i++) {
-    	var randomPoz = Math.floor(Math.random() * charSet.length);
-    	randomString += charSet.substring(randomPoz,randomPoz+1);
+    for (var charPos = 0; charPos < len; charPos++) {
+    	var randomInd = Math.floor(Math.random() * charSet.length)
+    	randomString += charSet.substring(randomInd, randomInd + 1);
     }
     return randomString;
 }
 
 // Retrieve a value in the URL (currently used for MTurk ID passed from the HIT):
-// Thanks to: css-tricks.com/snippets/javascript/get-url-variables/?
-function getQueryVariable(variable)
+function getQueryVariable(varString)
 {
        var query = window.location.search.substring(1);
-       var vars = query.split("&");
-       for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if(pair[0] == variable){return pair[1];}
+       var allVars = query.split("&");
+       for (var iPair=0; iPair<allVars.length; iPair++) {
+            var pair = vars[iPair].split("=");
+            if(pair[0] == varString) {
+            	return pair[1];
+            }
        }
        return(false);
 }
