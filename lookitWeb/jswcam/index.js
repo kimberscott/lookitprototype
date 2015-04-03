@@ -204,7 +204,7 @@ function getQueryVariable(varString)
        var query = window.location.search.substring(1);
        var allVars = query.split("&");
        for (var iPair=0; iPair<allVars.length; iPair++) {
-            var pair = vars[iPair].split("=");
+            var pair = allVars[iPair].split("=");
             if(pair[0] == varString) {
             	return pair[1];
             }
