@@ -407,7 +407,7 @@ function generateHtml(segmentName){
 				addEvent({'type': 'startPage', 
 					  'storySegment': segmentName});
 				
-				if (!sandbox && isRecording) {
+				if (!LOOKIT.sandbox && isRecording) {
 					jswcam.stopRecording();
 					isRecording = false;
 					addEvent(  {'type': 'endRecording'});
