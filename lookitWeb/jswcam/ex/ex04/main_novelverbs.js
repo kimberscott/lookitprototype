@@ -111,7 +111,6 @@ function startExperiment(condition, box) {
 						['end', 'beep', 'click']				];
 
 	// stick all of this in the experiment object so it will be sent to the database
-	experiment.vidSequence = experiment.vidSequence;
 	experiment.whichVerb = whichVerb;
 	experiment.order = order;
 	experiment.conditionIsSet = true; // have set condition; can use for debriefing now

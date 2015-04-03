@@ -1001,6 +1001,7 @@ function send_post_data(post_data){
         }
     });
 
+// TODO: error in oneshot submission narrowed down to here.
     // As long as the user did not withdraw, also do a final DB update.
     if ('continue' in post_data) {
         $.ajax({
@@ -1011,9 +1012,7 @@ function send_post_data(post_data){
                 'json_data'    : experiment,
                 'function'     : 'set_account'
             },
-            success: function(resp) {
-                console.log('Final database update');
-            }
+            success: function() {}
         });
     }
     $("#flashplayer").remove();
