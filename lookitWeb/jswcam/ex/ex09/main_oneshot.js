@@ -392,8 +392,8 @@ $('#maindiv').removeClass('whitebackground');
 				}
 			}
 		
-			if(segmentName=='famMovies') {var experiment.vidSequence = famMovies;}
-			else if(segmentName=='testMovies') {var experiment.vidSequence = testMovies;}
+			if(segmentName=='famMovies') {experiment.vidSequence = famMovies;}
+			else if(segmentName=='testMovies') {experiment.vidSequence = testMovies;}
 			
 			var videotype = 'none';
 			if ($('video')[0].canPlayType("video/webm")) {
