@@ -11,7 +11,6 @@ var trialCounter = 1;
 // Use a shorter version of the study just for testing?
 var shortTest = false;
 var conditionSet = false;
-var htmlSequence;
 var vidSequence;
 
 // The function 'main' must be defined and is called when the consent form is submitted 
@@ -122,7 +121,7 @@ function startExperiment(condition, box) {
 	conditionSet = true;
 	
 	// Sequence of sections of the experiment, corresponding to html sections.
-	htmlSequence = [['instructions'],
+	experiment.htmlSequence = [['instructions'],
 					['positioning'],
 					['positioning2'],
 					['famMovies', vidElement],
@@ -258,7 +257,7 @@ $('#maindiv').removeClass('whitebackground');
 			addFsButton('#maindiv', '#fsdiv');
 			goFullscreen($('#fsdiv')[0]);
 			$("body").css("background-color","#000000");		
-			$('#fsdiv').append(htmlSequence[experiment.currentElement][1]);
+			$('#fsdiv').append(experiment.htmlSequence[experiment.currentElement][1]);
 			function endHandler(event){
 				addEvent(  {'type': 'endMovie',
 							'src': vidSequence[lastVid]});

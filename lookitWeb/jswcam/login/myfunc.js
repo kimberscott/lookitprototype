@@ -934,6 +934,7 @@ function done_or_withdraw(experiment,DEBRIEFHTML){
 	// FIRST do the privacy information, INCLUDING withdraw option.
 	var post_data;
 	var privacy_page = page.html("privacy");
+
 	
 	bootbox.dialog(privacy_page,[{
 		'label': 'Submit',
@@ -988,6 +989,9 @@ function show_debrief_dialog(post_data) {
 
 function send_post_data(post_data){
     // Use the privacy settings to name videos accordingly.
+    
+
+    
     $.ajax({
         'type': 'POST',
         'url': './camera/convert.php',
@@ -1001,7 +1005,9 @@ function send_post_data(post_data){
         }
     });
 
-// TODO: error in oneshot submission narrowed down to here.
+    // TODO: Patch for oneshot which has objects in htmlSequence that shouldn't be there:
+	experiment.htmlSequence = []
+	
     // As long as the user did not withdraw, also do a final DB update.
     if ('continue' in post_data) {
         $.ajax({
