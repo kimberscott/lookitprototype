@@ -128,49 +128,49 @@ $(document).ready(function(){
 // Clicking on the Edit Details link on the My Accounts page
     // adds disabled class to it, while enables the past studies link, if disabled.
     $(document).on("click","#acc_edit",function(){
-        if($(this).hasClass("disabled")){
-            return false;
-        }
-        else{
+        //if($(this).hasClass("disabled")){
+        //    return false;
+        //}
+        //else{
             show_edit_page();
-            if($("#experi div").hasClass("row-fluid"))
-            {
-                $('#past_studies').addClass('disabled');
-                $('#acc_edit').removeClass('disabled');
-                $("#past_studies").css("color","gray");
-                $("#acc_edit").css("color","#003366");
-            }
-            else{
-                $('#acc_edit').addClass('disabled');
-                $('#past_studies').removeClass('disabled');
-                $("#acc_edit").css("color","gray");
-                $("#past_studies").css("color","#003366");
-            }
-        }
+        //    if($("#experi div").hasClass("row-fluid"))
+        //    {
+        //        $('#past_studies').addClass('disabled');
+        //        $('#acc_edit').removeClass('disabled');
+        //        $("#past_studies").css("color","gray");
+        //        $("#acc_edit").css("color","#003366");
+        //    }
+         //   else{
+        //        $('#acc_edit').addClass('disabled');
+        //        $('#past_studies').removeClass('disabled');
+         //       $("#acc_edit").css("color","gray");
+         //       $("#past_studies").css("color","#003366");
+         //   }
+        //}
     });
 
     // Clicking on the View Past Studies link on the My Accounts page
     // adds disabled class to it, while enables the Edit Details link, if disabled.
     $(document).on("click","#past_studies",function(){
-        if($(this).hasClass("disabled")){
-            return false;
-        }
-        else{
+        //if($(this).hasClass("disabled")){
+        //    return false;
+        //}
+        //else{
             show_participated_page();
-            if($("#experi div").hasClass("row-fluid"))
-            {
-                $('#past_studies').addClass('disabled');
-                $('#acc_edit').removeClass('disabled');
-                $("#past_studies").css("color","gray");
-                $("#acc_edit").css("color","#003366");
-            }
-            else{
-                $('#acc_edit').addClass('disabled');
-                $('#past_studies').removeClass('disabled');
-                $("#acc_edit").css("color","gray");
-                $("#past_studies").css("color","#003366");
-            }
-        }
+            //if($("#experi div").hasClass("row-fluid"))
+            //{
+                //$('#past_studies').addClass('disabled');
+                //$('#acc_edit').removeClass('disabled');
+            //    $("#past_studies").css("color","gray");
+            //    $("#acc_edit").css("color","#003366");
+            //}
+            //else{
+                //$('#acc_edit').addClass('disabled');
+                //$('#past_studies').removeClass('disabled');
+            //    $("#acc_edit").css("color","gray");
+            //    $("#past_studies").css("color","#003366");
+            //}
+        //}
     });
 
     get_params('params');
