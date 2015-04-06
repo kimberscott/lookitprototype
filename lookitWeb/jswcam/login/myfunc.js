@@ -105,19 +105,19 @@ $(document).ready(function(){
 
     $("#reg1").click(function(){
 	show_participated_page();
-	if($("#experi div").hasClass("row-fluid"))
-	{
-            $('#past_studies').addClass('disabled');
-            $('#acc_edit').removeClass('disabled');
-            $("#past_studies").css("color","gray");
-            $("#acc_edit").css("color","#003366");
-	}
-	else{
-            $('#acc_edit').addClass('disabled');
-            $('#past_studies').removeClass('disabled');
-            $("#acc_edit").css("color","gray");
-            $("#past_studies").css("color","#003366");
-	}
+	//if($("#experi div").hasClass("row-fluid"))
+	//{
+    //        $('#past_studies').addClass('disabled');
+    //        $('#acc_edit').removeClass('disabled');
+     //       $("#past_studies").css("color","gray");
+    //        $("#acc_edit").css("color","#003366");
+	//}
+	//else{
+    //        $('#acc_edit').addClass('disabled');
+    //        $('#past_studies').removeClass('disabled');
+    //        $("#acc_edit").css("color","gray");
+    //        $("#past_studies").css("color","#003366");
+	//}
 
     });
 
