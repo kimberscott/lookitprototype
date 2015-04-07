@@ -305,6 +305,7 @@ var page = (function() {
 	if (key=='home') {
 		window.onbeforeunload = [];
 	}
+
 	
 
 
