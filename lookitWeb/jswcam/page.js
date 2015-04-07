@@ -306,7 +306,20 @@ var page = (function() {
 		window.onbeforeunload = [];
 	}
 
-	
+    	
+	$(document).ready(function() {
+	  $('.faqlist>li:not(".question")').hide();
+	  $('.faqlist>li.question').each(function() {
+		var tis = $(this);
+		var state=false;
+		var answer = tis.next('li').hide().css('height','auto').slideUp();
+		tis.click(function() {
+		  state = !state;
+		  answer.slideToggle(state);
+		  tis.toggleClass('active', state);
+		});
+	  });
+	});
 
 
     };
