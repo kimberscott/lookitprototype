@@ -29,6 +29,23 @@ ul.nav_log > li > a {cursor:pointer; float: right; list-style:none;padding: 10px
 @color-blurb-link:		 @color1;
 
 
+body {
+     padding-top: 60px;
+     padding-bottom: 40px;
+}
+
+.bootbox{
+	left: 50%;
+    margin-left: -390px;
+    margin-top: -295px;
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    width: 780px;
+}
+
+/* FAQ-specific settings */
+
 #faq li {
 	font-weight: normal;
 }
@@ -57,8 +74,6 @@ li.question {
 	margin-bottom: 15px;
 }
 
-
-
 #faq h2 {
 	clear:left;
 }
@@ -70,6 +85,7 @@ li.question {
 	padding: 10px;
 }
 
+/* The session code displayed at the bottom-right corner of the study */
 #sessioncode {
     position: fixed;
 	bottom: 10px;
@@ -79,6 +95,7 @@ li.question {
 	font-weight:bold;
 }
 
+/* For the webcam-view display when getting people set up */
 #positioning table {
 	position: relative;
 	margin-left: auto;
@@ -88,6 +105,8 @@ li.question {
 #webcamdiv #message{
 	display: none;
 }
+
+/* Consent form settings */
 
 .experiment_overview h1 {
     font-size: x-large;
@@ -103,6 +122,16 @@ li.question {
     line-height: 1.0;
 }
 
+#recording-indicator {
+	background-color: #999999;
+	height: 24px;
+	width: 24px;
+	line-height: 24px;
+	float: right;
+	margin: 10px;
+}
+
+/* General page settings */
 #page-container{
 	margin:0px;
 	padding:0px;
@@ -136,6 +165,7 @@ div.row-fluid {
   position: relative;
 }
 
+/* Specific content on the FAQ & examples pages */
 #lookingvideo {
 	margin:auto;
 	float:right;
@@ -159,6 +189,24 @@ div.row-fluid {
 	margin-right: 10px;
 }
 
+.consent_form, .consent_box, .experiment_overview {
+  border-style: outset;
+  border-width: 3px;
+  border-color: @color1;
+  color: @color1;
+  background-color: @color2;
+  padding: 10px;
+}
+
+a:focus {
+   border: 1px dotted #ffffff;
+}
+
+.btn-success:focus{
+	border: 1px dotted #ffffff;
+}
+
+/* The "participate" page with study descriptions */
 .about_frag .title h2{
 	width:100%;
 	background-color:@color-border;
@@ -193,6 +241,27 @@ div.row-fluid {
 	padding:0px;
 }
 
+.expr_block img {
+	border-radius: 10px;
+	max-width: 250px;
+	width: 100%;
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+	position:relative;
+	clear: both;
+}
+
+.expr_block img+p {
+	font-weight: bold;
+	text-align: center;
+}
+.experiments .btn {
+	background-color:red;
+	color:red;
+}
+
+/* Classes used in several fragments */
 .blurb a {
 	color: @color-blurb-link;
 }
@@ -220,7 +289,6 @@ div.row-fluid {
 	width: 35%;
 }
 
-
 .about_frag div.text{
 	float:right;
 	clear:none;
@@ -229,22 +297,7 @@ div.row-fluid {
 	margin:0px;
 	padding:0px;
 }
-.logoimg {
-	float:right;
-	clear:none;
-	border: 20px solid @color-border;
-	border-radius:60px;
-	border-left:0px;
-}
-#logoimg {
-	width:40%;
-	float:left;
-	clear:none;
-	border: 20px solid @color-border;
-	border-radius:60px;
-	border-right:0px;
-	max-width: 280px;
-}
+
 .about_frag h2 {
 	margin-left:5%;
 }
@@ -272,6 +325,61 @@ color: @color1;
 	font-weight: bold;
 }
 
+#aboutblurb, #newsblurb{
+	padding:0px;
+}
+#newsblurb {
+	margin-top: 60px;
+}
+
+
+
+.instructions td:first-child {
+	padding-right: 20px;
+}
+
+.about_frag td {
+	padding: 10px;
+}
+
+.about_frag td:first-child {
+	font-weight: bold;
+}
+
+.disabled:hover{
+	text-decoration: none;
+	cursor: text;
+}
+a:hover{
+	cursor: pointer;
+}
+
+#confirmfreediv p {
+	font-weight: bold;
+	margin-left: 20px;
+}
+
+
+
+/* Formatting on front page, contact, account */
+
+.logoimg {
+	float:right;
+	clear:none;
+	border: 20px solid @color-border;
+	border-radius:60px;
+	border-left:0px;
+}
+
+#logoimg {
+	width:40%;
+	float:left;
+	clear:none;
+	border: 20px solid @color-border;
+	border-radius:60px;
+	border-right:0px;
+	max-width: 280px;
+}
 
 .account h3{
   color: @color1;
@@ -283,34 +391,22 @@ color: @color1;
   font-size: 32.11px;
 }
 
-#pro{
-	color: black;
-	text-align:left;
-   font-size: 24.7px;
-   margin-bottom: 10px;
-   letter-spacing: 0;
-   line-height: 40px;
-
-}
-
-.consent_form, .consent_box, .experiment_overview {
-  border-style: outset;
-  border-width: 3px;
-  border-color: @color1;
-  color: @color1;
-  background-color: @color2;
-  padding: 10px;
-}
-
-
 .contact_frag .contact-info {
   margin-left: 25px;
 }
 
-body {
-     padding-top: 60px;
-     padding-bottom: 40px;
+/* What on earth is this? */
+#pro{
+	color: black;
+	text-align:left;
+   	font-size: 24.7px;
+   	margin-bottom: 10px;
+   	letter-spacing: 0;
+   	line-height: 40px;
 }
+
+
+/* About the scientists */
 
 #picdiv {
 	width:100%;
@@ -321,23 +417,28 @@ body {
 	font-size:small;
 	margin:auto;
 }
+
 .thumb {
     position: relative;
 	float:left;
     overflow: hidden;
 	margin:2%;
 }
+
 .whole{
 	width:46%;
 }
+
 .half{
 	width: 48%;
 	border-width: 10px;
 	border-color:red;
 }
+
 .third{
 	width: 31%;
 }
+
 .thumb img {
 	position:relative;
 	width:100%;
@@ -345,6 +446,7 @@ body {
 	border: 10px;
 	border-radius: 10px;
 }
+
 .thumb>div{
 	background-color:rgba(0,0,0,.85);
 	opacity:0;
@@ -361,140 +463,83 @@ body {
 	border-radius:10px
 }
 
-
-
 .thumb a {
-
 	color: @color4;
-
 }
-
 
 .thumb:hover > div {
     display: block;
     opacity: 1.0;
 }
+
+/* For the hovertext on the 'scientist' image */
 .thumb > div div {
     padding: 10px 20px;
 }
+
 .thumb h2 {
 	font-weight: bold;
 	font-size: x-large;
     margin-bottom: 10px;
 }
+
 .thumb p {
     margin-bottom: 10px;
 }
+
+/* Used in instructions for some experiments--could be moved to those css files */
 .left_container {
-width: 60%;
-float:left;
+	width: 60%;
+	float:left;
 }
 .right_container {
-width:40%;
-float:right;
-}
-#aboutblurb, #newsblurb{
-	padding:0px;
-}
-#newsblurb {
-	margin-top: 60px;
+	width:40%;
+	float:right;
 }
 
+/* Resources page */
 
-.expr_block img {
-	border-radius: 10px;
-	max-width: 250px;
-	width: 100%;
-	margin-left:auto;
-	margin-right:auto;
+.resources .activitypic {
+    float: left;
+    margin: 0px;
+    margin-bottom:20px;
+    width: 30%;
+}
+.resources .activityrightbar {
+    float: right;
+    margin: 0px;
+    margin-bottom: 20px;
+    width: 64%;
+}
+.resources div.activity {
+	clear: both;
+	padding-left: 30px;
+}
+
+.resources .activityvideo {
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.resources div.activitysummary { /* To fit under youtube video */
 	display:block;
-	position:relative;
-	clear: both;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top:20px;
+	width:532px;
+	float:none;
 }
 
-.expr_block h2 {
-
-}
-.expr_block img+p {
-	font-weight: bold;
-	text-align: center;
-}
-.experiments .btn {
-background-color:red;
-color:red;
+.resources .youtube iframe {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 560px;
+    height: 315px;
 }
 
-.bootbox{
-	left: 50%;
-    margin-left: -390px;
-    margin-top: -295px;
-    overflow: hidden;
-    position: fixed;
-    top: 50%;
-    width: 780px;
-}
-
-a:focus {
-   border: 1px dotted #ffffff;
-}
-
-.btn-success:focus{
-	border: 1px dotted #ffffff;
-}
-
-.instructions td:first-child {
-	padding-right: 20px;
-}
-
-#findlabblurb {
-	width: 60%;
-	float: left;
-	margin-top: 0px;
-}
-
-div.activity {
-	clear: both;
-}
-
-.activityvideo {
-	width: 32%;
-	float: left;
-	margin-bottom: 20px;
-}
-
-div.activitysummary {
-	width: 62%; 
-	float: right;
-	margin:0px;
-	margin-bottom: 20px;
-}
-
-.about_frag td {
-	padding: 10px;
-}
-
-.about_frag td:first-child {
-	font-weight: bold;
-}
-
-#recording-indicator {
-	background-color: #999999;
-	height: 24px;
-	width: 24px;
-	line-height: 24px;
-	float: right;
-	margin: 10px;
-}
-
-.disabled:hover{
-	text-decoration: none;
-	cursor: text;
-}
-a:hover{
-	cursor: pointer;
-}
-
-#confirmfreediv p {
-	font-weight: bold;
-	margin-left: 20px;
+.resources h3 {
+	margin-left: 30px;
 }
