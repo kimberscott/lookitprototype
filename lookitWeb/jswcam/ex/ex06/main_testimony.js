@@ -488,7 +488,7 @@ function buildStoryPage(id) {
 	return "<div id='"+id+"' class='storysegment'> \
 		<img id='characterPic' 	src='ex/ex06/img/pair1.png' 	class='center'> \
 		 <img id='objectPic' 	src='' 	class='center'> \
-		 <audio id='storyAudio'> </audio> \
+		 <audio id='storyAudio' class='hidecontrols'> </audio> \
 		<input type='button' value='Replay' id='replay'/> \
 		<input type='button' value='Next' id='nextPage'/> \
 		<div id='parentText'></div>\
@@ -500,7 +500,7 @@ function buildVideoElement(videoName, videoID) {
 
     //Video Tag, no controls specified, autoloading for use
     //with jswcam.waitForAssets function
-    var video = $('<video id="thevideo" class="center"/>', {
+    var video = $('<video id="thevideo" class="center hidecontrols"/>', {
 	'height': 400,
 	'width': 800,
 	'preload': 'auto',
