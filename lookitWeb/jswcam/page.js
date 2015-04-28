@@ -79,7 +79,7 @@ var page = (function() {
 					$('.btn-record').attr('disabled', 'disabled');
 					$('.btn-stop').attr('disabled', 'disabled');
 					$('#recording-indicator').css({'background-color': '#666666'});
-					$(".modal-footer").prepend("<span class='waiting'>Please Wait...</span>");
+					$(".modal-footer").prepend("<span class='waiting'>Please wait... checking that both audio and video arrived safely</span>");
 					jswcam.stopRecording();
 					$('.btn-send').html('Send video (' + parseInt(difference) + ' seconds)')
 					return false;
