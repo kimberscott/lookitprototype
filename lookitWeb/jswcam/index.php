@@ -4,8 +4,8 @@
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
 
-require_once('php/util.php'); 
-require_once('php/config.php'); 
+require_once('./php/util.php'); 
+require_once('./php/config.php'); 
 if(!isset($_SESSION['user']['id'])){ 
     session_start();
 	 $_SESSION['user']['id'] = uuid();

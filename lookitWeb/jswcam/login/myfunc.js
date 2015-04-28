@@ -62,7 +62,7 @@ function call(str,url){
 $(document).ready(function(){
     $("#log1").click(function (){
         $.ajax({
-            'url'   : 'php/login.php',
+            'url'   : './php/login.php',
             'type'  : 'post',
             'data'  : {
                 'sure' :'1'

@@ -74,7 +74,7 @@ $(document).ready(function() {
 			event.preventDefault();
 		}
 		else{
-			call('','./user.php');
+			call('','./php/user.php');
 	//                show_edit_page();
 
 		}
@@ -196,7 +196,7 @@ function update_password(){
                         'callback': function() {
 				if(update_validation() == 1){
 					$("#email_update_pass").attr("name","email");
-            				var response = call('reset_pass','./user.php');
+            				var response = call('reset_pass','./php/user.php');
 			                console.log(response);
 			                if(response){
 				                return true;

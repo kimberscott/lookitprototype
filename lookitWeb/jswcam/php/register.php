@@ -487,7 +487,7 @@ function next(){
 /*		var json_string = JSON.stringify($('#email').serializeObject());
 		$.ajax({
 			'type': 'POST',
-			'url': 'user.php',
+			'url': './php/user.php',
 			async: false,
 			'data': {
 			    'experiment_id' : "users",
@@ -557,7 +557,7 @@ function validation(){
 
 			$.ajax({
 				'type': 'POST',
-				'url': 'user.php',
+				'url': './php/user.php',
 				async: false,
 				'data': {
 				    'experiment_id' : "users",
