@@ -1,1 +1,0 @@
-sudo apt-get install apache2 php5 php5-uuid gpg libgpgme11-dev libgpgme11 libgpg-error-dev
