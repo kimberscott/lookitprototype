@@ -5,8 +5,8 @@
  */
 
 session_start();
-include("./php/config.php");
-include("./php/password.php");
+include("./config.php");
+include("./password.php");
 
 // Add data to the database for a new registered user
 function put_data($experiment_id, $json, $string) {
