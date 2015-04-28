@@ -230,7 +230,7 @@ views of the National Science Foundation. <img id='nsflogo' src='./img/nsf.gif'>
 	      </div>
 	    </div>
 	    <div id = "message" style="display:none;">
-	        <p>Your video and microphone should be automatically detected and visible above. If your microphone levels are too low, try adjusting them in your Flash settings by right-clicking on the video, selecting Settings, and updating the volume in the microphone tab. </p>
+	        <p>Your video and microphone should be automatically detected and visible above. If the yellow bar at the side doesn't go at least about a third of the way up when you talk, try adjusting your microphone volume in your Flash settings by right-clicking on the video, selecting Settings, and updating the volume in the microphone tab. </p>
 	    </div>
   	</body>
 </html>
