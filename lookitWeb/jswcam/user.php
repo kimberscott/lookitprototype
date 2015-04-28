@@ -338,7 +338,7 @@ function check_age($table, $json, $string){
     $age_flag = 1;
   }
 
-
+  $new_find['endedEarly'] = 'false'; // Only 'count' participation if they didn't end early
   $new_find['email_label'] = $_SESSION['user']['email_label'];
   $new_find['child_id'] =  $data['participant'];
 
