@@ -71,59 +71,5 @@ function load_experiments($directory="ex") {
   return $packages;
 }
 
-///
-///
-///
-
-function getUploadPath() {
-  $path = getenv('UPLOAD_DIRECTORY');
-  if(!$path) {
-    $path = dirname(__FILE__) . '/upload/';
-  }
-  return $path;
-}
-
-function getUploadSavePath($experiment_id, $user_id, $filename) {
-    $updir = getUploadPath();
-
-    $exdir = joinPath($updir, $experiment_id);
-    if(!file_exists($exdir) || !is_dir($exdir)) {
-      mkdir($exdir);
-    }
-
-    $userdir = joinPath($exdir, $user_id);
-    if(!file_exists($userdir) || !is_dir($userdir)) {
-      mkdir($userdir);
-    }
-    
-    $dest = joinPath($userdir, $filename);
-    return $dest;
-}
-
-function getFingerprint() {
-  $path = getenv('GPG_FINGERPRINT');
-  if(!$path) { 
-    throw "Warning: No key fingerprint specified. Uploads will not be encrypted";
-  } else {
-    $fingerprint = file_get_contents($path);
-    if(!$fingerprint) {
-      throw "Warning: Could not read fingerprint in $path. Uploads will not be encrypted";
-    }
-  }
-  return $fingerprint;
-}
-
-function getPublicKey() {
-  $path = getenv('GPG_PUBLIC_KEY');
-  if(!$path) {
-    throw "Warning: No public key specified. Uploads will not be encrypted";
-  } else {
-    $key = file_get_contents($path);
-    if(!$key) {
-      throw "Warning: Could not read public key in $path. Uploads will not be encrypted";
-    }
-  }
-  return $key;
-}
 
 ?>

@@ -57,7 +57,7 @@ if(isset($_GET['email']) && isset($_GET['key'])){
 <?php
   }
   else{
-    echo "The link seems to be no longer working, it is either expired or broken.<br />Please try the Reset Password option in the login page once again.";
+    echo "The link seems to be no longer working; it is either expired or broken.<br />Please try the Reset Password option in the login page once again.";
   }
 }
 
