@@ -62,7 +62,7 @@ function call(str,url){
 $(document).ready(function(){
     $("#log1").click(function (){
         $.ajax({
-            'url'   : 'login.php',
+            'url'   : 'php/login.php',
             'type'  : 'post',
             'data'  : {
                 'sure' :'1'
@@ -78,7 +78,7 @@ $(document).ready(function(){
 
     setInterval(function(){
 			// prevent server to end the session due to inactivity
-			var refresh = call('refresh','./user.php');
+			var refresh = call('refresh','./php/user.php');
     	}, 300000);
 
     $('#log').click(function(){
@@ -93,7 +93,7 @@ $(document).ready(function(){
         var email = $("#reset").val();
         var key = $("#reset_key").val();
         var req = new XMLHttpRequest();
-            req.open("POST", "./login/reset.php?email="+email+"&key="+key, false);
+            req.open("POST", "./php/reset.php?email="+email+"&key="+key, false);
             req.send(null);
             var reset_page = req.responseText;
             save_pass(reset_page);
@@ -183,7 +183,7 @@ $(document).ready(function(){
 // Function to display the Edit registration details, on the My Accounts page.
 function show_edit_page(){
     var req = new XMLHttpRequest();
-    req.open("POST", "./edit_register.php", false);
+    req.open("POST", "./php/edit_register.php", false);
     req.send(null);
     var register_page = req.responseText;
 
@@ -204,7 +204,7 @@ function show_participated_page(){
 function show_participation_list(){
     $.ajax({
         'type': 'POST',
-        'url': './user.php',
+        'url': './php/user.php',
         async: true,
         'data': {
             'table'     : 'users',
@@ -240,7 +240,7 @@ function get_reg_page(){
 	var reg_page;
     $.ajax({
         'type'  :  'POST',
-        'url'   :  './register.php',
+        'url'   :  'php/register.php',
         async   :  false,
         'data'  :  session,
         success: function(resp) {
@@ -301,7 +301,7 @@ function register(is_new){
 					$("#gender_error").css("display","none");
 					if(continue_clicked == 2){
 							
-							var myname = call('','./user.php');
+							var myname = call('','./php/user.php');
 							$("#reg1,#log1").css("display", "block");
 							$("#reg,#log,.login_form").css("display", "none");
 							$("#reg1").html("<a href='#'' > Hi "+myname+" </a>");							
@@ -406,7 +406,7 @@ function login(html,expr,obje){
                 $("#error").css("display","none");
 
                 if($("#email").val() && $("#password").val()){
-                    var x = call('login','./user.php');
+                    var x = call('login','./php/user.php');
                     var count = x.indexOf('error'); // Check for Database error
                     if(count == -1){
                         var response = eval("(" + x + ')');
@@ -480,11 +480,11 @@ function reset_pass(){
             
             var confirm_page = "";
             if($("#email").val()){
-                var x = call('check','./user.php'); // Check if the entered email exists in db
+                var x = call('check','./php/user.php'); // Check if the entered email exists in db
                 if(x){ // Show the confirmation pop-up
                     $.ajax({
                         'type': 'POST',
-                        'url': './login.php',
+                        'url': './php/login.php',
                         async: false,
                         'data': {
 				'email' : $("#email").val()
@@ -526,7 +526,7 @@ function save_pass(html){
         'class': 'btn-primary btn-stop',
         'callback': function() {
             if(validation() == 1){
-                var x = call('reset_pass','./user.php');
+                var x = call('reset_pass','./php/user.php');
                 if(x){
         			x1 = eval("(" + x + ')');
         			session = x1;
@@ -634,7 +634,7 @@ function show_childs(html,expr,obje){
 function check_age(string,expr,obje){
      $.ajax({
         'type': 'POST',
-        'url': './user.php',
+        'url': './php/user.php',
         async: false,
         'data': {
             'table'     : 'users',
@@ -697,7 +697,7 @@ function get_permission(err_html,expr,obje){
 function set_to_session(){
     $.ajax({
         'type': 'POST',
-        'url': './user.php',
+        'url': './php/user.php',
         async: false,
         'data': {
             'table'     : 'users',
@@ -716,7 +716,7 @@ function get_params(fun){
     var flag = 1;
      $.ajax({
         'type': 'POST',
-        'url': './user.php',
+        'url': './php/user.php',
         async: false,
         'data': {
             'function'  : fun,
@@ -867,7 +867,7 @@ function demographic(param){
     var json_string = JSON.stringify($('form').serializeObject());
     $.ajax({
         'type': 'POST',
-        'url': './user.php',
+        'url': './php/user.php',
         async: false,
         'data': {
             'table'    : 'users',
@@ -1012,7 +1012,7 @@ function send_post_data(post_data){
     if ('continue' in post_data) {
         $.ajax({
             'type': 'POST',
-            'url': './user.php',
+            'url': './php/user.php',
             'data': {
                 'table'        : 'users',
                 'json_data'    : experiment,

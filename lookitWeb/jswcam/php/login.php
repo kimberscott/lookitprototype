@@ -4,7 +4,7 @@
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
  
-require_once('config.php'); 
+require_once('php/config.php'); 
 session_start();
 $dbString = $CONFIG['dbstring'];
 

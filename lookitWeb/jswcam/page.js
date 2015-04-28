@@ -569,7 +569,7 @@ var page = (function() {
 		        'callback': function() {
 		        	$.ajax({
 						'type': 'POST',
-						'url': './user.php',
+						'url': 'php/user.php',
 						'data': {
 						    'table'	   : 'users',
 						    'function' : 'set_account'

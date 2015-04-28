@@ -10,7 +10,7 @@
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
 
-include("./config.php");
+include("./php/config.php");
 function check_conditions($experiment_id,$string) {  
   
   	if (strcmp($experiment_id, "testimony") == 0) { // Manual CB for 3-year-olds in Testimony

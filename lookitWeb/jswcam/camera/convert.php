@@ -5,7 +5,7 @@
 
 
 session_start();
-include('../config.php');
+include('../php/config.php');
 
 /** 
  * Check if user wishes to withdraw from the participated studies

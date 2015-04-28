@@ -84,7 +84,7 @@ function advanceSegment(){
 	
 	$.ajax({
                 'type': 'POST',
-                'url': './user.php',
+                'url': 'php/user.php',
                 'async' : true,
                 'data': {
                     'table'        : 'users',
