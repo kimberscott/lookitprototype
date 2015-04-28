@@ -4,22 +4,6 @@ var page = (function() {
 	this.fragments = {};
     }
 
-    default_config = {
-		'jq_selector': '#jswcam',
-
-		'app_width' : 200,
-		'app_height': 200,
-	
-		'libpath'   : 'lib/',
-		'uploadpath': 'upload.php',
-	
-		'rec_width' : 320,
-		'rec_height': 240,
-    };
-
-    Library.prototype.init = function(config) {
-	this.config = $.extend({}, default_config, config);
-    };
 	Library.prototype.showVerbalConsentDialog = function(callback, expt) {
 		// Look up the file '[expt.id].html' under 'fragments' and sub into dialog
 		var html = this.html(expt.id);
