@@ -436,7 +436,7 @@ function buildVideoElement(videoID) {
 
     //Video Tag, no controls specified, autoloading for use
     //with jswcam.waitForAssets function
-    var video = $('<video id="thevideo" class="thevideo center"/>', {
+    var video = $('<video id="thevideo" class="thevideo center hidecontrols"/>', {
 	'height': 400,
 	'width': 800,
 	'wmode': "opaque", // This allows the HTML to hide the flash content
@@ -456,11 +456,13 @@ function buildVideoElement(videoID) {
 	var musicsegment = $('<audio/>', {
 	'id': 'vidElementMusic', 
 	'volume': 0.25,
-	'loop': 'loop'});
+	'loop': 'loop',
+	'class': 'hidecontrols'});
 	
 	var audiosegment = $('<audio/>', {
 	'id': 'vidElementAudio', 
-	'volume': 1.0});
+	'volume': 1.0,
+	'class':'hidecontrols'});
 
 	// stick video and button into one div
 	var videoDiv = $('<div/>', {

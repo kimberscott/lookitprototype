@@ -404,11 +404,13 @@ function buildVideoElement(videoName, videoID) {
 	
 	// Audio to go along with silent videos
 	var audiosegment = $('<audio/>', {
-	'id': 'vidElementAudio'});
+	'id': 'vidElementAudio', 
+	'class': 'hidecontrols'});
 
 	// stick video and button into one div
 	var videoDiv = $('<div/>', {
-	'id': videoID});
+	'id': videoID,
+	'class':'hidecontrols'});
 	videoDiv.append(video);
 	videoDiv.append(audiosegment);
 
