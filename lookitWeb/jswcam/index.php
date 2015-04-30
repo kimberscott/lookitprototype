@@ -176,10 +176,11 @@ if(!isset($_SESSION['user']['id'])){
 
 
 <div style='text-align:center; margin-top:100px;'>
-This material is based upon work supported by the National Science Foundation (NSF) under Grant No. 1429216 
-and by an NSF Graduate Research Fellowship under Grant No. 1122374. Any opinion, findings, and conclusions 
-or recommendations expressed in this material are those of the authors(s) and do not necessarily reflect the 
-views of the National Science Foundation. <img id='nsflogo' src='./img/nsf.gif'>
+	This material is based upon work supported by the National Science Foundation (NSF) under Grant No. 1429216, 
+	NSF Graduate Research Fellowship under Grant No. 1122374, and by the Center for Brains, Minds and Machines (CBMM), 
+	funded by NSF STC award CCF-1231216. Any opinions, findings, and conclusions or recommendations expressed 
+	in this material are those of the authors(s) and do not necessarily reflect the views 
+	of the National Science Foundation.<img id='nsflogo' src='./img/nsf.gif'>
 </div>
 
 </div>
