@@ -32,7 +32,7 @@ function main(mainDivSelector, expt) {
 
     if (LOOKIT.sandbox) {
         // Just use a specific arbitrary condition number (0 through 7)
-        condition = prompt('Please enter a condition (0 through 7)', '0');
+        var condition = prompt('Please enter a condition (0 through 7)', '0');
         startExperiment(condition, box);
     } else {
         // Get the appropriate condition from the server by checking which ones we 
@@ -63,7 +63,7 @@ function startExperiment(condition, box) {
 
     experiment.condition = condition;
 
-    testMovieLists = [
+    var testMovieLists = [
         ['lottoProb3C1S_blueC', 'lottoProb3C1S_yellS',
             'lottoProb3C1S_yellC', 'lottoProb3C1S_blueS'
         ],
@@ -96,7 +96,7 @@ function startExperiment(condition, box) {
     if (shortTest) {
         DELAY = 2;
     }
-    famMovies = [
+    var famMovies = [
         ['fix_space', '', 'loop'],
         ['lotto2C2S_B_F', '', 0],
         ['lotto2C2S_B_mid1', 'first_trial', 'click'],
@@ -115,7 +115,7 @@ function startExperiment(condition, box) {
         ['lotto2C2S_Y_S', '', DELAY]
     ];
 
-    for (i = 0; i < 4; i++) {
+    for (var i = 0; i < 4; i++) {
         famMovies.push(['fix_space', 'all_done', 'loop']);
         famMovies.push([testMovieLists[condition][i] + '_F', '', 0]);
         famMovies.push(['instruction', 'close_eyes', 'click']);
@@ -132,8 +132,9 @@ function startExperiment(condition, box) {
     }
 
     famMovies.push(['alldone', 'all_done', 'click']);
+    vidSequence = famMovies;
 
-    vidElement = buildVideoElement('vidElement');
+    var vidElement = buildVideoElement('vidElement');
     $('video').detach();
     conditionSet = true;
 
@@ -191,6 +192,7 @@ function generateHtml(segmentName) {
         '.html',
         function () {
 
+            var bodyelem = "";
             if ($.browser.safari) {
                 bodyelem = $("body");
             } else {
@@ -221,7 +223,7 @@ function generateHtml(segmentName) {
                             ' textarea');
                         experiment[segmentName] =
                             formFields.serializeObject();
-                        validArray = validateForm(
+                        var validArray = validateForm(
                             segmentName, experiment[
                                 segmentName]);
                         if (validArray) {
@@ -437,7 +439,7 @@ function generateHtml(segmentName) {
                 false);
 
             // Play the audio for this segment at the start if there is any
-            if (vidSequence[lastVid][1] != '') {
+            if (vidSequence[lastVid][1] !== '') {
                 music.pause();
                 audio.src = experiment.path + "sounds/" + vidSequence[
                     lastVid][1] + '.' + audiotype;
@@ -470,11 +472,6 @@ function generateHtml(segmentName) {
             }
         }
 
-        if (segmentName == 'famMovies') {
-            vidSequence = famMovies;
-        } else if (segmentName == 'testMovies') {
-            vidSequence = testMovies;
-        }
 
         var videotype = 'none';
         if ($('video')[0].canPlayType("video/webm")) {
@@ -563,31 +560,30 @@ function buildVideoElement(videoID) {
     }));
 
     return videoDiv;
-};
+}
 
 
 function validateForm(segmentName, formData) {
-    valid = true;
+    var valid = true;
     switch (segmentName) {
     case 'formBasic':
         return validateFormBasic(formData);
-        break;
 
     case 'formPoststudy':
         if (formData.birthmonth == '[Month]' ||
             formData.birthyear == '[Year]' ||
-            formData.birthday.length == 0) {
+            formData.birthday.length === 0) {
             valid = false;
             $('#errorBirthdateMissing').removeClass('hidden');
         } else {
-            bd = parseInt(formData.birthday);
+            var bd = parseInt(formData.birthday);
             if (isNaN(bd) || bd < 1 || bd > 31) {
                 $('#errorBirthdateMissing').removeClass('hidden');
                 valid = false;
             } else {
-                birthdateObj = new Date(parseInt(formData.birthyear),
+                var birthdateObj = new Date(parseInt(formData.birthyear),
                     parseInt(formData.birthmonth), bd);
-                ageInDays = (experiment.tic - birthdateObj) / (24 * 60 * 60 *
+                var ageInDays = (experiment.tic - birthdateObj) / (24 * 60 * 60 *
                     1000);
                 formData.ageInDays = ageInDays;
                 // Birthdate is in the future
@@ -599,17 +595,15 @@ function validateForm(segmentName, formData) {
                 }
             }
         }
-        if (formData.hearing.length == 0) {
+        if (formData.hearing.length === 0) {
             valid = false;
             $('#errorHearingMissing').removeClass('hidden');
         } else {
             $('#errorHearingMissing').addClass('hidden');
         }
         return valid;
-        break;
     case 'formDemographic':
         return valid;
-        break;
     }
 }
 

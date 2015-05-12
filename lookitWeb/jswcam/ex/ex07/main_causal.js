@@ -508,10 +508,6 @@ function validateForm(segmentName, formData) {
 }
 
 function generate_debriefing() {
-
-
-
-
 			  
 	var DEBRIEFHTML = "<p> Some more information about this study... \
 				<p>This is one of the early studies we are using to find out what sorts of methods will work online as well as \

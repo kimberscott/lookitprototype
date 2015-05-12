@@ -3,6 +3,13 @@
  */
  
 var experiment;
+var video;
+var audio;
+var lastVid;
+var delay;
+var videotype;
+var audiotype;
+
 
 // The function 'main' must be defined and is called when the consent form is submitted 
 function main(mainDivSelector, expt) {
@@ -23,7 +30,7 @@ function main(mainDivSelector, expt) {
 		[]); 
 		
 	if(LOOKIT.sandbox) {
-		condition = prompt('Please enter a condition number (0-31)', '0');
+		var condition = prompt('Please enter a condition number (0-31)', '0');
 		startExperiment(condition, box);
 	} else {
 		// Get the appropriate condition from the server by checking which ones we 
@@ -142,101 +149,8 @@ function startExperiment(condition, box) {
 
 }
 
-// When proceeding to a new element of experiment.htmlSequence, advanceSegment (defined in
-// experimentFunctions.js) will call generateHtml.  This grabs any appropriate html
-// from the exNN/html/ directory and adds any necessary JS.
-function generateHtml(segmentName){
+// Event handlers for video
 
-	addEvent(  {'type': 'htmlSegmentDisplayed'});
-	$("body").removeClass('playingVideo');
-	
-	$('#maindiv').append('<div id="'+segmentName+'"></div>');
-	$('#'+segmentName).load(experiment.path+'html/'+segmentName+'.html', 
-	function() {
-	
-	// Scroll to the top of the page
-	if($.browser.safari) {bodyelem = $("body");}
-	else {bodyelem = $("html,body");}
-	bodyelem.scrollTop(0);
-	
-	// Segment-specific JS additions
-	switch(segmentName){
-	
-		case "formPoststudy":
-
-			$('#fsbutton').detach();
-			$(function() {
-				$('#'+segmentName).submit(function(evt) {
-					evt.preventDefault();
-					// If we were recording the whole time, finally stop when the poststudy form
-					// is submitted.
-					if (experiment.record_whole_study) {
-						jswcam.stopRecording();
-						addEvent(  {'type': 'endRecording'});
-					}	
-					// Get the text entered in the fields in this form.
-					var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
-					experiment[segmentName] = formFields.serializeObject();
-					validArray = validateForm(segmentName, experiment[segmentName]);
-					
-					if (validArray) {
-						advanceSegment(); // Since it's the end of the study this will actually end the experiment.
-					}
-					return false;
-				});
-			});
-			
-			break;
-			
-		case "positioning2": // Special case to deal with requirement that user should test audio
-			var testaudio = $('#testaudio')[0];
-
-			$.data(testaudio, "tested", false);
-
-			function setTestedTrue(event){
-				$.data(testaudio, "tested", true);
-			}
-			testaudio.addEventListener('play', setTestedTrue, false);
-
-			$(function() {
-				$('#' + segmentName + ' #next').click(function(evt) {
-					evt.preventDefault();
-					if($.data(testaudio, "tested")){
-						advanceSegment();
-					}
-					else{
-						bootbox.alert('Please play the chime so you\'ll know what it sounds like.');
-					}
-					return false;
-				});
-			});
-			break;		
-			
-		case "positioning":
-			show_getting_setup_widget(); // fall through
-		case "instructions":
-		case "instructions2":
-
-			$(function() {
-				$('#' + segmentName + ' #next').click(function(evt) {
-					evt.preventDefault();
-					hide_cam("webcamdiv");
-					advanceSegment();
-					return false;
-				});
-			});
-			break;
-			
-		}
-		});
-		
-	// Enter/exit fullscreen outside of callback function to deal with browser constraints on
-	// doing fullscreen actions without a direct link to something the user did
-	if (segmentName=='formPoststudy') {
-		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
-		leaveFullscreen();
-	}
-	else if (segmentName=='vidElement') {
 			function endHandler(event){
 				addEvent(  {'type': 'endMovie',
 							'src': experiment.vidSequence[lastVid]});
@@ -324,7 +238,7 @@ function generateHtml(segmentName){
 				
 				video.src = experiment.path + "videos/" + videotype + "/" + experiment.vidSequence[lastVid][0] + '.' + videotype;
 				
-				if (experiment.vidSequence[lastVid][1] != '') {
+				if (experiment.vidSequence[lastVid][1] !== '') {
 					audio.src = experiment.path + "sounds/" + audiotype + "/" + experiment.vidSequence[lastVid][1] + '.' + audiotype;
 				} else {audio.src = '';}
 				
@@ -345,11 +259,108 @@ function generateHtml(segmentName){
 					video.removeEventListener('timeupdate', timeUpdateHandler);
 				}
 			}
+
+// When proceeding to a new element of experiment.htmlSequence, advanceSegment (defined in
+// experimentFunctions.js) will call generateHtml.  This grabs any appropriate html
+// from the exNN/html/ directory and adds any necessary JS.
+function generateHtml(segmentName){
+
+	addEvent(  {'type': 'htmlSegmentDisplayed'});
+	$("body").removeClass('playingVideo');
+	
+	$('#maindiv').append('<div id="'+segmentName+'"></div>');
+	$('#'+segmentName).load(experiment.path+'html/'+segmentName+'.html', 
+	function() {
+	
+	// Scroll to the top of the page
+	if($.browser.safari) {bodyelem = $("body");}
+	else {bodyelem = $("html,body");}
+	bodyelem.scrollTop(0);
+	
+	// Segment-specific JS additions
+	switch(segmentName){
+	
+		case "formPoststudy":
+
+			$('#fsbutton').detach();
+			$(function() {
+				$('#'+segmentName).submit(function(evt) {
+					evt.preventDefault();
+					// If we were recording the whole time, finally stop when the poststudy form
+					// is submitted.
+					if (experiment.record_whole_study) {
+						jswcam.stopRecording();
+						addEvent(  {'type': 'endRecording'});
+					}	
+					// Get the text entered in the fields in this form.
+					var formFields = $('#'+segmentName+' input, #'+segmentName+' select, #'+segmentName+' textarea');
+					experiment[segmentName] = formFields.serializeObject();
+					var validArray = validateForm(segmentName, experiment[segmentName]);
+					
+					if (validArray) {
+						advanceSegment(); // Since it's the end of the study this will actually end the experiment.
+					}
+					return false;
+				});
+			});
+			
+			break;
+			
+		case "positioning2": // Special case to deal with requirement that user should test audio
+			var testaudio = $('#testaudio')[0];
+
+			$.data(testaudio, "tested", false);
+
+			function setTestedTrue(event){
+				$.data(testaudio, "tested", true);
+			}
+			testaudio.addEventListener('play', setTestedTrue, false);
+
+			$(function() {
+				$('#' + segmentName + ' #next').click(function(evt) {
+					evt.preventDefault();
+					if($.data(testaudio, "tested")){
+						advanceSegment();
+					}
+					else{
+						bootbox.alert('Please play the chime so you\'ll know what it sounds like.');
+					}
+					return false;
+				});
+			});
+			break;		
+			
+		case "positioning":
+			show_getting_setup_widget(); // fall through
+		case "instructions":
+		case "instructions2":
+
+			$(function() {
+				$('#' + segmentName + ' #next').click(function(evt) {
+					evt.preventDefault();
+					hide_cam("webcamdiv");
+					advanceSegment();
+					return false;
+				});
+			});
+			break;
+			
+		}
+		});
+		
+	// Enter/exit fullscreen outside of callback function to deal with browser constraints on
+	// doing fullscreen actions without a direct link to something the user did
+	if (segmentName=='formPoststudy') {
+		$("#widget_holder").css("display","none"); // Removes the widget at the end of the experiment
+		leaveFullscreen();
+	}
+	else if (segmentName=='vidElement') {
+
 			
 			var vidElement = buildVideoElement('start', 'vidElement');
 			$('#maindiv').append(vidElement);
 			
-			var videotype = 'none';
+			videotype = 'none';
 			if ($('video')[0].canPlayType("video/webm")) {
 				//$('video').data('videotype', 'webm');
 				videotype = 'webm';
@@ -359,7 +370,7 @@ function generateHtml(segmentName){
 				videotype = 'ogv';
 			} 
 			
-			var audiotype = 'none';
+			audiotype = 'none';
 			if ($('audio')[0].canPlayType("audio/mpeg")) {
 				//$('video').data('videotype', 'webm');
 				audiotype = 'mp3';
@@ -369,11 +380,11 @@ function generateHtml(segmentName){
 		
 			addFsButton('#maindiv', '#thevideo');
 			goFullscreen($('#thevideo')[0]);
-			var lastVid = -1;
-			var delay = 0;
-			var video = $('video')[0];
+			lastVid = -1;
+			delay = 0;
+			video = $('video')[0];
 			video.type = 'video/'+videotype;
-			var audio = $('audio')[0];
+			audio = $('audio')[0];
 			audio.type = 'audio/'+audiotype;
 			$("body").addClass('playingVideo');
 			advanceVideoSource();
@@ -415,29 +426,28 @@ function buildVideoElement(videoName, videoID) {
 	videoDiv.append(audiosegment);
 
     return videoDiv;
-};
+}
 
 function validateForm(segmentName, formData) {
-	valid = true;
+	var valid = true;
 	switch(segmentName){
 		case 'formBasic':
 			return validateFormBasic(formData);
-			break;
 			
 		case 'formPoststudy':
 			if (formData.birthmonth == '[Month]' ||
 				formData.birthyear == '[Year]'   ||
-				formData.birthday.length == 0) {
+				formData.birthday.length === 0) {
 				valid = false;
 				$('#errorBirthdateMissing').removeClass('hidden');} 
 			else {
-				bd = parseInt(formData.birthday);
+				var bd = parseInt(formData.birthday);
 				if (isNaN(bd) || bd < 1 || bd > 31){
 					$('#errorBirthdateMissing').removeClass('hidden');
 					valid = false;}
 				else{
-					birthdateObj = new Date(parseInt(formData.birthyear), parseInt(formData.birthmonth), bd);
-					ageInDays = (experiment.tic - birthdateObj)/(24*60*60*1000);
+					var birthdateObj = new Date(parseInt(formData.birthyear), parseInt(formData.birthmonth), bd);
+					var ageInDays = (experiment.tic - birthdateObj)/(24*60*60*1000);
 					formData.ageInDays = ageInDays;
 					// Birthdate is in the future
 					if (ageInDays < 0) {
@@ -449,24 +459,23 @@ function validateForm(segmentName, formData) {
 					}
 				}
 			}
-			if (formData.hearing.length==0) {
+			if (formData.hearing.length===0) {
 				valid = false;
 				$('#errorHearingMissing').removeClass('hidden');
 			} else {$('#errorHearingMissing').addClass('hidden');}
-			if (formData.bilingual.length==0) {
+			if (formData.bilingual.length===0) {
 				valid = false;
 				$('#errorBilingualMissing').removeClass('hidden');
 			} else {$('#errorBilingualMissing').addClass('hidden');}
 			return valid;
-			break;
 		case 'formDemographic':
 			return valid;
-			break;
 	}
 }
 
 function generate_debriefing() {
 
+  var DEBRIEFHTML = "";
 	if (experiment.conditionIsSet) {
 		// Get debriefing dialog ready: Used by index.js when generating upload dialog
 		var debriefTransitiveList = [	'a transitive verb (one that takes a direct object)', 
@@ -478,7 +487,7 @@ function generate_debriefing() {
 								   "prompt: 'FIND " + experiment.thisVerb + "ing.  Children in another condition \
 								   hear 'What's happening?' instead."];
 
-		var DEBRIEFHTML = "	<p> Some more information about this study... </p> \
+		DEBRIEFHTML = "	<p> Some more information about this study... </p> \
 		<p> This is one of the early studies we are using to test what sorts of methods will work \
 		online as well as  in the lab.  We are trying to replicate the finding of <a href= \
 		'http://pss.sagepub.com/content/20/5/619.short' target='_blank'> Yuan and Fisher (2009) \
@@ -497,7 +506,7 @@ function generate_debriefing() {
 		actions.  However, over many children, these effects average out.</p> ";
 	}
 	else {
-		var DEBRIEFHTML = "	<p> Some more information about this study... </p> \
+		DEBRIEFHTML = "	<p> Some more information about this study... </p> \
 		<p> This is one of the early studies we are using to test what sorts of methods \
 		will work online as well as in the lab.  We are trying to replicate the finding of <a \
 		href='http://pss.sagepub.com/content/20/5/619.short' target='_blank'> \
