@@ -3,6 +3,9 @@
  * * Copyright (C) MIT Early Childhood Cognition Lab
  *
  */
+ 
+TESTENVIRONMENT = (typeof TESTENVIRONMENT !== 'undefined');
+ 
 //Function to serialise the recieved data and return the object
 $.fn.serializeObject = function()
 {
@@ -59,6 +62,8 @@ function call(str,url){
 	return result;
 }
 
+if (!TESTENVIRONMENT) {
+
 $(document).ready(function(){
     $("#log1").click(function (){
         $.ajax({
@@ -75,6 +80,8 @@ $(document).ready(function(){
             }
         });
     });
+
+	
 
     setInterval(function(){
 			// prevent server to end the session due to inactivity
@@ -178,6 +185,7 @@ $(document).ready(function(){
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
     
 });
+}
 
 
 // Function to display the Edit registration details, on the My Accounts page.

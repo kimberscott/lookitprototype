@@ -38,22 +38,27 @@ function load_experiments($directory="ex") {
 	
     <link rel="shortcut icon" type="image/x-icon" href="img/remy4.ico">
 	
-	<link rel="stylesheet/less" type="text/css" href="fragments/styles.less"></link>
-	<link rel="stylesheet" type="text/css" href="static/datepicker/css/datepicker.css"></link>
+	<link rel="stylesheet" type="text/css" href="fragments/styles.css">
+	<link rel="stylesheet" type="text/css" href="static/datepicker/css/datepicker.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/bootstrap.css">
 	
+	<script type="text/javascript"> TESTENVIRONMENT = true; </script>
 
     <script src="static/js/jquery-1.8.1.min.js"></script> 
     <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="bootbox/bootbox.min.js" type="text/javascript"></script>
     
-    <script src="less.js" type="text/javascript"></script>
     <script src="camera/swfobject.js" type="text/javascript"></script>
+    <script src="login/myfunc.js" type="text/javascript"></script>   
     <script src="login/validate.js" type="text/javascript"></script>
     <script src="login/json.js" type="text/javascript"></script>
+    <script src="page.js" type="text/javascript"></script>
+    <script src="fullscreen.js" type="text/javascript"></script>
+    <script src="screenfull.js" type="text/javascript"></script>
+    <script src="experiment_functions.js" type="text/javascript"></script>
     <script src="index.js" type="text/javascript"></script>	   
     <script src="test_experiments.js" type="text/javascript"></script> 
-    <script src="login/myfunc.js" type="text/javascript"></script>   
-
+    
     
 
     <?php 
@@ -61,7 +66,6 @@ function load_experiments($directory="ex") {
     ?>
     
 
-	
     </head>
     
     <body style="padding-top:40px;" ondragstart="return false;" ondrop="return false;">

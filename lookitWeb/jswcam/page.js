@@ -4,8 +4,7 @@ var page = (function () {
         this.fragments = {};
     }
 
-    Library.prototype.showVerbalConsentDialog = function (callback,
-        expt) {
+    Library.prototype.showVerbalConsentDialog = function (callback, expt) {
         // Look up the file '[expt.id].html' under 'fragments' and sub into dialog
         var html = this.html(expt.id);
         var recording = 0;
@@ -21,6 +20,12 @@ var page = (function () {
         var difference;
         // A short random string to identify THIS SET of videos to the user.
         LOOKIT.RECORDINGSET = randomString(6);
+        
+        if (TESTENVIRONMENT) {
+        	callback();
+        	return;
+        } 
+        
         // Limit the length of recording using window.setTimeout.
         var timeoutID = 0;
         var check_cam =
@@ -470,8 +475,7 @@ var page = (function () {
         this._getTempFiles([]);
     };
 
-    Library.prototype._replaceExperiment = function (callback, scripts,
-        css) {
+    Library.prototype._replaceExperiment = function (callback, scripts, css) {
         this.clear(); //removes old experiment files too
 
         var num_scripts = 0;
@@ -549,12 +553,11 @@ var page = (function () {
             this._replaceExperiment(callback, scripts, css);
         }
         var delegate = loadExp.createDelegate(this);
-
+        
         this.showVerbalConsentDialog(delegate, packaging);
     };
 
-    Library.prototype.buildExperimentGallery = function (jqSelector,
-        experiments) {
+    Library.prototype.buildExperimentGallery = function (jqSelector, experiments) {
         var columns = 3;
         var rows = 3;
         var offset = rows * columns;
