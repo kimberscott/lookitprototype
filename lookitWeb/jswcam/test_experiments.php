@@ -59,7 +59,7 @@ function load_experiments($directory="ex") {
     <script src="index.js" type="text/javascript"></script>	   
     <script src="test_experiments.js" type="text/javascript"></script> 
     
-    
+    <script type="text/javascript"> LOOKIT.sandbox = true; </script>
 
     <?php 
   	$experiments = load_experiments($CONFIG['experiment_order']);

@@ -1,0 +1,11 @@
+{
+	"name" : "One, two, lots!",
+	"id"   : "nknower",
+	"desc" : "<p>Learning what number words mean takes kids years and involves several distinct stages-- even after they can recite the 'count list' from one to ten.  Find out which numbers your child understands by playing the classic 'give N' game!</p>",
+	"img"  : "ex/nknower/nknower.png",
+	"path" : "ex/nknower/",
+	"scripts": [
+	    "main_nknower.js"],
+	"css": ["experiment.css",
+			"nknower.css"]
+}
