@@ -1041,23 +1041,24 @@ function avarageBrightness(brightness){
 }
 
 function audioVideoData(audioData,videoData){
-    if((audioData < 100 || videoData < 100) && $('body').hasClass('modal-open') && $("div#experiments").length == 1){
-        hide_cam('consent');
-        $(".bootbox").remove();
-        $(".modal-backdrop").remove();
-        LOOKIT.object_new.loadExperiment(LOOKIT.experiment_new, '.content_pane');
-        $("#message").after("<span class='error' style='color:red;'>It seems that either your video or audio was missing in the recorded message, please try again.</span>");
-        $('.btn-continue').attr('disabled', false);
-        $('.btn-continue').css("display","inline-block");
-        $("#widget_holder").css({'pointer-events':'all'});
-        swfobject.getObjectById('flashplayer').setup();
-    }
-    else{
+    //if((audioData < 100 || videoData < 100) && $('body').hasClass('modal-open') && $("div#experiments").length == 1){
+    //    hide_cam('consent');
+    //    $(".bootbox").remove();
+    //    $(".modal-backdrop").remove();
+    //    LOOKIT.object_new.loadExperiment(LOOKIT.experiment_new, '.content_pane');
+    //    $("#message").after("<span class='error' style='color:red;'>It seems that either your video or audio was missing in the recorded message, please try again.</span>");
+    //    $('.btn-continue').attr('disabled', false);
+    //    $('.btn-continue').css("display","inline-block");
+    //    $("#widget_holder").css({'pointer-events':'all'});
+    //    swfobject.getObjectById('flashplayer').setup();
+    //}
+    //else{ // Temporarily remove the audiovideocheck (or rather, don't pay attention to the result)
+    	LOOKIT.consentData = [audioData, videoData];
         LOOKIT.doneWithConsent = true;
         $('.btn-send').attr('disabled', false);
         $('.waiting').remove();
         return LOOKIT.doneWithConsent;
-    }
+    //}
 }
 
 function check_browser_support(){
