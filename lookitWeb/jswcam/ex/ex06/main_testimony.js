@@ -669,19 +669,19 @@ function hideWidget() {
 
 function showWidget() {
 	$('#widget_holder').css({'position':'absolute',
-							 'height':'350px',
+							 'height':'250px',
 							 'top':'0px',
-               				 'width':'460px',
-                           'left':'0px','right':'auto',
-							 'float':'left', 
-                             'left':'auto',
+               'width':'400px',
+               'left':'0px','right':'auto',
+							 'float':'left',
 							 'visibility':'visible'});
-	$('#flashplayer').css({'height':'330px', 
-                         'width':'585px',
-                         'margin-left':'-125px', 
-                         'margin-top':'-31px',
+	$('#flashplayer').css({'height':'281px', 
+                         'width':'499px',
+                         'margin-left':'-200px', 
+                         'margin-top':'-81px',
                          'float':'left',
-                         'left':'0px', 'right':'auto'});
+                         'left':'0px', 'right':'auto',
+                           'border': 'medium solid gray'});
 	$("#widget_holder").detach().prependTo('#fsdiv');
 	$('#widget_holder').show();
 }

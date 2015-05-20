@@ -17,7 +17,7 @@
 
 #nextPage {
 	position: absolute;
-	top:30%;
+	top:250px;
 	left: 95%;
 	margin-top:-32px;
 	margin-left:-60px;
@@ -35,7 +35,7 @@
 
 #replay {
 	position: absolute;
-	top:30%;
+	top:250px;
 	left:5%;
 	margin-top:-32px;
 	margin-left:-32px;
@@ -55,7 +55,7 @@
 	position: absolute;
 	left: 5%;
 	width: 25%;
-	top: 30%;
+	top: 250px;
 	margin: 0px;
 	margin-left:-32px;
 	margin-top: 64px; /* put under the replay button */
