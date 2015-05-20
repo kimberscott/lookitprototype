@@ -26,18 +26,30 @@ function main(mainDivSelector, expt) {
 	$(mainDivSelector).attr('id', 'maindiv'); // so we can select it in css as #maindiv
 	addEvent(  {'type': 'startLoading'});
 
-	// Black out the screen until waitforassets returns	
+	// Black out the screen until ready 
 	var box = bootbox.dialog(
 		"Please wait while the experiment loads.", 
 		[]); 
+		
+	// Format the widget holder, but keep hidden
+	$('#widget_holder').css({'position':'absolute',
+							 'height':'350px',
+							 'top':'0px',
+							 'right':'0px',
+							 'float':'right'});
+	$('#flashplayer').css({'height':'330px', 
+						   'width':'585px',
+						   'margin-left':'-125px', 
+						   'margin-top':'-31px',
+						   'float':'right'});
+	$('#widget_holder').hide();
 		
 	if(LOOKIT.sandbox) {
 		// Just use a specific arbitrary condition number (0 through 31)
 		condition = prompt('Please enter a number (0-31)', '0');
 		startExperiment(condition, box);
 	} else {
-		// Get the appropriate condition from the server by checking which ones we 
-		// already have
+		// Get the appropriate condition from the server
 		$.getJSON(
 			'counterbalance.php',
 			{'experiment_id': experiment.id},
@@ -197,6 +209,10 @@ function generateHtml(segmentName){
 
 	addEvent(  {'type': 'htmlSegmentDisplayed', 'segment': segmentName});
 	$("body").removeClass('playingVideo');
+	
+	// By default, hide the webcam
+	$("#widget_holder").detach().prependTo('body');
+	$('#widget_holder').hide();
 	
 	// In general, append to the main div, but for story/video elements, 
 	// append to a special full-screen div that will be left in throughout
@@ -391,20 +407,12 @@ function generateHtml(segmentName){
 		isRecording = true;
 		addEvent(  {'type': 'startRecording'});
 		
-		// If this is a 'question' page, display the webcamdiv.
-		$("#widget_holder").detach().prependTo('#fsdiv');
-		$('#widget_holder').css({'position':'absolute',
-								 'top':'0px', 
-								 'right':'-275px',
-								 'visibility':'visible',
-								 'float':'right',
-								 'clear':'none'});
-		$('#flashplayer').css({'height':'330px', 
-							   'width':'585px',
-							   'margin-left':'-125px', 
-							   'margin-top':'-31px'});
+		// Show the webcam for questions
+		if (experiment.htmlSequence[experiment.currentElement][1] === 'question') {
+			$("#widget_holder").detach().prependTo('#fsdiv');
+			$('#widget_holder').show();
+		}
 
-		// Note: need to move it back!
 		
 		
 		// Check what type of audio file to use, store in global variable
