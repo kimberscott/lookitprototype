@@ -139,39 +139,39 @@ function startExperiment(condition, box) {
 					
 					['object0', 'story'],
 					['accuracy0', 'vid'], 
-					['summaryFam0',  'story'],
+					['summaryFam0',  'question'],
 					
 					['object1', 'story'],
 					['accuracy1', 'vid'], 
-					['summaryFam1', 'story'],
+					['summaryFam1', 'question'],
 					
 					['object2', 'story'],
 					['accuracy2',    'vid'], 
-					['summaryFam2',  'story'],
+					['summaryFam2',  'question'],
 					
 					['object3', 'story'],
 					['accuracy3', 'vid'], 
-					['summaryFam3', 'story'],
+					['summaryFam3', 'question'],
 					
-					['whoWasGoodFam', 'story'],
+					['whoWasGoodFam', 'question'],
 					
 					['object4', 'story'],
 					['novel0', 'vid'], 
-					['summaryNov0', 'story'],
+					['summaryNov0', 'question'],
 					
 					['object5', 'story'],
 					['novel1', 'vid'], 
-					['summaryNov1', 'story'],
+					['summaryNov1', 'question'],
 					
 					['object6', 'story'],
 					['novel2', 'vid'], 
-					['summaryNov2', 'story'],
+					['summaryNov2', 'question'],
 										
 					['object7', 'story'],
 					['novel3', 'vid'], 
-					['summaryNov3', 'story'],
+					['summaryNov3', 'question'],
 					
-					['whoWasGoodNov', 'story'],
+					['whoWasGoodNov', 'question'],
 					
 					['formPoststudy', 'html']];
 
@@ -378,8 +378,11 @@ function generateHtml(segmentName){
 	
 	} 
 	
-	else if (experiment.htmlSequence[experiment.currentElement][1] == 'story') {
+	else if (experiment.htmlSequence[experiment.currentElement][1] === 'story' || 
+			 experiment.htmlSequence[experiment.currentElement][1] === 'question') {
+			 
 		$('#fsdiv').append(buildStoryPage(experiment.htmlSequence[experiment.currentElement][0]));
+		
 		if (experiment.record_whole_study) {
 			jswcam.stopRecording();
 			addEvent(  {'type': 'endRecording'});
@@ -387,6 +390,15 @@ function generateHtml(segmentName){
 		jswcam.startRecording();
 		isRecording = true;
 		addEvent(  {'type': 'startRecording'});
+		
+		// If this is a 'question' page, display the webcamdiv.
+		$('#webcamdiv').show();
+		$("#widget_holder").css({"height":"400px"});
+    	$('#webcamdiv').height($('#widget_holder').height());
+    	$('#widget_holder').offset($('#webcamdiv').offset());
+   		$('#widget_holder').css({'position':'absolute','top':'200px','visibility':'visible','z-index':'1040'});
+   		// TODO: positioning
+		// TODO: don't display controls
 		
 		// Check what type of audio file to use, store in global variable
 		var audio = $('#storyAudio')[0];
@@ -486,6 +498,7 @@ function generateHtml(segmentName){
 function buildStoryPage(id) {
 
 	return "<div id='"+id+"' class='storysegment'> \
+		<div id='webcamdiv' style='display:none;'></div> \
 		<img id='characterPic' 	src='ex/ex06/img/pair1.png' 	class='center'> \
 		 <img id='objectPic' 	src='' 	class='center'> \
 		 <audio id='storyAudio' class='hidecontrols'> </audio> \

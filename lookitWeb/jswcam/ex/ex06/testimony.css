@@ -129,3 +129,7 @@ div.vr {
 	float: left;
 	margin-top:60px;
 }
+
+div:fullscreen {
+	background-color: black;
+}
