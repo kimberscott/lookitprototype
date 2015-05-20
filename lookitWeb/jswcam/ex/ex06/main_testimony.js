@@ -280,7 +280,7 @@ function generateHtml(segmentName){
 					break;	
 					
 				case "positioning":
-					$('#flashplayer').css({'visibility':'visible', 'display':'block'});
+					$('#flashplayer').css({'visibility':'visible', 'display':'block', 'height':'400px'});
 					show_getting_setup_widget();
 				case "instructions":
 				case "instructions2":
@@ -306,7 +306,8 @@ function generateHtml(segmentName){
 	else if (experiment.htmlSequence[experiment.currentElement][1] == 'vid') {
 		if (segmentName == "intro") {
 			//$('#maindiv').append('<div id=fsdiv/>');
-			$('#widget_holder').css({'visibility':'visible'});
+			//$('#widget_holder').css({'visibility':'visible'});
+			$('#widget_holder').attr('style','margin-left:auto; margin-right:auto; pointer-events:all; display:block; visibility:visible; overflow:hidden; background-color:black;');
 			addFsButton('#maindiv', '#widget_holder');
 			goFullscreen($('#widget_holder')[0]);
 		}
@@ -669,25 +670,18 @@ function hideWidget() {
 	//$("#widget_holder").detach().appendTo('body');
 	// changing visibility is important; otherwise we mess up the window size for fullscreen.
 	$('#widget_holder').show();
-	$('#flashplayer').css({'visibility':'hidden', 'display':'none'});
+	$('#flashplayer').css({'visibility':'hidden', 'height':'0px'});
 }
 
 function showWidget() {
-	//$('#widget_holder').css({'position':'absolute',
-	//						 'height':'250px',
-	//						 'top':'0px',
-    //           				 'width':'400px',
-    //           				 'left':'0px','right':'auto',
-	//						 'float':'left',
-	//						 'visibility':'visible'});
-	$('#flashplayer').css({'height':'281px', 
+	$('#flashplayer').css({'position': 'absolute',
+						'height':'281px', 
                          'width':'499px',
                          'margin-left':'-200px', 
                          'margin-top':'-81px',
                          'float':'left',
                          'left':'0px', 'right':'auto',
+                         'top':'0px',
                            'border': 'medium solid gray',
                            'visibility':'visible'});
-	//$("#widget_holder").detach().prependTo('#fsdiv');
-	//$('#widget_holder').show();
 }
