@@ -7,10 +7,6 @@ var experiment;
 var DELAY;
 var tested = false; // whether the audio has been tested
 var trialCounter = 1;
-// Use a shorter version of the study just for testing?
-var shortTest = false;
-var conditionSet = false;
-var vidSequence;
 
 // The function 'main' must be defined and is called when the consent form is submitted 
 function main(mainDivSelector, expt) {
@@ -32,11 +28,11 @@ function main(mainDivSelector, expt) {
 
     if (LOOKIT.sandbox) {
         // Just use a specific arbitrary condition number (0 through 7)
-        var condition = prompt('Please enter a condition (0 through 7)', '0');
-        startExperiment(condition, box);
+        startExperiment('Remy', 'M', box);
     } else {
         // Get the appropriate condition from the server by checking which ones we 
         // already have
+        // TODO: grab name, gender.
         $.getJSON(
             'counterbalance.php', {
                 'experiment_id': experiment.id
@@ -47,103 +43,20 @@ function main(mainDivSelector, expt) {
     }
 }
 
-function startExperiment(condition, box) {
-
+function startExperiment(childname, childgender, box) {
 
     $('#maindiv').append('<div id="sessioncode"></div>');
     $('#sessioncode').html('Session ID: ' + experiment.recordingSet);
     experiment.mturkID = getQueryVariable('workerId');
 
-    if (experiment.record_whole_study) {
-        jswcam.startRecording();
-        addEvent({
-            'type': 'startRecording'
-        });
-    }
-
-    experiment.condition = condition;
-
-    var testMovieLists = [
-        ['lottoProb3C1S_blueC', 'lottoProb3C1S_yellS',
-            'lottoProb3C1S_yellC', 'lottoProb3C1S_blueS'
-        ],
-        ['lottoProb1C3S_blueS', 'lottoProb1C3S_yellC',
-            'lottoProb3C1S_blueC', 'lottoProb3C1S_yellS'
-        ],
-        ['lottoProb1C3S_yellS', 'lottoProb1C3S_blueC',
-            'lottoProb1C3S_blueS', 'lottoProb1C3S_yellC'
-        ],
-        ['lottoProb3C1S_yellC', 'lottoProb3C1S_blueS',
-            'lottoProb1C3S_yellS', 'lottoProb1C3S_blueC'
-        ],
-        ['lottoProb1C3S_blueC', 'lottoProb1C3S_yellS',
-            'lottoProb1C3S_yellC', 'lottoProb1C3S_blueS'
-        ],
-        ['lottoProb3C1S_blueS', 'lottoProb3C1S_yellC',
-            'lottoProb1C3S_blueC', 'lottoProb1C3S_yellS'
-        ],
-        ['lottoProb3C1S_yellS', 'lottoProb3C1S_blueC',
-            'lottoProb3C1S_blueS', 'lottoProb3C1S_yellC'
-        ],
-        ['lottoProb1C3S_yellC', 'lottoProb1C3S_blueS',
-            'lottoProb3C1S_yellS', 'lottoProb3C1S_blueC'
-        ]
-    ];
-
-    // Familiarization: 
-
-    DELAY = 15; // Seconds to display still screen after pausing
-    if (shortTest) {
-        DELAY = 2;
-    }
-    var famMovies = [
-        ['fix_space', '', 'loop'],
-        ['lotto2C2S_B_F', '', 0],
-        ['lotto2C2S_B_mid1', 'first_trial', 'click'],
-        ['lotto2C2S_B_S', '', DELAY],
-        ['fix_space', '', 'loop'],
-        ['lotto2C2S_Y_F', '', 0],
-        ['lotto2C2S_Y_mid1', 'first_trial', 'click'],
-        ['lotto2C2S_Y_S', '', DELAY],
-        ['fix_space', '', 'loop'],
-        ['lotto2C2S_B_F', '', 0],
-        ['lotto2C2S_B_mid2', 'second_trial', 'click'],
-        ['lotto2C2S_B_S', '', DELAY],
-        ['fix_space', 'all_done', 'loop'],
-        ['lotto2C2S_Y_F', '', 0],
-        ['lotto2C2S_Y_mid2', 'close_eyes', 'click'],
-        ['lotto2C2S_Y_S', '', DELAY]
-    ];
-
-    for (var i = 0; i < 4; i++) {
-        famMovies.push(['fix_space', 'all_done', 'loop']);
-        famMovies.push([testMovieLists[condition][i] + '_F', '', 0]);
-        famMovies.push(['instruction', 'close_eyes', 'click']);
-        famMovies.push([testMovieLists[condition][i] + '_S', '', DELAY]);
-    }
-
-    if (shortTest) {
-        famMovies = [
-            ['fix_space', '', 'loop'],
-            ['lotto2C2S_B_F', '', 0],
-            ['lotto2C2S_B_mid1', 'first_trial', 'click'],
-            ['lotto2C2S_B_S', '', DELAY]
-        ];
-    }
-
-    famMovies.push(['alldone', 'all_done', 'click']);
-    vidSequence = famMovies;
-
-    var vidElement = buildVideoElement('vidElement');
-    $('video').detach();
-    conditionSet = true;
-
     // Sequence of sections of the experiment, corresponding to html sections.
     experiment.htmlSequence = [
-        ['instructions'],
-        ['positioning'],
-        ['positioning2'],
-        ['famMovies', vidElement],
+        ['instructions1'],
+        ['instructions2'],
+        ['instructions3'],
+        ['instructions4'],
+        ['instructions5'],
+        ['numbertest'],
         ['formPoststudy']
     ];
 
@@ -174,16 +87,16 @@ function generateHtml(segmentName) {
     $('#maindiv').removeClass('whitebackground');
 
     switch (segmentName) {
+    case "instructions1":
+    case "instructions2":
+    case "instructions3":
+    case "instructions4":
+    case "instructions5":
     case "formPoststudy":
-    case "positioning2":
-    case "positioning":
-    case "instructions":
         $('#maindiv').append('<div id="' + segmentName + '"></div>');
         break;
-    case "famMovies":
+    case "numbertest":
         $('#maindiv').append('<div id="fsdiv"></div>');
-    default:
-        $('#fsdiv').addClass('playingVideo');
         $('#fsdiv').append('<div id="' + segmentName + '"></div>');
         break;
     }
@@ -202,364 +115,65 @@ function generateHtml(segmentName) {
 
             switch (segmentName) {
 
-            case "formPoststudy":
-                $("body").css("background-color", "#FFFFFF");
-                $('#fsdiv').detach();
-                $('#fsbutton').detach();
-                //$("#flashplayer").remove();
-                $("#widget_holder").css("display", "none"); // Removes the widget at the end of the experiment
-                $(function () {
-                    $('#' + segmentName).submit(function (evt) {
-                        evt.preventDefault();
-                        if (experiment.record_whole_study) {
-                            jswcam.stopRecording();
-                        }
-                        var formFields = $('#' +
-                            segmentName +
-                            ' input, #' +
-                            segmentName +
-                            ' select, #' +
-                            segmentName +
-                            ' textarea');
-                        experiment[segmentName] =
-                            formFields.serializeObject();
-                        var validArray = validateForm(
-                            segmentName, experiment[
-                                segmentName]);
-                        if (validArray) {
-                            advanceSegment();
-                        }
-                        return false;
-                    });
-                    $('#' + segmentName + ' #back').click(
-                        function (evt) {
-                            evt.preventDefault();
-                            previousSegment();
-                            return false;
-                        });
-                });
+				case "formPoststudy":
+					$("body").css("background-color", "#FFFFFF");
+					$('#fsdiv').detach();
+					$('#fsbutton').detach();
+					$("#widget_holder").css("display", "none"); // Removes the widget at the end of the experiment
+					$(function () {
+						$('#' + segmentName).submit(function (evt) {
+							evt.preventDefault();
+							if (experiment.record_whole_study) {
+								jswcam.stopRecording();
+							}
+							var formFields = $('#' +
+								segmentName +
+								' input, #' +
+								segmentName +
+								' select, #' +
+								segmentName +
+								' textarea');
+							experiment[segmentName] =
+								formFields.serializeObject();
+							var validArray = validateForm(
+								segmentName, experiment[
+									segmentName]);
+							if (validArray) {
+								advanceSegment();
+							}
+							return false;
+						});
+					});
 
-                break;
+					break;
 
-            case "positioning2":
-                var testaudio = $('#testaudio')[0];
+				case "instructions4":
+					show_getting_setup_widget();
 
-                function setTestedTrue(event) {
-                    tested = true;
-                }
+				case "instructions1":
+				case "instructions2":
+				case "instructions3":
+				case "instructions5":
 
-                testaudio.addEventListener('play', setTestedTrue, false);
-                $(function () {
-                    $('#' + segmentName + ' #next').click(
-                        function (evt) {
-                            evt.preventDefault();
-                            if (tested) {
-                                advanceSegment();
-                            } else {
-                                bootbox.alert(
-                                    'Please try playing the sample audio before starting the study.'
-                                );
-                            }
-                            return false;
-                        });
-                    $('#' + segmentName + ' #back').click(
-                        function (evt) {
-                            evt.preventDefault();
-                            previousSegment();
-                            return false;
-                        });
-                });
-                break;
-
-            case "positioning":
-                show_getting_setup_widget();
-
-            case "pretest":
-            case "instructions":
-            case "instructions2":
-
-                $(function () {
-                    $('#' + segmentName + ' #next').click(
-                        function (evt) {
-                            hide_cam("webcamdiv");
-                            evt.preventDefault();
-                            advanceSegment();
-                            return false;
-                        });
-                    $('#' + segmentName + ' #back').click(
-                        function (evt) {
-                            evt.preventDefault();
-                            previousSegment();
-                            return false;
-                        });
-                });
-                break;
-            }
+					$(function () {
+						$('#' + segmentName + ' #next').click(
+							function (evt) {
+								hide_cam("webcamdiv");
+								evt.preventDefault();
+								advanceSegment();
+								return false;
+							});
+						$('#' + segmentName + ' #back').click(
+							function (evt) {
+								evt.preventDefault();
+								previousSegment();
+								return false;
+							});
+					});
+					break;
+				}
         });
 
-    switch (segmentName) {
-    case "famMovies":
-        addFsButton('#maindiv', '#fsdiv');
-        goFullscreen($('#fsdiv')[0]);
-        $("body").css("background-color", "#000000");
-        $('#fsdiv').append(experiment.htmlSequence[experiment.currentElement]
-            [1]);
-
-        function endHandler(event) {
-            addEvent({
-                'type': 'endMovie',
-                'src': vidSequence[lastVid]
-            });
-
-            if (!video.paused) {
-                video.pause();
-            }
-
-            if (vidSequence[lastVid][2] != 'click') {
-                addEvent({
-                    'type': 'startDelay'
-                });
-                setTimeout(function () {
-                    addEvent({
-                        'type': 'endDelay'
-                    });
-                    jswcam.stopRecording();
-                    addEvent({
-                        'type': 'endRecording'
-                    });
-                    if (experiment.record_whole_study) {
-                        jswcam.startRecording();
-                    }
-                    if (lastVid == (vidSequence.length - 1)) {
-                        advanceSegment(); // done playing all videos, move on
-                    } else {
-                        advanceVideoSource(); // load and play next video
-                    }
-                }, 1000 * vidSequence[lastVid][2]);
-            }
-
-            return false;
-        }
-
-        function keypressHandler(event) {
-
-            event.preventDefault();
-            event = event.charCode || event.keyCode;
-            if (event == 32 && audio.paused) { // Space bar
-
-                addEvent({
-                    'type': 'click',
-                    'fn': 'advancevideo'
-                });
-                document.removeEventListener("keydown", keypressHandler,
-                    false);
-                if (vidSequence[lastVid][2] == 'loop') {
-                    addEvent({
-                        'type': 'endMovie',
-                        'src': vidSequence[lastVid]
-                    });
-                    if (!video.paused) {
-                        video.pause();
-                    }
-                }
-                if (lastVid == (vidSequence.length - 1)) {
-                    advanceSegment(); // done playing all videos, move on
-                } else {
-                    advanceVideoSource(); // load and play next video
-                }
-            }
-        }
-
-        function loadedHandler() {
-            video.removeEventListener('emptied', loadedHandler, false);
-            video.removeEventListener('canplaythrough', loadedHandler,
-                false);
-
-            if (vidSequence[lastVid][2] == DELAY) { // only for the test looking-time portions
-                if (experiment.record_whole_study) {
-                    jswcam.stopRecording();
-                    addEvent({
-                        'type': 'endRecording'
-                    });
-                }
-                jswcam.startRecording();
-                addEvent({
-                    'type': 'startRecording'
-                });
-            }
-
-            video.play();
-
-            if (vidSequence[lastVid][2] == 'loop') {
-                $('video').attr('loop', 'loop');
-                video.style.cursor = 'auto'; // show the cursor again
-                document.addEventListener("keydown", keypressHandler,
-                    false);
-            } else if (vidSequence[lastVid][2] == 'click') {
-                video.style.cursor = 'auto'; // show the cursor again
-                document.addEventListener("keydown", keypressHandler,
-                    false);
-                $('video').removeAttr('loop');
-            } else {
-                video.style.cursor = 'none'; // hide the cursor
-                $('video').removeAttr('loop');
-            }
-
-            addEvent({
-                'type': 'startMovie',
-                'src': vidSequence[lastVid]
-            });
-        }
-
-        function advanceVideoSource() {
-            lastVid++;
-
-            if (vidSequence[lastVid][0] == 'fix_space') {
-                $('#indicatorText').html('<p> Trial ' + trialCounter +
-                    ' of 8</p>');
-                trialCounter++;
-            } else {
-                $('#indicatorText').html('');
-            }
-
-            if (vidSequence[lastVid][2] != 'loop') {
-                video.addEventListener('timeupdate', timeUpdateHandler);
-            } else {
-                video.removeEventListener('timeupdate',
-                    timeUpdateHandler);
-            }
-            video.addEventListener('emptied', loadedHandler, false);
-            video.addEventListener('canplaythrough', loadedHandler,
-                false);
-
-            video.src = experiment.path + "videos/" + videotype + "/" +
-                vidSequence[lastVid][0] + '.' + videotype;
-            video.addEventListener('emptied', loadedHandler, false);
-            video.addEventListener('canplaythrough', loadedHandler,
-                false);
-
-            // Play the audio for this segment at the start if there is any
-            if (vidSequence[lastVid][1] !== '') {
-                music.pause();
-                audio.src = experiment.path + "sounds/" + vidSequence[
-                    lastVid][1] + '.' + audiotype;
-                audio.load();
-                audio.play();
-                audio.addEventListener("ended", switchToMusic, false);
-            } else {
-                audio.src = '';
-            }
-
-            video.load(); // plays upon loading completely ('canplaythrough' listener)
-        }
-
-        function switchToMusic() {
-            audio.pause();
-            music.play();
-        }
-
-
-        // Fires when the current playback position has changed.  This is in place of a
-        // direct 'ended' handler because of issues in Safari and IE.  See 
-        // http://www.longtailvideo.com/html5/playback for a chart of current play/pause
-        // events in various browsers.
-        function timeUpdateHandler() {
-            // Note: >= rather than == important for IE
-            if (video.currentTime >= video.duration - 0.1) {
-                setTimeout(endHandler, 100);
-                video.removeEventListener('timeupdate',
-                    timeUpdateHandler);
-            }
-        }
-
-
-        var videotype = 'none';
-        if ($('video')[0].canPlayType("video/webm")) {
-            videotype = 'webm';
-        } else if ($('video')[0].canPlayType("video/mp4")) {
-            videotype = 'mp4';
-        } else if ($('video')[0].canPlayType("video/ogg")) {
-            videotype = 'ogv';
-        }
-
-        var audiotype = 'none';
-        if ($('audio')[0].canPlayType("audio/mpeg")) {
-            audiotype = 'mp3';
-        } else if ($('audio')[0].canPlayType("audio/ogg")) {
-            audiotype = 'ogg';
-        }
-        var music = $('#vidElementMusic')[0];
-        music.type = audiotype;
-        music.src = experiment.path + "sounds/lasting-memories." +
-            audiotype;
-        music.play();
-
-        var audio = $('#vidElementAudio')[0];
-
-        $('.videoDiv').attr('id', segmentName);
-
-        var lastVid = -1;
-        var delay = 0;
-        var video = $('video')[0];
-        video.type = videotype;
-        advanceVideoSource();
-
-
-        break;
-    }
-}
-
-
-
-function buildVideoElement(videoID) {
-
-    //Video Tag, no controls specified, autoloading for use
-    //with jswcam.waitForAssets function
-    var video = $(
-        '<video id="thevideo" class="thevideo center hidecontrols"/>', {
-            'height': 400,
-            'width': 800,
-            'wmode': "opaque", // This allows the HTML to hide the flash content
-            'preload': 'auto'
-        });
-
-    //Fall Through Failure Message
-    video.append($('<p/>', {
-        'class': 'warning',
-        'text': 'Your browser does not support HTML5.'
-    }));
-
-    // Don't allow right-clicking on the video to get controls
-    video[0].addEventListener('contextmenu', function (evt) {
-        evt.preventDefault();
-    });
-
-    var musicsegment = $('<audio/>', {
-        'id': 'vidElementMusic',
-        'volume': 0.25,
-        'loop': 'loop',
-        'class': 'hidecontrols'
-    });
-
-    var audiosegment = $('<audio/>', {
-        'id': 'vidElementAudio',
-        'volume': 1.0,
-        'class': 'hidecontrols'
-    });
-
-    // stick video and button into one div
-    var videoDiv = $('<div/>', {
-        'id': videoID,
-        'class': 'videoDiv'
-    });
-    videoDiv.append(video);
-    videoDiv.append(musicsegment);
-    videoDiv.append(audiosegment);
-    videoDiv.append($('<div/>', {
-        'id': 'indicatorText'
-    }));
-
-    return videoDiv;
 }
 
 
@@ -609,24 +223,7 @@ function validateForm(segmentName, formData) {
 
 function generate_debriefing() {
 
-
-    var DEBRIEFHTML =
-        "<p> Some more information about this study... \
-				<p>This is one of the early studies we are using to find out what sorts of methods will work online as well as \
-				in the lab.  We are trying to replicate the finding of <a href='http://www.pnas.org/content/104/48/19156.long' \
-				target='_blank'> Teglas , Girotto, Gonzalez, and Bonatti (2007) </a> that by about 12 months of age, infants \
-				have expectations about the probabilities of physical events--even events they have never seen before! ";
-    if (conditionSet) {
-        DEBRIEFHTML +=
-            "The first four machines we showed were warm-up trials, just to get you and your child used to the procedure.  \
-				The last four machines each had three shapes of one color and one shape of a different color.  During two trials, \
-				the more common shape came out of the machine.  During the other two trials, the less common shape came out of the \
-				machine.  We predict that infants will find it more surprising when the less common shape comes out of the machine, \
-				and may look longer at that outcome before looking away from the screen. \
-				<p> Individual children may look to and away from the screen for many different reasons during the study.  However, \
-				over many children these effects average out and we can look for effects of the probability of the outcome.";
-    }
-
+	DEBRIEFHTML = "PLACEHOLDER FOR NKNOWER DEBRIEFING";
 
     return DEBRIEFHTML;
 
