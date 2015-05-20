@@ -242,7 +242,9 @@ function generateHtml(segmentName){
 						});
 					});
 					
-					$('#fsdiv').detach();
+					//$('#fsdiv').detach();
+					$('#widget_holder').hide();
+					
 					leaveFullscreen();
 					$('#fsbutton').detach();
 					//$("#flashplayer").remove();
@@ -302,11 +304,11 @@ function generateHtml(segmentName){
 	
 	else if (experiment.htmlSequence[experiment.currentElement][1] == 'vid') {
 		if (segmentName == "intro") {
-			$('#maindiv').append('<div id=fsdiv/>');
-			addFsButton('#maindiv', '#fsdiv');
-			goFullscreen($('#fsdiv')[0]);
+			//$('#maindiv').append('<div id=fsdiv/>');
+			addFsButton('#maindiv', '#widget_holder');
+			goFullscreen($('#widget_holder')[0]);
 		}
-		$('#fsdiv').append(vidElement);
+		$('#widget_holder').append(vidElement);
 		
 		if (segmentName == "intro") {
 			var video = $('video')[0];
@@ -384,7 +386,7 @@ function generateHtml(segmentName){
 	else if (experiment.htmlSequence[experiment.currentElement][1] === 'story' || 
 			 experiment.htmlSequence[experiment.currentElement][1] === 'question') {
 			 
-		$('#fsdiv').append(buildStoryPage(experiment.htmlSequence[experiment.currentElement][0]));
+		$('#widget_holder').append(buildStoryPage(experiment.htmlSequence[experiment.currentElement][0]));
 		
 		if (experiment.record_whole_study) {
 			jswcam.stopRecording();
@@ -662,26 +664,28 @@ function generate_debriefing() {
 }
 
 function hideWidget() {
-	$("#widget_holder").detach().appendTo('body');
+	//$("#widget_holder").detach().appendTo('body');
 	// changing visibility is important; otherwise we mess up the window size for fullscreen.
-	$('#widget_holder').css({'height':'0px', 'visibility':'none'});
+	$('#widget_holder').show();
+	$('#flashplayer').css({'visibility':'hidden'});
 }
 
 function showWidget() {
-	$('#widget_holder').css({'position':'absolute',
-							 'height':'250px',
-							 'top':'0px',
-               'width':'400px',
-               'left':'0px','right':'auto',
-							 'float':'left',
-							 'visibility':'visible'});
+	//$('#widget_holder').css({'position':'absolute',
+	//						 'height':'250px',
+	//						 'top':'0px',
+    //           				 'width':'400px',
+    //           				 'left':'0px','right':'auto',
+	//						 'float':'left',
+	//						 'visibility':'visible'});
 	$('#flashplayer').css({'height':'281px', 
                          'width':'499px',
                          'margin-left':'-200px', 
                          'margin-top':'-81px',
                          'float':'left',
                          'left':'0px', 'right':'auto',
-                           'border': 'medium solid gray'});
-	$("#widget_holder").detach().prependTo('#fsdiv');
-	$('#widget_holder').show();
+                           'border': 'medium solid gray',
+                           'visibility':'visible'});
+	//$("#widget_holder").detach().prependTo('#fsdiv');
+	//$('#widget_holder').show();
 }
