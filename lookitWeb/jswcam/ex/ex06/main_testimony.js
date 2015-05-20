@@ -280,6 +280,7 @@ function generateHtml(segmentName){
 					break;	
 					
 				case "positioning":
+					$('#flashplayer').css({'visibility':'visible', 'display':'block'});
 					show_getting_setup_widget();
 				case "instructions":
 				case "instructions2":
@@ -305,6 +306,7 @@ function generateHtml(segmentName){
 	else if (experiment.htmlSequence[experiment.currentElement][1] == 'vid') {
 		if (segmentName == "intro") {
 			//$('#maindiv').append('<div id=fsdiv/>');
+			$('#widget_holder').css({'visibility':'visible'});
 			addFsButton('#maindiv', '#widget_holder');
 			goFullscreen($('#widget_holder')[0]);
 		}
@@ -667,7 +669,7 @@ function hideWidget() {
 	//$("#widget_holder").detach().appendTo('body');
 	// changing visibility is important; otherwise we mess up the window size for fullscreen.
 	$('#widget_holder').show();
-	$('#flashplayer').css({'visibility':'hidden'});
+	$('#flashplayer').css({'visibility':'hidden', 'display':'none'});
 }
 
 function showWidget() {
