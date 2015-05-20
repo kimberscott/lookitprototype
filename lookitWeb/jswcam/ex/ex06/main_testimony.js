@@ -31,18 +31,7 @@ function main(mainDivSelector, expt) {
 		"Please wait while the experiment loads.", 
 		[]); 
 		
-	// Format the widget holder, but keep hidden
-	$('#widget_holder').css({'position':'absolute',
-							 'height':'350px',
-							 'top':'0px',
-							 'right':'0px',
-							 'float':'right'});
-	$('#flashplayer').css({'height':'330px', 
-						   'width':'585px',
-						   'margin-left':'-125px', 
-						   'margin-top':'-31px',
-						   'float':'right'});
-	$('#widget_holder').hide();
+
 		
 	if(LOOKIT.sandbox) {
 		// Just use a specific arbitrary condition number (0 through 31)
@@ -210,9 +199,7 @@ function generateHtml(segmentName){
 	addEvent(  {'type': 'htmlSegmentDisplayed', 'segment': segmentName});
 	$("body").removeClass('playingVideo');
 	
-	// By default, hide the webcam
-	$("#widget_holder").detach().prependTo('body');
-	$('#widget_holder').hide();
+	hideWidget();
 	
 	// In general, append to the main div, but for story/video elements, 
 	// append to a special full-screen div that will be left in throughout
@@ -409,8 +396,7 @@ function generateHtml(segmentName){
 		
 		// Show the webcam for questions
 		if (experiment.htmlSequence[experiment.currentElement][1] === 'question') {
-			$("#widget_holder").detach().prependTo('#fsdiv');
-			$('#widget_holder').show();
+			showWidget();
 		}
 
 		
@@ -673,4 +659,24 @@ function generate_debriefing() {
 	
 	return DEBRIEFHTML;
 
+}
+
+function hideWidget() {
+	$("#widget_holder").detach().appendTo('body');
+	$('#widget_holder').css({'height':'0px', 'width':'0px'});
+}
+
+function showWidget() {
+	$('#widget_holder').css({'position':'absolute',
+							 'height':'350px',
+							 'top':'0px',
+							 'right':'0px',
+							 'float':'right'});
+	$('#flashplayer').css({'height':'330px', 
+						   'width':'585px',
+						   'margin-left':'-125px', 
+						   'margin-top':'-31px',
+						   'float':'right'});
+	$("#widget_holder").detach().prependTo('#fsdiv');
+	$('#widget_holder').show();
 }
