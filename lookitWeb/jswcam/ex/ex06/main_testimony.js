@@ -663,7 +663,7 @@ function generate_debriefing() {
 
 function hideWidget() {
 	$("#widget_holder").detach().appendTo('body');
-	$('#widget_holder').css({'height':'0px', 'width':'0px'});
+	$('#widget_holder').css({'height':'0px'});
 }
 
 function showWidget() {
@@ -671,7 +671,8 @@ function showWidget() {
 							 'height':'350px',
 							 'top':'0px',
 							 'right':'0px',
-							 'float':'right'});
+							 'float':'right', 
+							 'visibility':'visible'});
 	$('#flashplayer').css({'height':'330px', 
 						   'width':'585px',
 						   'margin-left':'-125px', 
