@@ -160,8 +160,7 @@ var page = (function () {
                 ready = 0;
                 var first_scroll = 0;
                 var delta = 0;
-                swfobject.getObjectById(
-                    'flashplayer').consent();
+                swfobject.getObjectById('flashplayer').consent();
                 $('#top_bar').html(html);
                 $('#top_bar').append(page.html(
                     'consent_verbal'));
@@ -186,7 +185,7 @@ var page = (function () {
                 // Added "pointer-events:none" property which works on all browsers except 
                 // IE to transfer the browser scroll propety to the element below the widget i.e. the modal popup
                 // For IE, The pop-up is scrolled on mousewheel scroll.
-                // TODO: check for feature here rather than browser!
+                // TODO: check for feature rather than browser!
                 if ((new WhichBrowser()).browser.name
                     .toString() ==
                     "Internet Explorer") {

@@ -112,19 +112,6 @@ $(document).ready(function(){
 
     $("#reg1").click(function(){
 	show_participated_page();
-	//if($("#experi div").hasClass("row-fluid"))
-	//{
-    //        $('#past_studies').addClass('disabled');
-    //        $('#acc_edit').removeClass('disabled');
-     //       $("#past_studies").css("color","gray");
-    //        $("#acc_edit").css("color","#003366");
-	//}
-	//else{
-    //        $('#acc_edit').addClass('disabled');
-    //        $('#past_studies').removeClass('disabled');
-    //        $("#acc_edit").css("color","gray");
-    //        $("#past_studies").css("color","#003366");
-	//}
 
     });
 
@@ -135,49 +122,14 @@ $(document).ready(function(){
 // Clicking on the Edit Details link on the My Accounts page
     // adds disabled class to it, while enables the past studies link, if disabled.
     $(document).on("click","#acc_edit",function(){
-        //if($(this).hasClass("disabled")){
-        //    return false;
-        //}
-        //else{
             show_edit_page();
-        //    if($("#experi div").hasClass("row-fluid"))
-        //    {
-        //        $('#past_studies').addClass('disabled');
-        //        $('#acc_edit').removeClass('disabled');
-        //        $("#past_studies").css("color","gray");
-        //        $("#acc_edit").css("color","#003366");
-        //    }
-         //   else{
-        //        $('#acc_edit').addClass('disabled');
-        //        $('#past_studies').removeClass('disabled');
-         //       $("#acc_edit").css("color","gray");
-         //       $("#past_studies").css("color","#003366");
-         //   }
-        //}
     });
 
     // Clicking on the View Past Studies link on the My Accounts page
     // adds disabled class to it, while enables the Edit Details link, if disabled.
     $(document).on("click","#past_studies",function(){
-        //if($(this).hasClass("disabled")){
-        //    return false;
-        //}
-        //else{
             show_participated_page();
-            //if($("#experi div").hasClass("row-fluid"))
-            //{
-                //$('#past_studies').addClass('disabled');
-                //$('#acc_edit').removeClass('disabled');
-            //    $("#past_studies").css("color","gray");
-            //    $("#acc_edit").css("color","#003366");
-            //}
-            //else{
-                //$('#acc_edit').addClass('disabled');
-                //$('#past_studies').removeClass('disabled');
-            //    $("#acc_edit").css("color","gray");
-            //    $("#past_studies").css("color","#003366");
-            //}
-        //}
+
     });
 
     get_params('params');
@@ -779,7 +731,7 @@ function show_cam(caller,div_c){
     $(".modal-body").css({"max-height":"550px","height":"550px"});
     $('.bootbox').css('margin-top',(-$('.bootbox').height())/2);
     $('.bootbox').css('margin-left',(-$('.bootbox').width())/2);
-    $("#widget_holder").css({"height":"400px","width":"733px","display":"block","visibility":"visible"});
+    $("#widget_holder").css({"height":"300px","width":"733px","display":"block","visibility":"visible"});
     $('#cam_setup').height($('#widget_holder').height());
     $("#widget_holder1").css({"margin-left":"5px"});
     $('#widget_holder').offset($('#widget_holder1').offset());
@@ -811,8 +763,8 @@ function start_cam(div_c){
     // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
     var xiSwfUrlStr = "playerProductInstall.swf";
     var flashvars = {
-                        'width'  :  450, // Set the width and height of the widget here
-                        'height' :  300
+                        'width'  :  300, // Set the width and height of the widget here
+                        'height' :  200
                     };
     var params = {};
     params.quality = "high";
@@ -826,6 +778,7 @@ function start_cam(div_c){
     attributes.align = "middle";
     swfobject.embedSWF("./camera/Flashms.swf", div_c, "100%", "400px", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);    
     swfobject.createCSS("#"+div_c, "display:block;text-align:center;");
+    $('#flashplayer').css({'margin-top':'-50px', 'height':'350px'});
 }
 
 // Function to remove the camera widget from the screen

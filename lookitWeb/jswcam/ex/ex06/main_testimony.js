@@ -663,21 +663,25 @@ function generate_debriefing() {
 
 function hideWidget() {
 	$("#widget_holder").detach().appendTo('body');
-	$('#widget_holder').css({'height':'0px'});
+	// changing visibility is important; otherwise we mess up the window size for fullscreen.
+	$('#widget_holder').css({'height':'0px', 'visibility':'none'});
 }
 
 function showWidget() {
 	$('#widget_holder').css({'position':'absolute',
 							 'height':'350px',
 							 'top':'0px',
-							 'right':'0px',
-							 'float':'right', 
+               				 'width':'460px',
+                           'left':'0px','right':'auto',
+							 'float':'left', 
+                             'left':'auto',
 							 'visibility':'visible'});
 	$('#flashplayer').css({'height':'330px', 
-						   'width':'585px',
-						   'margin-left':'-125px', 
-						   'margin-top':'-31px',
-						   'float':'right'});
+                         'width':'585px',
+                         'margin-left':'-125px', 
+                         'margin-top':'-31px',
+                         'float':'left',
+                         'left':'0px', 'right':'auto'});
 	$("#widget_holder").detach().prependTo('#fsdiv');
 	$('#widget_holder').show();
 }
