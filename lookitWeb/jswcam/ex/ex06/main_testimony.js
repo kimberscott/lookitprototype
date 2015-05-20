@@ -392,13 +392,20 @@ function generateHtml(segmentName){
 		addEvent(  {'type': 'startRecording'});
 		
 		// If this is a 'question' page, display the webcamdiv.
-		$('#webcamdiv').show();
-		$("#widget_holder").css({"height":"400px"});
-    	$('#webcamdiv').height($('#widget_holder').height());
-    	$('#widget_holder').offset($('#webcamdiv').offset());
-   		$('#widget_holder').css({'position':'absolute','top':'200px','visibility':'visible','z-index':'1040'});
-   		// TODO: positioning
-		// TODO: don't display controls
+		$("#widget_holder").detach().prependTo('#fsdiv');
+		$('#widget_holder').css({'position':'absolute',
+								 'top':'0px', 
+								 'right':'-275px',
+								 'visibility':'visible',
+								 'float':'right',
+								 'clear':'none'});
+		$('#flashplayer').css({'height':'330px', 
+							   'width':'585px',
+							   'margin-left':'-125px', 
+							   'margin-top':'-31px'});
+
+		// Note: need to move it back!
+		
 		
 		// Check what type of audio file to use, store in global variable
 		var audio = $('#storyAudio')[0];
