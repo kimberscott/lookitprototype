@@ -19,10 +19,10 @@ LOOKIT.consent_recording_completed = false;
 
 // I don't understand what these do--they're used for loading a new experiment
 // (object_new.loadExperiment(experiment_new, '.content_pane') and seem to have been made
-// global because audioVideoData (which is called from Flash) uses them to reset the 
+// global because audioVideoData (which was called from Flash) uses them to reset the 
 // experiment.  This is one of many VERY sloppy practices I'm trying to sort out after 
 // ending the contract with WebIntensive... sigh.  At least the global definition of 
-// 'object_new' isn't buried in the middle of 'myfunc.js' anymore.  -ks 3/2015
+// 'object_new' isn't buried in the middle of 'myfunc.js' (away from anything using it) anymore.  -ks 3/2015
 LOOKIT.object_new = [];
 LOOKIT.experiment_new = [];
 LOOKIT._connected = false;

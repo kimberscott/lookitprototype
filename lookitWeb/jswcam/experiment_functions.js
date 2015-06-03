@@ -46,7 +46,6 @@ function initializeExperiment() {
     experiment.tic = new Date();
     experiment.eventArray = []; // appended to by addEvent to keep track of things that happen
     experiment.recordingSet = LOOKIT.RECORDINGSET;
-    experiment.consentData = LOOKIT.consentData;
 }
 
 // Standard function for adding an event to the array.

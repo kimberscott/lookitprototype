@@ -39,11 +39,11 @@ public var height1:Number = 210;
 public var width2:Number;
 public var height2:Number;
 
-[Embed(source="assets/i_cam.png")]
+[Embed(source="/assets/i_cam.png")]
 public const icon1:Class;
 [Bindable]
 public var cam:XML = Constants.cam;
-[Embed(source="assets/i_mic.png")]
+[Embed(source="/assets/i_mic.png")]
 public const icon2:Class;
 [Bindable]
 public var mic:XML = Constants.mic;
@@ -88,7 +88,7 @@ public function init():void
 	width1 = FlexGlobals.topLevelApplication.parameters.width;
 	height1 = FlexGlobals.topLevelApplication.parameters.height;
 	Security.showSettings("default"); 
-	throbber.visible=true;
+	//throbber.visible=true;
 	nc_Connect();
 	try{
 		loading();
@@ -176,7 +176,7 @@ public function onNetStatusFailure(event:NetStatusEvent):void{
 	      nc_reConnect();
 		  return;
 	    }
-		throbber.visible=false;
+		//throbber.visible=false;
 		reconnectBtn.x = width1/2;
 		reconnectBtn.y = height1/2 + 20;
 		theCam.visible = false;
@@ -192,7 +192,7 @@ public function onNetStatusFailure(event:NetStatusEvent):void{
 	}
 	
 	if(event.info.code == "NetConnection.Connect.Closed" || event.info.code == "NetConnection.Connect.NetworkChange"){
-		throbber.visible=false;
+		//throbber.visible=false;
 		reconnectBtn.x = width1/2;
 		reconnectBtn.y = height1/2 + 20;
 		theCam.visible = false;
@@ -248,8 +248,8 @@ public function onNetStatus(event:NetStatusEvent):void{
 		micLevelCanvas.height = theCam.height;
 		dropdowns.x = 0;
 		dropdowns.y = height1+5;
-		throbber.x = width1/2;
-		throbber.y = height1/2;
+		//throbber.x = width1/2;
+		//throbber.y = height1/2;
 		micLevelCanvas.y = bcntnr.y;
 		_cameraList.width = width1/2;
 		_micList.width = width1/2;
@@ -266,14 +266,14 @@ public function reconnect():void{
 	noConnection.visible = false;
 	reconnectBtn.includeInLayout = false;
 	noConnection.includeInLayout = false;
-	throbber.x = width1/2;
-	throbber.y = height1/2;
-	throbber.visible=true;
+	//throbber.x = width1/2;
+	//throbber.y = height1/2;
+	//throbber.visible=true;
 	/*nc = new NetConnection(); 
 	nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatusFailure); 
 	nc.connect(Constants.FMSserver_RTMP);*/
 	nc_Connect();
-	throbber.visible=false;
+	//throbber.visible=false;
 }
 
 //*****************************************************************************************************************************************************
@@ -318,14 +318,12 @@ private function calculateFramerate( event : TimerEvent ):void{
 //*****************************************************************************************************************************************************
 
 public function stop():void {
-	removeEventListener(TimerEvent.TIMER, calculateFramerate);
 	ns.close();
 	flag = false;
 	var flashPHP:FlashPHP = new FlashPHP(Constants.conversionserver, urlObject);
-	flashPHP.addEventListener("ready", processPHPVars);
-	getAudioVideoData();
-	
+	flashPHP.addEventListener("ready", processPHPVars);	
 }
+
 private function processPHPVars(event:Event):void{
 	//Alert.show("Thanks for Uploading");
 }

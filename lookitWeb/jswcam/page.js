@@ -101,6 +101,11 @@ var page = (function () {
                         "<span class='waiting'>Please wait... checking video quality </span>"
                     );
                     jswcam.stopRecording();
+                    
+        			LOOKIT.doneWithConsent = true;
+        			$('.btn-send').attr('disabled', false);
+        			$('.waiting').remove();
+                    
                     $('.btn-send').html(
                         'Send video (' +
                         parseInt(difference) +

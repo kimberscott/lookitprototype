@@ -14,10 +14,6 @@
 		verticalCenter="0">
 		<s:Group id="videoArea">
 			<!--<s:BorderContainer width="750" height="500" borderVisible="false" backgroundColor="#ffffff">-->
-				<s:BusyIndicator 
-					id="throbber" 
-					visible="true" 
-					rotationInterval="100" x="350" bottom="250" symbolColor="0xFFFFFF" depth="11"/>
 				<mx:VideoDisplay
 					id="theCam" 
 					width="700" 
@@ -58,7 +54,7 @@
 					verticalAlign="middle" 
 					x="10"
 					y="0"/>	
-				<mx:Image id="nocamimage" source="@Embed('assets/i_nocam_2.png')" x="350" y="180" verticalAlign="middle" visible="false"/>
+				<mx:Image id="nocamimage" source="@Embed('/assets/i_nocam_2.png')" x="350" y="180" verticalAlign="middle" visible="false"/>
 				<s:BorderContainer backgroundColor="gray" 
 					borderVisible="false"
 					y="0" 
