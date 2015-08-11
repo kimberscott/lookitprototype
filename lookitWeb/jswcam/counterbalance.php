@@ -14,7 +14,7 @@ include("./php/config.php");
 function check_conditions($experiment_id,$string) {  
   
   	if (strcmp($experiment_id, "testimony") == 0) { // Manual CB for 3-year-olds in Testimony
-  		$needed = array(0,8,1,9,2,26,18,2,26,19,19,3,6,6,14,14,22,30,4,12,12,20,28,21,21,13);
+  		$needed = array(1,1,17,17,2,2,26,12,20,20,28,28,11,14,14,22);
     	$c = $needed[rand(0, count($needed)-1)];
 	} elseif (strcmp($experiment_id, "novelverbs") == 0) { // Manual CB for novelverbs
 	  	$needed = array(1,9,12,16,17,22,27,28,29);
