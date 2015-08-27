@@ -17,7 +17,7 @@ function check_conditions($experiment_id,$string) {
   		$needed = array(14,14,12,20,26);
     	$c = $needed[rand(0, count($needed)-1)];
 	} elseif (strcmp($experiment_id, "novelverbs") == 0) { // Manual CB for novelverbs
-	  	$needed = array(1,9,12,16,17,22,27,28,29);
+	  	$needed = array(13,22,27);
     	$c = $needed[rand(0, count($needed)-1)];
 	} elseif (strcmp($experiment_id, "oneshot") == 0) { // Manual CB for oneshot, 5/1/15
 	  	$needed = array(1,2,2,5,7,7,7,7);
