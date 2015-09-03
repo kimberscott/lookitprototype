@@ -14,13 +14,13 @@ include("./php/config.php");
 function check_conditions($experiment_id,$string) {  
   
   	if (strcmp($experiment_id, "testimony") == 0) { // Manual CB for 3-year-olds in Testimony
-  		$needed = array(14,14,12,20,26);
+  		$needed = array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31);
     	$c = $needed[rand(0, count($needed)-1)];
 	} elseif (strcmp($experiment_id, "novelverbs") == 0) { // Manual CB for novelverbs
-	  	$needed = array(13,22,27);
+	  	$needed = array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31);
     	$c = $needed[rand(0, count($needed)-1)];
-	} elseif (strcmp($experiment_id, "oneshot") == 0) { // Manual CB for oneshot, 5/1/15
-	  	$needed = array(1,2,2,5,7,7,7,7);
+	} elseif (strcmp($experiment_id, "oneshot") == 0) { // Manual CB for oneshot, 9/3/15
+	  	$needed = array(7,7);
     	$c = $needed[rand(0, count($needed)-1)];
 	}
 	else {
