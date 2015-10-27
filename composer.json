@@ -1,0 +1,5 @@
+{
+  "require": {
+    "whichbrowser/whichbrowser": "dev-master"
+  }
+}
