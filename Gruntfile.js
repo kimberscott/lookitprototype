@@ -1,13 +1,20 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-		
+
+        copy: {
+            main: {
+                files: [
+                    {expand: true, flatten: true, src: ['bower_components/bootbox.js/bootbox.min.js'], dest: 'public/static/build/'}
+                ]
+            }
+        },
+
 		recess: {
 			development: {
 				options: {
-					compress: true,
-					compress: true,
-				},
+					compress: true
+                },
 				files: {
 					// target.css file: source.less file
 					"public/fragments/styles.css": "public/fragments/styles.less",
@@ -80,17 +87,17 @@ module.exports = function(grunt) {
 		},
 	
 	});
-	
+
+    grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-recess');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.registerTask('default', ['watch']);
-	
-	grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-strip');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.registerTask('default', ['recess', 'concat:css', 'cssmin:css', 'concat:js', 'strip:js', 'uglify:js' ]);
+    grunt.registerTask('default', ['watch']);
+    grunt.registerTask('default', ['copy', 'recess', 'concat:css', 'cssmin:css', 'concat:js', 'strip:js', 'uglify:js' ]);
 	
 };
 

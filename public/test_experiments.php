@@ -46,7 +46,7 @@ function load_experiments($directory="ex") {
 
     <script src="static/js/jquery-1.8.1.min.js"></script> 
     <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="bootbox/bootbox.min.js" type="text/javascript"></script>
+    <script src="static/build/bootbox.min.js" type="text/javascript"></script>
     
     <script src="camera/swfobject.js" type="text/javascript"></script>
     <script src="login/myfunc.js" type="text/javascript"></script>   
