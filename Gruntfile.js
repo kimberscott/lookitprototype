@@ -10,10 +10,10 @@ module.exports = function(grunt) {
         //    }
         //},
 
-		recess: {
+		less: {
 			development: {
 				options: {
-					compress: true
+					compress: false
                 },
 				files: {
 					// target.css file: source.less file
@@ -91,7 +91,7 @@ module.exports = function(grunt) {
 	});
 
     grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-recess');
+	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-strip');
@@ -99,7 +99,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('default', ['recess', 'concat:css', 'cssmin:css', 'concat:js', 'strip:js', 'uglify:js' ]);
+    grunt.registerTask('default', ['less', 'concat:css', 'cssmin:css', 'concat:js', 'strip:js', 'uglify:js' ]);
 	
 };
 
