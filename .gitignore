@@ -1,3 +1,26 @@
+# OS generated files
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+*.swp
+*~
+
+# IDE Generated Files
+#####################
+.idea
+
+# Assets
+########
+
+# Lookit Specific
+######################
+
 config.php
 login/dbconfig.php
 deployProd.php
@@ -10,3 +33,5 @@ combined.js
 combined.min.css
 fragments/styles.css
 bootstrap/bootstrap.css
+
+desktop.ini
