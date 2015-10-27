@@ -17,7 +17,7 @@ module.exports = function(grunt) {
                 },
 				files: {
 					// target.css file: source.less file
-					"public/fragments/styles.css": "public/fragments/styles.less",
+					"build/styles.css": "public/fragments/styles.less",
 					"build/bootstrap.css": "bower_components/bootstrap/less/bootstrap.less"
 				}
 			}
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 	    concat: {
 			css: {
 			   src: [
-				   'public/fragments/styles.css',
+				   'build/styles.css',
 				   'build/bootstrap.css',
 				   'pubic/static/datepicker/css/datepicker.css'
 			   ],
