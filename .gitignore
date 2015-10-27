@@ -19,6 +19,7 @@ Thumbs.db
 ########
 node_modules/
 bower_components/
+composer_packages/
 
 # Lookit Specific
 ######################
