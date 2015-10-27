@@ -17,6 +17,8 @@ Thumbs.db
 
 # Assets
 ########
+node_modules/
+bower_components/
 
 # Lookit Specific
 ######################

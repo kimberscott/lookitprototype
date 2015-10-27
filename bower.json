@@ -1,0 +1,19 @@
+{
+  "name": "mitlookit",
+  "homepage": "https://github.com/lookit/mitlookit",
+  "authors": [
+    "mitlookit team"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "none",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
