@@ -2,13 +2,13 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
-        copy: {
-            main: {
-                files: [
-                    {expand: true, flatten: true, src: ['bower_components/bootbox.js/bootbox.min.js'], dest: 'public/static/build/'}
-                ]
-            }
-        },
+        //copy: {
+        //    main: {
+        //        files: [
+        //            {expand: true, flatten: true, src: ['bower_components/bootbox.js/bootbox.min.js'], dest: 'public/static/build/'}
+        //        ]
+        //    }
+        //},
 
 		recess: {
 			development: {
@@ -17,8 +17,7 @@ module.exports = function(grunt) {
                 },
 				files: {
 					// target.css file: source.less file
-					"build/styles.css": "public/fragments/styles.less",
-					"build/bootstrap.css": "bower_components/bootstrap/less/bootstrap.less"
+					"build/styles.css": "public/fragments/styles.less"
 				}
 			}
 		},
@@ -41,14 +40,17 @@ module.exports = function(grunt) {
 	    concat: {
 			css: {
 			   src: [
-				   'build/styles.css',
-				   'build/bootstrap.css',
-				   'pubic/static/datepicker/css/datepicker.css'
+                   'bower_components/bootstrap/docs/assets/css/bootstrap.css',
+                   'pubic/static/datepicker/css/datepicker.css',
+                   'build/styles.css'
 			   ],
 			   dest: 'public/static/build/combined.css'
 			},
 			js : {			
 				src : [
+                    "bower_components/jquery/jquery.js",
+                    "bower_components/bootstrap/docs/assets/js/bootstrap.js",
+                    "bower_components/bootbox.js/bootbox.js",
 					"public/camera/swfobject.js",
 					"public/login/myfunc.js",
 					"public/login/validate.js",
@@ -97,7 +99,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('default', ['copy', 'recess', 'concat:css', 'cssmin:css', 'concat:js', 'strip:js', 'uglify:js' ]);
+    grunt.registerTask('default', ['recess', 'concat:css', 'cssmin:css', 'concat:js', 'strip:js', 'uglify:js' ]);
 	
 };
 

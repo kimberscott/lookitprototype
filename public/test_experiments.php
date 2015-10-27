@@ -44,19 +44,7 @@ function load_experiments($directory="ex") {
 	
 	<script type="text/javascript"> TESTENVIRONMENT = true; </script>
 
-    <script src="static/js/jquery-1.8.1.min.js"></script> 
-    <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="static/build/bootbox.min.js" type="text/javascript"></script>
-    
-    <script src="camera/swfobject.js" type="text/javascript"></script>
-    <script src="login/myfunc.js" type="text/javascript"></script>   
-    <script src="login/validate.js" type="text/javascript"></script>
-    <script src="login/json.js" type="text/javascript"></script>
-    <script src="page.js" type="text/javascript"></script>
-    <script src="fullscreen.js" type="text/javascript"></script>
-    <script src="screenfull.js" type="text/javascript"></script>
-    <script src="experiment_functions.js" type="text/javascript"></script>
-    <script src="index.js" type="text/javascript"></script>	   
+    <script src="static/build/combined.js" type="text/javascript"></script>
     <script src="test_experiments.js" type="text/javascript"></script> 
     
     

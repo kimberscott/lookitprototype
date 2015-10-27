@@ -24,9 +24,6 @@ if(!isset($_SESSION['user']['id'])){
     <title>Lookit: Online experiments from the Early Childhood Cognition Lab </title>
     <link rel="shortcut icon" type="image/x-icon" href="img/remy4.ico">
 	<link rel="stylesheet" type="text/css" href="static/build/combined.min.css">
-    <script src="static/js/jquery-1.8.1.min.js"></script> 
-    <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="static/build/bootbox/bootbox.min.js" type="text/javascript"></script>
 	<script src="static/build/combined.js" type="text/javascript"></script>
 	
 <script>
