@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 				   'public/bootstrap/bootstrap.css',
 				   'pubic/static/datepicker/css/datepicker.css'
 			   ],
-			   dest: 'public/combined.css'
+			   dest: 'public/build/combined.css'
 			},
 			js : {			
 				src : [
@@ -53,21 +53,21 @@ module.exports = function(grunt) {
 					"public/experiment_functions.js",
 					"public/index.js"
 				],
-				dest : 'public/combined.js'
+				dest : 'public/static/build/combined.js'
 			}
 		}, 
 		
 		cssmin : {
             css:{
-                src: 'public/combined.css',
-                dest: 'public/combined.min.css'
+                src: 'public/static/build/combined.css',
+                dest: 'public/static/build/combined.min.css'
             }
         },
         
         strip : {
   			js: {
-    			src : 'public/combined.js',
-    			dest : 'public/combined.js',
+    			src : 'public/static/build/combined.js',
+    			dest : 'public/static/build/combined.js',
     			nodes : ['console']
   			}
 		},
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
 		uglify : {
 			js: {
 				files: {
-					'combined.js' : [ 'public/combined.js' ]
+					'combined.js' : [ 'public/static/build/combined.js' ]
 				}
 			}
 		},

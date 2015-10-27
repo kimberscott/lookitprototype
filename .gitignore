@@ -20,6 +20,7 @@ Thumbs.db
 node_modules/
 bower_components/
 composer_packages/
+public/static/build/
 
 # Lookit Specific
 ######################
@@ -31,9 +32,6 @@ deploy.php
 lookitWeb/jswcam/fragments/omitted_segments.html
 config.php.sample
 
-combined.css
-combined.js
-combined.min.css
 fragments/styles.css
 bootstrap/bootstrap.css
 
