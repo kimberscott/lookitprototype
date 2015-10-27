@@ -2,17 +2,16 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 		
-		less: {
+		recess: {
 			development: {
 				options: {
 					compress: true,
-					yuicompress: true,
-					optimization: 2
+					compress: true,
 				},
 				files: {
 					// target.css file: source.less file
 					"public/fragments/styles.css": "public/fragments/styles.less",
-					"public/bootstrap/bootstrap.css": "public/bootstrap/less/bootstrap.less"
+					"build/bootstrap.css": "bower_components/bootstrap/less/bootstrap.less"
 				}
 			}
 		},
@@ -36,10 +35,10 @@ module.exports = function(grunt) {
 			css: {
 			   src: [
 				   'public/fragments/styles.css',
-				   'public/bootstrap/bootstrap.css',
+				   'build/bootstrap.css',
 				   'pubic/static/datepicker/css/datepicker.css'
 			   ],
-			   dest: 'public/build/combined.css'
+			   dest: 'public/static/build/combined.css'
 			},
 			js : {			
 				src : [
@@ -75,14 +74,14 @@ module.exports = function(grunt) {
 		uglify : {
 			js: {
 				files: {
-					'combined.js' : [ 'public/static/build/combined.js' ]
+					'public/static/build/combined.js' : [ 'public/static/build/combined.js' ]
 				}
 			}
 		},
 	
 	});
 	
-	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-recess');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.registerTask('default', ['watch']);
 	
@@ -91,7 +90,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.registerTask('default', ['less', 'concat:css', 'cssmin:css', 'concat:js', 'strip:js', 'uglify:js' ]);
+    grunt.registerTask('default', ['recess', 'concat:css', 'cssmin:css', 'concat:js', 'strip:js', 'uglify:js' ]);
 	
 };
 

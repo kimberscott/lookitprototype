@@ -21,6 +21,7 @@ node_modules/
 bower_components/
 composer_packages/
 public/static/build/
+build/
 
 # Lookit Specific
 ######################
