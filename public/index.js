@@ -75,8 +75,8 @@ if (!$.isFunction(Function.prototype.createDelegate)) {
      $(document).ready(function () {
 
          $('body').bind('showhome', function (evt) {
-             page.buildExperimentGallery('#experiments',
-                 experiments);
+             //page.buildExperimentGallery('#experiments',
+             //    experiments);
          });
          $(".loginDiv").hide();
          $(".login_hide").show(300);
@@ -186,7 +186,7 @@ if (!$.isFunction(Function.prototype.createDelegate)) {
          "AK": "<p><a href=''target='_blank'></a></p>",
          "AZ": "<p><a href='http://web.arizona.edu/~tigger/'target='_blank'>University of Arizona Child Cognition Lab (Tigger Lab)</a></p><p><a href='http://web.arizona.edu/~tweety/'target='_blank'>University of Arizona Language Development Lab (Tweety Lab)</a></p><p><a href='http://nau.edu/SBS/IHD/Research/CDLL/'target='_blank'>Northern Arizona University Child Development and Language Lab</a></p>",
          "AR": "<p><a href='http://acnc.uamsweb.com/research-2/our-laboratories-2/early-diets-and-long-term-health-lab/'target='_blank'>Arkansas Children's Nutrition Center Growth and Development Laboratory</a></p>",
-         "CA": "<p><a href='http://www-psych.stanford.edu/~babylab/'target='_blank'>Stanford’s Center for Infant Studies</a></p><p><a href='http://www-cogsci.ucsd.edu/~deak/cdlab/'target='_blank'>UCSD Cognitive Development Lab</a></p><p><a href='http://babytalk.psych.ucla.edu/home.htm'target='_blank'>UCLA Language and Cognitive Development Lab</a></p><p><a href='http://psychology.berkeley.edu/participant-recruitment/rsvp-research-subject-volunteer-pool'target='_blank'>UC Berkeley Psychology Department (list of studies)</a></p><p><a href='http://babycenter.berkeley.edu/'target='_blank'>UC Berkeley Infant Studies Center</a></p><p><a href='http://bungelab.berkeley.edu/participate/'target='_blank'>UC Berkeley Building Blocks of Cognition Lab</a></p><p><a href='http://www.cogsci.uci.edu/cogdev/information.html'target='_blank'>UC Irvine Sarnecka Cognitive Development Lab</a></p><p><a href='https://labs.psych.ucsb.edu/german/tamsin/'target='_blank'>UCSB Cognition & Development Laboratory</a></p><p><a href='http://www.csus.edu/indiv/a/alexanderk/lab.htm'target='_blank'>CSU Sacramento Cognitive Development Lab</a></p><p><a href='http://mindbrain.ucdavis.edu/labs/Rivera/'target='_blank'>UC Davis Neurocognitive Development Lab</a></p><p><a href='http://dornsife.usc.edu/labs/mid-la/participate/'target='_blank'>USC Minds in Development Lab</a></p><p><a href='http://www.ccl.ucr.edu/'target='_blank'>UC Riverside Childhood Cognition Lab</a></p>",
+         "CA": "<p><a href='http://www-psych.stanford.edu/~babylab/'target='_blank'>Stanfordï¿½s Center for Infant Studies</a></p><p><a href='http://www-cogsci.ucsd.edu/~deak/cdlab/'target='_blank'>UCSD Cognitive Development Lab</a></p><p><a href='http://babytalk.psych.ucla.edu/home.htm'target='_blank'>UCLA Language and Cognitive Development Lab</a></p><p><a href='http://psychology.berkeley.edu/participant-recruitment/rsvp-research-subject-volunteer-pool'target='_blank'>UC Berkeley Psychology Department (list of studies)</a></p><p><a href='http://babycenter.berkeley.edu/'target='_blank'>UC Berkeley Infant Studies Center</a></p><p><a href='http://bungelab.berkeley.edu/participate/'target='_blank'>UC Berkeley Building Blocks of Cognition Lab</a></p><p><a href='http://www.cogsci.uci.edu/cogdev/information.html'target='_blank'>UC Irvine Sarnecka Cognitive Development Lab</a></p><p><a href='https://labs.psych.ucsb.edu/german/tamsin/'target='_blank'>UCSB Cognition & Development Laboratory</a></p><p><a href='http://www.csus.edu/indiv/a/alexanderk/lab.htm'target='_blank'>CSU Sacramento Cognitive Development Lab</a></p><p><a href='http://mindbrain.ucdavis.edu/labs/Rivera/'target='_blank'>UC Davis Neurocognitive Development Lab</a></p><p><a href='http://dornsife.usc.edu/labs/mid-la/participate/'target='_blank'>USC Minds in Development Lab</a></p><p><a href='http://www.ccl.ucr.edu/'target='_blank'>UC Riverside Childhood Cognition Lab</a></p>",
          "CO": "<p><a href='http://sleep.colorado.edu/'target='_blank'>UC Boulder Sleep and Development Lab</a></p><p><a href='http://www.ucdenver.edu/academics/colleges/medicalschool/departments/psychiatry/Research/developmentalresearch/Pages/Overview.aspx'target='_blank'>University of Colorado Denver Developmental Psychiatry Research Group</a></p><p><a href='http://www.du.edu/psychology/child_health_and_development/'target='_blank'>University of Colorado Denver Child Health & Development Lab</a></p><p><a href='http://psych.colorado.edu/~cdc/whoweare.htm'target='_blank'>University of Colorado Denver Cognitive Development Center</a></p>",
          "CT": "<p><a href='http://cogdev.research.wesleyan.edu/'target='_blank'>Wesleyan University Cognitive Development Labs</a></p><p><a href='http://cogdevlab.sites.yale.edu/'target='_blank'>Yale Cognition and Development Lab</a></p><p><a href='http://www.yale.edu/infantlab/Welcome.html'target='_blank'>Yale Infant Cognition Center</a></p><p><a href='http://www.yale.edu/minddevlab/'target='_blank'>Yale Mind and Development Lab</a></p><p><a href='http://www.yale.edu/cnl/faculty.html'target='_blank'>Yale Child Neuroscience Lab</a></p>",
          "DE": "<p><a href='http://www.udel.edu/ILP/about/team.html'target='_blank'>University of Delaware Infant Language Project</a></p>",
@@ -273,37 +273,37 @@ if (!$.isFunction(Function.prototype.createDelegate)) {
 
 // Installing WhichBrowser to detect browser configuration.
  // See https://github.com/WhichBrowser/WhichBrowser
- (function () {
-	 var p = [],
-		 w = window,
-		 d = document,
-		 e = f = 0;
-	 p.push('ua=' + encodeURIComponent(navigator.userAgent));
-	 e |= w.ActiveXObject ? 1 : 0;
-	 e |= w.opera ? 2 : 0;
-	 e |= w.chrome ? 4 : 0;
-	 e |= 'getBoxObjectFor' in d || 'mozInnerScreenX' in w ? 8 : 0;
-	 e |= ('WebKitCSSMatrix' in w || 'WebKitPoint' in w ||
-		 'webkitStorageInfo' in w || 'webkitURL' in w) ? 16 : 0;
-	 e |= (e & 16 && ({}.toString).toString().indexOf("\n") === -1) ? 32 :
-		 0;
-	 p.push('e=' + e);
-	 f |= 'sandbox' in d.createElement('iframe') ? 1 : 0;
-	 f |= 'WebSocket' in w ? 2 : 0;
-	 f |= w.Worker ? 4 : 0;
-	 f |= w.applicationCache ? 8 : 0;
-	 f |= w.history && history.pushState ? 16 : 0;
-	 f |= d.documentElement.webkitRequestFullScreen ? 32 : 0;
-	 f |= 'FileReader' in w ? 64 : 0;
-	 p.push('f=' + f);
-	 p.push('r=' + Math.random().toString(36).substring(7));
-	 p.push('w=' + screen.width);
-	 p.push('h=' + screen.height);
-	 var s = d.createElement('script');
-	 if (TESTENVIRONMENT) {
-		s.src = 'whichbrowser/detect.php?' + p.join('&');
-	 } else {
-		s.src = 'whichbrowser/detect.js?' + p.join('&');
-	 }
-	 d.getElementsByTagName('head')[0].appendChild(s);
- })(); 
+ //(function () {
+	// var p = [],
+	//	 w = window,
+	//	 d = document,
+	//	 e = f = 0;
+	// p.push('ua=' + encodeURIComponent(navigator.userAgent));
+	// e |= w.ActiveXObject ? 1 : 0;
+	// e |= w.opera ? 2 : 0;
+	// e |= w.chrome ? 4 : 0;
+	// e |= 'getBoxObjectFor' in d || 'mozInnerScreenX' in w ? 8 : 0;
+	// e |= ('WebKitCSSMatrix' in w || 'WebKitPoint' in w ||
+	//	 'webkitStorageInfo' in w || 'webkitURL' in w) ? 16 : 0;
+	// e |= (e & 16 && ({}.toString).toString().indexOf("\n") === -1) ? 32 :
+	//	 0;
+	// p.push('e=' + e);
+	// f |= 'sandbox' in d.createElement('iframe') ? 1 : 0;
+	// f |= 'WebSocket' in w ? 2 : 0;
+	// f |= w.Worker ? 4 : 0;
+	// f |= w.applicationCache ? 8 : 0;
+	// f |= w.history && history.pushState ? 16 : 0;
+	// f |= d.documentElement.webkitRequestFullScreen ? 32 : 0;
+	// f |= 'FileReader' in w ? 64 : 0;
+	// p.push('f=' + f);
+	// p.push('r=' + Math.random().toString(36).substring(7));
+	// p.push('w=' + screen.width);
+	// p.push('h=' + screen.height);
+	// var s = d.createElement('script');
+	// if (TESTENVIRONMENT) {
+	//	s.src = 'whichbrowser/detect.php?' + p.join('&');
+	// } else {
+	//	s.src = 'whichbrowser/detect.js?' + p.join('&');
+	// }
+	// d.getElementsByTagName('head')[0].appendChild(s);
+ //})();

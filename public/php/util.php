@@ -4,12 +4,12 @@
  *  Copyright (C) MIT Early Childhood Cognition Lab
  */
 
-function uuid() {
-  uuid_create(&$context);
-  uuid_make($context, UUID_MAKE_V4);
-  uuid_export($context, UUID_FMT_STR, &$uuid);
-  return trim($uuid);
-}
+//function uuid() {
+//  uuid_create(&$context);
+//  uuid_make($context, UUID_MAKE_V4);
+//  uuid_export($context, UUID_FMT_STR, &$uuid);
+//  return trim($uuid);
+//}
 
 //double quote escape string
 function dq_escape($str) {
@@ -17,15 +17,15 @@ function dq_escape($str) {
     $str = str_replace(array('\\','\'', '"'), array('\\\\','\\\'','\\"'), $str);
   } else {
     $str = "";
-    
+
   }
   return $str;
 }
 
-function joinPath($path1, $path2) {
-  $path = join('/', array(rtrim($path1, '/'), trim($path2, '/')));
-  return $path;
-}
+//function joinPath($path1, $path2) {
+//  $path = join('/', array(rtrim($path1, '/'), trim($path2, '/')));
+//  return $path;
+//}
 
 ///
 ///
@@ -48,28 +48,28 @@ function load_fragments($fragments) {
     }
   }
 }
-
-function load_experiments($directory="ex") {
-
-  if($directory == "ex"){
-    $files = scandir(getcwd() . '/' . $directory);
-    $files = array_filter($files, function($item) { return !is_dir($item); });
-  }
-  else{
-    $files = $directory;
-  }
-  $packages = array();
-  foreach($files as $dir) {
-    $path = sprintf("%s/%s/%s/%s", getcwd(), "ex", $dir, "package.json");
-    if(!file_exists($path)) { 
-      continue;
-    }
-    $details = file_get_contents($path);
-    $packages[] = json_decode($details, true);
-    
-  }
-  return $packages;
-}
+//
+//function load_experiments($directory="ex") {
+//
+//  if($directory == "ex"){
+//    $files = scandir(getcwd() . '/' . $directory);
+//    $files = array_filter($files, function($item) { return !is_dir($item); });
+//  }
+//  else{
+//    $files = $directory;
+//  }
+//  $packages = array();
+//  foreach($files as $dir) {
+//    $path = sprintf("%s/%s/%s/%s", getcwd(), "ex", $dir, "package.json");
+//    if(!file_exists($path)) {
+//      continue;
+//    }
+//    $details = file_get_contents($path);
+//    $packages[] = json_decode($details, true);
+//
+//  }
+//  return $packages;
+//}
 
 
 ?>
