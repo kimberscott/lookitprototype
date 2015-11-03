@@ -1,0 +1,8 @@
+{
+  "config": {
+    "vendor-dir": "composer_packages"
+  },
+  "require": {
+    "whichbrowser/whichbrowser": "dev-master"
+  }
+}
