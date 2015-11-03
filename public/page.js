@@ -399,11 +399,11 @@ var page = (function () {
         $('body').trigger('show' + key);
 
         var bodyelem;
-        if ($.browser.safari) {
-            bodyelem = $("body");
-        } else {
+        //if ($.browser.safari) {
+        //    bodyelem = $("body");
+        //} else {
             bodyelem = $("html,body");
-        }
+        //}
         bodyelem.scrollTop(0);
 
         // make this a response to the 'showhome' event instead?
