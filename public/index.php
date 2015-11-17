@@ -99,6 +99,11 @@ require_once('./php/util.php');
                     </div>
                     <p>
                     <table>
+                        <tr> <td> November 17, 2015 </td> <td> Lookit will be taking a brief hiatus while our partners at 
+                        the <a href="https://cos.io/">Center for Open Science</a> work on re-engineering the site so it's 
+                        easier for both parents and researchers to use. We're looking forward to re-opening the login system
+                        and starting up some new studies in early March!
+                        <tr> <td> October 1, 2015 </td> <td> We've finished collecting data for replications of three classic studies, looking at infants' and children's understanding of probability, language, and reliability. Kim is writing up the results now and they'll be featured here soon! </td></tr>
                         <tr> <td> June 30, 2014 </td> <td> An MIT News press release discusses Lookit <a href="https://newsoffice.mit.edu/2014/mit-launches-online-lab-early-childhood-learning-lookit">here</a>.  The project was also featured in
                                 <a href="http://www.bostonmagazine.com/health/blog/2014/06/19/new-mit-lab/">Boston Magazine</a> and on the
                                 <a href="https://www.sciencenews.org/blog/growth-curve/your-baby-can-watch-movies-science">Science News blog</a>.
@@ -132,45 +137,6 @@ require_once('./php/util.php');
 <!--Adding the widget holder to the page body-->
 <div id = "widget_holder" style = "height:0px;">
     <div id = "widget">
-        <!--For used only when js is not enabled.-->
-        <noscript>
-            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="flashplayer">
-
-                <param name="movie" value="./camera/Flashms.swf" />
-                <param name="quality" value="high" />
-                <param name="bgcolor" value="#ffffff" />
-                <param name="allowScriptAccess" value="always" />
-                <param name="allowFullScreen" value="true" />
-                <param name="wmode" value="opaque" />
-                <param name="scale" value="noscale" />
-                <!--Maintain a proper ratio of height and width to avoid distortion-->
-                <param name="flashVars" value="width=450&height=300" />
-                <!--[if !IE]>-->
-
-                <object type="application/x-shockwave-flash" data="./camera/Flashms.swf" width="100%" height="100%">
-                    <param name="quality" value="high" />
-                    <param name="bgcolor" value="#ffffff" />
-                    <param name="allowScriptAccess" value="always" />
-                    <param name="allowFullScreen" value="true" />
-                    <param name="wmode" value="opaque" />
-                    <param name="scale" value="noscale" />
-                    <!--Maintain a proper ratio of height and width to avoid distortion-->
-                    <param name="flashVars" value="width=450&height=300" />
-                    <!--<![endif]-->
-
-                    <!--[if gte IE 6]>-->
-                    <p>
-                        Either scripts and active content are not permitted to run or Adobe Flash Player version
-                        10.2.0 or greater is not installed.
-                    </p>
-                    <!--<![endif]-->
-
-                    <!--[if !IE]>-->
-                </object>
-                <!--<![endif]-->
-
-            </object>
-        </noscript>
     </div>
 </div>
 <div id = "message" style="display:none;">

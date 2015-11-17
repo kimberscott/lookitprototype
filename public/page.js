@@ -544,7 +544,6 @@ var page = (function () {
             var css = [];
             if ('css' in packaging && $.isArray(packaging['css']))
                 css = $.map(packaging['css'], includePath);
-            //TODO: path/img
             var callback = function () {
                 //main must be defined in one of
                 //the included experiment scripts

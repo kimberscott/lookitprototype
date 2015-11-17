@@ -271,7 +271,7 @@ function register(is_new){
 
     is_new = (typeof is_new=='undefined');
 
-    var too_many_accounts = false;
+    var too_many_accounts = true;
 
     if (!too_many_accounts) {
 		$(".bootbox").remove();
@@ -387,16 +387,24 @@ function register(is_new){
 			       });
 			      }
 	else {
-            bootbox.alert('We\'re still in the early stages of testing Lookit, and currently have as many users \
-            as we can handle!  Thanks for your interest, and please check back in a few days to see if sign-up is open again.  \
-In the meantime, check out our \'Resources\' page for fun activities you can try at home!');
+		bootbox.alert('Thanks so much for your interest! We expect registration to open again in early March. \
+We\'ve just finished running several replications on Lookit, and are taking a break from \
+gathering data while our partners at the <a href="https://cos.io/">Center for Open Science</a> \
+ work on re-engineering the site so it\'s easier to use.<p><br/> In the meantime, check out our \'Resources\' \
+ page for fun activities you can try at home!');
 	}
     }
 
 // Function to populate the login pop-up and its functionality.
 function login(html,expr,obje){
 
-    bootbox.dialog(html,[
+	bootbox.alert('Our login system is temporarily down while our partners at the \
+	<a href="https://cos.io/">Center for Open Science</a> work on re-engineering the \
+	site so it\'s easier to use. We expect to be up and running again in early March. \
+	<p><br/> In the meantime, check out our \'Resources\' \
+ page for fun activities you can try at home!');
+
+    /*bootbox.dialog(html,[
         {
             'label': 'Cancel',
             'class': 'btn-danger login-close',
@@ -461,7 +469,7 @@ function login(html,expr,obje){
         if(event.keyCode == 13){
             $(".btn-stop").click();
         }
-    });
+    }); */
 }   
 
 // Function to populate the reset password pop-up and its functionalites
